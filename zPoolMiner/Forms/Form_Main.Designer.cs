@@ -118,9 +118,9 @@
             this.labelBitcoinAddress.AutoSize = true;
             this.labelBitcoinAddress.Location = new System.Drawing.Point(8, 42);
             this.labelBitcoinAddress.Name = "labelBitcoinAddress";
-            this.labelBitcoinAddress.Size = new System.Drawing.Size(82, 13);
+            this.labelBitcoinAddress.Size = new System.Drawing.Size(83, 13);
             this.labelBitcoinAddress.TabIndex = 99;
-            this.labelBitcoinAddress.Text = "Bitcoin address:";
+            this.labelBitcoinAddress.Text = "Payout address:";
             // 
             // statusStrip1
             // 
@@ -242,17 +242,17 @@
             // labelWorkerName
             // 
             this.labelWorkerName.AutoSize = true;
-            this.labelWorkerName.Location = new System.Drawing.Point(8, 68);
+            this.labelWorkerName.Location = new System.Drawing.Point(6, 68);
             this.labelWorkerName.Name = "labelWorkerName";
-            this.labelWorkerName.Size = new System.Drawing.Size(74, 13);
+            this.labelWorkerName.Size = new System.Drawing.Size(106, 13);
             this.labelWorkerName.TabIndex = 99;
-            this.labelWorkerName.Text = "Worker name:";
+            this.labelWorkerName.Text = "Coin / Worker name:";
             // 
             // textBoxWorkerName
             // 
             this.textBoxWorkerName.Location = new System.Drawing.Point(113, 65);
             this.textBoxWorkerName.Name = "textBoxWorkerName";
-            this.textBoxWorkerName.Size = new System.Drawing.Size(120, 20);
+            this.textBoxWorkerName.Size = new System.Drawing.Size(187, 20);
             this.textBoxWorkerName.TabIndex = 2;
             this.textBoxWorkerName.Leave += new System.EventHandler(this.textBoxCheckBoxMain_Leave);
             // 
