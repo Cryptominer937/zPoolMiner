@@ -1,10 +1,10 @@
-﻿using NiceHashMiner.Configs.ConfigJsonFile;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs.ConfigJsonFile;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners.Parsing {
+namespace zPoolMiner.Miners.Parsing {
     class MinerOptionPackageFile : ConfigFile<MinerOptionPackage> {
         public MinerOptionPackageFile(string name) 
             : base(FOLDERS.INTERNALS, String.Format("{0}.json", name), String.Format("{0}.json", name)) {

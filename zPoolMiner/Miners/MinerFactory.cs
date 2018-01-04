@@ -1,11 +1,11 @@
-﻿using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Equihash;
+﻿using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Equihash;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class MinerFactory {
 
         private static Miner CreateEthminer(DeviceType deviceType) {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace NiceHashMiner.Configs.ConfigJsonFile {
+namespace zPoolMiner.Configs.ConfigJsonFile {
     public abstract class ConfigFile<T> where T : class {
         // statics/consts
         const string TAG_FORMAT = "ConfigFile<{0}>";

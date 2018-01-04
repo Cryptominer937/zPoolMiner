@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     class International
     {

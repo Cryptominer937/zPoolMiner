@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 using NVIDIA.NVAPI;
 
-namespace NiceHashMiner.Devices
+namespace zPoolMiner.Devices
 {
     class CudaComputeDevice : ComputeDevice
     {

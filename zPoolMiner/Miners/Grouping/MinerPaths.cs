@@ -1,13 +1,13 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Configs.ConfigJsonFile;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Configs.ConfigJsonFile;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace NiceHashMiner.Miners.Grouping
+namespace zPoolMiner.Miners.Grouping
 {
     class MinerPathPackageFile : ConfigFile<MinerPathPackage>
     {

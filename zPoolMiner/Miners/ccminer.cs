@@ -7,14 +7,14 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Devices;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class ccminer : Miner
     {

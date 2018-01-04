@@ -1,13 +1,13 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class MinerEtherumCUDA : MinerEtherum
     {

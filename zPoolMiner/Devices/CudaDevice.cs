@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Devices {
+namespace zPoolMiner.Devices {
     [Serializable]
     public class CudaDevice {
         public uint DeviceID;

@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Utils
+namespace zPoolMiner.Utils
 {
     class CommandLineParser
     {

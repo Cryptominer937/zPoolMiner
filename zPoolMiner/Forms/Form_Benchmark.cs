@@ -5,14 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Interfaces;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
+using zPoolMiner.Interfaces;
 
-namespace NiceHashMiner.Forms {
-    using NiceHashMiner.Miners.Grouping;
+namespace zPoolMiner.Forms {
+    using zPoolMiner.Miners.Grouping;
     public partial class Form_Benchmark : Form, IListItemCheckColorSetter, IBenchmarkComunicator, IBenchmarkCalculation {
 
         private bool _inBenchmark = false;
@@ -190,7 +190,7 @@ namespace NiceHashMiner.Forms {
             bool autostart = false) {
             
             InitializeComponent();
-            this.Icon = NiceHashMiner.Properties.Resources.logo;
+            this.Icon = zPoolMiner.Properties.Resources.logo;
 
             StartMining = false;
 

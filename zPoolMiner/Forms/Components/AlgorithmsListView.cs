@@ -5,14 +5,14 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Forms.Components;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Interfaces;
+using zPoolMiner.Enums;
+using zPoolMiner.Configs;
+using zPoolMiner.Forms.Components;
+using zPoolMiner.Devices;
+using zPoolMiner.Miners;
+using zPoolMiner.Interfaces;
 
-namespace NiceHashMiner.Forms.Components {
+namespace zPoolMiner.Forms.Components {
     public partial class AlgorithmsListView : UserControl {
 
         private const int ENABLED   = 0;

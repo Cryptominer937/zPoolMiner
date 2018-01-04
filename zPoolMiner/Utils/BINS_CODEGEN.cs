@@ -1,5 +1,5 @@
 
-namespace NiceHashMiner.Utils {
+namespace zPoolMiner.Utils {
     public static class Bins_Data {
     #region CODE_GEN STUFF // listFiles.py
         public static string[] ALL_FILES_BINS = {

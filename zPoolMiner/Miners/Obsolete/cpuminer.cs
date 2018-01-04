@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Globalization;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class cpuminer : Miner {
         public cpuminer()
             : base("cpuminer_CPU") {

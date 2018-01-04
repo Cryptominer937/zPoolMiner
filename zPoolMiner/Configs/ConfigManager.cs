@@ -1,12 +1,12 @@
-﻿using NiceHashMiner.Configs.ConfigJsonFile;
-using NiceHashMiner.Configs.Data;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs.ConfigJsonFile;
+using zPoolMiner.Configs.Data;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Configs {
+namespace zPoolMiner.Configs {
     public static class ConfigManager {
         private static readonly string TAG = "ConfigManager";
         public static GeneralConfig GeneralConfig = new GeneralConfig();
@@ -43,7 +43,7 @@ namespace NiceHashMiner.Configs {
                         Helpers.ConsolePrint(TAG, "Loaded Config file no version detected falling back to defaults.");
                         ConfigManager.GeneralConfig.SetDefaults();
                     }
-                    Helpers.ConsolePrint(TAG, "Config file is from an older version of NiceHashMiner..");
+                    Helpers.ConsolePrint(TAG, "Config file is from an older version of zPoolMiner..");
                     IsNewVersion = true;
                     GeneralConfigFile.CreateBackup();
                 }

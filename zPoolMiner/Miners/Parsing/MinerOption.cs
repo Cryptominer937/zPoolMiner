@@ -1,11 +1,11 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using WebSocketSharp;
 
-namespace NiceHashMiner.Miners.Parsing {
+namespace zPoolMiner.Miners.Parsing {
     public class MinerOption {
         [JsonConstructor]
         public MinerOption(string iType, string iShortName, string iLongName, string iDefault, MinerOptionFlagType iFlagType, string iSeparator = "") {

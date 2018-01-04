@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners.Equihash {
+namespace zPoolMiner.Miners.Equihash {
     public class OptiminerZcashMiner : Miner {
         public OptiminerZcashMiner()
             : base("OptiminerZcashMiner") {

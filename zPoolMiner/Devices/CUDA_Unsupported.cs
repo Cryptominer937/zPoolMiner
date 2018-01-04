@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Devices {
+namespace zPoolMiner.Devices {
     public static class CUDA_Unsupported {
         private static List<string> SM_1_0 = new List<string>() {
             "GeForce 8800 Ultra",

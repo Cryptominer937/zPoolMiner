@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Configs.Data {
+namespace zPoolMiner.Configs.Data {
     [Serializable]
     public class ComputeDeviceConfig {
         public string Name = "";

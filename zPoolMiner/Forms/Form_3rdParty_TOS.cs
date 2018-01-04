@@ -1,6 +1,6 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NiceHashMiner.Forms {
+namespace zPoolMiner.Forms {
     public partial class Form_3rdParty_TOS : Form {
         public Form_3rdParty_TOS() {
             InitializeComponent();

@@ -5,10 +5,10 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 
 
-namespace NiceHashMiner.Forms.Components {
+namespace zPoolMiner.Forms.Components {
     public partial class BenchmarkOptions : UserControl {
 
         public BenchmarkPerformanceType PerformanceType { get; private set; }

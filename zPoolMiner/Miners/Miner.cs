@@ -7,11 +7,11 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Threading;
 using Newtonsoft.Json;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Interfaces;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
+using zPoolMiner.Interfaces;
+using zPoolMiner.Miners.Grouping;
 using System.Threading.Tasks;
 
 using Timer = System.Timers.Timer;
@@ -19,7 +19,7 @@ using System.Timers;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public class APIData
     {
@@ -940,7 +940,7 @@ namespace NiceHashMiner
         protected string GetHttpRequestNHMAgentStrin(string cmd) {
             return "GET /" + cmd + " HTTP/1.1\r\n" +
                     "Host: 127.0.0.1\r\n" +
-                    "User-Agent: NiceHashMiner/" + Application.ProductVersion + "\r\n" +
+                    "User-Agent: zPoolMiner/" + Application.ProductVersion + "\r\n" +
                     "\r\n";
         }
 

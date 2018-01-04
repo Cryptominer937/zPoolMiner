@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner.Forms {
+﻿namespace zPoolMiner.Forms {
     partial class Form_Benchmark {
         /// <summary>
         /// Required designer variable.
@@ -31,9 +31,9 @@
             this.radioButton_SelectedUnbenchmarked = new System.Windows.Forms.RadioButton();
             this.radioButton_RE_SelectedUnbenchmarked = new System.Windows.Forms.RadioButton();
             this.checkBox_StartMiningAfterBenchmark = new System.Windows.Forms.CheckBox();
-            this.algorithmsListView1 = new NiceHashMiner.Forms.Components.AlgorithmsListView();
-            this.benchmarkOptions1 = new NiceHashMiner.Forms.Components.BenchmarkOptions();
-            this.devicesListViewEnableControl1 = new NiceHashMiner.Forms.Components.DevicesListViewEnableControl();
+            this.algorithmsListView1 = new zPoolMiner.Forms.Components.AlgorithmsListView();
+            this.benchmarkOptions1 = new zPoolMiner.Forms.Components.BenchmarkOptions();
+            this.devicesListViewEnableControl1 = new zPoolMiner.Forms.Components.DevicesListViewEnableControl();
             this.groupBoxBenchmarkProgress.SuspendLayout();
             this.SuspendLayout();
             // 

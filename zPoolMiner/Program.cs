@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
-using NiceHashMiner.Utils;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Forms;
-using NiceHashMiner.Enums;
+using zPoolMiner.Utils;
+using zPoolMiner.Configs;
+using zPoolMiner.Forms;
+using zPoolMiner.Enums;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     static class Program
     {
@@ -68,7 +68,7 @@ namespace NiceHashMiner
                 // #2 then parse args
                 var commandLineArgs = new CommandLineParser(argv);
 
-                Helpers.ConsolePrint("NICEHASH", "Starting up NiceHashMiner v" + Application.ProductVersion);
+                Helpers.ConsolePrint("NICEHASH", "Starting up zPoolMiner v" + Application.ProductVersion);
                 bool tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
                 if (!tosChecked || !ConfigManager.GeneralConfigIsFileExist() && !commandLineArgs.IsLang) {
                     Helpers.ConsolePrint("NICEHASH", "No config file found. Running NiceHash Miner Legacy for the first time. Choosing a default language.");

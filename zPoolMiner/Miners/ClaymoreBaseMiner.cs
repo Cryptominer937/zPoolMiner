@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
-using NiceHashMiner.Devices;
+using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
+using zPoolMiner.Devices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public abstract class ClaymoreBaseMiner : Miner {
 
         protected int benchmarkTimeWait = 2 * 45; // Ok... this was all wrong 

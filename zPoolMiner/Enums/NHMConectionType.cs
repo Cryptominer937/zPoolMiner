@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Enums {
+namespace zPoolMiner.Enums {
     public enum NHMConectionType {
         NONE,
         STRATUM_TCP,

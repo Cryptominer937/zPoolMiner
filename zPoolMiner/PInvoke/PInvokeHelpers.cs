@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace NiceHashMiner.PInvoke {
+namespace zPoolMiner.PInvoke {
     class PInvokeHelpers {
 
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]

@@ -1,4 +1,4 @@
-﻿using NiceHashMiner.Interfaces;
+﻿using zPoolMiner.Interfaces;
 using SharpCompress.Archive;
 using SharpCompress.Archive.SevenZip;
 using SharpCompress.Common;
@@ -17,7 +17,7 @@ using MyDownloader.Extension.Protocols;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core.UI;
 
-namespace NiceHashMiner.Utils {
+namespace zPoolMiner.Utils {
     public class MinersDownloader {
         private const string TAG = "MinersDownloader";
 

@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     public class Algorithm {
 
         public readonly string AlgorithmName;

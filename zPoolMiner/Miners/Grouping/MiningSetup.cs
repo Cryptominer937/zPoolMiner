@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners.Grouping {
+namespace zPoolMiner.Miners.Grouping {
     public class MiningSetup {
         public List<MiningPair> MiningPairs { get; private set; }
         public string MinerPath { get; private set; }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 using Newtonsoft.Json;
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     public class Globals {
         // Constants
         public static string[] MiningLocation = { "eu", "usa", "hk", "jp", "in", "br" };

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Linq;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Interfaces;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
+using zPoolMiner.Configs;
+using zPoolMiner.Interfaces;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using ATI.ADL;
@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 using System.Management;
 using System.IO;
 using System.Globalization;
-using NiceHashMiner.Utils;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Utils;
+using zPoolMiner.Miners.Grouping;
 using NVIDIA.NVAPI;
 
-namespace NiceHashMiner.Devices
+namespace zPoolMiner.Devices
 {
     /// <summary>
     /// ComputeDeviceManager class is used to query ComputeDevices avaliable on the system.

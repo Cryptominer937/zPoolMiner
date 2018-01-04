@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
+using zPoolMiner.Devices;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 
 
 
-namespace NiceHashMiner
+namespace zPoolMiner
 { 
     public class SocketEventArgs : EventArgs
     {
@@ -335,7 +335,7 @@ namespace NiceHashMiner
                 string ActiveMinersGroup = MinersManager.GetActiveMinersGroup();
 
                 HttpWebRequest WR = (HttpWebRequest)WebRequest.Create(URL);
-                WR.UserAgent = "NiceHashMiner/" + Application.ProductVersion;
+                WR.UserAgent = "zPoolMiner/" + Application.ProductVersion;
                 if (worker.Length > 64) worker = worker.Substring(0, 64);
                 WR.Headers.Add("NiceHash-Worker-ID", worker);
                 WR.Headers.Add("NHM-Active-Miners-Group", ActiveMinersGroup);

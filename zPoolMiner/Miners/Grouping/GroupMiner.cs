@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Devices;
+using zPoolMiner.Configs;
 
-namespace NiceHashMiner.Miners.Grouping {
+namespace zPoolMiner.Miners.Grouping {
     public class GroupMiner {
         public Miner Miner { get; protected set; }
         public string DevicesInfoString { get; private set; }

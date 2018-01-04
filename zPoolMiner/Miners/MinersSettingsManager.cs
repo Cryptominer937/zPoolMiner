@@ -1,13 +1,13 @@
-﻿using NiceHashMiner.Configs.ConfigJsonFile;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+﻿using zPoolMiner.Configs.ConfigJsonFile;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public static class MinersSettingsManager {
 
         class MinerReservedPortsFile : ConfigFile<Dictionary<MinerBaseType, Dictionary<string, Dictionary<AlgorithmType, List<int>>>>> {

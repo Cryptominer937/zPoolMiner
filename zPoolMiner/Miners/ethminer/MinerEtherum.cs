@@ -1,15 +1,15 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Miners.Grouping;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
 
     /// <summary>
     /// For now used only for daggerhashimoto

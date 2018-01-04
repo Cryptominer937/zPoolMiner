@@ -5,11 +5,11 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Interfaces;
+using zPoolMiner.Devices;
+using zPoolMiner.Configs;
+using zPoolMiner.Interfaces;
 
-namespace NiceHashMiner.Forms.Components {
+namespace zPoolMiner.Forms.Components {
     public partial class DevicesListViewEnableControl : UserControl {
 
         private const int ENABLED = 0;

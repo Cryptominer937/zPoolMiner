@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     // this class mirrors the web profitability, chech what https://www.nicehash.com/?p=calc is using for each algo
     static class ProfitabilityCalculator {
         private const double kHs = 1000;

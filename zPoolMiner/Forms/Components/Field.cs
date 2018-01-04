@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NiceHashMiner.Forms.Components {
+namespace zPoolMiner.Forms.Components {
     public partial class Field : UserControl {
         public string LabelText {
             get {

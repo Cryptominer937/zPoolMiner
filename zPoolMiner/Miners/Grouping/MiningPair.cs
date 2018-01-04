@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Devices;
+﻿using zPoolMiner.Devices;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners.Grouping {
+namespace zPoolMiner.Miners.Grouping {
     public class MiningPair {
         public readonly ComputeDevice Device;
         public readonly Algorithm Algorithm;

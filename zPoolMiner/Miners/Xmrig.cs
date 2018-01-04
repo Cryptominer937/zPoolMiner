@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using MyDownloader.Core.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class Xmrig : Miner
     {

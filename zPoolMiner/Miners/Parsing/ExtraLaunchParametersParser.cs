@@ -1,13 +1,13 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace NiceHashMiner.Miners.Parsing {
+namespace zPoolMiner.Miners.Parsing {
     using MinerOptionType = String;
     static class ExtraLaunchParametersParser {
         private static readonly string TAG = "ExtraLaunchParametersParser";

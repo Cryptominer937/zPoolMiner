@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner.Forms {
+﻿namespace zPoolMiner.Forms {
     partial class Form_ChooseLanguage {
         /// <summary>
         /// Required designer variable.

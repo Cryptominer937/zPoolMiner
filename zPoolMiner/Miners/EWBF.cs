@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
-using NiceHashMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
+using zPoolMiner.Configs;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class EWBF : Miner
     {

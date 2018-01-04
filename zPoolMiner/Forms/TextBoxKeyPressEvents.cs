@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     static class TextBoxKeyPressEvents {
         public static void textBoxIntsOnly_KeyPress(object sender, KeyPressEventArgs e) {
             // allow only one zero

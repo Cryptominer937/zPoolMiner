@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Enums {
+namespace zPoolMiner.Enums {
 
     /// <summary>
     /// Do not delete obsolete enums! Always add new ones before the END enum.

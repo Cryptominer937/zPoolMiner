@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Configs.Data {
+namespace zPoolMiner.Configs.Data {
     [Serializable]
     public class DeviceBenchmarkConfig {
         public string DeviceUUID = "";

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace NiceHashMiner.Utils {
+namespace zPoolMiner.Utils {
     public static class MinersExistanceChecker {
         public static bool IsMinersBins_ALL_Init() {
             foreach (var filePath in Bins_Data.ALL_FILES_BINS) {

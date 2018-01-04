@@ -1,5 +1,5 @@
-﻿using NiceHashMiner.Interfaces;
-using NiceHashMiner.Utils;
+﻿using zPoolMiner.Interfaces;
+using zPoolMiner.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public partial class Form_Loading : Form, IMessageNotifier, IMinerUpdateIndicator
     {

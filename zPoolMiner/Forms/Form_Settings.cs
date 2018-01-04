@@ -1,10 +1,10 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Configs.Data;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Configs.Data;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace NiceHashMiner.Forms
+namespace zPoolMiner.Forms
 {
     public partial class Form_Settings : Form
     {
@@ -46,7 +46,7 @@ namespace NiceHashMiner.Forms
 
         public Form_Settings() {
             InitializeComponent();
-            this.Icon = NiceHashMiner.Properties.Resources.logo;
+            this.Icon = zPoolMiner.Properties.Resources.logo;
 
             //ret = 1; // default
             IsChange = false;

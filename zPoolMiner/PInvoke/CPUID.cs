@@ -4,7 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     class CPUID
     {

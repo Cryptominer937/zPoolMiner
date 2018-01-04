@@ -8,24 +8,24 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Globalization;
 using System.Management;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Forms;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Interfaces;
-using NiceHashMiner.Forms.Components;
-using NiceHashMiner.Utils;
-using NiceHashMiner.PInvoke;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Forms;
+using zPoolMiner.Miners;
+using zPoolMiner.Interfaces;
+using zPoolMiner.Forms.Components;
+using zPoolMiner.Utils;
+using zPoolMiner.PInvoke;
 
 using SystemTimer = System.Timers.Timer;
 using Timer = System.Windows.Forms.Timer;
 using System.Timers;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
-    using NiceHashMiner.Miners.Grouping;
-    using NiceHashMiner.Miners.Parsing;
+    using zPoolMiner.Miners.Grouping;
+    using zPoolMiner.Miners.Parsing;
     using System.IO;
 
     public partial class Form_Main : Form, Form_Loading.IAfterInitializationCaller, IMainFormRatesComunication
@@ -67,7 +67,7 @@ namespace NiceHashMiner
         public Form_Main()
         {
             InitializeComponent();
-            this.Icon = NiceHashMiner.Properties.Resources.logo;
+            this.Icon = zPoolMiner.Properties.Resources.logo;
 
             InitLocalization();
 
@@ -851,7 +851,7 @@ namespace NiceHashMiner
             }
         }
 
-        // Restore NiceHashMiner from the system tray
+        // Restore zPoolMiner from the system tray
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             this.Show();

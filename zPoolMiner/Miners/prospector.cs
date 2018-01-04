@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +18,7 @@ using SQLite.Net;
 using SQLite.Net.Platform.Win32;
 using SQLite.Net.Attributes;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public static class ProspectorPlatforms
     {

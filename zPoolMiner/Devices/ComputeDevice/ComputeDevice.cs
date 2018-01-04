@@ -5,14 +5,14 @@ using System.Text;
 using System.Diagnostics;
 using System.Management;
 using System.Runtime.InteropServices;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 using System.Security.Cryptography;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Configs.Data;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners;
+using zPoolMiner.Configs;
+using zPoolMiner.Configs.Data;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners;
 
-namespace NiceHashMiner.Devices
+namespace zPoolMiner.Devices
 {
     public class ComputeDevice
     {

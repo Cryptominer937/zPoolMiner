@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Utils {
+namespace zPoolMiner.Utils {
     public class DownloadSetup {
         public DownloadSetup(string url, string dlName, string inFolderName) {
             BinsDownloadURL = url;

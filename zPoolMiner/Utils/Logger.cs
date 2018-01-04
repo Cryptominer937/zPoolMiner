@@ -6,10 +6,10 @@ using log4net.Repository.Hierarchy;
 using log4net.Core;
 using log4net.Appender;
 using log4net.Layout;
-using NiceHashMiner.Configs;
+using zPoolMiner.Configs;
 using System.IO;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public class Logger
     {

@@ -4,14 +4,14 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 
-using NiceHashMiner.Interfaces;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+using zPoolMiner.Interfaces;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 
-namespace NiceHashMiner.Miners {
-    using NiceHashMiner.Miners.Grouping;
-    using NiceHashMiner.Miners.Equihash;
+namespace zPoolMiner.Miners {
+    using zPoolMiner.Miners.Grouping;
+    using zPoolMiner.Miners.Equihash;
     public static class MinersManager {
 
         private static MiningSession CurMiningSession;

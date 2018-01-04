@@ -1,10 +1,10 @@
-﻿using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners.Grouping
+namespace zPoolMiner.Miners.Grouping
 {
     public static class GroupSetupUtils
     {

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Configs;
+using zPoolMiner.Configs;
 using System;
 using System.IO;
 using System.Net;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     class IFTTT
     {

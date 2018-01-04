@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner.Forms {
+﻿namespace zPoolMiner.Forms {
     partial class Form_3rdParty_TOS {
         /// <summary>
         /// Required designer variable.

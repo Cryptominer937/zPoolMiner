@@ -1,11 +1,11 @@
-﻿using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Interfaces;
+﻿using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Configs;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Configs;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Linq;
 using Timer = System.Timers.Timer;
 using System.Timers;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     using GroupedDevices = SortedSet<string>;
     public class MiningSession {
         const string TAG = "MiningSession";

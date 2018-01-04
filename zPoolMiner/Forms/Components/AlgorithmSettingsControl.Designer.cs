@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner.Forms.Components {
+﻿namespace zPoolMiner.Forms.Components {
     partial class AlgorithmSettingsControl {
         /// <summary> 
         /// Required designer variable.
@@ -25,9 +25,9 @@
         private void InitializeComponent() {
             this.groupBoxSelectedAlgorithmSettings = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.field_LessThreads = new NiceHashMiner.Forms.Components.Field();
-            this.fieldBoxBenchmarkSpeed = new NiceHashMiner.Forms.Components.Field();
-            this.secondaryFieldBoxBenchmarkSpeed = new NiceHashMiner.Forms.Components.Field();
+            this.field_LessThreads = new zPoolMiner.Forms.Components.Field();
+            this.fieldBoxBenchmarkSpeed = new zPoolMiner.Forms.Components.Field();
+            this.secondaryFieldBoxBenchmarkSpeed = new zPoolMiner.Forms.Components.Field();
             this.groupBoxExtraLaunchParameters = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.richTextBoxExtraLaunchParameters = new System.Windows.Forms.RichTextBox();
@@ -106,7 +106,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::NiceHashMiner.Properties.Resources.info_black_18;
+            this.pictureBox1.Image = global::zPoolMiner.Properties.Resources.info_black_18;
             this.pictureBox1.Location = new System.Drawing.Point(193, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(18, 18);

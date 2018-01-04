@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Configs;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public abstract class XmrStak : Miner
     {

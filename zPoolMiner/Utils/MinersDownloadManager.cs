@@ -7,20 +7,20 @@ using System.Net;
 using System.Text;
 using System.IO.Compression;
 using System.Windows.Forms;
-using NiceHashMiner.Interfaces;
+using zPoolMiner.Interfaces;
 using System.Threading;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
 
-namespace NiceHashMiner.Utils {
+namespace zPoolMiner.Utils {
     public static class MinersDownloadManager {
         public static DownloadSetup StandardDlSetup = new DownloadSetup(
-            "http://github.com/NiceHash/NiceHashMinerLegacy/releases/download/1.8.1.5/bin_1_8_1_5.zip",
+            "http://github.com/NiceHash/zPoolMinerLegacy/releases/download/1.8.1.5/bin_1_8_1_5.zip",
             "bins.zip",
             "bin");
 
         public static DownloadSetup ThirdPartyDlSetup = new DownloadSetup(
-            "http://github.com/NiceHash/NiceHashMinerLegacy/releases/download/1.8.1.4/bin_3rdparty_1_8_1_4.zip",
+            "http://github.com/NiceHash/zPoolMinerLegacy/releases/download/1.8.1.4/bin_3rdparty_1_8_1_4.zip",
             "bins_3rdparty.zip",
             "bin_3rdparty");
     }

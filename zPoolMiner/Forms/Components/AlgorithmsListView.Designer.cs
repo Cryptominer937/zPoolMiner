@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner.Forms.Components {
+﻿namespace zPoolMiner.Forms.Components {
     partial class AlgorithmsListView {
         /// <summary> 
         /// Required designer variable.

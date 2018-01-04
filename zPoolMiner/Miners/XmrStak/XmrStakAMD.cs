@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 using System.Text.RegularExpressions;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class XmrStakGPUSettings
     {

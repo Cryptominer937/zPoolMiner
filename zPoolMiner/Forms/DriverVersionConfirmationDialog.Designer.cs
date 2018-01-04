@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner
+﻿namespace zPoolMiner
 {
     partial class DriverVersionConfirmationDialog
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     public class XmrStakConfig
     {

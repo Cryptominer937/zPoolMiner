@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Configs;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public class NiceHashSMA
     {

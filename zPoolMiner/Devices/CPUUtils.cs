@@ -1,11 +1,11 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Devices {
+namespace zPoolMiner.Devices {
     public static class CPUUtils {
         // this is the order we check and initialize if automatic
         private static CPUExtensionType[] _detectOrder = new CPUExtensionType[] { 

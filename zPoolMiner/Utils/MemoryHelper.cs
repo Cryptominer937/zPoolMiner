@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     static class MemoryHelper {
         public static T DeepClone<T>(T obj) {
             using (var ms = new MemoryStream()) {

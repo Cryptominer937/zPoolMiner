@@ -1,4 +1,4 @@
-﻿using NiceHashMiner.Configs;
+﻿using zPoolMiner.Configs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 // TODO: @Allan update this
 
-namespace NiceHashMiner {
+namespace zPoolMiner {
     class ExchangeRateAPI {
         public class Result {
             public Object algorithms { get; set; }

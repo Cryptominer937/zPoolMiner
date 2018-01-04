@@ -7,11 +7,11 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Miners;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Configs;
+using zPoolMiner.Miners;
+using zPoolMiner.Miners.Grouping;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     //public class EthminerReader
     //{

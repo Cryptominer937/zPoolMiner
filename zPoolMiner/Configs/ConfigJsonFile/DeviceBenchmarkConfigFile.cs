@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Configs.Data;
+﻿using zPoolMiner.Configs.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Configs.ConfigJsonFile {
+namespace zPoolMiner.Configs.ConfigJsonFile {
     public class DeviceBenchmarkConfigFile : ConfigFile<DeviceBenchmarkConfig> {
         const string BENCHMARK_PREFIX = "benchmark_";
 

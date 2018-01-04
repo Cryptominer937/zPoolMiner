@@ -5,11 +5,11 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners;
 
-namespace NiceHashMiner.Forms.Components {
+namespace zPoolMiner.Forms.Components {
     public partial class AlgorithmSettingsControl : UserControl, AlgorithmsListView.IAlgorithmsListView {
 
         ComputeDevice _computeDevice = null;

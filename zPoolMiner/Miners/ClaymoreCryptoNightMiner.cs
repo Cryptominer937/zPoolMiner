@@ -1,7 +1,7 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class ClaymoreCryptoNightMiner : ClaymoreBaseMiner
     {
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     // TODO probably remove
     public partial class MinerFileNotFoundDialog : Form
@@ -35,7 +35,7 @@ namespace NiceHashMiner
 
         private void linkLabelError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/nicehash/NiceHashMiner#troubleshooting");
+            System.Diagnostics.Process.Start("https://github.com/nicehash/zPoolMiner#troubleshooting");
         }
     }
 }

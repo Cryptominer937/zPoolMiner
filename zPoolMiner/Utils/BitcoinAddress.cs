@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public class BitcoinAddress
     {

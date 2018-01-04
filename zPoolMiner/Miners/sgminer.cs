@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners
+namespace zPoolMiner.Miners
 {
     class sgminer : Miner
     {

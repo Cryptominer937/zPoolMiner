@@ -1,11 +1,11 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public static class MinersApiPortsManager {
         private static HashSet<int> _usedPorts = new HashSet<int>();
 

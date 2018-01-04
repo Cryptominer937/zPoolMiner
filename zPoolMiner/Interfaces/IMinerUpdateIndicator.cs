@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Interfaces {
+namespace zPoolMiner.Interfaces {
     public interface IMinerUpdateIndicator {
         void SetMaxProgressValue(int max);
         void SetProgressValueAndMsg(int value, string msg);

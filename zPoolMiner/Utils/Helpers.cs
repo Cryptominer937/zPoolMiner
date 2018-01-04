@@ -4,13 +4,13 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Win32;
-using NiceHashMiner.Configs;
+using zPoolMiner.Configs;
 using System.Globalization;
-using NiceHashMiner.PInvoke;
+using zPoolMiner.PInvoke;
 using System.Management;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     class Helpers : PInvokeHelpers
     {

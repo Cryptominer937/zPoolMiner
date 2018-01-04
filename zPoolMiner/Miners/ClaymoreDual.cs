@@ -1,10 +1,10 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class ClaymoreDual : ClaymoreBaseMiner {
 
         const string _LOOK_FOR_START = "ETH - Total Speed:";

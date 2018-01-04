@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     /// <summary>
     /// AlgorithmNiceHashNames class is just a data container for mapping NiceHash JSON API names to algo type

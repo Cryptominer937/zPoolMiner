@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Miners.Grouping;
 using System.Diagnostics;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Miners.Parsing;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class nheqminer : nheqBase {
         public nheqminer()
             : base("nheqminer") {

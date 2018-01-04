@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Interfaces {
+namespace zPoolMiner.Interfaces {
     public interface IBenchmarkComunicator {
 
         void SetCurrentStatus(string status);

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public class NiceHashProcess
     {

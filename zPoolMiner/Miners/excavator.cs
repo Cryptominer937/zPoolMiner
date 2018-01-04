@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public class excavator : Miner {
 
         private class DeviceStat {

@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using NiceHashMiner.Configs;
+using zPoolMiner.Configs;
 
-namespace NiceHashMiner
+namespace zPoolMiner
 {
     public partial class DriverVersionConfirmationDialog : Form
     {

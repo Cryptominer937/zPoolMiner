@@ -1,9 +1,9 @@
-﻿using NiceHashMiner.Enums;
+﻿using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Miners.Parsing {
+namespace zPoolMiner.Miners.Parsing {
     public class MinerOptionPackage {
         public string Name;
         public MinerType Type;

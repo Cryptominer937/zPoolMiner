@@ -1,10 +1,10 @@
-﻿using NiceHashMiner.Configs;
-using NiceHashMiner.Enums;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Devices {
+namespace zPoolMiner.Devices {
 
     /// <summary>
     /// GroupAlgorithms creates defaults supported algorithms. Currently based in Miner implementation

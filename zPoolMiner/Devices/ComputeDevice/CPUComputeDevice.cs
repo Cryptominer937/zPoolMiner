@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NiceHashMiner.Enums;
+using zPoolMiner.Enums;
 using System.Diagnostics;
 
-namespace NiceHashMiner.Devices
+namespace zPoolMiner.Devices
 {
     class CPUComputeDevice : ComputeDevice
     {

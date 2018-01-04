@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-using NiceHashMiner.Configs;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Parsing;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
 
     public class XmrStackCPUMinerConfig : XmrStakConfig
     {

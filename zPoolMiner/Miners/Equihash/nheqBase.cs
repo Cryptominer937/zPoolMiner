@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using NiceHashMiner.Devices;
-using NiceHashMiner.Enums;
-using NiceHashMiner.Miners.Grouping;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NiceHashMiner.Miners {
+namespace zPoolMiner.Miners {
     public abstract class nheqBase : Miner {
         protected MiningSetup CPU_Setup = new MiningSetup(null);
         protected MiningSetup NVIDIA_Setup = new MiningSetup(null);

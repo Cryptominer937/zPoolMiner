@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NiceHashMiner.Enums {
+namespace zPoolMiner.Enums {
     
     /// <summary>
     /// This is used for ethminers DAG generation mode

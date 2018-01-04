@@ -1,4 +1,4 @@
-﻿namespace NiceHashMiner
+﻿namespace zPoolMiner
 {
     partial class Form_Main
     {
@@ -59,7 +59,7 @@
             this.flowLayoutPanelRates = new System.Windows.Forms.FlowLayoutPanel();
             this.label_NotProfitable = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.devicesListViewEnableControl1 = new NiceHashMiner.Forms.Components.DevicesListViewEnableControl();
+            this.devicesListViewEnableControl1 = new zPoolMiner.Forms.Components.DevicesListViewEnableControl();
             this.buttonHelp = new System.Windows.Forms.Button();
             this.linkLabelNewVersion = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -212,7 +212,7 @@
             // 
             // toolStripStatusLabel10
             // 
-            this.toolStripStatusLabel10.Image = global::NiceHashMiner.Properties.Resources.NHM_Cash_Register_Bitcoin_transparent;
+            this.toolStripStatusLabel10.Image = global::zPoolMiner.Properties.Resources.NHM_Cash_Register_Bitcoin_transparent;
             this.toolStripStatusLabel10.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripStatusLabel10.Name = "toolStripStatusLabel10";
             this.toolStripStatusLabel10.Size = new System.Drawing.Size(35, 20);
@@ -295,7 +295,7 @@
             this.buttonLogo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonLogo.FlatAppearance.BorderSize = 0;
             this.buttonLogo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonLogo.Image = global::NiceHashMiner.Properties.Resources.NHM_logo_xsmall_light;
+            this.buttonLogo.Image = global::zPoolMiner.Properties.Resources.NHM_logo_xsmall_light;
             this.buttonLogo.Location = new System.Drawing.Point(395, 7);
             this.buttonLogo.Name = "buttonLogo";
             this.buttonLogo.Size = new System.Drawing.Size(162, 52);
