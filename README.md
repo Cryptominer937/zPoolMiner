@@ -1,4 +1,4 @@
-# zPool Miner Legacy
+# zPool Miner
 
 - [Introduction](#introduction)
 - [What are the benefits?](#benefits)
@@ -6,7 +6,7 @@
 - [Requirements](#requirements)
 - [How to get&run it?](#run)
 - [Where is the profit coming from?](#profit)
-- [How to run zPool Miner Legacy only when profitability is high enough?](#highprofit)
+- [How to run zPool Miner only when profitability is high enough?](#highprofit)
 - [Additional options](#options)
 - [Troubleshooting](#troubleshooting)
 - [How to report bugs and issues?](#bugs)
@@ -14,7 +14,7 @@
 
 # <a name="introduction"></a> Introduction
 
-zPool Miner Legacy is a continuation of Nicehash Miner Legacy. This version is intended for experienced miners who want the quickest updates and highest hashrates.
+zPool Miner is a continuation of Nicehash Miner Legacy. This version is intended for experienced miners who want the quickest updates and highest hashrates.
 
 
 <img src="Resources/ZpoolMinerLegacy.png" />
@@ -23,7 +23,7 @@ Please follow us on Twitter <a href="https://twitter.com/MyCryptoCoinz" target="
 
 # <a name="benefits"></a> What are the benefits?
 
-zPool Miner Legacy is an advanced auto-miner that supports the latest algorithms and miners. No need to go through tons of configuration files, various mining software versions, configuration tuning or cryptocurrency coins market analysis. **Auto-tuning for best performance and efficiency**, automatic selection and runtime **automatic switching to most profitable cryptocurrency algorithm** are all integrated into zPool Miner Legacy and will enable you seamless, joyful and **profitable mining experience**.
+zPool Miner is an advanced auto-miner that supports the latest algorithms and miners. No need to go through tons of configuration files, various mining software versions, configuration tuning or cryptocurrency coins market analysis. **Auto-tuning for best performance and efficiency**, automatic selection and runtime **automatic switching to most profitable cryptocurrency algorithm** are all integrated into zPool Miner and will enable you seamless, joyful and **profitable mining experience**.
 
 # <a name="features"></a> Features
 
@@ -55,20 +55,20 @@ All you have to do is download, extract and run the miner (no installation neede
 <i>**Note**: .NET Framework 2.0 or higher and Microsoft Visual C++ Redistributable 2013 is required. No additional installations should be needed if you use Windows 8.1 or later. However, if you encounter any issues when starting application (application would fail to start or errors/warnings about missing DLL files are displayed) you should download and install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30653" target="_blank">Microsoft **.NET Framework 2.0**</a> and <a href="https://www.microsoft.com/en-us/download/details.aspx?id=40784" target="_blank">Microsoft **Visual C++ Redistributable 2013 (vcredist_x64.exe)**</a> (after installation a reboot might be required).</i>
 
 Detailed instructions:
-- Download binaries from here: https://github.com/Cryptominer937/NiceHashMinerLegacy/releases
+- Download binaries from here: https://github.com/Cryptominer937/zPoolMiner/releases
 - Extract zip archive
 - Run NiceHashMinerLegacy.exe
 - After first run, start benchmark test, otherwise Multi-Algorithm mining will not work properly; for AMD GPUs we suggest you to run **Precise benchmark**
 - Make sure you select your own personal Bitcoin wallet to receive payments, see **Bitcoin wallet guidelines and instructions**.
 - You will receive Bitcoin payments according to our payments schedule: http://www.zpool.ca/
 
-**WARNING**: Due to specific requirements of the supporting back-end program "sgminer", you can **not** run zPool Miner Legacy through Windows RDP (Remote Desktop Protocol) if you are using **AMD GPUs**. If you still wish to use remote access to your computer while running zPool Miner Legacy we suggest you to use TeamViewer: https://www.teamviewer.com.
+**WARNING**: Due to specific requirements of the supporting back-end program "sgminer", you can **not** run zPool Miner through Windows RDP (Remote Desktop Protocol) if you are using **AMD GPUs**. If you still wish to use remote access to your computer while running zPool Miner we suggest you to use TeamViewer: https://www.teamviewer.com.
 
 # <a name="profit"></a> Where is the profit coming from?
 
-As a back-end zPool Miner Legacy relies on the <a href="http://www.zpool.ca/" target="_blank">zPool.ca</a> service. By running zPool Miner Legacy you're Mining one Coin and getting paid in BTC.
+As a back-end zPool Miner relies on the <a href="http://www.zpool.ca/" target="_blank">zPool.ca</a> service. By running zPool Miner you're Mining one Coin and getting paid in BTC.
 
-# <a name="highprofit"></a> How to run zPool Miner Legacy only when profitability is high enough?
+# <a name="highprofit"></a> How to run zPool Miner only when profitability is high enough?
 Profitability of mining can go up and down that may be unprofitable to mine especially places with high electricity cost. By using the "MinimumProfit" settings, zPoolMinerLegacy will stop mining if the current profits are below the minimum amount (in USD). This will help you mine during "profitable" times only.
 
 # <a name="options"></a> Additional options
@@ -89,7 +89,7 @@ HideMiningWindows | true or false | When set to true, sgminer, ccminer and cpumi
 MinimizeToTray | true or false | When set to true, zPoolMinerLegacy will minimize to the system tray.
 ForceCPUExtension | 0, 1, 2, 3 or 4 | Force certain CPU extension miner. 0 is automatic, 1 for AVX2, 2 for AVX, 3 for AES and  4 for SSE2.
 SwitchMinSecondsFixed | number | Fixed part of minimal time (in seconds) before miner switches algorithm. Total time is SwitchMinSecondsFixed + SwitchMinSecondsDynamic.
-SwitchMinSecondsDynamic | number | Random part of minimal time (in seconds) before miner switches algorithm. Total time is SwitchMinSecondsFixed + SwitchMinSecondsDynamic. Random part is used to prevent all world-wide zPool Miner Legacy users to have the exact same switching pattern.
+SwitchMinSecondsDynamic | number | Random part of minimal time (in seconds) before miner switches algorithm. Total time is SwitchMinSecondsFixed + SwitchMinSecondsDynamic. Random part is used to prevent all world-wide zPool Miner users to have the exact same switching pattern.
 SwitchMinSecondsAMD | number | Fixed part of minimal time (in seconds) before miner switches algorithm (additional time for AMD GPUs). Total time is SwitchMinSecondsFixed + SwitchMinSecondsAMD + SwitchMinSecondsDynamic.
 MinerAPIQueryInterval | number | Amount of time between each API call to get the latest stats from miner.
 MinerRestartDelayMS | number | Amount of time to delay before trying to restart the miner.
@@ -156,14 +156,14 @@ I am having issues with my AMD GPU drivers.
 When uninstalling or reinstalling display drivers we suggest you to use Guru 3D Display Driver Uninstaller. This utility will make sure you get a clean driver state. You can <a href="http://www.guru3d.com/files-details/display-driver-uninstaller-download.html" target="_blank">download it here</a>.
 If you are using Windows 10, the AMD installer utility is sometimes unable to install drivers, therefore you have to install them manually. Download and run diver installer, let it extract the archive and then cancel it when prompted to execute actual install. After this go to Control Panel / System / Device Manager, Right click on your GPU, choose to Update driver manually and point to c:\AMD\[driver version] folder to finish the manual driver installation.
 
-I'm getting "Always ask before opening this file" when running zPool Miner Legacy
-> Make sure you un-check the checkbox "Always ask before opening this file" when zPool Miner Legacy is starting cpuminer, ccminer or sgminer back-end programs. This is needed because back-end programs will be executed several times while zPool Miner Legacy is running (auto-switching according to profitability and in case programs hangs) and you have to make sure these programs will be to executed automatically without your intervention.
+I'm getting "Always ask before opening this file" when running zPool Miner
+> Make sure you un-check the checkbox "Always ask before opening this file" when zPool Miner is starting cpuminer, ccminer or sgminer back-end programs. This is needed because back-end programs will be executed several times while zPool Miner is running (auto-switching according to profitability and in case programs hangs) and you have to make sure these programs will be to executed automatically without your intervention.
 
 Google Chrome is blocking the download of the application
-> Google Chrome falsely flags zPool Miner Legacy as a potentially unwanted program and thus prevents you from saving the program archive on your computer. This is an issue with Google Chrome and not with zPool Miner Legacy. Use another browser such as Firefox or Edge to download the file instead. Also, read 'My anti-virus is blocking the application' below.
+> Google Chrome falsely flags zPool Miner as a potentially unwanted program and thus prevents you from saving the program archive on your computer. This is an issue with Google Chrome and not with zPool Miner. Use another browser such as Firefox or Edge to download the file instead. Also, read 'My anti-virus is blocking the application' below.
 
 My anti-virus is blocking the application
-> Some anti-virus software might block zPool Miner Legacy as well as supporting back-end programs (cpuminer, ccminer, sgminer) due to false-positive matches. All software, included into zPool Miner Legacy has been verified and checked by our team and is absolutely virus/trojan free. Our service is well established and trusted among users, therefore you can fully trust software releases that are downloaded from our GitHub repository: https://github.com/Cryptominer937/NiceHashMinerLegacy/releases. However, make sure you **never download and run any files from other unknown sources**! If you downloaded the software package from our GitHub repository you can simply resolve the issues with false-positives by adding the files sgminer.exe, ccminer_sp.exe, ccminer_tpruvot.exe, cpuminer_x64_AVX.exe, cpuminer_x64_AVX2.exe and cpuminer_x64_SSE2.exe to anti-virus exception list.
+> Some anti-virus software might block zPool Miner as well as supporting back-end programs (cpuminer, ccminer, sgminer) due to false-positive matches. All software, included into zPool Miner has been verified and checked by our team and is absolutely virus/trojan free. Our service is well established and trusted among users, therefore you can fully trust software releases that are downloaded from our GitHub repository: https://github.com/Cryptominer937/zPoolMiner/releases. However, make sure you **never download and run any files from other unknown sources**! If you downloaded the software package from our GitHub repository you can simply resolve the issues with false-positives by adding the files sgminer.exe, ccminer_sp.exe, ccminer_tpruvot.exe, cpuminer_x64_AVX.exe, cpuminer_x64_AVX2.exe and cpuminer_x64_SSE2.exe to anti-virus exception list.
 
 I'm getting "Enqueueing kernel" errors on AMD GPUs
 > If you have very low amount of system memory (RAM), especially if lower than 4 GB, than you might encounter this kind of errors:
@@ -183,7 +183,7 @@ Benchmarks on particular algorithms keep getting terminated on AMD GPUs
 
 # <a name="bugs"></a> How to report bugs and issues?
 
-To report bugs and issues please use the GitHub issue reporting tool: https://github.com/Cryptominer937/NiceHashMinerLegacy/issues. Any bugs and issues reports are very much appreciated since it helps us to improve zPool Miner Legacy. Thank you.
+To report bugs and issues please use the GitHub issue reporting tool: https://github.com/Cryptominer937/zPoolMiner/issues. Any bugs and issues reports are very much appreciated since it helps us to improve zPool Miner. Thank you.
 
 # <a name="references"></a> References
 
