@@ -127,7 +127,7 @@ namespace zPoolMiner.Miners
             return String.Format("config_{0}.toml", this.MiningSetup.MiningPairs[0].Device.ID);
         }
 
-        private void prepareConfigFile(string pool, string wallet) {
+        private void prepareConfigFile(string pool, string wallet, string worker) {
             if (this.MiningSetup.MiningPairs.Count > 0) {
                 try {
                     var sb = new StringBuilder();
@@ -135,7 +135,7 @@ namespace zPoolMiner.Miners
                     sb.AppendLine("[general]");
                     sb.AppendLine(String.Format("gpu-coin = \"{0}\"", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("default-username = \"{0}\"", wallet));
-                    sb.AppendLine("default-password = \"x\"");
+                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker));
 
                     sb.AppendLine(String.Format("[pools.{0}]", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("url = \"{0}\"", pool));
@@ -274,7 +274,7 @@ namespace zPoolMiner.Miners
 
         private string GetStartupCommand(string url, string btcAddress, string worker) {
             string username = GetUsername(btcAddress, worker);
-            prepareConfigFile(url, username);
+            prepareConfigFile(url, username, worker);
             return "--config " + GetConfigFileName();
         }
 
