@@ -107,6 +107,7 @@
     <Compile Include="IFTTT.cs" />
     <Compile Include="ExchangeRateAPI.cs" />
     <Compile Include="Miners\ClaymoreDual.cs" />
+    <Compile Include="Miners\dstm.cs" />
     <Compile Include="Miners\EWBF.cs" />
     <Compile Include="Miners\glg.cs" />
     <Compile Include="Miners\prospector.cs" />

@@ -103,6 +103,7 @@ namespace zPoolMiner.Miners.Grouping
             public const string OptiminerZcashMiner = _bin_3rdparty + @"\optiminer_zcash_win\Optiminer.exe";
             public const string ClaymoreDual = _bin_3rdparty + @"\claymore_dual\EthDcrMiner64.exe";
             public const string EWBF = _bin_3rdparty + @"\ewbf\miner.exe";
+            public const string DSTM = _bin_3rdparty + @"\dstm\zm.exe";
             public const string prospector = _bin_3rdparty + @"\prospector\prospector.exe";
         }
 
@@ -152,6 +153,8 @@ namespace zPoolMiner.Miners.Grouping
                     return EXPERIMENTAL.GetPath(algoType, devGroupType);
                 case MinerBaseType.EWBF:
                     return Data.EWBF;
+                case MinerBaseType.DSTM:
+                    return Data.DSTM;
                 case MinerBaseType.Prospector:
                     return Data.prospector;
                 case MinerBaseType.Xmrig:

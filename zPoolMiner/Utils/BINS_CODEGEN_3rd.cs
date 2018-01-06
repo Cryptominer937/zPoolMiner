@@ -115,6 +115,14 @@ namespace zPoolMiner.Utils {
 
 @"\ewbf\msvcr120.dll",
 
+@"\dstm\libcrypto-1_1-x64.dll",
+
+@"\dstm\libssl-1_1-x64.dll",
+
+@"\dstm\pthreadVC2.dll",
+
+@"\dstm\zm.exe",
+
 @"\optiminer_zcash_win\Optiminer.exe",
 
 @"\optiminer_zcash_win\bin\asm.bin",

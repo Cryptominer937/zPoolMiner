@@ -23,6 +23,7 @@ namespace zPoolMiner.Enums {
         ccminer_alexis,
         experimental,
         EWBF,
+        DSTM,
         Prospector,
         Xmrig,
         XmrStakAMD,

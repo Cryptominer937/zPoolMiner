@@ -23,6 +23,7 @@ namespace zPoolMiner.Enums {
         excavator,
         ClaymoreDual,
         EWBF,
+        DSTM,
         Xmrig,
         END
     }
