@@ -12,6 +12,7 @@ namespace zPoolMiner.Enums {
         cpuminer,
         ccminer,
         sgminer,
+        GatelessGate,
         nheqminer,
         eqm,
         ethminer,

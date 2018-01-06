@@ -13,7 +13,7 @@ namespace zPoolMiner.Configs.Data {
 
         public bool DebugConsole = false;
         public string BitcoinAddress = "";
-        public string WorkerName = "worker1";
+        public string WorkerName = "c=BTC,Worker1";
         public TimeUnitType TimeUnit = TimeUnitType.Day;
         public string IFTTTKey = "";
         public int ServiceLocation = 0;
@@ -38,11 +38,11 @@ namespace zPoolMiner.Configs.Data {
         public bool DisableAMDTempControl = true;
         public bool DisableDefaultOptimizations = false;
 
-        public bool AutoScaleBTCValues = true;
+        public bool AutoScaleBTCValues = false;
         public bool StartMiningWhenIdle = false;
 
         public int MinIdleSeconds = 60;
-        public bool LogToFile = true;
+        public bool LogToFile = false;
 
         // in bytes
         public long LogMaxFileSize = 1048576;
@@ -80,7 +80,7 @@ namespace zPoolMiner.Configs.Data {
         public bool CoolDownCheckEnabled = true;
 
         // Set to skip driver checks to enable Neoscrypt/Lyra2RE on AMD
-        public bool ForceSkipAMDNeoscryptLyraCheck = false;
+        public bool ForceSkipAMDNeoscryptLyraCheck = true;
 
         // methods
         public void SetDefaults() {
@@ -88,19 +88,19 @@ namespace zPoolMiner.Configs.Data {
             Language = LanguageType.En;
             ForceCPUExtension = CPUExtensionType.Automatic;
             BitcoinAddress = "";
-            WorkerName = "worker1";
+            WorkerName = "c=BTC,worker1";
             TimeUnit = TimeUnitType.Day;
             ServiceLocation = 0;
             AutoStartMining = false;
             //LessThreads = 0;
             DebugConsole = false;
-            HideMiningWindows = false;
+            HideMiningWindows = true;
             MinimizeToTray = false;
             BenchmarkTimeLimits = new BenchmarkTimeLimitsConfig();
             DeviceDetection = new DeviceDetectionConfig();
             DisableAMDTempControl = true;
             DisableDefaultOptimizations = false;
-            AutoScaleBTCValues = true;
+            AutoScaleBTCValues = false;
             StartMiningWhenIdle = false;
             LogToFile = true;
             LogMaxFileSize = 1048576;
@@ -131,7 +131,7 @@ namespace zPoolMiner.Configs.Data {
             IQRNormalizeFactor = 0.0;
             CoolDownCheckEnabled = true;
             RunScriptOnCUDA_GPU_Lost = false;
-            ForceSkipAMDNeoscryptLyraCheck = false;
+            ForceSkipAMDNeoscryptLyraCheck = true;
         }
 
         public void FixSettingBounds() {

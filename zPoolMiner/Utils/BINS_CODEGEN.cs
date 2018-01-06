@@ -61,7 +61,7 @@ namespace zPoolMiner.Utils {
 @"\nheqminer_v0.4b\msvcr120.dll",
 @"\nheqminer_v0.4b\nheqminer.exe",
 @"\sgminer-5-6-0-general\sgminer.exe",
-@"\sgminer-gm\sgminer.exe",
+@"\sgminer-gm\sgminer.exe",@"\glg\gatelessgate.exe",
 @"\xmr-stak-cpu\concrt140.dll",
 @"\xmr-stak-cpu\msvcp140.dll",
 @"\xmr-stak-cpu\vccorlib140.dll",

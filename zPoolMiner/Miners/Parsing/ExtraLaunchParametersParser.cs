@@ -220,6 +220,10 @@ namespace zPoolMiner.Miners.Parsing {
             if (MinerBaseType.sgminer == minerBaseType) {
                 return MinerType.sgminer;
             }
+            if (MinerBaseType.GatelessGate == minerBaseType)
+            {
+                return MinerType.glg;
+            }
             if (MinerBaseType.ccminer == minerBaseType || MinerBaseType.ccminer_alexis == minerBaseType || MinerBaseType.experimental == minerBaseType) {
                 if (AlgorithmType.CryptoNight == algorithmType) {
                     return MinerType.ccminer_CryptoNight;
@@ -363,7 +367,54 @@ namespace zPoolMiner.Miners.Parsing {
                     }
                 }
             }
-        
+            if (MinerType.glg == minerType)
+            {
+                // rawIntensity overrides xintensity, xintensity overrides intensity
+                var glg_intensities = new List<MinerOption>() {
+                     new MinerOption("Intensity", "-I", "--intensity", "d", MinerOptionFlagType.MultiParam, ","), // default is "d" check if -1 works
+                     new MinerOption("Xintensity", "-X", "--xintensity", "-1", MinerOptionFlagType.MultiParam, ","), // default none
+                     new MinerOption("Rawintensity", "", "--rawintensity", "-1", MinerOptionFlagType.MultiParam, ","), // default none
+                 };
+                var contains_intensity = new Dictionary<MinerOptionType, bool>() {
+                     { "Intensity", false },
+                     { "Xintensity", false },
+                     { "Rawintensity", false },
+                 };
+                // check intensity and xintensity, the latter overrides so change accordingly
+                foreach (var cDev in setMiningPairs)
+                {
+                    foreach (var intensityOption in glg_intensities)
+                    {
+                        if (!string.IsNullOrEmpty(intensityOption.ShortName) && cDev.CurrentExtraLaunchParameters.Contains(intensityOption.ShortName))
+                        {
+                            cDev.CurrentExtraLaunchParameters = cDev.CurrentExtraLaunchParameters.Replace(intensityOption.ShortName, intensityOption.LongName);
+                            contains_intensity[intensityOption.Type] = true;
+                        }
+                        if (cDev.CurrentExtraLaunchParameters.Contains(intensityOption.LongName))
+                        {
+                            contains_intensity[intensityOption.Type] = true;
+                        }
+                    }
+                }
+                // replace
+                if (contains_intensity["Intensity"] && contains_intensity["Xintensity"])
+                {
+                    LogParser("Gateless Gate replacing --intensity with --xintensity");
+                    foreach (var cDev in setMiningPairs)
+                    {
+                        cDev.CurrentExtraLaunchParameters = cDev.CurrentExtraLaunchParameters.Replace("--intensity", "--xintensity");
+                    }
+                }
+                if (contains_intensity["Xintensity"] && contains_intensity["Rawintensity"])
+                {
+                    LogParser("Gateless Gat replacing --xintensity with --rawintensity");
+                    foreach (var cDev in setMiningPairs)
+                    {
+                        cDev.CurrentExtraLaunchParameters = cDev.CurrentExtraLaunchParameters.Replace("--xintensity", "--rawintensity");
+                    }
+                }
+            }
+
             string ret = "";
             string general = Parse(setMiningPairs, minerOptionPackage.GeneralOptions, false, minerOptionPackage.TemperatureOptions);
             // temp control and parse

@@ -85,7 +85,7 @@ namespace zPoolMiner.Miners.Grouping
             /// </summary>
             public const string sgminer_5_6_0_general = _bin + @"\sgminer-5-6-0-general\sgminer.exe";
             public const string sgminer_gm = _bin + @"\sgminer-gm\sgminer.exe";
-
+            public const string glg = _bin + @"\glg\gatelessgate.exe";
             public const string nheqminer = _bin + @"\nheqminer_v0.4b\nheqminer.exe";
             public const string excavator = _bin + @"\excavator\excavator.exe";
 
@@ -132,6 +132,8 @@ namespace zPoolMiner.Miners.Grouping
                     return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
                 case MinerBaseType.sgminer:
                     return AMD_GROUP.sgminer_path(algoType);
+                case MinerBaseType.GatelessGate:
+                    return AMD_GROUP.glg_path(algoType);
                 case MinerBaseType.nheqminer:
                     return Data.nheqminer;
                 case MinerBaseType.ethminer:
@@ -265,7 +267,15 @@ namespace zPoolMiner.Miners.Grouping
                 }
                 return Data.sgminer_5_6_0_general;
             }
-
+            public static string glg_path(AlgorithmType type)
+            {
+                // AlgorithmType.Pascal == type || AlgorithmType.DaggerHashimoto == type || AlgorithmType.Decred == type || AlgorithmType.Lbry == type || AlgorithmType.X11Gost == type || AlgorithmType.DaggerHashimoto == type
+                if (AlgorithmType.CryptoNight == type || AlgorithmType.Equihash == type || AlgorithmType.NeoScrypt == type || AlgorithmType.Keccak == type)
+                {
+                    return Data.glg;
+                }
+                return Data.NONE;
+            }
             public static string ClaymorePath(AlgorithmType type) {
                 if(AlgorithmType.Equihash == type) {
                     return Data.ClaymoreZcashMiner;

@@ -24,9 +24,13 @@ using System.Timers;
 
 namespace zPoolMiner
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using zPoolMiner.Miners.Grouping;
     using zPoolMiner.Miners.Parsing;
     using System.IO;
+    using System.Net;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     public partial class Form_Main : Form, Form_Loading.IAfterInitializationCaller, IMainFormRatesComunication
     {
@@ -79,7 +83,7 @@ namespace zPoolMiner
             {
                 long TotalRam = long.Parse(mo["TotalVisibleMemorySize"].ToString()) / 1024;
                 long PageFileSize = (long.Parse(mo["TotalVirtualMemorySize"].ToString()) / 1024) - TotalRam;
-                Helpers.ConsolePrint("NICEHASH", "Total RAM: "      + TotalRam     + "MB");
+                Helpers.ConsolePrint("NICEHASH", "Total RAM: " + TotalRam + "MB");
                 Helpers.ConsolePrint("NICEHASH", "Page File Size: " + PageFileSize + "MB");
             }
 
@@ -94,10 +98,13 @@ namespace zPoolMiner
             // for resizing
             InitFlowPanelStart();
 
-            if (groupBox1.Size.Height > 0 && this.Size.Height > 0) {
+            if (groupBox1.Size.Height > 0 && this.Size.Height > 0)
+            {
                 EmtpyGroupPanelHeight = groupBox1.Size.Height;
                 MainFormHeight = this.Size.Height - EmtpyGroupPanelHeight;
-            } else {
+            }
+            else
+            {
                 EmtpyGroupPanelHeight = 59;
                 MainFormHeight = 330 - EmtpyGroupPanelHeight;
             }

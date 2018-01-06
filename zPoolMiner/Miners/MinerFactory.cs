@@ -41,6 +41,8 @@ namespace zPoolMiner.Miners {
                     return new ccminer();
                 case MinerBaseType.sgminer:
                     return new sgminer();
+                case MinerBaseType.GatelessGate:
+                    return new glg();
                 case MinerBaseType.nheqminer:
                     return new nheqminer();
                 case MinerBaseType.ethminer:

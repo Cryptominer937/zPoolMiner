@@ -49,6 +49,7 @@ namespace zPoolMiner {
             ExtraLaunchParameters = "";
             LessThreads = 0;
             Enabled = !(NiceHashID == AlgorithmType.Nist5 || (NiceHashID == AlgorithmType.NeoScrypt && minerBaseType == MinerBaseType.sgminer));
+            Enabled = !(NiceHashID == AlgorithmType.Equihash) || (NiceHashID == AlgorithmType.CryptoNight) || (NiceHashID == AlgorithmType.NeoScrypt) || (NiceHashID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
             BenchmarkStatus = "";
         }
 
