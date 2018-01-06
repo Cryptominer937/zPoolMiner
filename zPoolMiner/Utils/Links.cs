@@ -11,11 +11,11 @@ namespace zPoolMiner {
         //public static string CheckStats = "https://www.nicehash.com/index.jsp?utm_source=NHM&p=miners&addr=";
         public static string CheckStats = "http://zpool.ca/?address=";
         // help and faq
-        public static string NHM_Help = "https://github.com/Cryptominer937/zPoolMiner/issues";
-        public static string NHM_NoDev_Help = "https://github.com/Cryptominer937/zPoolMiner/issues";
+        public static string NHM_Help = "https://github.com/nicehash/zPoolMinerLegacy/";
+        public static string NHM_NoDev_Help = "https://github.com/nicehash/zPoolMinerLegacy/wiki/Troubleshooting#nosupportdev";
         // faq
-        public static string NHM_BTC_Wallet_Faq = "https://bitcointalk.org/index.php?topic=2691188";
-        public static string NHM_Paying_Faq = "http://zpool.ca";
+        public static string NHM_BTC_Wallet_Faq = "https://www.nicehash.com/help/how-to-create-the-bitcoin-addresswallet?utm_source=NHM";
+        public static string NHM_Paying_Faq = "https://www.nicehash.com/help/when-and-how-do-you-get-paid?utm_source=NHM";
         // API
         // btc adress as parameter
         public static string NHM_API_stats = "https://api.nicehash.com/api?method=stats.provider&addr=";
