@@ -15,12 +15,12 @@ using zPoolMiner.Devices;
 namespace zPoolMiner.Utils {
     public static class MinersDownloadManager {
         public static DownloadSetup StandardDlSetup = new DownloadSetup(
-            "http://github.com/angelbbs/NiceHashMinerLegacy/releases/download/1.8.1.5Fork_Fix_3/bin_1_8_1_5_ff3.zip",
+            "https://github.com/Cryptominer937/zPoolMiner/raw/Miner-Additions/Bins/bin_1_8_1_6.zip",
             "bins.zip",
             "bin");
 
         public static DownloadSetup ThirdPartyDlSetup = new DownloadSetup(
-            "https://github.com/angelbbs/NiceHashMinerLegacy/releases/download/1.8.1.5Fork_Fix_3/bin_3rdparty_1_8_1_5_ff3.zip",
+            "https://github.com/Cryptominer937/zPoolMiner/raw/Miner-Additions/Bins/bin_3rdparty_1_8_1_6.zip",
             "bins_3rdparty.zip",
             "bin_3rdparty");
     }
