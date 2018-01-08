@@ -1,3 +1,6 @@
+Discussion and Roadmap located at
+<a href="https://bitcointalk.org/index.php?topic=2691188" target="_blank">BitcoinTalk Forum</a>
+
 # zPool Miner
 
 - [Introduction](#introduction)
