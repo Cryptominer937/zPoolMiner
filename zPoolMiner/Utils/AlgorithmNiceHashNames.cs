@@ -11,7 +11,7 @@ namespace zPoolMiner
     public static class AlgorithmNiceHashNames
     {
         public static string GetName(AlgorithmType type) {
-            if ((AlgorithmType.INVALID <= type && type <= AlgorithmType.Skunk) || (AlgorithmType.DaggerSia <= type && type <= AlgorithmType.DaggerPascal)) {
+            if ((AlgorithmType.INVALID <= type && type <= AlgorithmType.Skunk) || (AlgorithmType.DaggerSia <= type && type <= AlgorithmType.DaggerPascal) || (AlgorithmType.X17 <= type && type <= AlgorithmType.X17) || (AlgorithmType.Tribus <= type && type <= AlgorithmType.Tribus) ){
                 return Enum.GetName(typeof(AlgorithmType), type);
             }
             return "NameNotFound type not supported";

@@ -395,34 +395,36 @@ namespace zPoolMiner
                 case "blake2s": return zAlgorithm.blake2s;
                 case "blakecoin": return zAlgorithm.blake256r8;
                 case "c11": return zAlgorithm.c11;
-                case "decred": return zAlgorithm.decred;
                 case "equihash": return zAlgorithm.equihash;
                 case "groestl": return zAlgorithm.groestl;
-                case "hmq1725": return zAlgorithm.hmq1725;
+                case "hsr": return zAlgorithm.hsr;
+                case "keccak": return zAlgorithm.keccak;
                 case "lbry": return zAlgorithm.lbry;
                 case "lyra2v2": return zAlgorithm.lyra2v2;
-                case "m7m": return zAlgorithm.m7m;
                 case "myr-gr": return zAlgorithm.myriad_groestl;
                 case "neoscrypt": return zAlgorithm.neoscrypt;
                 case "nist5": return zAlgorithm.nist5;
+                case "phi": return zAlgorithm.phi;
+                case "polytimos": return zAlgorithm.polytimos;
                 case "quark": return zAlgorithm.quark;
                 case "qubit": return zAlgorithm.qubit;
                 case "scrypt": return zAlgorithm.scrypt;
                 case "sha256": return zAlgorithm.sha256;
                 case "sib": return zAlgorithm.sib;
                 case "skein": return zAlgorithm.skein;
+                case "skunk": return zAlgorithm.skunk;
                 case "timetravel": return zAlgorithm.timetravel;
+                case "tribus": return zAlgorithm.tribus;
                 case "veltor": return zAlgorithm.veltor;
                 case "x11": return zAlgorithm.x11;
                 case "x11evo": return zAlgorithm.x11evo;
                 case "x13": return zAlgorithm.x13;
                 case "x14": return zAlgorithm.x14;
-                case "x15": return zAlgorithm.x15;
                 case "x17": return zAlgorithm.x17;
                 case "xevan": return zAlgorithm.xevan;
                 case "yescrypt": return zAlgorithm.yescrypt;
-                case "skunk": return zAlgorithm.skunk;
-                case "keccak": return zAlgorithm.keccak;
+                //case "hmq1725": return zAlgorithm.hmq1725;
+                //case "m7m": return zAlgorithm.m7m;
             }
 
             return zAlgorithm.unknown;
@@ -431,24 +433,38 @@ namespace zPoolMiner
         public int NiceHashAlgoId() {
             switch (name)
             {
-                case "blake2s": return 28;
-                case "blakecoin": return 16;
-                case "decred": return 21;
-                case "equihash": return 24;
-                case "lbry": return 23;
-                case "lyra2v2": return 14;
-                case "neoscrypt": return 8;
-                case "nist5": return 7;
-                case "quark": return 12;
-                case "qubit": return 11;
-                case "scrypt": return 0;
-                case "sha256": return 1;
-                case "x11": return 3;
-                case "x13": return 4;
-                case "x15": return 6;
-                case "keccak": return 5;
-                case "skunk": return 29;
-                case "sib": return 26;
+                case "bitcore": return 0;
+                case "blake2s": return 1;
+                case "blakecoin": return 2;
+                case "c11": return 3;
+                case "equihash": return 4;
+                case "groestl": return 5;
+                case "hsr": return 6;
+                case "keccak": return 7;
+                case "lbry": return 8;
+                case "lyra2v2": return 9;
+                case "myr-gr": return 10;
+                case "neoscrypt": return 11;
+                case "nist5": return 12;
+                case "phi": return 13;
+                case "polytimos": return 14;
+                case "quark": return 15;
+                case "qubit": return 16;
+                case "scrypt": return 17;
+                case "sha256": return 18;
+                case "sib": return 19;
+                case "skein": return 20;
+                case "skunk": return 21;
+                case "timetravel": return 22;
+                case "tribus": return 23;
+                case "veltor": return 24;
+                case "x11": return 25;
+                case "x11evo": return 26;
+                case "x13": return 27;
+                case "x14": return 28;
+                case "x17": return 29;
+                case "xevan": return 30;
+                case "yescrypt": return 31;
 
                 default: return -1;
             }
@@ -491,54 +507,42 @@ namespace zPoolMiner
 
     public enum zAlgorithm
     {
-        scrypt,
-        sha256,
-        scryptnf,
-        x11,
-        x13,
-        keccak,
-        x15,
-        nist5,
-        neoscrypt,
-        lyra2re,
-        whirlpoolx,
-        qubit,
-        quark,
-        axiom,
-        lyra2v2,
-        scryptjanenf16,
-        blake256r8,
-        blake256r14,
-        blake256r8vnl,
-        hodl,
-        ethash,
-        decred,
-        cryptonight,
-        lbry,
-        equihash,
-        pascal,
-        x11gost,
-        sia,
-        blake2s,
-        skunk,
-        // This is the ones not supported by NiceHash ... we need to keep this in order .. oops
-        lyra2z,
-        yescrypt,
-        skein,
-        myriad_groestl,
-        groestl,
-        unknown,
-        bitcore,
-        c11,
-        hmq1725,
-        m7m,
-        sib,
-        timetravel,
-        veltor,
-        x11evo,
-        x14,
-        x17,
-        xevan,
-        tribus
+                bitcore,
+                blake2s,
+                blake256r8,
+                c11,
+                equihash,
+                groestl,
+                hsr,
+                keccak,
+                lbry,
+                lyra2v2,
+                myriad_groestl,
+                neoscrypt,
+                nist5,
+                phi,
+                polytimos,
+                quark,
+                qubit,
+                scrypt,
+                sha256,
+                sib,
+                skein,
+                skunk,
+                timetravel,
+                tribus,
+                veltor,
+                x11,
+                x11evo,
+                x13,
+                x14,
+                x17,
+                xevan,
+                unknown,
+                yescrypt
+        //hmq1725,
+        //m7m
+
+
     }
 }

@@ -21,6 +21,8 @@ namespace zPoolMiner {
             { AlgorithmType.ScryptNf_UNUSED ,               MHs }, // NOT used
             { AlgorithmType.X11_UNUSED ,                    MHs }, // NOT used
             { AlgorithmType.X13_UNUSED ,                    MHs },
+            { AlgorithmType.Tribus ,                        MHs },
+            { AlgorithmType.X17 ,                           MHs },
             { AlgorithmType.Keccak ,                        GHs },
             { AlgorithmType.X15_UNUSED ,                    MHs },
             { AlgorithmType.Nist5 ,                         MHs },
