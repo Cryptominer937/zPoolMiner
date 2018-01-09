@@ -66,14 +66,23 @@ namespace zPoolMiner.Miners.Grouping
             /// <summary>
             /// ccminers
             /// </summary>
+            public const string ccminer_22 = _bin + @"\ccminer_22\ccminer.exe";
+            public const string ccminer_alexis_hsr = _bin + @"\ccminer_alexis_hsr\ccminer.exe";
+            public const string ccminer_alexis78 = _bin + @"\ccminer_alexis78\ccminer.exe";
+            public const string ccminer_cryptonight = _bin + @"\ccminer_cryptonight\ccminer.exe";
             public const string ccminer_decred = _bin + @"\ccminer_decred\ccminer.exe";
+            public const string ccminer_klaust = _bin + @"\ccminer_klaust\ccminer.exe";
+            public const string ccminer_klaust818 = _bin + @"\ccminer_klaust818\ccminer.exe";
             public const string ccminer_nanashi = _bin + @"\ccminer_nanashi\ccminer.exe";
             public const string ccminer_neoscrypt = _bin + @"\ccminer_neoscrypt\ccminer.exe";
+            public const string ccminer_palgin = _bin + @"\ccminer_palgin\ccminer.exe";
+            public const string ccminer_polytimos = _bin + @"\ccminer_polytimos\ccminer.exe";
+            public const string ccminer_skunkkrnlx = _bin + @"\ccminer_skunkkrnlx\ccminer.exe";
             public const string ccminer_sp = _bin + @"\ccminer_sp\ccminer.exe";
             public const string ccminer_tpruvot = _bin + @"\ccminer_tpruvot\ccminer.exe";
-            public const string ccminer_cryptonight = _bin + @"\ccminer_cryptonight\ccminer.exe";
+            public const string ccminer_tpruvot2 = _bin + @"\ccminer_tpruvot2\ccminer.exe";
             public const string ccminer_x11gost = _bin + @"\ccminer_x11gost\ccminer.exe";
-            public const string ccminer_klaust = _bin + @"\ccminer_klaust\ccminer.exe";
+            public const string ccminer_xevan = _bin + @"\ccminer_xevan\ccminer.exe";
 
             /// <summary>
             /// ethminers
@@ -130,6 +139,24 @@ namespace zPoolMiner.Miners.Grouping
             }
             switch (minerBaseType) {
                 case MinerBaseType.ccminer:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_22:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_alexis_hsr:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_alexis78:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_klaust818:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_palgin:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_polytimos:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_skunkkrnlx:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_xevan:
+                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                case MinerBaseType.ccminer_tpruvot2:
                     return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
                 case MinerBaseType.sgminer:
                     return AMD_GROUP.sgminer_path(algoType);
@@ -213,23 +240,61 @@ namespace zPoolMiner.Miners.Grouping
                 if (AlgorithmType.Decred == algorithmType) {
                     return Data.ccminer_decred;
                 }
-                if (AlgorithmType.Lyra2RE == algorithmType 
-                    || AlgorithmType.Lyra2REv2 == algorithmType) {
+                if (AlgorithmType.Lyra2RE == algorithmType) {
                     return Data.ccminer_nanashi;
                 }
                 if (AlgorithmType.CryptoNight == algorithmType) {
                     return Data.ccminer_cryptonight;
                 }
-                if (AlgorithmType.Lbry == algorithmType 
-                    || AlgorithmType.X11Gost == algorithmType 
-                    || AlgorithmType.Blake2s == algorithmType
-                    || AlgorithmType.Skunk == algorithmType
+                if (AlgorithmType.X11Gost == algorithmType
                     || AlgorithmType.NeoScrypt == algorithmType) {
                     return Data.ccminer_tpruvot;
                 }
-                if (AlgorithmType.Sia == algorithmType
-                    || AlgorithmType.Nist5 == algorithmType) {
+                if (AlgorithmType.Sia == algorithmType) {
                     return Data.ccminer_klaust;
+                }
+                if (AlgorithmType.Xevan == algorithmType)
+                {
+                    return Data.ccminer_xevan;
+                }
+                if (AlgorithmType.X17 == algorithmType 
+                    || AlgorithmType.X11evo == algorithmType)
+                {
+                    return Data.ccminer_palgin;
+                }
+                if (AlgorithmType.Hsr == algorithmType 
+                    || AlgorithmType.Nist5 == algorithmType
+                    || AlgorithmType.Lyra2REv2 == algorithmType
+                    || AlgorithmType.Blake2s == algorithmType)
+                {
+                    return Data.ccminer_alexis_hsr;
+                }
+                if (AlgorithmType.Phi == algorithmType
+                    || AlgorithmType.Tribus == algorithmType
+                    || AlgorithmType.Skunk == algorithmType)
+                {
+                    return Data.ccminer_tpruvot2;
+                }
+                if (AlgorithmType.Veltor == algorithmType
+                    || AlgorithmType.Lbry == algorithmType
+                    || AlgorithmType.Keccak == algorithmType
+                    || AlgorithmType.Polytimos == algorithmType)
+                {
+                    return Data.ccminer_polytimos;
+                }
+                if (AlgorithmType.Bitcore == algorithmType)
+                {
+                    return Data.ccminer_22;
+                }
+                if (AlgorithmType.C11 == algorithmType
+                    || AlgorithmType.Skein == algorithmType
+                    || AlgorithmType.Blake256r8 == algorithmType)
+                {
+                    return Data.ccminer_alexis78;
+                }
+                if (AlgorithmType.Timetravel == algorithmType)
+                {
+                    return Data.ccminer_skunkkrnlx;
                 }
 
                 return Data.ccminer_sp;

@@ -39,6 +39,24 @@ namespace zPoolMiner.Miners {
             switch (minerBaseType) {
                 case MinerBaseType.ccminer:
                     return new ccminer();
+                case MinerBaseType.ccminer_22:
+                    return new ccminer();
+                case MinerBaseType.ccminer_alexis_hsr:
+                    return new ccminer();
+                case MinerBaseType.ccminer_alexis78:
+                    return new ccminer();
+                case MinerBaseType.ccminer_klaust818:
+                    return new ccminer();
+                case MinerBaseType.ccminer_polytimos:
+                    return new ccminer();
+                case MinerBaseType.ccminer_xevan:
+                    return new ccminer();
+                case MinerBaseType.ccminer_palgin:
+                    return new ccminer();
+                case MinerBaseType.ccminer_skunkkrnlx:
+                    return new ccminer();
+                case MinerBaseType.ccminer_tpruvot2:
+                    return new ccminer();
                 case MinerBaseType.sgminer:
                     return new sgminer();
                 case MinerBaseType.GatelessGate:

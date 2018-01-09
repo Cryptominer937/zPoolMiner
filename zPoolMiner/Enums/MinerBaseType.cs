@@ -21,6 +21,19 @@ namespace zPoolMiner.Enums {
         excavator,
         XmrStackCPU,
         ccminer_alexis,
+        ccminer_alexis78,//
+        ccminer_alexis_hsr,//
+        ccminer_22,//
+        ccminer_klaust,
+        ccminer_klaust818,
+        ccminer_polytimos,//
+        ccminer_xevan,//
+        ccminer_nanashi,
+        ccminer_palgin,//
+        ccminer_skunkkrnlx,
+        ccminer_sp_mod,
+        ccminer_trpuvot,
+        ccminer_tpruvot2,//
         experimental,
         EWBF,
         DSTM,

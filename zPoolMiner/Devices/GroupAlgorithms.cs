@@ -28,7 +28,7 @@ namespace zPoolMiner.Devices {
                                 sgminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--nfactor 10 --xintensity 64 --thread-concurrency 0 --worksize 64 --gpu-threads 2";
                             }
                             if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1) {
-                                sgminerAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--nfactor 10 --xintensity    2 --thread-concurrency 8192 --worksize  64 --gpu-threads 2";
+                                sgminerAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
                                 Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
                             }
                             if (CryptoNight_Index > -1) {
@@ -49,7 +49,7 @@ namespace zPoolMiner.Devices {
                             // Check for optimized version
                             if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
                             {
-                                glgAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--nfactor 10 --xintensity    2 --thread-concurrency 8192 --worksize  64 --gpu-threads 2";
+                                glgAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
                                 Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
                             }
                             if (CryptoNight_Index > -1)
@@ -69,7 +69,7 @@ namespace zPoolMiner.Devices {
 
                                 if (device.Codename.Contains("Ellesmere")) //rx570/580
                                 {
-                                    glgAlgos[CryptoNight_Index].ExtraLaunchParameters = "--rawintensity 832 -w 8 -g 2";
+                                    glgAlgos[CryptoNight_Index].ExtraLaunchParameters = "--intensity 13 --worksize  256 --gpu-threads 1";
                                 }
 
                                 if (device.Codename.Contains("Hawaii"))
@@ -312,36 +312,62 @@ namespace zPoolMiner.Devices {
                 var ret = new Dictionary<MinerBaseType, List<Algorithm>>() {
                     { MinerBaseType.ccminer,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.NeoScrypt, "neoscrypt"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Lyra2REv2, "lyra2v2"),
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.Decred, "decred"),
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.CryptoNight, "cryptonight"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Lbry, "lbry"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.X11Gost, "sib"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Blake2s, "blake2s"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Blake256r8, "blakecoin"),
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.Sia, "sia"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.C11, "c11"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Groestl, "groestl"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Hsr, "hsr"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Myriad_groestl, "myr-gr"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Bitcore, "bitcore"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Nist5, "nist5"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Phi, "phi"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Polytimos, "polytimos"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skein, "skein"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Timetravel, "timetravel"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Veltor, "veltor"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.X17, "x17"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Tribus, "tribus"),
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Keccak, "keccak"),
                             new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skunk, "skunk")
+                        }
+                    },
+                    { MinerBaseType.ccminer_22,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_22, AlgorithmType.Bitcore, "bitcore")
+                        }
+                    },
+                    { MinerBaseType.ccminer_alexis_hsr,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Hsr, "hsr"),
+                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Nist5, "nist5"),
+                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Lyra2REv2, "lyra2v2"),
+                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Blake2s, "blake2s")
+                        }
+                    },
+                    { MinerBaseType.ccminer_alexis78,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.C11, "c11"),
+                            new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.Skein, "skein"),
+                            new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.Blake256r8, "blakecoin")
+                        }
+                    },
+                    { MinerBaseType.ccminer_polytimos,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Veltor, "veltor"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Lbry, "lbry"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Keccak, "keccak"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Polytimos, "poly")
+                        }
+                    },
+                    { MinerBaseType.ccminer_xevan,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_xevan, AlgorithmType.Xevan, "xevan")
+                        }
+                    },
+                    { MinerBaseType.ccminer_palgin,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X17, "x17")
+                        }
+                    },
+                    { MinerBaseType.ccminer_skunkkrnlx,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_skunkkrnlx, AlgorithmType.Timetravel, "timetravel")
+                        }
+                    },
+                    { MinerBaseType.ccminer_tpruvot2,
+                        new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Skunk, "skunk"),
+                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Tribus, "tribus"),
+                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Phi, "phi")
                         }
                     },
                     { MinerBaseType.ccminer_alexis,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X11Gost, "sib"),
-                            new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X17, "x17"),
                             new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.Nist5, "nist5")
                         }
                     },

@@ -728,5 +728,9 @@ namespace zPoolMiner.Forms {
             this.StartMining = this.checkBox_StartMiningAfterBenchmark.Checked;
         }
 
+        private void algorithmsListView1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
