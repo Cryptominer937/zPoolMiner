@@ -159,6 +159,7 @@ Global
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Debug|Win32.Build.0 = Debug|Any CPU
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Debug|x64.Build.0 = Debug|Any CPU
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Release_Ubuntu|Any CPU.ActiveCfg = Release|Any CPU
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Release_Ubuntu|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0E9D874E-5354-465E-9EC3-F7A35C268A8A}.Release_Ubuntu|Win32.ActiveCfg = Release|Any CPU
@@ -204,7 +205,6 @@ Global
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Debug|Win32.ActiveCfg = Debug|x64
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Debug|Win32.Build.0 = Debug|x64
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Debug|x64.ActiveCfg = Debug|x64
-		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Debug|x64.Build.0 = Debug|x64
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Release_Ubuntu|Any CPU.ActiveCfg = Release|x64
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Release_Ubuntu|Mixed Platforms.ActiveCfg = Release|x64
 		{F4D88D6A-2321-4431-AFD1-8B6A1760358B}.Release_Ubuntu|Win32.ActiveCfg = Debug|Win32

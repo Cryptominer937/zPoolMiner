@@ -21,6 +21,7 @@ namespace zPoolMiner {
             { AlgorithmType.ScryptNf_UNUSED ,               MHs }, // NOT used
             { AlgorithmType.X11_UNUSED ,                    MHs }, // NOT used
             { AlgorithmType.X13_UNUSED ,                    MHs },
+            { AlgorithmType.Skein ,                         MHs },
             { AlgorithmType.Tribus ,                        MHs },
             { AlgorithmType.X17 ,                           MHs },
             { AlgorithmType.Keccak ,                        GHs },
@@ -34,7 +35,7 @@ namespace zPoolMiner {
             { AlgorithmType.Axiom_UNUSED ,                  kHs }, // NOT used
             { AlgorithmType.Lyra2REv2 ,                     MHs },
             { AlgorithmType.ScryptJaneNf16_UNUSED ,         kHs }, // NOT used
-            { AlgorithmType.Blake256r8_UNUSED ,             GHs },
+            { AlgorithmType.Blake256r8 ,                    GHs },
             { AlgorithmType.Blake256r14_UNUSED ,            GHs },
             { AlgorithmType.Blake256r8vnl_UNUSED ,          GHs },
             { AlgorithmType.Hodl ,                          kHs },

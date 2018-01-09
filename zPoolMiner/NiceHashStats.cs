@@ -479,6 +479,7 @@ namespace zPoolMiner
                 case "blakecoin":
                 case "blake2s":
                 case "keccak":
+                case "scrypt":
                 case "x11":
                 case "quark":
                 case "qubit":

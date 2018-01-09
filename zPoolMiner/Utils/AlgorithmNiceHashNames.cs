@@ -14,7 +14,12 @@ namespace zPoolMiner
             if ((AlgorithmType.INVALID <= type && type <= AlgorithmType.Skunk) 
                 || (AlgorithmType.DaggerSia <= type && type <= AlgorithmType.DaggerPascal) 
                 || (AlgorithmType.X17 <= type && type <= AlgorithmType.X17) 
-                || (AlgorithmType.Tribus <= type && type <= AlgorithmType.Tribus) ){
+                || (AlgorithmType.Tribus <= type && type <= AlgorithmType.Tribus)
+                || (AlgorithmType.Timetravel <= type && type <= AlgorithmType.Timetravel)
+                || (AlgorithmType.Veltor <= type && type <= AlgorithmType.Veltor)
+
+                )
+            {
 
                 return Enum.GetName(typeof(AlgorithmType), type);
             }
