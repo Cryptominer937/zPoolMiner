@@ -251,7 +251,7 @@ namespace zPoolMiner.Devices {
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Lbry, "lbry") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 --worksize 128 --gpu-threads 2" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.CryptoNight, "cryptonight") { ExtraLaunchParameters = DefaultParam + "--rawintensity 512 -w 4 -g 2" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 16 -w 64 -g 2" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 19 -w 128 -g 2" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 15" }
                         }
                     },
@@ -337,11 +337,11 @@ namespace zPoolMiner.Devices {
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Veltor, "veltor"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Lbry, "lbry"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Keccak, "keccak"),
-                            new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.Skein, "skein"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Skein, "skein"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Polytimos, "poly"),
-                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Nist5, "nist5"),
-                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Lyra2REv2, "lyra2v2"),
-                            new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Blake2s, "blake2s")
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Nist5, "nist5"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Lyra2REv2, "lyra2v2"),
+                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Blake2s, "blake2s")
                         }
                     },
                     { MinerBaseType.ccminer_xevan,
@@ -352,7 +352,8 @@ namespace zPoolMiner.Devices {
                     { MinerBaseType.ccminer_palgin,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X17, "x17"),
-                            new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.Blake256r8, "blakecoin")
+                            new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X11Gost, "sib"),
+                            new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.Blake256r8, "blakecoin")
                         }
                     },
                     { MinerBaseType.ccminer_skunkkrnlx,

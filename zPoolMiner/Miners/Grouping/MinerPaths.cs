@@ -259,7 +259,8 @@ namespace zPoolMiner.Miners.Grouping
                 }
                 if (AlgorithmType.X17 == algorithmType
                     || AlgorithmType.Blake256r8 == algorithmType
-                    || AlgorithmType.X11evo == algorithmType)
+                    || AlgorithmType.X11evo == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_palgin;
                 }
