@@ -64,7 +64,7 @@ namespace zPoolMiner {
 
         public static void UpdateAPI(string worker)
         {
-            var WR = (HttpWebRequest)WebRequest.Create("https://blockchain.info/ticker");
+            var WR = (HttpWebRequest)WebRequest.Create("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=AUD,BRL,CAD,CHF,CLP,CNY,DKK,EUR,GBP,HKD,INR,ISK,JPY,KRW,NZD,PLN,RUB,SEK,SGD,THB,TWD,ZAR,USD");
             var Response = WR.GetResponse();
             var SS = Response.GetResponseStream();
             SS.ReadTimeout = 20 * 1000;
@@ -79,11 +79,12 @@ namespace zPoolMiner {
             try
             {
                 //USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates[ConfigManager.GeneralConfig.DisplayCurrency]["last"]);
-                USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates["USD"]["last"]);
+                USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates["BTC"]["USD"]);
 
                 exchanges_fiat = new Dictionary<string, double>();
                 foreach (var c in _supportedCurrencies)
-                    exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates[c]["last"]) / USD_BTC_rate);
+                    //exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates[c]["7d"]) / USD_BTC_rate);
+                    exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates["BTC"][c]) / USD_BTC_rate);
             }
             catch
             {
@@ -96,13 +97,13 @@ namespace zPoolMiner {
             "CAD", 
             "CHF", 
             "CLP", 
-            "CNY", 
+            "CNY", //
             "DKK", 
             "EUR", 
             "GBP", 
             "HKD", 
             "INR", 
-            "ISK", 
+            "ISK", //
             "JPY", 
             "KRW", 
             "NZD", 
@@ -110,8 +111,9 @@ namespace zPoolMiner {
             "RUB", 
             "SEK", 
             "SGD", 
-            "THB", 
-            "TWD", 
+            "THB",
+            "TWD",//
+            "ZAR",
             "USD"
         };
     }

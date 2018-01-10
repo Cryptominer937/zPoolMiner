@@ -1113,13 +1113,13 @@
             "CAD",//
             "CHF",//
             "CLP",//
-            "CNY",//
+            "CNY",////
             "DKK",//
             "EUR",//
             "GBP",//
             "HKD",//
             "INR",//
-            "ISK",//
+            "ISK",////
             "JPY",//
             "KRW",//
             "NZD",//
@@ -1128,7 +1128,8 @@
             "SEK",//
             "SGD",//
             "THB",//
-            "TWD",//
+            "TWD",////
+            "ZAR",//
             "USD"});
             this.currencyConverterCombobox.Location = new System.Drawing.Point(212, 36);
             this.currencyConverterCombobox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
