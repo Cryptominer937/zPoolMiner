@@ -97,7 +97,7 @@ namespace zPoolMiner.Miners
                           " -k " + algorithm.MinerName +
                           " --url=" + url +
                           " --userpass=" + username +
-                          " -p x " +
+                          " -p Benchmark " +
                           " --sched-stop " + DateTime.Now.AddSeconds(time).ToString("HH:mm") +
                           " -T --log 10 --log-file dump.txt" +
                           " " +

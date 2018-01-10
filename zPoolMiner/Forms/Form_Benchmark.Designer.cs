@@ -124,9 +124,9 @@
             this.algorithmsListView1.BenchmarkCalculation = null;
             this.algorithmsListView1.ComunicationInterface = null;
             this.algorithmsListView1.IsInBenchmark = false;
-            this.algorithmsListView1.Location = new System.Drawing.Point(12, 133);
+            this.algorithmsListView1.Location = new System.Drawing.Point(12, 170);
             this.algorithmsListView1.Name = "algorithmsListView1";
-            this.algorithmsListView1.Size = new System.Drawing.Size(580, 501);
+            this.algorithmsListView1.Size = new System.Drawing.Size(580, 464);
             this.algorithmsListView1.TabIndex = 109;
             this.algorithmsListView1.Load += new System.EventHandler(this.algorithmsListView1_Load);
             // 
@@ -146,7 +146,7 @@
             this.devicesListViewEnableControl1.Location = new System.Drawing.Point(12, 15);
             this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
             this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(376, 112);
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(376, 149);
             this.devicesListViewEnableControl1.TabIndex = 0;
             // 
             // Form_Benchmark
