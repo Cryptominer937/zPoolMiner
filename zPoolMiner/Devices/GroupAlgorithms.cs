@@ -312,7 +312,9 @@ namespace zPoolMiner.Devices {
                 var ret = new Dictionary<MinerBaseType, List<Algorithm>>() {
                     { MinerBaseType.ccminer,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skunk, "skunk")
+                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skunk, "skunk"),
+                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Groestl, "groestl"),
+                            new Algorithm(MinerBaseType.ccminer, AlgorithmType.Myriad_groestl, "myr-gr")
                         }
                     },
                     { MinerBaseType.ccminer_22,

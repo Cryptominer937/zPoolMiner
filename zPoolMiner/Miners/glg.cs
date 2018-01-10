@@ -109,7 +109,7 @@ namespace zPoolMiner.Miners
                           " -k " + algorithm.MinerName +
                           " --url=" + url + "/#xnsub" +
                           " --userpass=" + Globals.DemoUser +
-                          " -p x " +
+                          " -p Benchmark " +
                           " --sched-stop " + DateTime.Now.AddSeconds(time).ToString("HH:mm") +
                           " -T --log 10 --log-file dump.txt" +
                           " --api-listen" +
