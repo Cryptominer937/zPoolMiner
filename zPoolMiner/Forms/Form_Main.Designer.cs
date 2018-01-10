@@ -331,7 +331,7 @@
             this.labelDemoMode.Name = "labelDemoMode";
             this.labelDemoMode.Size = new System.Drawing.Size(336, 25);
             this.labelDemoMode.TabIndex = 100;
-            this.labelDemoMode.Text = "zPool Miner Legacy DEMO mode!";
+            this.labelDemoMode.Text = "zPool Miner DEMO mode!";
             this.labelDemoMode.Visible = false;
             // 
             // flowLayoutPanelRates
@@ -430,7 +430,7 @@
             this.MinimumSize = new System.Drawing.Size(576, 316);
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "zPool Miner Legacy";
+            this.Text = "zPool Miner";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form_Main_Load);
             this.Shown += new System.EventHandler(this.Form_Main_Shown);

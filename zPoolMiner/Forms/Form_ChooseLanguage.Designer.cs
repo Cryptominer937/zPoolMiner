@@ -38,7 +38,7 @@
             this.label_Instruction.Name = "label_Instruction";
             this.label_Instruction.Size = new System.Drawing.Size(248, 13);
             this.label_Instruction.TabIndex = 0;
-            this.label_Instruction.Text = "Choose a default language for zPool Miner Legacy:";
+            this.label_Instruction.Text = "Choose a default language zPool Miner:";
             // 
             // comboBox_Languages
             // 
