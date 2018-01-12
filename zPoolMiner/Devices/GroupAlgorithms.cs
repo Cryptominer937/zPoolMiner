@@ -351,7 +351,6 @@ namespace zPoolMiner.Devices {
                     },
                     { MinerBaseType.ccminer_palgin,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X17, "x17"),
                             new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X11Gost, "sib"),
                             new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.Blake256r8, "blakecoin")
                         }

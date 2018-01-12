@@ -257,8 +257,7 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_xevan;
                 }
-                if (AlgorithmType.X17 == algorithmType
-                    || AlgorithmType.Blake256r8 == algorithmType
+                if (AlgorithmType.Blake256r8 == algorithmType
                     || AlgorithmType.X11evo == algorithmType
                     || AlgorithmType.X11Gost == algorithmType)
                 {
@@ -320,7 +319,7 @@ namespace zPoolMiner.Miners.Grouping
             public static string ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup) {
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x) {
-                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType || AlgorithmType.X17 == algorithmType) {
+                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType) {
                         return Data.ccminer_x11gost;
                     }
                 }
