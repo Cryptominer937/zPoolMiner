@@ -49,7 +49,7 @@ namespace zPoolMiner {
             ExtraLaunchParameters = "";
             LessThreads = 0;
             Enabled = !(NiceHashID == AlgorithmType.Nist5 || (NiceHashID == AlgorithmType.NeoScrypt && minerBaseType == MinerBaseType.sgminer));
-            Enabled = !(NiceHashID == AlgorithmType.Equihash) || (NiceHashID == AlgorithmType.CryptoNight) || (NiceHashID == AlgorithmType.NeoScrypt) || (NiceHashID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
+            Enabled = !(NiceHashID == AlgorithmType.CryptoNight) || (NiceHashID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
             BenchmarkStatus = "";
         }
 
@@ -66,8 +66,12 @@ namespace zPoolMiner {
                     {
                         ratio += "/" + Globals.NiceHashData[SecondaryNiceHashID].paying.ToString("F8");
                     }
+
+
                 }
+                
                 return ratio;
+                
             }
         }
         public string CurPayingRate {
@@ -78,9 +82,11 @@ namespace zPoolMiner {
                     if (BenchmarkSpeed > 0) {
                         payingRate += BenchmarkSpeed * Globals.NiceHashData[NiceHashID].paying * 0.000000001;
                     }
-                    if (SecondaryBenchmarkSpeed > 0 && IsDual()) {
+                    if (SecondaryBenchmarkSpeed > 0 && IsDual())
+                    {
                         payingRate += SecondaryBenchmarkSpeed * Globals.NiceHashData[SecondaryNiceHashID].paying * 0.000000001;
                     }
+                    
                     rate = payingRate.ToString("F8");
                 }
                 return rate;
