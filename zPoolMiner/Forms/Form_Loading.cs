@@ -31,8 +31,8 @@ namespace zPoolMiner
             AfterInitCaller = initCaller;
 
             TotalLoadSteps = totalLoadSteps;
-            this.progressBar1.Maximum = TotalLoadSteps;
-            this.progressBar1.Value = 0;
+            progressBar1.Maximum = TotalLoadSteps;
+            progressBar1.Value = 0;
 
             SetInfoMsg(startInfoMsg);
         }
@@ -51,20 +51,20 @@ namespace zPoolMiner
         }
 
         public void SetProgressMaxValue(int maxValue) {
-            this.progressBar1.Maximum = maxValue;
+            progressBar1.Maximum = maxValue;
         }
         public void SetInfoMsg(string infoMsg) {
-            this.LoadText.Text = infoMsg;
+            LoadText.Text = infoMsg;
         }
 
         public void IncreaseLoadCounter() {
             LoadCounter++;
-            this.progressBar1.Value = LoadCounter;
-            this.Update();
+            progressBar1.Value = LoadCounter;
+            Update();
             if (LoadCounter >= TotalLoadSteps) {
                 AfterInitCaller.AfterLoadComplete();
-                this.Close();
-                this.Dispose();
+                Close();
+                Dispose();
             }
         }
 
@@ -77,10 +77,10 @@ namespace zPoolMiner
         public void SetValueAndMsg(int setValue, string infoMsg) {
             SetInfoMsg(infoMsg);
             progressBar1.Value = setValue;
-            this.Update();
+            Update();
             if (progressBar1.Value >= progressBar1.Maximum) {
-                this.Close();
-                this.Dispose();
+                Close();
+                Dispose();
             }
         }
 

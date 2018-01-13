@@ -243,7 +243,8 @@ namespace zPoolMiner.Miners.Grouping
                 if (AlgorithmType.Lyra2RE == algorithmType) {
                     return Data.ccminer_nanashi;
                 }
-                if (AlgorithmType.CryptoNight == algorithmType) {
+                if (AlgorithmType.CryptoNight == algorithmType)
+                {
                     return Data.ccminer_cryptonight;
                 }
                 if (AlgorithmType.X11Gost == algorithmType
@@ -257,8 +258,9 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_xevan;
                 }
-                if (AlgorithmType.Blake256r8 == algorithmType
-                    || AlgorithmType.X11evo == algorithmType
+                if (AlgorithmType.X17 == algorithmType
+                     || AlgorithmType.Blake256r8 == algorithmType
+                     || AlgorithmType.X11evo == algorithmType
                     || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_palgin;

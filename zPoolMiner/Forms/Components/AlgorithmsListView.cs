@@ -102,7 +102,7 @@ namespace zPoolMiner.Forms.Components {
                 listViewAlgorithms.Items.Add(lvi);
             }
             listViewAlgorithms.EndUpdate();
-            this.Enabled = isEnabled;
+            Enabled = isEnabled;
         }
 
         public void RepaintStatus(bool isEnabled, string uuid) {
@@ -112,7 +112,7 @@ namespace zPoolMiner.Forms.Components {
                     lvi.SubItems[SPEED].Text = algo.BenchmarkSpeedString();
                     _listItemCheckColorSetter.LviSetColor(lvi);
                 }
-                this.Enabled = isEnabled;
+                Enabled = isEnabled;
             }
         }
 

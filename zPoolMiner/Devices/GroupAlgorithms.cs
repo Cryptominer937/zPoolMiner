@@ -306,10 +306,13 @@ namespace zPoolMiner.Devices {
                 };
             }
             // NVIDIA
+
+            
             if (DeviceGroupType.NVIDIA_2_1 == deviceGroupType || DeviceGroupType.NVIDIA_3_x == deviceGroupType || DeviceGroupType.NVIDIA_5_x == deviceGroupType || DeviceGroupType.NVIDIA_6_x == deviceGroupType) {
                 var ToRemoveAlgoTypes = new List<AlgorithmType>();
                 var ToRemoveMinerTypes = new List<MinerBaseType>();
                 var ret = new Dictionary<MinerBaseType, List<Algorithm>>() {
+                    
                     { MinerBaseType.ccminer,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skunk, "skunk"),
@@ -352,6 +355,7 @@ namespace zPoolMiner.Devices {
                     { MinerBaseType.ccminer_palgin,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X11Gost, "sib"),
+                            new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.X17, "x17"),
                             new Algorithm(MinerBaseType.ccminer_palgin, AlgorithmType.Blake256r8, "blakecoin")
                         }
                     },
@@ -408,12 +412,14 @@ namespace zPoolMiner.Devices {
                     //    }
                     //}
                 };
+                
                 if (DeviceGroupType.NVIDIA_6_x == deviceGroupType || DeviceGroupType.NVIDIA_5_x == deviceGroupType) {
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
                         MinerBaseType.nheqminer
                     });
                 }
-                if(DeviceGroupType.NVIDIA_2_1 == deviceGroupType || DeviceGroupType.NVIDIA_3_x == deviceGroupType) {
+                
+                    if (DeviceGroupType.NVIDIA_2_1 == deviceGroupType || DeviceGroupType.NVIDIA_3_x == deviceGroupType) {
                     ToRemoveAlgoTypes.AddRange(new AlgorithmType[] {
                         AlgorithmType.NeoScrypt,
                         AlgorithmType.Lyra2RE,
