@@ -366,6 +366,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="langs\bg.lang">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

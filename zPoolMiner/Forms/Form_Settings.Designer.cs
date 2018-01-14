@@ -140,19 +140,17 @@
             this.textBox_MinerRestartDelayMS = new System.Windows.Forms.TextBox();
             this.textBox_MinerAPIQueryInterval = new System.Windows.Forms.TextBox();
             this.groupBoxBenchmarkTimeLimits = new System.Windows.Forms.GroupBox();
-            this.benchmarkLimitControlNVIDIA = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
-            this.benchmarkLimitControlCPU = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
-            this.benchmarkLimitControlAMD = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
             this.tabPageDevicesAlgos = new System.Windows.Forms.TabPage();
-            this.devicesListViewEnableControl1 = new zPoolMiner.Forms.Components.DevicesListViewEnableControl();
-            this.algorithmSettingsControl1 = new zPoolMiner.Forms.Components.AlgorithmSettingsControl();
             this.groupBoxAlgorithmSettings = new System.Windows.Forms.GroupBox();
-            this.algorithmsListView1 = new zPoolMiner.Forms.Components.AlgorithmsListView();
-            this.buttonAllProfit = new System.Windows.Forms.Button();
-            this.buttonSelectedProfit = new System.Windows.Forms.Button();
             this.buttonSaveClose = new System.Windows.Forms.Button();
             this.buttonDefaults = new System.Windows.Forms.Button();
             this.buttonCloseNoSave = new System.Windows.Forms.Button();
+            this.benchmarkLimitControlNVIDIA = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
+            this.benchmarkLimitControlCPU = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
+            this.benchmarkLimitControlAMD = new zPoolMiner.Forms.Components.BenchmarkLimitControl();
+            this.devicesListViewEnableControl1 = new zPoolMiner.Forms.Components.DevicesListViewEnableControl();
+            this.algorithmSettingsControl1 = new zPoolMiner.Forms.Components.AlgorithmSettingsControl();
+            this.algorithmsListView1 = new zPoolMiner.Forms.Components.AlgorithmsListView();
             this.tabControlGeneral.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
             this.groupBox_Misc.SuspendLayout();
@@ -1108,29 +1106,29 @@
             this.currencyConverterCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.currencyConverterCombobox.FormattingEnabled = true;
             this.currencyConverterCombobox.Items.AddRange(new object[] {
-            "AUD",//
-            "BRL",//
-            "CAD",//
-            "CHF",//
-            "CLP",//
-            "CNY",////
-            "DKK",//
-            "EUR",//
-            "GBP",//
-            "HKD",//
-            "INR",//
-            "ISK",////
-            "JPY",//
-            "KRW",//
-            "NZD",//
-            "PLN",//
-            "RUB",//
-            "SEK",//
-            "SGD",//
-            "THB",//
-            "TWD",////
-            "ZAR",//
-            "USD"});
+            "AUD",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CLP",
+            "CNY",
+            "DKK",
+            "EUR",
+            "GBP",
+            "HKD",
+            "INR",
+            "ISK",
+            "JPY",
+            "KRW",
+            "NZD",
+            "PLN",
+            "RUB",
+            "SEK",
+            "SGD",
+            "THB",
+            "TWD",
+            "USD",
+            "ZAR"});
             this.currencyConverterCombobox.Location = new System.Drawing.Point(212, 36);
             this.currencyConverterCombobox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.currencyConverterCombobox.Name = "currencyConverterCombobox";
@@ -1560,43 +1558,11 @@
             this.groupBoxBenchmarkTimeLimits.TabStop = false;
             this.groupBoxBenchmarkTimeLimits.Text = "Benchmark Time Limits:";
             // 
-            // benchmarkLimitControlNVIDIA
-            // 
-            this.benchmarkLimitControlNVIDIA.GroupName = "NVIDIA";
-            this.benchmarkLimitControlNVIDIA.Location = new System.Drawing.Point(10, 17);
-            this.benchmarkLimitControlNVIDIA.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.benchmarkLimitControlNVIDIA.Name = "benchmarkLimitControlNVIDIA";
-            this.benchmarkLimitControlNVIDIA.Size = new System.Drawing.Size(178, 121);
-            this.benchmarkLimitControlNVIDIA.TabIndex = 4;
-            this.benchmarkLimitControlNVIDIA.TimeLimits = null;
-            // 
-            // benchmarkLimitControlCPU
-            // 
-            this.benchmarkLimitControlCPU.GroupName = "CPU";
-            this.benchmarkLimitControlCPU.Location = new System.Drawing.Point(210, 17);
-            this.benchmarkLimitControlCPU.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.benchmarkLimitControlCPU.Name = "benchmarkLimitControlCPU";
-            this.benchmarkLimitControlCPU.Size = new System.Drawing.Size(178, 121);
-            this.benchmarkLimitControlCPU.TabIndex = 3;
-            this.benchmarkLimitControlCPU.TimeLimits = null;
-            // 
-            // benchmarkLimitControlAMD
-            // 
-            this.benchmarkLimitControlAMD.GroupName = "AMD";
-            this.benchmarkLimitControlAMD.Location = new System.Drawing.Point(410, 17);
-            this.benchmarkLimitControlAMD.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.benchmarkLimitControlAMD.Name = "benchmarkLimitControlAMD";
-            this.benchmarkLimitControlAMD.Size = new System.Drawing.Size(178, 121);
-            this.benchmarkLimitControlAMD.TabIndex = 5;
-            this.benchmarkLimitControlAMD.TimeLimits = null;
-            // 
             // tabPageDevicesAlgos
             // 
             this.tabPageDevicesAlgos.Controls.Add(this.devicesListViewEnableControl1);
             this.tabPageDevicesAlgos.Controls.Add(this.algorithmSettingsControl1);
             this.tabPageDevicesAlgos.Controls.Add(this.groupBoxAlgorithmSettings);
-            this.tabPageDevicesAlgos.Controls.Add(this.buttonAllProfit);
-            this.tabPageDevicesAlgos.Controls.Add(this.buttonSelectedProfit);
             this.tabPageDevicesAlgos.Location = new System.Drawing.Point(4, 22);
             this.tabPageDevicesAlgos.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPageDevicesAlgos.Name = "tabPageDevicesAlgos";
@@ -1605,27 +1571,6 @@
             this.tabPageDevicesAlgos.TabIndex = 1;
             this.tabPageDevicesAlgos.Text = "Devices/Algorithms";
             this.tabPageDevicesAlgos.UseVisualStyleBackColor = true;
-            // 
-            // devicesListViewEnableControl1
-            // 
-            this.devicesListViewEnableControl1.BenchmarkCalculation = null;
-            this.devicesListViewEnableControl1.FirstColumnText = "Enabled";
-            this.devicesListViewEnableControl1.IsInBenchmark = false;
-            this.devicesListViewEnableControl1.IsMining = false;
-            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(6, 6);
-            this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
-            this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(352, 130);
-            this.devicesListViewEnableControl1.TabIndex = 397;
-            // 
-            // algorithmSettingsControl1
-            // 
-            this.algorithmSettingsControl1.Location = new System.Drawing.Point(362, 63);
-            this.algorithmSettingsControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.algorithmSettingsControl1.Name = "algorithmSettingsControl1";
-            this.algorithmSettingsControl1.Size = new System.Drawing.Size(238, 278);
-            this.algorithmSettingsControl1.TabIndex = 396;
             // 
             // groupBoxAlgorithmSettings
             // 
@@ -1638,39 +1583,6 @@
             this.groupBoxAlgorithmSettings.TabIndex = 395;
             this.groupBoxAlgorithmSettings.TabStop = false;
             this.groupBoxAlgorithmSettings.Text = "Algorithm settings for selected device:";
-            // 
-            // algorithmsListView1
-            // 
-            this.algorithmsListView1.BenchmarkCalculation = null;
-            this.algorithmsListView1.ComunicationInterface = null;
-            this.algorithmsListView1.IsInBenchmark = false;
-            this.algorithmsListView1.Location = new System.Drawing.Point(6, 15);
-            this.algorithmsListView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.algorithmsListView1.Name = "algorithmsListView1";
-            this.algorithmsListView1.Size = new System.Drawing.Size(338, 191);
-            this.algorithmsListView1.TabIndex = 2;
-            // 
-            // buttonAllProfit
-            // 
-            this.buttonAllProfit.Location = new System.Drawing.Point(364, 6);
-            this.buttonAllProfit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.buttonAllProfit.Name = "buttonAllProfit";
-            this.buttonAllProfit.Size = new System.Drawing.Size(226, 23);
-            this.buttonAllProfit.TabIndex = 394;
-            this.buttonAllProfit.Text = "Check All Profitability";
-            this.buttonAllProfit.UseVisualStyleBackColor = true;
-            this.buttonAllProfit.Click += new System.EventHandler(this.buttonAllProfit_Click);
-            // 
-            // buttonSelectedProfit
-            // 
-            this.buttonSelectedProfit.Location = new System.Drawing.Point(364, 35);
-            this.buttonSelectedProfit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.buttonSelectedProfit.Name = "buttonSelectedProfit";
-            this.buttonSelectedProfit.Size = new System.Drawing.Size(226, 23);
-            this.buttonSelectedProfit.TabIndex = 393;
-            this.buttonSelectedProfit.Text = "Check Selected Profitability";
-            this.buttonSelectedProfit.UseVisualStyleBackColor = true;
-            this.buttonSelectedProfit.Click += new System.EventHandler(this.buttonSelectedProfit_Click);
             // 
             // buttonSaveClose
             // 
@@ -1707,6 +1619,68 @@
             this.buttonCloseNoSave.Text = "&Close without Saving";
             this.buttonCloseNoSave.UseVisualStyleBackColor = true;
             this.buttonCloseNoSave.Click += new System.EventHandler(this.buttonCloseNoSave_Click);
+            // 
+            // benchmarkLimitControlNVIDIA
+            // 
+            this.benchmarkLimitControlNVIDIA.GroupName = "NVIDIA";
+            this.benchmarkLimitControlNVIDIA.Location = new System.Drawing.Point(10, 17);
+            this.benchmarkLimitControlNVIDIA.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.benchmarkLimitControlNVIDIA.Name = "benchmarkLimitControlNVIDIA";
+            this.benchmarkLimitControlNVIDIA.Size = new System.Drawing.Size(178, 121);
+            this.benchmarkLimitControlNVIDIA.TabIndex = 4;
+            this.benchmarkLimitControlNVIDIA.TimeLimits = null;
+            // 
+            // benchmarkLimitControlCPU
+            // 
+            this.benchmarkLimitControlCPU.GroupName = "CPU";
+            this.benchmarkLimitControlCPU.Location = new System.Drawing.Point(210, 17);
+            this.benchmarkLimitControlCPU.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.benchmarkLimitControlCPU.Name = "benchmarkLimitControlCPU";
+            this.benchmarkLimitControlCPU.Size = new System.Drawing.Size(178, 121);
+            this.benchmarkLimitControlCPU.TabIndex = 3;
+            this.benchmarkLimitControlCPU.TimeLimits = null;
+            // 
+            // benchmarkLimitControlAMD
+            // 
+            this.benchmarkLimitControlAMD.GroupName = "AMD";
+            this.benchmarkLimitControlAMD.Location = new System.Drawing.Point(410, 17);
+            this.benchmarkLimitControlAMD.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.benchmarkLimitControlAMD.Name = "benchmarkLimitControlAMD";
+            this.benchmarkLimitControlAMD.Size = new System.Drawing.Size(178, 121);
+            this.benchmarkLimitControlAMD.TabIndex = 5;
+            this.benchmarkLimitControlAMD.TimeLimits = null;
+            // 
+            // devicesListViewEnableControl1
+            // 
+            this.devicesListViewEnableControl1.BenchmarkCalculation = null;
+            this.devicesListViewEnableControl1.FirstColumnText = "Enabled";
+            this.devicesListViewEnableControl1.IsInBenchmark = false;
+            this.devicesListViewEnableControl1.IsMining = false;
+            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(6, 6);
+            this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
+            this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(352, 130);
+            this.devicesListViewEnableControl1.TabIndex = 397;
+            // 
+            // algorithmSettingsControl1
+            // 
+            this.algorithmSettingsControl1.Location = new System.Drawing.Point(362, 63);
+            this.algorithmSettingsControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.algorithmSettingsControl1.Name = "algorithmSettingsControl1";
+            this.algorithmSettingsControl1.Size = new System.Drawing.Size(238, 278);
+            this.algorithmSettingsControl1.TabIndex = 396;
+            // 
+            // algorithmsListView1
+            // 
+            this.algorithmsListView1.BenchmarkCalculation = null;
+            this.algorithmsListView1.ComunicationInterface = null;
+            this.algorithmsListView1.IsInBenchmark = false;
+            this.algorithmsListView1.Location = new System.Drawing.Point(6, 15);
+            this.algorithmsListView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.algorithmsListView1.Name = "algorithmsListView1";
+            this.algorithmsListView1.Size = new System.Drawing.Size(338, 191);
+            this.algorithmsListView1.TabIndex = 2;
             // 
             // Form_Settings
             // 
@@ -1850,8 +1824,6 @@
         private Components.AlgorithmSettingsControl algorithmSettingsControl1;
         private System.Windows.Forms.GroupBox groupBoxAlgorithmSettings;
         private Components.AlgorithmsListView algorithmsListView1;
-        private System.Windows.Forms.Button buttonAllProfit;
-        private System.Windows.Forms.Button buttonSelectedProfit;
         private Components.BenchmarkLimitControl benchmarkLimitControlNVIDIA;
         private Components.BenchmarkLimitControl benchmarkLimitControlCPU;
         private Components.BenchmarkLimitControl benchmarkLimitControlAMD;

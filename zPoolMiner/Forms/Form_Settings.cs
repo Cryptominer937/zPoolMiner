@@ -336,8 +336,8 @@ namespace zPoolMiner.Forms
             groupBox_Miners.Text = International.GetText("FormSettings_Tab_Advanced_Group_Miners");
             groupBoxBenchmarkTimeLimits.Text = International.GetText("FormSettings_Tab_Advanced_Group_BenchmarkTimeLimits");
 
-            buttonAllProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_ALLProfitability");
-            buttonSelectedProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_SingleProfitability");
+            //buttonAllProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_ALLProfitability");
+            //buttonSelectedProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_SingleProfitability");
 
             checkBox_DisableDefaultOptimizations.Text = International.GetText("Form_Settings_Text_DisableDefaultOptimizations");
             checkBox_IdleWhenNoInternetAccess.Text = International.GetText("Form_Settings_Text_ContinueMiningIfNoInternetAccess");
@@ -731,7 +731,7 @@ namespace zPoolMiner.Forms
             foreach (var algorithm in _selectedComputeDevice.GetAlgorithmSettingsFastest())
             {
                 var id = (int)algorithm.NiceHashID;
-                url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.NiceHashID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.NiceHashID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             }
             url += "&nhmver=" + Application.ProductVersion.ToString();  // Add version info
             url += "&cost=1&power=1"; // Set default power and cost to 1
@@ -759,7 +759,7 @@ namespace zPoolMiner.Forms
             foreach (var algorithm in total)
             {
                 var id = (int)algorithm.Key;
-                url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.Value, algorithm.Key).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.Value, algorithm.Key).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             }
             url += "&nhmver=" + Application.ProductVersion.ToString();  // Add version info
             url += "&cost=1&power=1"; // Set default power and cost to 1
@@ -917,6 +917,11 @@ namespace zPoolMiner.Forms
             ConfigManager.GeneralConfig.UseIFTTT = checkBox_UseIFTTT.Checked;
 
             textBox_IFTTTKey.Enabled = checkBox_UseIFTTT.Checked;
+        }
+
+        private void buttonSelectedProfit_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
