@@ -71,7 +71,7 @@ namespace zPoolMiner
                 Helpers.ConsolePrint("NICEHASH", "Starting up zPoolMiner v" + Application.ProductVersion);
                 bool tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
                 if (!tosChecked || !ConfigManager.GeneralConfigIsFileExist() && !commandLineArgs.IsLang) {
-                    Helpers.ConsolePrint("NICEHASH", "No config file found. Running NiceHash Miner Legacy for the first time. Choosing a default language.");
+                    Helpers.ConsolePrint("NICEHASH", "No config file found. Running zPool Miner for the first time. Choosing a default language.");
                     Application.Run(new Form_ChooseLanguage());
                 }
 

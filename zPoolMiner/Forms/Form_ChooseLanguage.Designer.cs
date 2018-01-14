@@ -99,7 +99,7 @@
             this.MinimizeBox = false;
             this.Name = "Form_ChooseLanguage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NiceHash Miner Legacy EULA  / Choose Language";
+            this.Text = "zPool Miner EULA  / Choose Language";
             this.ResumeLayout(false);
             this.PerformLayout();
 

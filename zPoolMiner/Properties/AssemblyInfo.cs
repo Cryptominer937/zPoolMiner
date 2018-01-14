@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("zPool")]
 [assembly: AssemblyProduct("zPoolMiner")]
-[assembly: AssemblyCopyright("1HCRQE2UWsM3AHEGbLzvtiCzWEfvjM3sFK ©  2018 , NiceHash ©  2017")]
+[assembly: AssemblyCopyright("Cryptominer937 ©  2018 , NiceHash ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
