@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace zPoolMiner {
-    public class Algorithm {
-
+namespace zPoolMiner
+{
+    public class Algorithm
+    {
         public readonly string AlgorithmName;
         public readonly string MinerBaseTypeName;
         public readonly AlgorithmType NiceHashID;
         public readonly AlgorithmType SecondaryNiceHashID;
         public readonly MinerBaseType MinerBaseType;
         public readonly string AlgorithmStringID;
+
         // Miner name is used for miner ALGO flag parameter
         public string MinerName;
+
         public double BenchmarkSpeed { get; set; }
         public double SecondaryBenchmarkSpeed { get; set; }
         public string ExtraLaunchParameters { get; set; }
@@ -25,15 +25,20 @@ namespace zPoolMiner {
 
         // avarage speed of same devices to increase mining stability
         public double AvaragedSpeed { get; set; }
+
         public double SecondaryAveragedSpeed { get; set; }
+
         // based on device and settings here we set the miner path
         public string MinerBinaryPath = "";
+
         // these are changing (logging reasons)
         public double CurrentProfit = 0;
+
         public double CurNhmSMADataVal = 0;
         public double SecondaryCurNhmSMADataVal = 0;
-        
-        public Algorithm(MinerBaseType minerBaseType, AlgorithmType niceHashID, string minerName, AlgorithmType secondaryNiceHashID=AlgorithmType.NONE) {
+
+        public Algorithm(MinerBaseType minerBaseType, AlgorithmType niceHashID, string minerName, AlgorithmType secondaryNiceHashID = AlgorithmType.NONE)
+        {
             NiceHashID = niceHashID;
             SecondaryNiceHashID = secondaryNiceHashID;
 
@@ -55,9 +60,13 @@ namespace zPoolMiner {
 
         // benchmark info
         public string BenchmarkStatus { get; set; }
+
         public bool IsBenchmarkPending { get; private set; }
-        public string CurPayingRatio {
-            get {
+
+        public string CurPayingRatio
+        {
+            get
+            {
                 string ratio = International.GetText("BenchmarkRatioRateN_A");
                 if (Globals.NiceHashData != null)
                 {
@@ -66,88 +75,111 @@ namespace zPoolMiner {
                     {
                         ratio += "/" + Globals.NiceHashData[SecondaryNiceHashID].paying.ToString("F8");
                     }
-
-
                 }
-                
+
                 return ratio;
-                
             }
         }
-        public string CurPayingRate {
-            get {
+
+        public string CurPayingRate
+        {
+            get
+            {
                 string rate = International.GetText("BenchmarkRatioRateN_A");
                 var payingRate = 0.0d;
-                if (Globals.NiceHashData != null) {
-                    if (BenchmarkSpeed > 0) {
+                if (Globals.NiceHashData != null)
+                {
+                    if (BenchmarkSpeed > 0)
+                    {
                         payingRate += BenchmarkSpeed * Globals.NiceHashData[NiceHashID].paying * 0.000000001;
                     }
                     if (SecondaryBenchmarkSpeed > 0 && IsDual())
                     {
                         payingRate += SecondaryBenchmarkSpeed * Globals.NiceHashData[SecondaryNiceHashID].paying * 0.000000001;
                     }
-                    
+
                     rate = payingRate.ToString("F8");
                 }
                 return rate;
             }
         }
 
-        public void SetBenchmarkPending() {
+        public void SetBenchmarkPending()
+        {
             IsBenchmarkPending = true;
             BenchmarkStatus = International.GetText("Algorithm_Waiting_Benchmark");
         }
-        public void SetBenchmarkPendingNoMsg() {
+
+        public void SetBenchmarkPendingNoMsg()
+        {
             IsBenchmarkPending = true;
         }
 
-        private bool IsPendingString() {
+        private bool IsPendingString()
+        {
             return BenchmarkStatus == International.GetText("Algorithm_Waiting_Benchmark")
                 || BenchmarkStatus == "."
                 || BenchmarkStatus == ".."
                 || BenchmarkStatus == "...";
         }
 
-        public void ClearBenchmarkPending() {
+        public void ClearBenchmarkPending()
+        {
             IsBenchmarkPending = false;
-            if (IsPendingString()) {
+            if (IsPendingString())
+            {
                 BenchmarkStatus = "";
             }
         }
 
-        public void ClearBenchmarkPendingFirst() {
+        public void ClearBenchmarkPendingFirst()
+        {
             IsBenchmarkPending = false;
             BenchmarkStatus = "";
         }
 
-        public string BenchmarkSpeedString() {
-            if (Enabled && IsBenchmarkPending && !string.IsNullOrEmpty(BenchmarkStatus)) {
+        public string BenchmarkSpeedString()
+        {
+            if (Enabled && IsBenchmarkPending && !string.IsNullOrEmpty(BenchmarkStatus))
+            {
                 return BenchmarkStatus;
-            } else if (BenchmarkSpeed > 0) {
+            }
+            else if (BenchmarkSpeed > 0)
+            {
                 return Helpers.FormatDualSpeedOutput(NiceHashID, BenchmarkSpeed, SecondaryBenchmarkSpeed);
-            } else if (!IsPendingString() && !string.IsNullOrEmpty(BenchmarkStatus)) {
+            }
+            else if (!IsPendingString() && !string.IsNullOrEmpty(BenchmarkStatus))
+            {
                 return BenchmarkStatus;
             }
             return International.GetText("BenchmarkSpeedStringNone");
         }
-   
+
         // return hybrid type if dual, else standard ID
-        public AlgorithmType DualNiceHashID() {
-            if (NiceHashID == AlgorithmType.DaggerHashimoto) {
-                switch (SecondaryNiceHashID) {
+        public AlgorithmType DualNiceHashID()
+        {
+            if (NiceHashID == AlgorithmType.DaggerHashimoto)
+            {
+                switch (SecondaryNiceHashID)
+                {
                     case AlgorithmType.Decred:
                         return AlgorithmType.DaggerDecred;
+
                     case AlgorithmType.Lbry:
                         return AlgorithmType.DaggerLbry;
+
                     case AlgorithmType.Pascal:
                         return AlgorithmType.DaggerPascal;
+
                     case AlgorithmType.Sia:
                         return AlgorithmType.DaggerSia;
                 }
             }
             return NiceHashID;
         }
-        public bool IsDual() {
+
+        public bool IsDual()
+        {
             return (AlgorithmType.DaggerSia <= DualNiceHashID() && DualNiceHashID() <= AlgorithmType.DaggerPascal);
         }
     }

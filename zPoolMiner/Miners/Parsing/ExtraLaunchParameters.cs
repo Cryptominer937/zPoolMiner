@@ -1,17 +1,20 @@
-﻿using zPoolMiner.Configs.ConfigJsonFile;
-using zPoolMiner.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using zPoolMiner.Configs.ConfigJsonFile;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner.Miners.Parsing {
-    class MinerOptionPackageFile : ConfigFile<MinerOptionPackage> {
-        public MinerOptionPackageFile(string name) 
-            : base(FOLDERS.INTERNALS, String.Format("{0}.json", name), String.Format("{0}.json", name)) {
+namespace zPoolMiner.Miners.Parsing
+{
+    internal class MinerOptionPackageFile : ConfigFile<MinerOptionPackage>
+    {
+        public MinerOptionPackageFile(string name)
+            : base(FOLDERS.INTERNALS, String.Format("{0}.json", name), String.Format("{0}.json", name))
+        {
         }
     }
-    public static class ExtraLaunchParameters {
 
+    public static class ExtraLaunchParameters
+    {
         private static readonly List<MinerOptionPackage> DEFAULTS = new List<MinerOptionPackage>() {
             new MinerOptionPackage(
                 MinerType.ccminer,
@@ -106,7 +109,7 @@ namespace zPoolMiner.Miners.Parsing {
                 new List<MinerOption>() {
                     new MinerOption("Threads", "-t", "--threads=", "-1", MinerOptionFlagType.MultiParam, ","), // default none
                     new MinerOption("CpuAffinity", "", "--cpu-affinity", "-1", MinerOptionFlagType.MultiParam, ","), // default none
-                    new MinerOption("CpuPriority", "", "--cpu-priority", "-1", MinerOptionFlagType.MultiParam, ",") // default 
+                    new MinerOption("CpuPriority", "", "--cpu-priority", "-1", MinerOptionFlagType.MultiParam, ",") // default
                 },
                 new List<MinerOption>()
             ),
@@ -137,14 +140,14 @@ namespace zPoolMiner.Miners.Parsing {
                 MinerType.ClaymoreZcash,
                 new List<MinerOption>() {
                     new MinerOption("ClaymoreZcash_a"      , "-a", "-a", "0", MinerOptionFlagType.MultiParam, ","),
-                    new MinerOption("ClaymoreZcash_asm"      , "-asm", "-asm", "1", MinerOptionFlagType.MultiParam, ","), 
+                    new MinerOption("ClaymoreZcash_asm"      , "-asm", "-asm", "1", MinerOptionFlagType.MultiParam, ","),
 
                     new MinerOption("ClaymoreZcash_i"      , "-i", "-i", "6", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreZcash_wd"     , "-wd", "-wd", "1", MinerOptionFlagType.SingleParam, ","),
                     //new MinerOption(ClaymoreZcash_r      , , , , MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreZcash_nofee"  , "-nofee", "-nofee", "0", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreZcash_li"     , "-li", "-li", "0", MinerOptionFlagType.MultiParam, ","),
-                
+
                     //MinerOptionFlagType.MultiParam might not work corectly due to ADL indexing so use single param to apply to all
                     new MinerOption("ClaymoreZcash_cclock" , "-cclock", "-cclock", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreZcash_mclock" , "-mclock", "-mclock", "0", MinerOptionFlagType.MultiParam, ","),
@@ -155,7 +158,7 @@ namespace zPoolMiner.Miners.Parsing {
                 new List<MinerOption>() {
                     // temperature stuff
                     //MinerOptionFlagType.MultiParam might not work corectly due to ADL indexing so use single param to apply to all
-                    new MinerOption("ClaymoreZcash_tt"     , "-tt", "-tt", "1", MinerOptionFlagType.SingleParam, ","), 
+                    new MinerOption("ClaymoreZcash_tt"     , "-tt", "-tt", "1", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreZcash_ttli"   , "-ttli", "-ttli", "70", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreZcash_tstop"  , "-tstop", "-tstop", "0", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreZcash_fanmax" , "-fanmax", "-fanmax", "100", MinerOptionFlagType.MultiParam, ","),
@@ -181,7 +184,7 @@ namespace zPoolMiner.Miners.Parsing {
                 new List<MinerOption>() {
                     // temperature stuff
                     //MinerOptionFlagType.MultiParam might not work corectly due to ADL indexing so use single param to apply to all
-                    new MinerOption("ClaymoreCryptoNight_tt"     , "-tt", "-tt", "1", MinerOptionFlagType.SingleParam, ","), 
+                    new MinerOption("ClaymoreCryptoNight_tt"     , "-tt", "-tt", "1", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreCryptoNight_tstop"  , "-tstop", "-tstop", "0", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreCryptoNight_fanmax" , "-fanmax", "-fanmax", "100", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreCryptoNight_fanmin" , "-fanmin", "-fanmin", "0", MinerOptionFlagType.MultiParam, ","),
@@ -215,7 +218,7 @@ namespace zPoolMiner.Miners.Parsing {
                 MinerType.ClaymoreDual,
                 new List<MinerOption>() {
                     new MinerOption("ClaymoreDual_etha"      , "-etha", "-etha", "-1", MinerOptionFlagType.MultiParam, ","),
-                    new MinerOption("ClaymoreDual_ethi"      , "-ethi", "-ethi", "8", MinerOptionFlagType.MultiParam, ","), 
+                    new MinerOption("ClaymoreDual_ethi"      , "-ethi", "-ethi", "8", MinerOptionFlagType.MultiParam, ","),
 
                     new MinerOption("ClaymoreDual_eres"      , "-eres", "-eres", "2", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreDual_erate"     , "-erate", "-erate", "1", MinerOptionFlagType.SingleParam, ","),
@@ -227,14 +230,14 @@ namespace zPoolMiner.Miners.Parsing {
                     new MinerOption("ClaymoreDual_nofee"  , "-nofee", "-nofee", "0", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreDual_li"     , "-li", "-li", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreDual_lidag"     , "-lidag", "-lidag", "0", MinerOptionFlagType.MultiParam, ","),
-                            
+
                     //MinerOptionFlagType.MultiParam might not work corectly due to ADL indexing so use single param to apply to all
                     new MinerOption("ClaymoreDual_cclock" , "-cclock", "-cclock", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreDual_mclock" , "-mclock", "-mclock", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreDual_powlim" , "-powlim", "-powlim", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreDual_cvddc"  , "-cvddc", "-cvddc", "0", MinerOptionFlagType.MultiParam, ","),
                     new MinerOption("ClaymoreDual_mvddc"  , "-mvddc", "-mvddc", "0", MinerOptionFlagType.MultiParam, ","),
-            
+
                     // other and dual mining features
                     new MinerOption("ClaymoreDual_etht"  , "-etht", "-etht", "200", MinerOptionFlagType.SingleParam, ","),
                     new MinerOption("ClaymoreDual_allcoins"  , "-allcoins", "-allcoins", "", MinerOptionFlagType.SingleParam, ","),
@@ -310,29 +313,37 @@ namespace zPoolMiner.Miners.Parsing {
 
         private static List<MinerOptionPackage> MinerOptionPackages = new List<MinerOptionPackage>();
 
-        public static void InitializePackages() {
-            foreach (var pack in DEFAULTS) {
+        public static void InitializePackages()
+        {
+            foreach (var pack in DEFAULTS)
+            {
                 var packageName = String.Format("MinerOptionPackage_{0}", pack.Name);
                 var packageFile = new MinerOptionPackageFile(packageName);
                 var readPack = packageFile.ReadFile();
-                if (readPack == null) { // read has failed
+                if (readPack == null)
+                { // read has failed
                     Helpers.ConsolePrint("ExtraLaunchParameters", "Creating internal params config " + packageName);
                     MinerOptionPackages.Add(pack);
                     // create defaults
                     packageFile.Commit(pack);
-                } else {
+                }
+                else
+                {
                     Helpers.ConsolePrint("ExtraLaunchParameters", "Loading internal params config " + packageName);
                     MinerOptionPackages.Add(readPack);
                 }
             }
             var defaultKeys = DEFAULTS.ConvertAll((p) => p.Type);
             // extra check if DEFAULTS is missing a key
-            for (var type = (MinerType.NONE + 1); type < MinerType.END; ++type) {
-                if (defaultKeys.Contains(type) == false) {
+            for (var type = (MinerType.NONE + 1); type < MinerType.END; ++type)
+            {
+                if (defaultKeys.Contains(type) == false)
+                {
                     var packageName = String.Format("MinerOptionPackage_{0}", Enum.GetName(typeof(MinerType), type));
                     var packageFile = new MinerOptionPackageFile(packageName);
                     var readPack = packageFile.ReadFile();
-                    if (readPack != null) { // read has failed
+                    if (readPack != null)
+                    { // read has failed
                         Helpers.ConsolePrint("ExtraLaunchParameters", "Creating internal params config " + packageName);
                         MinerOptionPackages.Add(readPack);
                     }
@@ -340,14 +351,15 @@ namespace zPoolMiner.Miners.Parsing {
             }
         }
 
-        public static MinerOptionPackage GetMinerOptionPackageForMinerType(MinerType type) {
+        public static MinerOptionPackage GetMinerOptionPackageForMinerType(MinerType type)
+        {
             int index = MinerOptionPackages.FindIndex((p) => p.Type == type);
-            if(index > -1) {
+            if (index > -1)
+            {
                 return MinerOptionPackages[index];
             }
             // if none found
             return new MinerOptionPackage(MinerType.NONE, new List<MinerOption>(), new List<MinerOption>());
         }
-
     }
 }

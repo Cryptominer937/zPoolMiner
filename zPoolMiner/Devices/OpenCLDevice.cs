@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace zPoolMiner.Devices {
+namespace zPoolMiner.Devices
+{
     [Serializable]
-    public class OpenCLDevice {
+    public class OpenCLDevice
+    {
         public uint DeviceID;
         public string _CL_DEVICE_NAME;
         public string _CL_DEVICE_TYPE;

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using log4net;
-using log4net.Repository.Hierarchy;
-using log4net.Core;
+﻿using log4net;
 using log4net.Appender;
+using log4net.Core;
 using log4net.Layout;
-using zPoolMiner.Configs;
+using log4net.Repository.Hierarchy;
+using System;
 using System.IO;
+using zPoolMiner.Configs;
 
 namespace zPoolMiner
 {
@@ -20,14 +18,18 @@ namespace zPoolMiner
 
         public static void ConfigureWithFile()
         {
-            try {
-                if (!Directory.Exists("logs")) {
+            try
+            {
+                if (!Directory.Exists("logs"))
+                {
                     Directory.CreateDirectory("logs");
                 }
-            } catch { }
+            }
+            catch { }
 
             IsInit = true;
-            try {
+            try
+            {
                 Hierarchy h = (Hierarchy)LogManager.GetRepository();
 
                 if (ConfigManager.GeneralConfig.LogToFile)
@@ -39,7 +41,9 @@ namespace zPoolMiner
 
                 h.Root.AddAppender(CreateFileAppender());
                 h.Configured = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 IsInit = false;
             }
         }

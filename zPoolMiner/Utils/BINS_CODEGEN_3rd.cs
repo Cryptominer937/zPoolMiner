@@ -1,8 +1,10 @@
-namespace zPoolMiner.Utils {
-    public static class Bins_Data_3rd {
+namespace zPoolMiner.Utils
+{
+    public static class Bins_Data_3rd
+    {
         #region CODE_GEN STUFF // listFiles.py
-        public static string[] ALL_FILES_BINS = {
 
+        public static string[] ALL_FILES_BINS = {
 @"\claymore_cryptonight\Data1a1.bin",
 
 @"\claymore_cryptonight\Data1b1.bin",
@@ -1752,8 +1754,8 @@ namespace zPoolMiner.Utils {
 @"\prospector\prospector.exe",
 
 @"\prospector\vcruntime140.dll",
-
 };
-        #endregion //CODE_GEN STUFF // listFiles.py
+
+        #endregion CODE_GEN STUFF // listFiles.py
     }
 }

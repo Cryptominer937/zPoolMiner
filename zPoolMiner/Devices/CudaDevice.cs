@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace zPoolMiner.Devices {
+namespace zPoolMiner.Devices
+{
     [Serializable]
-    public class CudaDevice {
+    public class CudaDevice
+    {
         public uint DeviceID;
         public int pciBusID;
         public int VendorID;
         public string VendorName;
         public string DeviceName;
-	    public string SMVersionString;
+        public string SMVersionString;
         public int SM_major;
         public int SM_minor;
         public string UUID;
@@ -20,16 +20,20 @@ namespace zPoolMiner.Devices {
         public int SMX;
 
         // more accuare description
-        public string GetName() {
-            if (VendorName == "UNKNOWN") {
+        public string GetName()
+        {
+            if (VendorName == "UNKNOWN")
+            {
                 VendorName = String.Format(International.GetText("ComputeDevice_UNKNOWN_VENDOR_REPLACE"), VendorID);
             }
             return String.Format("{0} {1}", VendorName, DeviceName);
         }
 
-        public bool IsEtherumCapable() {
+        public bool IsEtherumCapable()
+        {
             // exception devices
-            if (DeviceName.Contains("750") && DeviceName.Contains("Ti")) {
+            if (DeviceName.Contains("750") && DeviceName.Contains("Ti"))
+            {
                 Helpers.ConsolePrint("CudaDevice", "GTX 750Ti found! By default this device will be disabled for ethereum as it is generally too slow to mine on it.");
                 return false;
             }

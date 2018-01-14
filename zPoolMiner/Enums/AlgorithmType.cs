@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace zPoolMiner.Enums
+﻿namespace zPoolMiner.Enums
 {
     /// <summary>
     /// AlgorithmType enum should/must mirror the values from https://www.nicehash.com/?p=api
@@ -12,11 +8,13 @@ namespace zPoolMiner.Enums
     {
         // dual algos for grouping
         DaggerSia = -6,
+
         DaggerDecred = -5,
         DaggerLbry = -4,
         DaggerPascal = -3,
         INVALID = -2,
         NONE = -1,
+
         #region NiceHashAPI
 
         Hodl = -14,
@@ -65,6 +63,7 @@ namespace zPoolMiner.Enums
         X17 = 29,
         Xevan = 30,
         Yescrypt = 31
-        #endregion // NiceHashAPI
+
+        #endregion NiceHashAPI
     }
 }

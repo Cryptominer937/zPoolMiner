@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using zPoolMiner.Enums;
 
 namespace zPoolMiner
@@ -10,10 +8,11 @@ namespace zPoolMiner
     /// </summary>
     public static class AlgorithmNiceHashNames
     {
-        public static string GetName(AlgorithmType type) {
-            if ((AlgorithmType.INVALID <= type && type <= AlgorithmType.Skunk) 
-                || (AlgorithmType.DaggerSia <= type && type <= AlgorithmType.DaggerPascal) 
-                || (AlgorithmType.X17 <= type && type <= AlgorithmType.X17) 
+        public static string GetName(AlgorithmType type)
+        {
+            if ((AlgorithmType.INVALID <= type && type <= AlgorithmType.Skunk)
+                || (AlgorithmType.DaggerSia <= type && type <= AlgorithmType.DaggerPascal)
+                || (AlgorithmType.X17 <= type && type <= AlgorithmType.X17)
                 || (AlgorithmType.Tribus <= type && type <= AlgorithmType.Tribus)
                 || (AlgorithmType.Timetravel <= type && type <= AlgorithmType.Timetravel)
                 || (AlgorithmType.Veltor <= type && type <= AlgorithmType.Veltor)
@@ -21,7 +20,6 @@ namespace zPoolMiner
 
                 )
             {
-
                 return Enum.GetName(typeof(AlgorithmType), type);
             }
             return "NameNotFound type not supported";

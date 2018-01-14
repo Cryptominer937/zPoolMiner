@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 
 namespace MyDownloader.Core.Instrumentation
@@ -15,7 +13,7 @@ namespace MyDownloader.Core.Instrumentation
         private Stopwatch internalStopwatch;
         private string name;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -32,7 +30,7 @@ namespace MyDownloader.Core.Instrumentation
 #endif
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
@@ -47,6 +45,6 @@ namespace MyDownloader.Core.Instrumentation
 #endif
         }
 
-        #endregion
+        #endregion Methods
     }
 }

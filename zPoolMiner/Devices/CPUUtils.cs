@@ -1,14 +1,11 @@
-﻿using zPoolMiner.Configs;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using zPoolMiner.Enums;
 
-namespace zPoolMiner.Devices {
-    public static class CPUUtils {
+namespace zPoolMiner.Devices
+{
+    public static class CPUUtils
+    {
         // this is the order we check and initialize if automatic
-        private static CPUExtensionType[] _detectOrder = new CPUExtensionType[] { 
+        private static CPUExtensionType[] _detectOrder = new CPUExtensionType[] {
                 CPUExtensionType.AVX2_AES,
                 CPUExtensionType.AVX2,
                 CPUExtensionType.AVX_AES,
@@ -22,8 +19,10 @@ namespace zPoolMiner.Devices {
         /// </summary>
         /// <param name="type"></param>
         /// <returns>False if type Automatic otherwise True if supported</returns>
-        private static bool HasExtensionSupport(CPUExtensionType type) {
-            switch (type) {
+        private static bool HasExtensionSupport(CPUExtensionType type)
+        {
+            switch (type)
+            {
                 case CPUExtensionType.AVX2_AES: return (CPUID.SupportsAVX2() == 1) && (CPUID.SupportsAES() == 1);
                 case CPUExtensionType.AVX2: return CPUID.SupportsAVX2() == 1;
                 case CPUExtensionType.AVX_AES: return (CPUID.SupportsAVX() == 1) && (CPUID.SupportsAES() == 1);
@@ -58,7 +57,8 @@ namespace zPoolMiner.Devices {
         /// Checks if CPU mining is capable, CPU must have AES support
         /// </summary>
         /// <returns></returns>
-        public static bool IsCPUMiningCapable() {
+        public static bool IsCPUMiningCapable()
+        {
             return HasExtensionSupport(CPUExtensionType.AES);
         }
     }

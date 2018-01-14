@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using zPoolMiner.Configs;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Parsing;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace zPoolMiner.Miners
 {
-    class glg : Miner
+    internal class glg : Miner
     {
         private readonly int GPUPlatformNumber;
-        Stopwatch _benchmarkTimer = new Stopwatch();
+        private Stopwatch _benchmarkTimer = new Stopwatch();
 
         public glg()
             : base("glg_AMD")
@@ -89,6 +89,7 @@ namespace zPoolMiner.Miners
         }
 
         // new decoupled benchmarking routines
+
         #region Decoupled benchmarking routines
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
@@ -293,7 +294,7 @@ namespace zPoolMiner.Miners
             }
         }
 
-        #endregion // Decoupled benchmarking routines
+        #endregion Decoupled benchmarking routines
 
         // TODO _currentMinerReadStatus
         public override async Task<APIData> GetSummaryAsync()

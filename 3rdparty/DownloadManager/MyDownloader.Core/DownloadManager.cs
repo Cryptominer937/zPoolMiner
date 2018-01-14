@@ -1,10 +1,7 @@
+using MyDownloader.Core.Concurrency;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.Collections;
-using System.Threading;
-using MyDownloader.Core.Concurrency;
 
 namespace MyDownloader.Core
 {
@@ -20,17 +17,17 @@ namespace MyDownloader.Core
             {
                 return instance;
             }
-        } 
+        }
 
-        #endregion
+        #endregion Singleton
 
         #region Fields
-        
+
         private List<Downloader> downloads = new List<Downloader>();
         private int addBatchCount;
         private ReaderWriterObjectLocker downloadListSync = new ReaderWriterObjectLocker();
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -54,7 +51,7 @@ namespace MyDownloader.Core
 
         public double TotalDownloadRate
         {
-            get 
+            get
             {
                 double total = 0;
 
@@ -69,7 +66,7 @@ namespace MyDownloader.Core
                     }
                 }
 
-                return total; 
+                return total;
             }
         }
 
@@ -81,11 +78,13 @@ namespace MyDownloader.Core
             }
         }
 
-        #endregion 
+        #endregion Properties
+
+
 
         #region Methods
 
-        void downloader_StateChanged(object sender, EventArgs e)
+        private void downloader_StateChanged(object sender, EventArgs e)
         {
             Downloader downloader = (Downloader)sender;
 
@@ -266,8 +265,6 @@ namespace MyDownloader.Core
             this.downloads.Insert(idx, it2);
         }
 
-        #endregion
-
-
+        #endregion Methods
     }
 }

@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
-using System.Globalization;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
-using System.Threading.Tasks;
 
-namespace zPoolMiner.Miners {
-    public class cpuminer : Miner {
+namespace zPoolMiner.Miners
+{
+    public class cpuminer : Miner
+    {
         public cpuminer()
-            : base("cpuminer_CPU") {
-        }        
+            : base("cpuminer_CPU")
+        {
+        }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds() {
+        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        {
             return 3600000; // 1hour
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
-            if(!IsInit) {
+        public override void Start(string url, string btcAdress, string worker)
+        {
+            if (!IsInit)
+            {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
@@ -38,15 +38,18 @@ namespace zPoolMiner.Miners {
             ProcessHandle = _Start();
         }
 
-        public override Task<APIData> GetSummaryAsync() {
+        public override Task<APIData> GetSummaryAsync()
+        {
             return GetSummaryCPU_CCMINERAsync();
         }
 
-        protected override void _Stop(MinerStopType willswitch) {
+        protected override void _Stop(MinerStopType willswitch)
+        {
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        protected override NiceHashProcess _Start() {
+        protected override NiceHashProcess _Start()
+        {
             NiceHashProcess P = base._Start();
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
@@ -57,9 +60,11 @@ namespace zPoolMiner.Miners {
         }
 
         // new decoupled benchmarking routines
+
         #region Decoupled benchmarking routines
 
-        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time) {
+        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
+        {
             return "--algo=" + algorithm.MinerName +
                          " --benchmark" +
                          ExtraLaunchParametersParser.ParseForMiningSetup(
@@ -68,7 +73,8 @@ namespace zPoolMiner.Miners {
                          " --time-limit " + time.ToString();
         }
 
-        protected override Process BenchmarkStartProcess(string CommandLine) {
+        protected override Process BenchmarkStartProcess(string CommandLine)
+        {
             Process BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
@@ -78,19 +84,22 @@ namespace zPoolMiner.Miners {
             return BenchmarkHandle;
         }
 
-        protected override bool BenchmarkParseLine(string outdata) {
+        protected override bool BenchmarkParseLine(string outdata)
+        {
             double lastSpeed = 0;
-            if (double.TryParse(outdata, out lastSpeed)) {
+            if (double.TryParse(outdata, out lastSpeed))
+            {
                 BenchmarkAlgorithm.BenchmarkSpeed = lastSpeed;
                 return true;
             }
             return false;
         }
 
-        protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata) {
+        protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata)
+        {
             CheckOutdata(outdata);
         }
 
-        #endregion // Decoupled benchmarking routines
+        #endregion Decoupled benchmarking routines
     }
 }

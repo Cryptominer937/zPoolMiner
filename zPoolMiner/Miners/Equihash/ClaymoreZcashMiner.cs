@@ -1,42 +1,33 @@
-﻿using Newtonsoft.Json;
-using zPoolMiner.Configs;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Grouping;
-using zPoolMiner.Miners.Parsing;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
+﻿namespace zPoolMiner.Miners
+{
+    public class ClaymoreZcashMiner : ClaymoreBaseMiner
+    {
+        private const string _LOOK_FOR_START = "ZEC - Total Speed:";
 
-namespace zPoolMiner.Miners {
-    public class ClaymoreZcashMiner : ClaymoreBaseMiner {
-
-        const string _LOOK_FOR_START = "ZEC - Total Speed:";
         public ClaymoreZcashMiner()
-            : base("ClaymoreZcashMiner", _LOOK_FOR_START) {
-                ignoreZero = true;
+            : base("ClaymoreZcashMiner", _LOOK_FOR_START)
+        {
+            ignoreZero = true;
         }
 
-        protected override double DevFee() {
+        protected override double DevFee()
+        {
             return 2.0;
         }
 
-        
-        public override void Start(string url, string btcAdress, string worker) {
+        public override void Start(string url, string btcAdress, string worker)
+        {
             string username = GetUsername(btcAdress, worker);
             LastCommandLine = " " + GetDevicesCommandString() + " -mport 127.0.0.1:" + APIPort + " -zpool " + url + " -zwal " + username + " -zpsw " + worker + " -dbg -1 -allpools 1";
             ProcessHandle = _Start();
         }
 
         // benchmark stuff
-        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time) {
+        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
+        {
             benchmarkTimeWait = time / 3; // 3 times faster than sgminer
 
-            string ret =  " -mport 127.0.0.1:" + APIPort + " -benchmark 1 " + GetDevicesCommandString();
+            string ret = " -mport 127.0.0.1:" + APIPort + " -benchmark 1 " + GetDevicesCommandString();
             return ret;
         }
     }

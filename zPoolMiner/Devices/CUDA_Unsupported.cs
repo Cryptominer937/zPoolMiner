@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace zPoolMiner.Devices {
-    public static class CUDA_Unsupported {
+namespace zPoolMiner.Devices
+{
+    public static class CUDA_Unsupported
+    {
         private static List<string> SM_1_0 = new List<string>() {
             "GeForce 8800 Ultra",
             "GeForce 8800 GTX",
@@ -15,6 +15,7 @@ namespace zPoolMiner.Devices {
             "Tesla D870",
             "Tesla S870",
         };
+
         private static List<string> SM_1_1 = new List<string>() {
             "GeForce GTS 250",
             "GeForce 9800 GX2",
@@ -69,6 +70,7 @@ namespace zPoolMiner.Devices {
             "Quadro NVS 420",
             "Quadro NVS 295",
         };
+
         private static List<string> SM_1_2 = new List<string>() {
             "GeForce GT 340",
             "GeForce GT 330",
@@ -98,6 +100,7 @@ namespace zPoolMiner.Devices {
             "NVS 2100M",
             "ION",
         };
+
         private static List<string> SM_1_3 = new List<string>() {
             "GeForce GTX 295",
             "GTX 285",
@@ -113,6 +116,7 @@ namespace zPoolMiner.Devices {
             "Tesla S1070",
             "Tesla M1060",
         };
+
         private static List<string> SM_2_0 = new List<string>() {
             "GeForce GTX 590",
             "GeForce GTX 580",
@@ -136,29 +140,38 @@ namespace zPoolMiner.Devices {
             "Tesla M2090",
         };
 
-        private static bool ContainsSM(List<string> list, string text) {
-            foreach(var el in list) {
-                if(text.Contains(el)) {
+        private static bool ContainsSM(List<string> list, string text)
+        {
+            foreach (var el in list)
+            {
+                if (text.Contains(el))
+                {
                     return true;
                 }
             }
             return false;
         }
 
-        public static bool IsSupported(string text) {
-            if (ContainsSM(SM_1_0, text)) {
+        public static bool IsSupported(string text)
+        {
+            if (ContainsSM(SM_1_0, text))
+            {
                 return false;
             }
-            if (ContainsSM(SM_1_1, text)) {
+            if (ContainsSM(SM_1_1, text))
+            {
                 return false;
             }
-            if (ContainsSM(SM_1_2, text)) {
+            if (ContainsSM(SM_1_2, text))
+            {
                 return false;
             }
-            if (ContainsSM(SM_1_3, text)) {
+            if (ContainsSM(SM_1_3, text))
+            {
                 return false;
             }
-            if (ContainsSM(SM_2_0, text)) {
+            if (ContainsSM(SM_2_0, text))
+            {
                 return false;
             }
 

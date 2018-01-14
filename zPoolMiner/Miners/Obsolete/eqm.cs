@@ -1,44 +1,54 @@
 ﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
 
-namespace zPoolMiner.Miners {
-    public class eqm : nheqBase {
+namespace zPoolMiner.Miners
+{
+    public class eqm : nheqBase
+    {
         public eqm()
-            : base("eqm") {
+            : base("eqm")
+        {
             ConectionType = NHMConectionType.LOCKED;
             IsNeverHideMiningWindow = true;
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
+        public override void Start(string url, string btcAdress, string worker)
+        {
             LastCommandLine = GetDevicesCommandString() + " -a " + APIPort + " -l " + url + " -u " + btcAdress + " -w " + worker;
             ProcessHandle = _Start();
         }
 
-
-        protected override string GetDevicesCommandString() {
+        protected override string GetDevicesCommandString()
+        {
             string deviceStringCommand = " ";
 
-            if (CPU_Setup.IsInit) {
+            if (CPU_Setup.IsInit)
+            {
                 deviceStringCommand += "-p " + CPU_Setup.MiningPairs.Count;
                 deviceStringCommand += " " + ExtraLaunchParametersParser.ParseForMiningSetup(CPU_Setup, DeviceType.CPU);
-            } else {
+            }
+            else
+            {
                 // disable CPU
                 deviceStringCommand += " -t 0 ";
             }
 
-            if (NVIDIA_Setup.IsInit) {
+            if (NVIDIA_Setup.IsInit)
+            {
                 deviceStringCommand += " -cd ";
-                foreach (var nvidia_pair in NVIDIA_Setup.MiningPairs) {
-                    if (nvidia_pair.CurrentExtraLaunchParameters.Contains("-ct")) {
-                        for (int i = 0; i < ExtraLaunchParametersParser.GetEqmCudaThreadCount(nvidia_pair); ++i) {
+                foreach (var nvidia_pair in NVIDIA_Setup.MiningPairs)
+                {
+                    if (nvidia_pair.CurrentExtraLaunchParameters.Contains("-ct"))
+                    {
+                        for (int i = 0; i < ExtraLaunchParametersParser.GetEqmCudaThreadCount(nvidia_pair); ++i)
+                        {
                             deviceStringCommand += nvidia_pair.Device.ID + " ";
                         }
-                    } else { // use default 2 best performance
-                        for (int i = 0; i < 2; ++i) {
+                    }
+                    else
+                    { // use default 2 best performance
+                        for (int i = 0; i < 2; ++i)
+                        {
                             deviceStringCommand += nvidia_pair.Device.ID + " ";
                         }
                     }
@@ -51,15 +61,19 @@ namespace zPoolMiner.Miners {
         }
 
         // benchmark stuff
-        const string TOTAL_MES = "Total measured:";
-        protected override bool BenchmarkParseLine(string outdata) {
+        private const string TOTAL_MES = "Total measured:";
 
-            if (outdata.Contains(TOTAL_MES) && outdata.Contains(Iter_PER_SEC)) {
+        protected override bool BenchmarkParseLine(string outdata)
+        {
+            if (outdata.Contains(TOTAL_MES) && outdata.Contains(Iter_PER_SEC))
+            {
                 curSpeed = getNumber(outdata, TOTAL_MES, Iter_PER_SEC) * SolMultFactor;
             }
-            if (outdata.Contains(TOTAL_MES) && outdata.Contains(Sols_PER_SEC)) {
+            if (outdata.Contains(TOTAL_MES) && outdata.Contains(Sols_PER_SEC))
+            {
                 var sols = getNumber(outdata, TOTAL_MES, Sols_PER_SEC);
-                if (sols > 0) {
+                if (sols > 0)
+                {
                     BenchmarkAlgorithm.BenchmarkSpeed = curSpeed;
                     return true;
                 }

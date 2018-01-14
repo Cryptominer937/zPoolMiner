@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyDownloader.Core
 {
     #region ResolvingProtocolProviderEventArgs
+
     public class ResolvingProtocolProviderEventArgs : EventArgs
     {
         #region Fields
@@ -12,7 +11,7 @@ namespace MyDownloader.Core
         private IProtocolProvider provider;
         private string url;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -23,7 +22,7 @@ namespace MyDownloader.Core
             this.provider = provider;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
@@ -38,11 +37,13 @@ namespace MyDownloader.Core
             set { provider = value; }
         }
 
-        #endregion
-    } 
-    #endregion
+        #endregion Properties
+    }
+
+    #endregion ResolvingProtocolProviderEventArgs
 
     #region DownloaderEventArgs
+
     public class DownloaderEventArgs : EventArgs
     {
         #region Fields
@@ -50,7 +51,7 @@ namespace MyDownloader.Core
         private Downloader downloader;
         private bool willStart;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -59,12 +60,12 @@ namespace MyDownloader.Core
             this.downloader = download;
         }
 
-        public DownloaderEventArgs(Downloader download, bool willStart): this(download)
+        public DownloaderEventArgs(Downloader download, bool willStart) : this(download)
         {
             this.willStart = willStart;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
@@ -76,20 +77,22 @@ namespace MyDownloader.Core
         public bool WillStart
         {
             get { return willStart; }
-        }	
+        }
 
-        #endregion
-    } 
-    #endregion
+        #endregion Properties
+    }
+
+    #endregion DownloaderEventArgs
 
     #region SegmentEventArgs
+
     public class SegmentEventArgs : DownloaderEventArgs
     {
         #region Fields
 
         private Segment segment;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -99,7 +102,7 @@ namespace MyDownloader.Core
             this.segment = segment;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
@@ -109,7 +112,8 @@ namespace MyDownloader.Core
             set { segment = value; }
         }
 
-        #endregion
-    } 
-    #endregion
+        #endregion Properties
+    }
+
+    #endregion SegmentEventArgs
 }

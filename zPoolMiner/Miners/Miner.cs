@@ -1,23 +1,22 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
-using System.Net.Sockets;
-using System.Windows.Forms;
 using System.Globalization;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
 using zPoolMiner.Configs;
 using zPoolMiner.Enums;
-using zPoolMiner.Miners;
 using zPoolMiner.Interfaces;
+using zPoolMiner.Miners;
 using zPoolMiner.Miners.Grouping;
-using System.Threading.Tasks;
-
 using Timer = System.Timers.Timer;
-using System.Timers;
-using System.IO;
-using Newtonsoft.Json.Linq;
 
 namespace zPoolMiner
 {
@@ -28,22 +27,31 @@ namespace zPoolMiner
         public string AlgorithmName;
         public double Speed;
         public double SecondarySpeed;
-        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID=AlgorithmType.NONE) {
+
+        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID = AlgorithmType.NONE)
+        {
             this.AlgorithmID = algorithmID;
             this.SecondaryAlgorithmID = secondaryAlgorithmID;
             this.AlgorithmName = AlgorithmNiceHashNames.GetName(DualAlgorithmID());
             this.Speed = 0.0;
             this.SecondarySpeed = 0.0;
         }
-        public AlgorithmType DualAlgorithmID() {
-            if (AlgorithmID == AlgorithmType.DaggerHashimoto) {
-                switch (SecondaryAlgorithmID) {
+
+        public AlgorithmType DualAlgorithmID()
+        {
+            if (AlgorithmID == AlgorithmType.DaggerHashimoto)
+            {
+                switch (SecondaryAlgorithmID)
+                {
                     case AlgorithmType.Decred:
                         return AlgorithmType.DaggerDecred;
+
                     case AlgorithmType.Lbry:
                         return AlgorithmType.DaggerLbry;
+
                     case AlgorithmType.Pascal:
                         return AlgorithmType.DaggerPascal;
+
                     case AlgorithmType.Sia:
                         return AlgorithmType.DaggerSia;
                 }
@@ -52,20 +60,21 @@ namespace zPoolMiner
         }
     }
 
-    // 
-    public class MinerPID_Data {
+    //
+    public class MinerPID_Data
+    {
         public string minerBinPath = null;
         public int PID = -1;
     }
 
-    public abstract class Miner {
-
-
+    public abstract class Miner
+    {
         // MINER_ID_COUNT used to identify miners creation
         protected static long MINER_ID_COUNT { get; private set; }
 
         // Donation stats
         public static bool SHOULD_START_DONATING => DonationStart < DateTime.UtcNow;
+
         public static bool SHOULD_STOP_DONATING => DonationStart.Add(DonationTime) < DateTime.UtcNow;
         public static bool IS_DONATING { get; set; } = false;
         public static DateTime DonationStart = DateTime.UtcNow.AddHours(3);
@@ -73,26 +82,37 @@ namespace zPoolMiner
         public static TimeSpan DonateEvery = TimeSpan.FromHours(12);
 
         public NHMConectionType ConectionType { get; protected set; }
+
         // used to identify miner instance
         protected readonly long MINER_ID;
+
         private string _minetTag = null;
         public string MinerDeviceName { get; set; }
         protected int APIPort { get; private set; }
+
         // if miner has no API bind port for reading curentlly only CryptoNight on ccminer
         public bool IsAPIReadException { get; protected set; }
+
         public bool IsNeverHideMiningWindow { get; protected set; }
+
         // mining algorithm stuff
         protected bool IsInit { get; private set; }
+
         protected MiningSetup MiningSetup { get; set; }
+
         // sgminer/zcash claymore workaround
         protected bool IsKillAllUsedMinerProcs { get; set; }
+
         public bool IsRunning { get; protected set; }
         protected string Path { get; private set; }
         protected string LastCommandLine { get; set; }
-        // TODO check this 
+
+        // TODO check this
         protected double PreviousTotalMH;
-        // the defaults will be 
+
+        // the defaults will be
         protected string WorkingDirectory { get; private set; }
+
         protected string MinerExeName { get; private set; }
         protected NiceHashProcess ProcessHandle;
         private MinerPID_Data _currentPidData;
@@ -100,8 +120,9 @@ namespace zPoolMiner
 
         // Benchmark stuff
         public bool BenchmarkSignalQuit;
+
         public bool BenchmarkSignalHanged;
-        Stopwatch BenchmarkTimeOutStopWatch = null;
+        private Stopwatch BenchmarkTimeOutStopWatch = null;
         public bool BenchmarkSignalTimedout = false;
         protected bool BenchmarkSignalFinnished;
         protected IBenchmarkComunicator BenchmarkComunicator;
@@ -113,18 +134,20 @@ namespace zPoolMiner
         protected Exception BenchmarkException = null;
         protected int BenchmarkTimeInSeconds;
 
-        string benchmarkLogPath = "";
+        private string benchmarkLogPath = "";
         protected List<string> bench_lines;
 
-        
         // TODO maybe set for individual miner cooldown/retries logic variables
         // this replaces MinerAPIGraceSeconds(AMD)
         private const int _MIN_CooldownTimeInMilliseconds = 5 * 1000; // 5 seconds
+
         //private const int _MIN_CooldownTimeInMilliseconds = 1000; // TESTING
 
         //private const int _MAX_CooldownTimeInMilliseconds = 60 * 1000; // 1 minute max, whole waiting time 75seconds
         private readonly int _MAX_CooldownTimeInMilliseconds; // = GET_MAX_CooldownTimeInMilliseconds();
+
         protected abstract int GET_MAX_CooldownTimeInMilliseconds();
+
         private Timer _cooldownCheckTimer;
         protected MinerAPIReadStatus _currentMinerReadStatus { get; set; }
         private int _currentCooldownTimeInSeconds = _MIN_CooldownTimeInMilliseconds;
@@ -159,63 +182,76 @@ namespace zPoolMiner
             IsNeverHideMiningWindow = ConfigManager.GeneralConfig.MinimizeMiningWindows && !ConfigManager.GeneralConfig.HideMiningWindows;
             IsKillAllUsedMinerProcs = false;
             _MAX_CooldownTimeInMilliseconds = GET_MAX_CooldownTimeInMilliseconds();
-            // 
+            //
             Helpers.ConsolePrint(MinerTAG(), "NEW MINER CREATED");
         }
 
-        ~Miner() {
+        ~Miner()
+        {
             // free the port
             MinersApiPortsManager.RemovePort(APIPort);
             Helpers.ConsolePrint(MinerTAG(), "MINER DESTROYED");
         }
 
-        protected void SetWorkingDirAndProgName(string fullPath) {
+        protected void SetWorkingDirAndProgName(string fullPath)
+        {
             this.WorkingDirectory = "";
             this.Path = fullPath;
             int lastIndex = fullPath.LastIndexOf("\\") + 1;
-            if(lastIndex > 0) {
+            if (lastIndex > 0)
+            {
                 this.WorkingDirectory = fullPath.Substring(0, lastIndex);
                 this.MinerExeName = fullPath.Substring(lastIndex);
             }
         }
 
-        private void SetAPIPort() {
-            if (IsInit) {
+        private void SetAPIPort()
+        {
+            if (IsInit)
+            {
                 var minerBase = MiningSetup.MiningPairs[0].Algorithm.MinerBaseType;
                 var algoType = MiningSetup.MiningPairs[0].Algorithm.NiceHashID;
                 var path = MiningSetup.MinerPath;
                 var reservedPorts = MinersSettingsManager.GetPortsListFor(minerBase, path, algoType);
                 APIPort = -1; // not set
-                foreach (var reservedPort in reservedPorts) {
-                    if (MinersApiPortsManager.IsPortAvaliable(reservedPort)) {
+                foreach (var reservedPort in reservedPorts)
+                {
+                    if (MinersApiPortsManager.IsPortAvaliable(reservedPort))
+                    {
                         APIPort = reservedPort;
                         break;
                     }
                 }
-                if (APIPort == -1) {
+                if (APIPort == -1)
+                {
                     APIPort = MinersApiPortsManager.GetAvaliablePort();
                 }
             }
         }
 
-        virtual public void InitMiningSetup(MiningSetup miningSetup) {
+        virtual public void InitMiningSetup(MiningSetup miningSetup)
+        {
             MiningSetup = miningSetup;
             IsInit = MiningSetup.IsInit;
             SetAPIPort();
             SetWorkingDirAndProgName(MiningSetup.MinerPath);
         }
 
-        public void InitBenchmarkSetup(MiningPair benchmarkPair) {
+        public void InitBenchmarkSetup(MiningPair benchmarkPair)
+        {
             InitMiningSetup(new MiningSetup(new List<MiningPair>() { benchmarkPair }));
             BenchmarkAlgorithm = benchmarkPair.Algorithm;
         }
 
         // TAG for identifying miner
-        public string MinerTAG() {
-            if (_minetTag == null) {
+        public string MinerTAG()
+        {
+            if (_minetTag == null)
+            {
                 const string MASK = "{0}-MINER_ID({1})-DEVICE_IDs({2})";
                 // no devices set
-                if (!IsInit) {
+                if (!IsInit)
+                {
                     return String.Format(MASK, MinerDeviceName, MINER_ID, "NOT_SET");
                 }
                 // contains ids
@@ -226,40 +262,51 @@ namespace zPoolMiner
             return _minetTag;
         }
 
-        private string ProcessTag(MinerPID_Data pidData) {
+        private string ProcessTag(MinerPID_Data pidData)
+        {
             return String.Format("[pid({0})|bin({1})]", pidData.PID, pidData.minerBinPath);
         }
 
-        public string ProcessTag() {
-            if (_currentPidData == null) {
+        public string ProcessTag()
+        {
+            if (_currentPidData == null)
+            {
                 return "PidData is NULL";
             }
             return ProcessTag(_currentPidData);
         }
 
-        public void KillAllUsedMinerProcesses() {
+        public void KillAllUsedMinerProcesses()
+        {
             List<MinerPID_Data> toRemovePidData = new List<MinerPID_Data>();
             Helpers.ConsolePrint(MinerTAG(), "Trying to kill all miner processes for this instance:");
-            foreach (var PidData in _allPidData) {
-                try {
+            foreach (var PidData in _allPidData)
+            {
+                try
+                {
                     Process process = Process.GetProcessById(PidData.PID);
-                    if (process != null && PidData.minerBinPath.Contains(process.ProcessName)) {
+                    if (process != null && PidData.minerBinPath.Contains(process.ProcessName))
+                    {
                         Helpers.ConsolePrint(MinerTAG(), String.Format("Trying to kill {0}", ProcessTag(PidData)));
-                        try {
+                        try
+                        {
                             process.Kill();
                             process.Close();
                             process.WaitForExit(1000 * 60 * 1);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e)
+                        {
                             Helpers.ConsolePrint(MinerTAG(), String.Format("Exception killing {0}, exMsg {1}", ProcessTag(PidData), e.Message));
                         }
                     }
-
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     toRemovePidData.Add(PidData);
                     Helpers.ConsolePrint(MinerTAG(), String.Format("Nothing to kill {0}, exMsg {1}", ProcessTag(PidData), e.Message));
                 }
             }
-            _allPidData.RemoveAll( x => toRemovePidData.Contains(x));
+            _allPidData.RemoveAll(x => toRemovePidData.Contains(x));
         }
 
         abstract public void Start(string url, string btcAdress, string worker);
@@ -270,11 +317,12 @@ namespace zPoolMiner
 
             if (worker.Length > 0)
                 return btcAdress;// + "." + worker;
-            
+
             return btcAdress;
         }
 
         abstract protected void _Stop(MinerStopType willswitch);
+
         virtual public void Stop(MinerStopType willswitch = MinerStopType.SWITCH)
         {
             if (_cooldownCheckTimer != null) _cooldownCheckTimer.Stop();
@@ -283,16 +331,20 @@ namespace zPoolMiner
             IsRunning = false;
         }
 
-        public void End() {
+        public void End()
+        {
             isEnded = true;
             Stop(MinerStopType.FORCE_END);
         }
 
-        protected void Stop_cpu_ccminer_sgminer_nheqminer(MinerStopType willswitch) {
-            if (IsRunning) {
+        protected void Stop_cpu_ccminer_sgminer_nheqminer(MinerStopType willswitch)
+        {
+            if (IsRunning)
+            {
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Shutting down miner");
             }
-            if (ProcessHandle != null) {
+            if (ProcessHandle != null)
+            {
                 try { ProcessHandle.Kill(); } catch { }
                 //try { ProcessHandle.SendCtrlC((uint)Process.GetCurrentProcess().Id); } catch { }
                 ProcessHandle.Close();
@@ -302,17 +354,22 @@ namespace zPoolMiner
                 if (IsKillAllUsedMinerProcs) KillAllUsedMinerProcesses();
             }
         }
-        protected void KillProspectorClaymoreMinerBase(string exeName) {
-            foreach (Process process in Process.GetProcessesByName(exeName)) {
+
+        protected void KillProspectorClaymoreMinerBase(string exeName)
+        {
+            foreach (Process process in Process.GetProcessesByName(exeName))
+            {
                 try { process.Kill(); } catch (Exception e) { Helpers.ConsolePrint(MinerDeviceName, e.ToString()); }
             }
         }
 
-        virtual protected string GetDevicesCommandString() {
+        virtual protected string GetDevicesCommandString()
+        {
             string deviceStringCommand = " ";
 
             List<string> ids = new List<string>();
-            foreach (var mPair in MiningSetup.MiningPairs) {
+            foreach (var mPair in MiningSetup.MiningPairs)
+            {
                 ids.Add(mPair.Device.ID.ToString());
             }
             deviceStringCommand += String.Join(",", ids);
@@ -322,11 +379,14 @@ namespace zPoolMiner
 
         #region BENCHMARK DE-COUPLED Decoupled benchmarking routines
 
-        public int BenchmarkTimeoutInSeconds(int timeInSeconds) {
-            if (BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto) {
+        public int BenchmarkTimeoutInSeconds(int timeInSeconds)
+        {
+            if (BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto)
+            {
                 return 5 * 60 + 120; // 5 minutes plus two minutes
             }
-            if (BenchmarkAlgorithm.NiceHashID == AlgorithmType.CryptoNight) {
+            if (BenchmarkAlgorithm.NiceHashID == AlgorithmType.CryptoNight)
+            {
                 return 5 * 60 + 120; // 5 minutes plus two minutes
             }
             return timeInSeconds + 120; // wait time plus two minutes
@@ -338,21 +398,24 @@ namespace zPoolMiner
         // The benchmark config and algorithm must guarantee that they are compatible with miner
         // we guarantee algorithm is supported
         // we will not have empty benchmark configs, all benchmark configs will have device list
-        virtual public void BenchmarkStart(int time, IBenchmarkComunicator benchmarkComunicator) {
+        virtual public void BenchmarkStart(int time, IBenchmarkComunicator benchmarkComunicator)
+        {
             BenchmarkComunicator = benchmarkComunicator;
             BenchmarkTimeInSeconds = time;
             BenchmarkSignalFinnished = true;
-            // check and kill 
+            // check and kill
             BenchmarkHandle = null;
             OnBenchmarkCompleteCalled = false;
             BenchmarkTimeOutStopWatch = null;
 
-
-            try {
-                if (!Directory.Exists("logs")) {
+            try
+            {
+                if (!Directory.Exists("logs"))
+                {
                     Directory.CreateDirectory("logs");
                 }
-            } catch { }
+            }
+            catch { }
             bench_lines = new List<string>();
             benchmarkLogPath = String.Format("{0}Log_{1}_{2}", Logger._logPath, MiningSetup.MiningPairs[0].Device.UUID, MiningSetup.MiningPairs[0].Algorithm.AlgorithmStringID);
 
@@ -362,7 +425,8 @@ namespace zPoolMiner
             BenchmarkThread.Start(CommandLine);
         }
 
-        virtual protected Process BenchmarkStartProcess(string CommandLine) {
+        virtual protected Process BenchmarkStartProcess(string CommandLine)
+        {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             Helpers.ConsolePrint(MinerTAG(), "Starting benchmark: " + CommandLine);
 
@@ -371,17 +435,22 @@ namespace zPoolMiner
             BenchmarkHandle.StartInfo.FileName = MiningSetup.MinerPath;
 
             // sgminer quickfix
-            if ( this is sgminer | this is glg ) {
+            if (this is sgminer | this is glg)
+            {
                 BenchmarkProcessPath = "cmd / " + BenchmarkHandle.StartInfo.FileName;
                 BenchmarkHandle.StartInfo.FileName = "cmd";
-            } else {
+            }
+            else
+            {
                 BenchmarkProcessPath = BenchmarkHandle.StartInfo.FileName;
                 Helpers.ConsolePrint(MinerTAG(), "Using miner: " + BenchmarkHandle.StartInfo.FileName);
                 BenchmarkHandle.StartInfo.WorkingDirectory = WorkingDirectory;
             }
             // set sys variables
-            if (MinersSettingsManager.MinerSystemVariables.ContainsKey(Path)) {
-                foreach (var kvp in MinersSettingsManager.MinerSystemVariables[Path]) {
+            if (MinersSettingsManager.MinerSystemVariables.ContainsKey(Path))
+            {
+                foreach (var kvp in MinersSettingsManager.MinerSystemVariables[Path])
+                {
                     string envName = kvp.Key;
                     string envValue = kvp.Value;
                     BenchmarkHandle.StartInfo.EnvironmentVariables[envName] = envValue;
@@ -407,21 +476,27 @@ namespace zPoolMiner
             return BenchmarkHandle;
         }
 
-        void BenchmarkHandle_Exited(object sender, EventArgs e) {
+        private void BenchmarkHandle_Exited(object sender, EventArgs e)
+        {
             BenchmarkSignalFinnished = true;
         }
 
-        private void BenchmarkOutputErrorDataReceived(object sender, DataReceivedEventArgs e) {
-            if (BenchmarkTimeOutStopWatch == null) {
+        private void BenchmarkOutputErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (BenchmarkTimeOutStopWatch == null)
+            {
                 BenchmarkTimeOutStopWatch = new Stopwatch();
                 BenchmarkTimeOutStopWatch.Start();
-            } else if (BenchmarkTimeOutStopWatch.Elapsed.TotalSeconds > BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds)) {
+            }
+            else if (BenchmarkTimeOutStopWatch.Elapsed.TotalSeconds > BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds))
+            {
                 BenchmarkTimeOutStopWatch.Stop();
                 BenchmarkSignalTimedout = true;
             }
 
             string outdata = e.Data;
-            if (e.Data != null) {
+            if (e.Data != null)
+            {
                 BenchmarkOutputErrorDataReceivedImpl(outdata);
             }
             // terminate process situations
@@ -429,14 +504,16 @@ namespace zPoolMiner
                 || BenchmarkSignalFinnished
                 || BenchmarkSignalHanged
                 || BenchmarkSignalTimedout
-                || BenchmarkException != null) {
+                || BenchmarkException != null)
+            {
                 EndBenchmarkProcces();
             }
         }
 
         protected abstract void BenchmarkOutputErrorDataReceivedImpl(string outdata);
 
-        protected void CheckOutdata(string outdata) {
+        protected void CheckOutdata(string outdata)
+        {
             //Helpers.ConsolePrint("BENCHMARK" + benchmarkLogPath, outdata);
             bench_lines.Add(outdata);
             // ccminer, cpuminer
@@ -457,18 +534,22 @@ namespace zPoolMiner
                 BenchmarkException = new Exception("[daggerhashimoto] No GPU device with sufficient memory was found.");
 
             // lastly parse data
-            if (BenchmarkParseLine(outdata)) {
+            if (BenchmarkParseLine(outdata))
+            {
                 BenchmarkSignalFinnished = true;
             }
         }
 
-        public void InvokeBenchmarkSignalQuit() {
+        public void InvokeBenchmarkSignalQuit()
+        {
             KillAllUsedMinerProcesses();
         }
 
-        protected double BenchmarkParseLine_cpu_ccminer_extra(string outdata) {
+        protected double BenchmarkParseLine_cpu_ccminer_extra(string outdata)
+        {
             // parse line
-            if (outdata.Contains("Benchmark: ") && outdata.Contains("/s")) {
+            if (outdata.Contains("Benchmark: ") && outdata.Contains("/s"))
+            {
                 int i = outdata.IndexOf("Benchmark:");
                 int k = outdata.IndexOf("/s");
                 string hashspeed = outdata.Substring(i + 11, k - i - 9);
@@ -476,16 +557,20 @@ namespace zPoolMiner
 
                 // save speed
                 int b = hashspeed.IndexOf(" ");
-                if (b < 0) {
+                if (b < 0)
+                {
                     int stub;
-                    for (int _i = hashspeed.Length - 1; _i >= 0; --_i ) {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub)) {
+                    for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
+                    {
+                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub))
+                        {
                             b = _i;
                             break;
                         }
                     }
                 }
-                if (b >= 0) {
+                if (b >= 0)
+                {
                     string speedStr = hashspeed.Substring(0, b);
                     double spd = Helpers.ParseDouble(speedStr);
                     if (hashspeed.Contains("kH/s"))
@@ -502,16 +587,21 @@ namespace zPoolMiner
         }
 
         // killing proccesses can take time
-        virtual public void EndBenchmarkProcces() {
-            if (BenchmarkHandle != null && BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling) {
+        virtual public void EndBenchmarkProcces()
+        {
+            if (BenchmarkHandle != null && BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling)
+            {
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Killing;
-                try {
+                try
+                {
                     Helpers.ConsolePrint("BENCHMARK", String.Format("Trying to kill benchmark process {0} algorithm {1}", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
                     BenchmarkHandle.Kill();
                     BenchmarkHandle.Close();
                     KillAllUsedMinerProcesses();
-                } catch { }
-                finally {
+                }
+                catch { }
+                finally
+                {
                     BenchmarkProcessStatus = BenchmarkProcessStatus.DoneKilling;
                     Helpers.ConsolePrint("BENCHMARK", String.Format("Benchmark process {0} algorithm {1} KILLED", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
                     //BenchmarkHandle = null;
@@ -519,42 +609,50 @@ namespace zPoolMiner
             }
         }
 
-
-        virtual protected void BenchmarkThreadRoutineStartSettup() {
+        virtual protected void BenchmarkThreadRoutineStartSettup()
+        {
             BenchmarkHandle.BeginErrorReadLine();
             BenchmarkHandle.BeginOutputReadLine();
         }
 
-        protected void BenchmarkThreadRoutineCatch(Exception ex) {
+        protected void BenchmarkThreadRoutineCatch(Exception ex)
+        {
             BenchmarkAlgorithm.BenchmarkSpeed = 0;
 
             Helpers.ConsolePrint(MinerTAG(), "Benchmark Exception: " + ex.Message);
-            if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled) {
+            if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled)
+            {
                 OnBenchmarkCompleteCalled = true;
                 BenchmarkComunicator.OnBenchmarkComplete(false, GetFinalBenchmarkString());
             }
         }
 
-        protected virtual string GetFinalBenchmarkString() {
+        protected virtual string GetFinalBenchmarkString()
+        {
             return BenchmarkSignalTimedout ? International.GetText("Benchmark_Timedout") : International.GetText("Benchmark_Terminated");
         }
 
-        protected void BenchmarkThreadRoutineFinish() {
+        protected void BenchmarkThreadRoutineFinish()
+        {
             BenchmarkProcessStatus status = BenchmarkProcessStatus.Finished;
 
-            if (BenchmarkAlgorithm.BenchmarkSpeed > 0) {
+            if (BenchmarkAlgorithm.BenchmarkSpeed > 0)
+            {
                 status = BenchmarkProcessStatus.Success;
             }
 
-            using (StreamWriter sw = File.AppendText(benchmarkLogPath)) {
-                foreach (var line in bench_lines) {
+            using (StreamWriter sw = File.AppendText(benchmarkLogPath))
+            {
+                foreach (var line in bench_lines)
+                {
                     sw.WriteLine(line);
                 }
             }
             BenchmarkProcessStatus = status;
             Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + Helpers.FormatDualSpeedOutput(BenchmarkAlgorithm.NiceHashID, BenchmarkAlgorithm.BenchmarkSpeed, BenchmarkAlgorithm.SecondaryBenchmarkSpeed));
             Helpers.ConsolePrint("BENCHMARK", "Benchmark ends");
-            if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled) {
+            if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled)
+            {
                 OnBenchmarkCompleteCalled = true;
                 bool isOK = BenchmarkProcessStatus.Success == status;
                 string msg = GetFinalBenchmarkString();
@@ -562,9 +660,8 @@ namespace zPoolMiner
             }
         }
 
-
-
-        virtual protected void BenchmarkThreadRoutine(object CommandLine) {
+        virtual protected void BenchmarkThreadRoutine(object CommandLine)
+        {
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
             BenchmarkSignalQuit = false;
@@ -572,7 +669,8 @@ namespace zPoolMiner
             BenchmarkSignalFinnished = false;
             BenchmarkException = null;
 
-            try {
+            try
+            {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
 
@@ -583,24 +681,33 @@ namespace zPoolMiner
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
                 BenchmarkHandle.WaitForExit();
-                if (BenchmarkSignalTimedout) {
+                if (BenchmarkSignalTimedout)
+                {
                     throw new Exception("Benchmark timedout");
                 }
-                if (BenchmarkException != null) {
+                if (BenchmarkException != null)
+                {
                     throw BenchmarkException;
                 }
-                if (BenchmarkSignalQuit) {
+                if (BenchmarkSignalQuit)
+                {
                     throw new Exception("Termined by user request");
                 }
-                if (BenchmarkSignalHanged) {
+                if (BenchmarkSignalHanged)
+                {
                     throw new Exception("SGMiner is not responding");
                 }
-                if (BenchmarkSignalFinnished) {
+                if (BenchmarkSignalFinnished)
+                {
                     //break;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 BenchmarkThreadRoutineCatch(ex);
-            } finally {
+            }
+            finally
+            {
                 BenchmarkThreadRoutineFinish();
             }
         }
@@ -610,7 +717,8 @@ namespace zPoolMiner
         /// </summary>
         /// <param name="commandLine"></param>
         /// <param name="benchmarkTimeWait"></param>
-        protected void BenchmarkThreadRoutineAlternate(object commandLine, int benchmarkTimeWait) {
+        protected void BenchmarkThreadRoutineAlternate(object commandLine, int benchmarkTimeWait)
+        {
             CleanAllOldLogs();
 
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
@@ -620,7 +728,8 @@ namespace zPoolMiner
             BenchmarkSignalFinnished = false;
             BenchmarkException = null;
 
-            try {
+            try
+            {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
                 Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)commandLine);
@@ -635,7 +744,8 @@ namespace zPoolMiner
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
                 bool keepRunning = true;
-                while (keepRunning && IsActiveProcess(BenchmarkHandle.Id)) {
+                while (keepRunning && IsActiveProcess(BenchmarkHandle.Id))
+                {
                     //string outdata = BenchmarkHandle.StandardOutput.ReadLine();
                     //BenchmarkOutputErrorDataReceivedImpl(outdata);
                     // terminate process situations
@@ -644,45 +754,56 @@ namespace zPoolMiner
                         || BenchmarkSignalFinnished
                         || BenchmarkSignalHanged
                         || BenchmarkSignalTimedout
-                        || BenchmarkException != null) {
-
+                        || BenchmarkException != null)
+                    {
                         string imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillProspectorClaymoreMinerBase(imageName);
-                        if (BenchmarkSignalTimedout) {
+                        if (BenchmarkSignalTimedout)
+                        {
                             throw new Exception("Benchmark timedout");
                         }
-                        if (BenchmarkException != null) {
+                        if (BenchmarkException != null)
+                        {
                             throw BenchmarkException;
                         }
-                        if (BenchmarkSignalQuit) {
+                        if (BenchmarkSignalQuit)
+                        {
                             throw new Exception("Termined by user request");
                         }
-                        if (BenchmarkSignalFinnished) {
+                        if (BenchmarkSignalFinnished)
+                        {
                             break;
                         }
                         keepRunning = false;
                         break;
-                    } else {
+                    }
+                    else
+                    {
                         // wait a second reduce CPU load
                         Thread.Sleep(1000);
                     }
-
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 BenchmarkThreadRoutineCatch(ex);
-            } finally {
+            }
+            finally
+            {
                 BenchmarkAlgorithm.BenchmarkSpeed = 0;
                 // find latest log file
                 string latestLogFile = "";
                 var dirInfo = new DirectoryInfo(this.WorkingDirectory);
-                foreach (var file in dirInfo.GetFiles("*_log.txt")) {
+                foreach (var file in dirInfo.GetFiles("*_log.txt"))
+                {
                     latestLogFile = file.Name;
                     break;
                 }
                 BenchmarkHandle.WaitForExit(10000);
                 // read file log
-                if (File.Exists(WorkingDirectory + latestLogFile)) {
+                if (File.Exists(WorkingDirectory + latestLogFile))
+                {
                     var lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
                     var addBenchLines = bench_lines.Count == 0;
                     ProcessBenchLinesAlternate(lines);
@@ -691,39 +812,52 @@ namespace zPoolMiner
             }
         }
 
-        protected void CleanAllOldLogs() {
+        protected void CleanAllOldLogs()
+        {
             // clean old logs
-            try {
+            try
+            {
                 var dirInfo = new DirectoryInfo(this.WorkingDirectory);
                 var deleteContains = "_log.txt";
-                if (dirInfo != null && dirInfo.Exists) {
-                    foreach (FileInfo file in dirInfo.GetFiles()) {
-                        if (file.Name.Contains(deleteContains)) {
+                if (dirInfo != null && dirInfo.Exists)
+                {
+                    foreach (FileInfo file in dirInfo.GetFiles())
+                    {
+                        if (file.Name.Contains(deleteContains))
+                        {
                             file.Delete();
                         }
                     }
                 }
-            } catch { }
+            }
+            catch { }
         }
 
-        protected virtual void ProcessBenchLinesAlternate(string[] lines) { }
+        protected virtual void ProcessBenchLinesAlternate(string[] lines)
+        {
+        }
 
         abstract protected bool BenchmarkParseLine(string outdata);
 
-        protected bool IsActiveProcess(int pid) {
-            try {
+        protected bool IsActiveProcess(int pid)
+        {
+            try
+            {
                 return Process.GetProcessById(pid) != null;
-            } catch {
+            }
+            catch
+            {
                 return false;
             }
         }
 
-        #endregion //BENCHMARK DE-COUPLED Decoupled benchmarking routines
+        #endregion BENCHMARK DE-COUPLED Decoupled benchmarking routines
 
         virtual protected NiceHashProcess _Start()
         {
             // never start when ended
-            if (isEnded) {
+            if (isEnded)
+            {
                 return null;
             }
 
@@ -736,8 +870,10 @@ namespace zPoolMiner
             {
                 P.StartInfo.WorkingDirectory = WorkingDirectory;
             }
-            if (MinersSettingsManager.MinerSystemVariables.ContainsKey(Path)) {
-                foreach (var kvp in MinersSettingsManager.MinerSystemVariables[Path]) {
+            if (MinersSettingsManager.MinerSystemVariables.ContainsKey(Path))
+            {
+                foreach (var kvp in MinersSettingsManager.MinerSystemVariables[Path])
+                {
                     string envName = kvp.Key;
                     string envValue = kvp.Value;
                     P.StartInfo.EnvironmentVariables[envName] = envValue;
@@ -748,20 +884,25 @@ namespace zPoolMiner
             P.ExitEvent = Miner_Exited;
 
             P.StartInfo.Arguments = LastCommandLine;
-            if (IsNeverHideMiningWindow) {
+            if (IsNeverHideMiningWindow)
+            {
                 P.StartInfo.CreateNoWindow = false;
-                if (ConfigManager.GeneralConfig.HideMiningWindows || ConfigManager.GeneralConfig.MinimizeMiningWindows) {
+                if (ConfigManager.GeneralConfig.HideMiningWindows || ConfigManager.GeneralConfig.MinimizeMiningWindows)
+                {
                     P.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                     P.StartInfo.UseShellExecute = true;
                 }
-            } else {
+            }
+            else
+            {
                 P.StartInfo.CreateNoWindow = ConfigManager.GeneralConfig.HideMiningWindows;
             }
             P.StartInfo.UseShellExecute = false;
 
             try
             {
-                if (P.Start()) {
+                if (P.Start())
+                {
                     IsRunning = true;
 
                     _currentPidData = new MinerPID_Data();
@@ -774,7 +915,9 @@ namespace zPoolMiner
                     StartCoolDownTimerChecker();
 
                     return P;
-                } else {
+                }
+                else
+                {
                     Helpers.ConsolePrint(MinerTAG(), "NOT STARTED " + ProcessTag() + " " + LastCommandLine);
                     return null;
                 }
@@ -786,45 +929,56 @@ namespace zPoolMiner
             }
         }
 
-        protected void StartCoolDownTimerChecker() {
-            if (ConfigManager.GeneralConfig.CoolDownCheckEnabled) {
+        protected void StartCoolDownTimerChecker()
+        {
+            if (ConfigManager.GeneralConfig.CoolDownCheckEnabled)
+            {
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Starting cooldown checker");
                 if (_cooldownCheckTimer != null && _cooldownCheckTimer.Enabled) _cooldownCheckTimer.Stop();
                 // cool down init
-                _cooldownCheckTimer = new Timer() {
+                _cooldownCheckTimer = new Timer()
+                {
                     Interval = _MIN_CooldownTimeInMilliseconds
                 };
                 _cooldownCheckTimer.Elapsed += MinerCoolingCheck_Tick;
                 _cooldownCheckTimer.Start();
                 _currentCooldownTimeInSeconds = _MIN_CooldownTimeInMilliseconds;
                 _currentCooldownTimeInSecondsLeft = _currentCooldownTimeInSeconds;
-            } else {
+            }
+            else
+            {
                 Helpers.ConsolePrint(MinerTAG(), "Cooldown checker disabled");
             }
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
         }
 
-
-        virtual protected void Miner_Exited() {
+        virtual protected void Miner_Exited()
+        {
             ScheduleRestart(5000);
         }
 
-        protected void ScheduleRestart(int ms) {
+        protected void ScheduleRestart(int ms)
+        {
             var RestartInMS = ConfigManager.GeneralConfig.MinerRestartDelayMS > ms ?
                 ConfigManager.GeneralConfig.MinerRestartDelayMS : ms;
             Helpers.ConsolePrint(MinerTAG(), ProcessTag() + String.Format(" Miner_Exited Will restart in {0} ms", RestartInMS));
-            if (ConfigManager.GeneralConfig.CoolDownCheckEnabled) {
+            if (ConfigManager.GeneralConfig.CoolDownCheckEnabled)
+            {
                 _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
                 NeedsRestart = true;
                 _currentCooldownTimeInSecondsLeft = RestartInMS;
-            } else {  // directly restart since cooldown checker not running
+            }
+            else
+            {  // directly restart since cooldown checker not running
                 Thread.Sleep(RestartInMS);
                 Restart();
             }
         }
 
-        protected void Restart() {
-            if (!isEnded) {
+        protected void Restart()
+        {
+            if (!isEnded)
+            {
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Restarting miner..");
                 Stop(MinerStopType.END); // stop miner first
                 System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
@@ -832,7 +986,8 @@ namespace zPoolMiner
             }
         }
 
-        protected virtual bool IsApiEof(byte third, byte second, byte last) {
+        protected virtual bool IsApiEof(byte third, byte second, byte last)
+        {
             return false;
         }
 
@@ -859,7 +1014,8 @@ namespace zPoolMiner
                     {
                         if (IncomingBuffer[i] == 0x7C || IncomingBuffer[i] == 0x00
                             || (i > 2 && IsApiEof(IncomingBuffer[i - 2], IncomingBuffer[i - 1], IncomingBuffer[i]))
-                            || overrideLoop) {
+                            || overrideLoop)
+                        {
                             fin = true;
                             break;
                         }
@@ -870,8 +1026,10 @@ namespace zPoolMiner
                         //}
                     }
                     offset += r;
-                    if (exitHack) {
-                        if (prevOffset == offset) {
+                    if (exitHack)
+                    {
+                        if (prevOffset == offset)
+                        {
                             fin = true;
                             break;
                         }
@@ -895,56 +1053,73 @@ namespace zPoolMiner
 
         public abstract Task<APIData> GetSummaryAsync();
 
-        protected async Task<APIData> GetSummaryCPUAsync(string method = "", bool overrideLoop = false) {
+        protected async Task<APIData> GetSummaryCPUAsync(string method = "", bool overrideLoop = false)
+        {
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
-            try {
+            try
+            {
                 _currentMinerReadStatus = MinerAPIReadStatus.WAIT;
                 string dataToSend = GetHttpRequestNHMAgentStrin(method);
                 string respStr = await GetAPIDataAsync(APIPort, dataToSend);
 
-                if (String.IsNullOrEmpty(respStr)) {
+                if (String.IsNullOrEmpty(respStr))
+                {
                     _currentMinerReadStatus = MinerAPIReadStatus.NETWORK_EXCEPTION;
                     throw new Exception("Response is empty!");
                 }
-                if (respStr.IndexOf("HTTP/1.1 200 OK") > -1) {
+                if (respStr.IndexOf("HTTP/1.1 200 OK") > -1)
+                {
                     respStr = respStr.Substring(respStr.IndexOf(HTTPHeaderDelimiter) + HTTPHeaderDelimiter.Length);
-                } else {
+                }
+                else
+                {
                     throw new Exception("Response not HTTP formed! " + respStr);
                 }
 
                 dynamic resp = JsonConvert.DeserializeObject(respStr);
 
-                if (resp != null) {
+                if (resp != null)
+                {
                     JArray totals = resp.hashrate.total;
-                    foreach (var total in totals) {
+                    foreach (var total in totals)
+                    {
                         if (total.Value<string>() == null) continue;
                         ad.Speed = total.Value<double>();
                         break;
                     }
-                    if (ad.Speed == 0) {
+                    if (ad.Speed == 0)
+                    {
                         _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
-                    } else {
+                    }
+                    else
+                    {
                         _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                     }
-                } else {
+                }
+                else
+                {
                     throw new Exception($"Response does not contain speed data: {respStr.Trim()}");
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Helpers.ConsolePrint(MinerTAG(), ex.Message);
             }
 
             return ad;
         }
 
-        protected string GetHttpRequestNHMAgentStrin(string cmd) {
+        protected string GetHttpRequestNHMAgentStrin(string cmd)
+        {
             return "GET /" + cmd + " HTTP/1.1\r\n" +
                     "Host: 127.0.0.1\r\n" +
                     "User-Agent: zPoolMiner/" + Application.ProductVersion + "\r\n" +
                     "\r\n";
         }
 
-        protected async Task<APIData> GetSummaryCPU_CCMINERAsync() {
+        protected async Task<APIData> GetSummaryCPU_CCMINERAsync()
+        {
             string resp;
             // TODO aname
             string aname = null;
@@ -953,15 +1128,18 @@ namespace zPoolMiner
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
             resp = await GetAPIDataAsync(APIPort, DataToSend);
-            if (resp == null) {
+            if (resp == null)
+            {
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
                 _currentMinerReadStatus = MinerAPIReadStatus.NONE;
                 return null;
             }
 
-            try {
+            try
+            {
                 string[] resps = resp.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < resps.Length; i++) {
+                for (int i = 0; i < resps.Length; i++)
+                {
                     string[] optval = resps[i].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     if (optval.Length != 2) continue;
                     if (optval[0] == "ALGO")
@@ -969,7 +1147,9 @@ namespace zPoolMiner
                     else if (optval[0] == "KHS")
                         ad.Speed = double.Parse(optval[1], CultureInfo.InvariantCulture) * 1000; // HPS
                 }
-            } catch {
+            }
+            catch
+            {
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
                 _currentMinerReadStatus = MinerAPIReadStatus.NONE;
                 return null;
@@ -982,13 +1162,15 @@ namespace zPoolMiner
             return ad;
         }
 
-
         #region Cooldown/retry logic
+
         /// <summary>
         /// decrement time for half current half time, if less then min ammend
         /// </summary>
-        private void CoolDown() {
-            if (_currentCooldownTimeInSeconds > _MIN_CooldownTimeInMilliseconds) {
+        private void CoolDown()
+        {
+            if (_currentCooldownTimeInSeconds > _MIN_CooldownTimeInMilliseconds)
+            {
                 _currentCooldownTimeInSeconds = _MIN_CooldownTimeInMilliseconds;
                 Helpers.ConsolePrint(MinerTAG(), String.Format("{0} Reseting cool time = {1} ms", ProcessTag(), _MIN_CooldownTimeInMilliseconds.ToString()));
                 _currentMinerReadStatus = MinerAPIReadStatus.NONE;
@@ -998,35 +1180,49 @@ namespace zPoolMiner
         /// <summary>
         /// increment time for half current half time, if more then max set restart
         /// </summary>
-        private void CoolUp() {
+        private void CoolUp()
+        {
             _currentCooldownTimeInSeconds *= 2;
             Helpers.ConsolePrint(MinerTAG(), String.Format("{0} Cooling UP, cool time is {1} ms", ProcessTag(), _currentCooldownTimeInSeconds.ToString()));
-            if (_currentCooldownTimeInSeconds > _MAX_CooldownTimeInMilliseconds) {
+            if (_currentCooldownTimeInSeconds > _MAX_CooldownTimeInMilliseconds)
+            {
                 _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
                 Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " MAX cool time exceeded. RESTARTING");
                 Restart();
             }
         }
 
-        private void MinerCoolingCheck_Tick(object sender, ElapsedEventArgs e) {
-            if (isEnded) {
+        private void MinerCoolingCheck_Tick(object sender, ElapsedEventArgs e)
+        {
+            if (isEnded)
+            {
                 End();
                 return;
             }
             _currentCooldownTimeInSecondsLeft -= (int)_cooldownCheckTimer.Interval;
             // if times up
-            if (_currentCooldownTimeInSecondsLeft <= 0) {
-                if (NeedsRestart) {
+            if (_currentCooldownTimeInSecondsLeft <= 0)
+            {
+                if (NeedsRestart)
+                {
                     NeedsRestart = false;
                     Restart();
-                } else if (_currentMinerReadStatus == MinerAPIReadStatus.GOT_READ) {
+                }
+                else if (_currentMinerReadStatus == MinerAPIReadStatus.GOT_READ)
+                {
                     CoolDown();
-                } else if (_currentMinerReadStatus == MinerAPIReadStatus.READ_SPEED_ZERO) {
+                }
+                else if (_currentMinerReadStatus == MinerAPIReadStatus.READ_SPEED_ZERO)
+                {
                     Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " READ SPEED ZERO, will cool up");
                     CoolUp();
-                } else if (_currentMinerReadStatus == MinerAPIReadStatus.RESTART) {
+                }
+                else if (_currentMinerReadStatus == MinerAPIReadStatus.RESTART)
+                {
                     Restart();
-                } else {
+                }
+                else
+                {
                     CoolUp();
                 }
                 // set new times left from the CoolUp/Down change
@@ -1034,7 +1230,6 @@ namespace zPoolMiner
             }
         }
 
-        #endregion //Cooldown/retry logic
-
+        #endregion Cooldown/retry logic
     }
 }

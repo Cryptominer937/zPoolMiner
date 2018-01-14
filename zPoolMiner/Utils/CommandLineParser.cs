@@ -1,29 +1,33 @@
-﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using zPoolMiner.Enums;
 
 namespace zPoolMiner.Utils
 {
-    class CommandLineParser
+    internal class CommandLineParser
     {
         // keep it simple only two parameters for now
         readonly public bool IsLang = false;
+
         readonly public LanguageType LangValue = 0;
 
         public CommandLineParser(string[] argv)
         {
             string tmpString;
-            if(ParseCommandLine(argv, "-config", out tmpString)) {
+            if (ParseCommandLine(argv, "-config", out tmpString))
+            {
                 Helpers.ConsolePrint("CommandLineParser", "-config parameter has been depreciated, run setting from GUI");
             }
-            if (ParseCommandLine(argv, "-lang", out tmpString)) {
+            if (ParseCommandLine(argv, "-lang", out tmpString))
+            {
                 IsLang = true;
                 int tmp;
                 // if parsing fails set to default
-                if (Int32.TryParse(tmpString, out tmp)) {
+                if (Int32.TryParse(tmpString, out tmp))
+                {
                     LangValue = (LanguageType)tmp;
-                } else {
+                }
+                else
+                {
                     LangValue = LanguageType.En;
                 }
             }

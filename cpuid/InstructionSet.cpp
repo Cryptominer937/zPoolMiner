@@ -1,7 +1,7 @@
-// InstructionSet.cpp 
+// InstructionSet.cpp
 // Compile by using: cl /EHsc /W4 InstructionSet.cpp
 // processor: x86, x64
-// Uses the __cpuid intrinsic to get information about 
+// Uses the __cpuid intrinsic to get information about
 // CPU extended instruction set support.
 
 #include <Windows.h>
@@ -195,7 +195,6 @@ private:
 // Initialize static member data
 const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
 
-
 // Print out supported instruction set extensions
 /*int main()
 {
@@ -261,7 +260,6 @@ const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
 	support_message("XSAVE", InstructionSet::XSAVE());
 }*/
 
-
 extern "C"
 {
 	__declspec(dllexport) char* __cdecl _GetCPUName()
@@ -305,7 +303,6 @@ extern "C"
 			return 1;
 	}
 }
-
 
 BOOL WINAPI DllMain(
 	HINSTANCE hinstDLL,  // handle to DLL module

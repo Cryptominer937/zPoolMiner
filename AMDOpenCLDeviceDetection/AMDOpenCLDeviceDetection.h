@@ -24,7 +24,7 @@ class AMDOpenCLDeviceDetection {
 public:
 	AMDOpenCLDeviceDetection();
 	~AMDOpenCLDeviceDetection();
-		
+
 	bool QueryDevices();
 	void PrintDevicesJson();
 	void PrintDevicesJsonDirty();

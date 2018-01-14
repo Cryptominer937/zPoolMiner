@@ -1,14 +1,15 @@
-﻿using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 
 namespace zPoolMiner.Miners.Grouping
 {
     public static class GroupSetupUtils
     {
-        static readonly string TAG = "GroupSetupUtils";
+        private static readonly string TAG = "GroupSetupUtils";
+
         public static bool IsAlgoMiningCapable(Algorithm algo)
         {
             return algo != null && algo.Enabled && algo.BenchmarkSpeed > 0;
@@ -77,6 +78,7 @@ namespace zPoolMiner.Miners.Grouping
             }
             return "Invalid status Passed";
         }
+
         private static void LogMiningNonMiningStatuses(List<MiningDevice> enabledDevices, List<Tuple<ComputeDevice, DeviceMiningStatus>> disabledDevicesStatuses)
         {
             // print statuses
@@ -170,14 +172,14 @@ namespace zPoolMiner.Miners.Grouping
                 }
             }
         }
-
     }
 
-    class SpeedSumCount
+    internal class SpeedSumCount
     {
         public double speed = 0;
         public double secondarySpeed = 0;
         public int count = 0;
+
         public double GetAvarage()
         {
             if (count > 0)
@@ -186,6 +188,7 @@ namespace zPoolMiner.Miners.Grouping
             }
             return 0;
         }
+
         public double GetSecondaryAverage()
         {
             if (count > 0)
@@ -196,12 +199,14 @@ namespace zPoolMiner.Miners.Grouping
         }
     }
 
-    class AvaragerGroup
+    internal class AvaragerGroup
     {
         public string DeviceName;
         public List<string> UUIDsList = new List<string>();
+
         // algo_id, speed_sum, speed_count
         public Dictionary<string, SpeedSumCount> BenchmarkSums = new Dictionary<string, SpeedSumCount>();
+
         public Dictionary<string, List<double>> CalculateAvarages()
         {
             Dictionary<string, List<double>> ret = new Dictionary<string, List<double>>();

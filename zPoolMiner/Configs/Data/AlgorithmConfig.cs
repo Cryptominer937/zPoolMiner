@@ -1,11 +1,11 @@
-﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner.Configs.Data {
+namespace zPoolMiner.Configs.Data
+{
     [Serializable]
-    public class AlgorithmConfig {
+    public class AlgorithmConfig
+    {
         public string Name = ""; // Used as an indicator for easier user interaction
         public AlgorithmType NiceHashID = AlgorithmType.NONE;
         public AlgorithmType SecondaryNiceHashID = AlgorithmType.NONE;
@@ -13,7 +13,7 @@ namespace zPoolMiner.Configs.Data {
         public string MinerName = "";  // probably not needed
         public double BenchmarkSpeed = 0;
         public double SecondaryBenchmarkSpeed = 0;
-        public string ExtraLaunchParameters= "";
+        public string ExtraLaunchParameters = "";
         public bool Enabled = true;
         public int LessThreads = 0;
     }

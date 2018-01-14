@@ -1,7 +1,9 @@
+namespace zPoolMiner.Utils
+{
+    public static class Bins_Data
+    {
+        #region CODE_GEN STUFF // listFiles.py
 
-namespace zPoolMiner.Utils {
-    public static class Bins_Data {
-    #region CODE_GEN STUFF // listFiles.py
         public static string[] ALL_FILES_BINS = {
 @"\vc_redist.x64.exe",
 @"\ccminer_cryptonight\ccminer.exe",
@@ -70,7 +72,7 @@ namespace zPoolMiner.Utils {
 
 @"\xmrig\xmrig.exe"
 };
-    #endregion //CODE_GEN STUFF // listFiles.py
+
+        #endregion CODE_GEN STUFF // listFiles.py
     }
 }
-

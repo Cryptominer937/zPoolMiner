@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace MyDownloader.Core.Concurrency
@@ -8,7 +6,8 @@ namespace MyDownloader.Core.Concurrency
     public class ReaderWriterObjectLocker
     {
         #region BaseReleaser
-        class BaseReleaser
+
+        private class BaseReleaser
         {
             protected ReaderWriterObjectLocker locker;
 
@@ -17,10 +16,12 @@ namespace MyDownloader.Core.Concurrency
                 this.locker = locker;
             }
         }
-        #endregion
+
+        #endregion BaseReleaser
 
         #region ReaderReleaser
-        class ReaderReleaser : BaseReleaser, IDisposable
+
+        private class ReaderReleaser : BaseReleaser, IDisposable
         {
             public ReaderReleaser(ReaderWriterObjectLocker locker)
                 : base(locker)
@@ -34,12 +35,14 @@ namespace MyDownloader.Core.Concurrency
                 locker.locker.ReleaseReaderLock();
             }
 
-            #endregion
+            #endregion IDisposable Members
         }
-        #endregion
+
+        #endregion ReaderReleaser
 
         #region WriterReleaser
-        class WriterReleaser : BaseReleaser, IDisposable
+
+        private class WriterReleaser : BaseReleaser, IDisposable
         {
             public WriterReleaser(ReaderWriterObjectLocker locker)
                 : base(locker)
@@ -53,17 +56,21 @@ namespace MyDownloader.Core.Concurrency
                 locker.locker.ReleaseWriterLock();
             }
 
-            #endregion
+            #endregion IDisposable Members
         }
-        #endregion
+
+        #endregion WriterReleaser
 
         #region Fields
+
         private ReaderWriterLock locker;
         private IDisposable writerReleaser;
-        private IDisposable readerReleaser; 
-        #endregion
+        private IDisposable readerReleaser;
+
+        #endregion Fields
 
         #region Constructor
+
         public ReaderWriterObjectLocker()
         {
             // TODO: update to ReaderWriterLockSlim on .net 3.5
@@ -71,10 +78,12 @@ namespace MyDownloader.Core.Concurrency
 
             writerReleaser = new WriterReleaser(this);
             readerReleaser = new ReaderReleaser(this);
-        } 
-        #endregion
+        }
+
+        #endregion Constructor
 
         #region Methods
+
         public IDisposable LockForRead()
         {
             locker.AcquireReaderLock(-1);
@@ -87,7 +96,8 @@ namespace MyDownloader.Core.Concurrency
             locker.AcquireWriterLock(-1);
 
             return writerReleaser;
-        } 
-        #endregion
+        }
+
+        #endregion Methods
     }
 }

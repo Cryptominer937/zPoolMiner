@@ -1,87 +1,97 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
+using System.Globalization;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.Linq;
-using Newtonsoft.Json;
+using System.Windows.Forms;
+using WebSocketSharp;
+using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners;
-using zPoolMiner.Devices;
-using Newtonsoft.Json.Linq;
-using WebSocketSharp;
-
-
 
 namespace zPoolMiner
-{ 
+{
     public class SocketEventArgs : EventArgs
     {
         public string Message = "";
 
-        public SocketEventArgs(string message) {
+        public SocketEventArgs(string message)
+        {
             Message = message;
         }
     }
-    class NiceHashStats {
+
+    internal class NiceHashStats
+    {
 #pragma warning disable 649
+
         #region JSON Models
 
-        class nicehash_login {
+        private class nicehash_login
+        {
             public string method = "login";
             public string version;
             public int protocol = 1;
         }
 
-        class nicehash_credentials {
+        private class nicehash_credentials
+        {
             public string method = "credentials.set";
             public string btc;
             public string worker;
         }
 
-        class nicehash_device_status
+        private class nicehash_device_status
         {
             public string method = "devices.status";
             public List<JArray> devices;
         }
 
-        #endregion
+        #endregion JSON Models
+
 #pragma warning restore 649
 
-        const int deviceUpdateLaunchDelay = 20 * 1000;
-        const int deviceUpdateInterval = 5 * 60 * 1000;
+        private const int deviceUpdateLaunchDelay = 20 * 1000;
+        private const int deviceUpdateInterval = 5 * 60 * 1000;
 
         public static Dictionary<AlgorithmType, NiceHashSMA> AlgorithmRates { get; private set; }
         private static NiceHashData niceHashData;
         public static double Balance { get; private set; }
         public static string Version { get; private set; }
         public static bool IsAlive { get { return NiceHashConnection.IsAlive; } }
+
         // Event handlers for socket
         public static event EventHandler OnBalanceUpdate = delegate { };
+
         public static event EventHandler OnSMAUpdate = delegate { };
+
         public static event EventHandler OnVersionUpdate = delegate { };
+
         public static event EventHandler OnConnectionLost = delegate { };
+
         public static event EventHandler OnConnectionEstablished = delegate { };
+
         public static event EventHandler<SocketEventArgs> OnVersionBurn = delegate { };
 
-        static readonly Random random = new Random();
+        private static readonly Random random = new Random();
 
-        static System.Threading.Timer deviceUpdateTimer;
-        static System.Threading.Timer algoRatesUpdateTimer;
+        private static System.Threading.Timer deviceUpdateTimer;
+        private static System.Threading.Timer algoRatesUpdateTimer;
 
         #region Socket
+
         private class NiceHashConnection
         {
-            static WebSocket webSocket;
+            private static WebSocket webSocket;
             public static bool IsAlive { get { return webSocket.IsAlive; } }
-            static bool attemptingReconnect = false;
-            static bool connectionAttempted = false;
-            static bool connectionEstablished = false;
+            private static bool attemptingReconnect = false;
+            private static bool connectionAttempted = false;
+            private static bool connectionEstablished = false;
 
             public static void StartConnection(string address)
             {
@@ -94,7 +104,7 @@ namespace zPoolMiner
                 try
                 {
                     // We get the algo payment info here - http://www.zpool.ca/api/status
-                    var WR = (HttpWebRequest) WebRequest.Create("http://crypominer937.tk/zpool-jsondbg.php");
+                    var WR = (HttpWebRequest)WebRequest.Create("http://crypominer937.tk/zpool-jsondbg.php");
                     var Response = WR.GetResponse();
                     var SS = Response.GetResponseStream();
                     SS.ReadTimeout = 20 * 1000;
@@ -114,9 +124,12 @@ namespace zPoolMiner
                 }
             }
 
-            private static void ConnectCallback(object sender, EventArgs e) {
-                try {
-                    if (AlgorithmRates == null || niceHashData == null) {
+            private static void ConnectCallback(object sender, EventArgs e)
+            {
+                try
+                {
+                    if (AlgorithmRates == null || niceHashData == null)
+                    {
                         niceHashData = new NiceHashData();
                         AlgorithmRates = niceHashData.NormalizedSMA();
                     }
@@ -130,76 +143,111 @@ namespace zPoolMiner
                     DeviceStatus_Tick(null);  // Send device to populate rig stats
 
                     OnConnectionEstablished.Emit(null, EventArgs.Empty);
-                } catch (Exception er) {
+                }
+                catch (Exception er)
+                {
                     Helpers.ConsolePrint("SOCKET", er.ToString());
                 }
             }
 
-            private static void ReceiveCallback(object sender, MessageEventArgs e) {
-                try {
-                    if (e.IsText) {
+            private static void ReceiveCallback(object sender, MessageEventArgs e)
+            {
+                try
+                {
+                    if (e.IsText)
+                    {
                         Helpers.ConsolePrint("SOCKET", "Received: " + e.Data);
                         dynamic message = JsonConvert.DeserializeObject(e.Data);
-                        if (message.method == "sma") {
+                        if (message.method == "sma")
+                        {
                             SetAlgorithmRates(message.data);
-                        } else if (message.method == "balance") {
+                        }
+                        else if (message.method == "balance")
+                        {
                             SetBalance(message.value.Value);
-                        } else if (message.method == "versions") {
+                        }
+                        else if (message.method == "versions")
+                        {
                             SetVersion(message.legacy.Value);
-                        } else if (message.method == "burn") {
+                        }
+                        else if (message.method == "burn")
+                        {
                             OnVersionBurn.Emit(null, new SocketEventArgs(message.message.Value));
                         }
                     }
-                } catch (Exception er) {
+                }
+                catch (Exception er)
+                {
                     Helpers.ConsolePrint("SOCKET", er.ToString());
                 }
             }
 
-            private static void ErrorCallback(object sender, WebSocketSharp.ErrorEventArgs e) {
+            private static void ErrorCallback(object sender, WebSocketSharp.ErrorEventArgs e)
+            {
                 Helpers.ConsolePrint("SOCKET", e.ToString());
             }
 
-            private static void CloseCallback(object sender, CloseEventArgs e) {
+            private static void CloseCallback(object sender, CloseEventArgs e)
+            {
                 Helpers.ConsolePrint("SOCKET", $"Connection closed code {e.Code}: {e.Reason}");
                 AttemptReconnect();
             }
 
             // Don't call SendData on UI threads, since it will block the thread for a bit if a reconnect is needed
-            public static bool SendData(string data, bool recurs = false) {
-                try { 
-                    if (webSocket != null && webSocket.IsAlive) {  // Make sure connection is open
+            public static bool SendData(string data, bool recurs = false)
+            {
+                try
+                {
+                    if (webSocket != null && webSocket.IsAlive)
+                    {  // Make sure connection is open
                         // Verify valid JSON and method
                         dynamic dataJson = JsonConvert.DeserializeObject(data);
-                        if (dataJson.method == "credentials.set" || dataJson.method == "devices.status" || dataJson.method == "login") {
+                        if (dataJson.method == "credentials.set" || dataJson.method == "devices.status" || dataJson.method == "login")
+                        {
                             Helpers.ConsolePrint("SOCKET", "Sending data: " + data);
                             webSocket.Send(data);
                             return true;
                         }
-                    } else if (webSocket != null) {
-                        if (AttemptReconnect() && !recurs) {  // Reconnect was successful, send data again (safety to prevent recursion overload)
+                    }
+                    else if (webSocket != null)
+                    {
+                        if (AttemptReconnect() && !recurs)
+                        {  // Reconnect was successful, send data again (safety to prevent recursion overload)
                             SendData(data, true);
-                        } else {
+                        }
+                        else
+                        {
                             Helpers.ConsolePrint("SOCKET", "Socket connection unsuccessfull, will try again on next device update (1min)");
                         }
-                    } else {
-                        if (!connectionAttempted) {
+                    }
+                    else
+                    {
+                        if (!connectionAttempted)
+                        {
                             Helpers.ConsolePrint("SOCKET", "Data sending attempted before socket initialization");
-                        } else {
+                        }
+                        else
+                        {
                             Helpers.ConsolePrint("SOCKET", "webSocket not created, retrying");
                             StartConnection(Links.NHM_Socket_Address);
                         }
                     }
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     Helpers.ConsolePrint("SOCKET", e.ToString());
                 }
                 return false;
             }
 
-            private static bool AttemptReconnect() {
-                if (attemptingReconnect) {
+            private static bool AttemptReconnect()
+            {
+                if (attemptingReconnect)
+                {
                     return false;
                 }
-                if (webSocket.IsAlive) {  // no reconnect needed
+                if (webSocket.IsAlive)
+                {  // no reconnect needed
                     return true;
                 }
                 attemptingReconnect = true;
@@ -207,16 +255,21 @@ namespace zPoolMiner
                 Helpers.ConsolePrint("SOCKET", "Attempting reconnect in " + sleep + " seconds");
                 // More retries on first attempt
                 var retries = connectionEstablished ? 5 : 25;
-                if (connectionEstablished) {  // Don't wait if no connection yet
+                if (connectionEstablished)
+                {  // Don't wait if no connection yet
                     Thread.Sleep(sleep * 1000);
-                } else {
+                }
+                else
+                {
                     // Don't not wait again
                     connectionEstablished = true;
                 }
-                for (int i = 0; i < retries; i++) {
+                for (int i = 0; i < retries; i++)
+                {
                     webSocket.Connect();
                     Thread.Sleep(100);
-                    if (webSocket.IsAlive) {
+                    if (webSocket.IsAlive)
+                    {
                         attemptingReconnect = false;
                         return true;
                     }
@@ -228,23 +281,30 @@ namespace zPoolMiner
             }
         }
 
-        public static void StartConnection(string address) {
+        public static void StartConnection(string address)
+        {
             NiceHashConnection.StartConnection(address);
             deviceUpdateTimer = new System.Threading.Timer(DeviceStatus_Tick, null, deviceUpdateInterval, deviceUpdateInterval);
         }
 
-        #endregion
+        #endregion Socket
 
         #region Incoming socket calls
-        private static void SetAlgorithmRates(JArray data) {
-            try {
-                foreach (var algo in data) {
+
+        private static void SetAlgorithmRates(JArray data)
+        {
+            try
+            {
+                foreach (var algo in data)
+                {
                     var algoKey = (AlgorithmType)algo[0].Value<int>();
                     niceHashData.AppendPayingForAlgo(algoKey, algo[1].Value<double>());
                 }
                 AlgorithmRates = niceHashData.NormalizedSMA();
                 OnSMAUpdate.Emit(null, EventArgs.Empty);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Helpers.ConsolePrint("SOCKET", e.ToString());
             }
         }
@@ -267,31 +327,38 @@ namespace zPoolMiner
             }
         }
 
-        private static void SetBalance(string balance) {
-            try {
+        private static void SetBalance(string balance)
+        {
+            try
+            {
                 double bal = 0d;
                 double.TryParse(balance, NumberStyles.Number, CultureInfo.InvariantCulture, out bal);
                 Balance = bal;
                 OnBalanceUpdate.Emit(null, EventArgs.Empty);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Helpers.ConsolePrint("SOCKET", e.ToString());
             }
         }
 
-        private static void SetVersion(string version) {
+        private static void SetVersion(string version)
+        {
             Version = version;
             OnVersionUpdate.Emit(null, EventArgs.Empty);
         }
 
-        #endregion
+        #endregion Incoming socket calls
 
         #region Outgoing socket calls
 
-        public static void SetCredentials(string btc, string worker) {
+        public static void SetCredentials(string btc, string worker)
+        {
             var data = new nicehash_credentials();
             data.btc = btc;
             data.worker = worker;
-            if (BitcoinAddress.ValidateBitcoinAddress(data.btc) && BitcoinAddress.ValidateWorkerName(worker)) {
+            if (BitcoinAddress.ValidateBitcoinAddress(data.btc) && BitcoinAddress.ValidateWorkerName(worker))
+            {
                 var sendData = JsonConvert.SerializeObject(data);
 
                 // Send as task since SetCredentials is called from UI threads
@@ -299,12 +366,15 @@ namespace zPoolMiner
             }
         }
 
-        public static void DeviceStatus_Tick(object state) {
+        public static void DeviceStatus_Tick(object state)
+        {
             var devices = ComputeDeviceManager.Avaliable.AllAvaliableDevices;
             var deviceList = new List<JArray>();
             var activeIDs = MinersManager.GetActiveMinersIndexes();
-            foreach (var device in devices) {
-                try {
+            foreach (var device in devices)
+            {
+                try
+                {
                     var array = new JArray();
                     array.Add(device.Index);
                     array.Add(device.Name);
@@ -315,7 +385,8 @@ namespace zPoolMiner
                     array.Add((uint)device.FanSpeed);
 
                     deviceList.Add(array);
-                } catch (Exception e) { Helpers.ConsolePrint("SOCKET", e.ToString()); }
+                }
+                catch (Exception e) { Helpers.ConsolePrint("SOCKET", e.ToString()); }
             }
             var data = new nicehash_device_status();
             data.devices = deviceList;
@@ -325,7 +396,7 @@ namespace zPoolMiner
             //NiceHashConnection.SendData(sendData);
         }
 
-        #endregion
+        #endregion Outgoing socket calls
 
         public static string GetNiceHashAPIData(string URL, string worker)
         {
@@ -364,11 +435,13 @@ namespace zPoolMiner
     {
         public string name { get; set; }
         public int port { get; set; }
+
         //public decimal coins { get; set; }
         //public decimal fees { get; set; }
         //public decimal hashrate { get; set; }
         //public int workers { get; set; }
         public decimal estimate_current { get; set; }
+
         public decimal estimate_last24h { get; set; }
         public decimal actual_last24h { get; set; }
 
@@ -377,7 +450,7 @@ namespace zPoolMiner
         public decimal Normalized24HrActual => MagnitudeFactor(name) * actual_last24h * 0.001m;
         public decimal MidPoint24HrEstimate => (Normalized24HrEstimate + Normalized24HrActual) / 2m;
 
-        // if the normalized estimate (now) is 20% less than the midpoint, we want to return the 
+        // if the normalized estimate (now) is 20% less than the midpoint, we want to return the
         // normalized estimate
         public decimal Safe24HrEstimate => NormalizedEstimate * 1.2m < MidPoint24HrEstimate
             ? NormalizedEstimate
@@ -387,6 +460,7 @@ namespace zPoolMiner
         //public decimal rental_current { get; set; }
 
         public zAlgorithm Algorithm => ToAlgorithm(name);
+
         private zAlgorithm ToAlgorithm(string s)
         {
             switch (s.ToLower())
@@ -423,14 +497,15 @@ namespace zPoolMiner
                 case "x17": return zAlgorithm.x17;
                 case "xevan": return zAlgorithm.xevan;
                 case "yescrypt": return zAlgorithm.yescrypt;
-                //case "hmq1725": return zAlgorithm.hmq1725;
-                //case "m7m": return zAlgorithm.m7m;
+                    //case "hmq1725": return zAlgorithm.hmq1725;
+                    //case "m7m": return zAlgorithm.m7m;
             }
 
             return zAlgorithm.unknown;
         }
 
-        public int NiceHashAlgoId() {
+        public int NiceHashAlgoId()
+        {
             switch (name)
             {
                 case "bitcore": return 0;
@@ -484,9 +559,11 @@ namespace zPoolMiner
                 case "quark":
                 case "qubit":
                     return 1;
+
                 case "equihash": return 1e6m;
                 case "sha256":
                     return 1e-3m;
+
                 default: return 1e3m;
             }
         }
@@ -508,42 +585,40 @@ namespace zPoolMiner
 
     public enum zAlgorithm
     {
-                bitcore,
-                blake2s,
-                blake256r8,
-                c11,
-                equihash,
-                groestl,
-                hsr,
-                keccak,
-                lbry,
-                lyra2v2,
-                myriad_groestl,
-                neoscrypt,
-                nist5,
-                phi,
-                polytimos,
-                quark,
-                qubit,
-                scrypt,
-                sha256,
-                sib,
-                skein,
-                skunk,
-                timetravel,
-                tribus,
-                veltor,
-                x11,
-                x11evo,
-                x13,
-                x14,
-                x17,
-                xevan,
-                unknown,
-                yescrypt
+        bitcore,
+        blake2s,
+        blake256r8,
+        c11,
+        equihash,
+        groestl,
+        hsr,
+        keccak,
+        lbry,
+        lyra2v2,
+        myriad_groestl,
+        neoscrypt,
+        nist5,
+        phi,
+        polytimos,
+        quark,
+        qubit,
+        scrypt,
+        sha256,
+        sib,
+        skein,
+        skunk,
+        timetravel,
+        tribus,
+        veltor,
+        x11,
+        x11evo,
+        x13,
+        x14,
+        x17,
+        xevan,
+        unknown,
+        yescrypt
         //hmq1725,
         //m7m
-
-
     }
 }

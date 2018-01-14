@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace MyDownloader.Core
 {
-    public class SequentialMirrorSelector: IMirrorSelector
+    public class SequentialMirrorSelector : IMirrorSelector
     {
         private Downloader downloader;
         private int queryMirrorCount;
@@ -37,6 +33,6 @@ namespace MyDownloader.Core
             }
         }
 
-        #endregion
+        #endregion IMirrorSelector Members
     }
 }

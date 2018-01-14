@@ -1,67 +1,72 @@
-﻿using zPoolMiner.Interfaces;
-using SharpCompress.Archive;
-using SharpCompress.Archive.SevenZip;
-using SharpCompress.Common;
-using SharpCompress.Reader;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
-using System.Text;
-using System.Threading;
-using MyDownloader.Core;
-using MyDownloader.Extension.Protocols;
+﻿using MyDownloader.Core;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core.UI;
+using MyDownloader.Extension.Protocols;
+using SharpCompress.Archive;
+using SharpCompress.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using zPoolMiner.Interfaces;
 
-namespace zPoolMiner.Utils {
-    public class MinersDownloader {
+namespace zPoolMiner.Utils
+{
+    public class MinersDownloader
+    {
         private const string TAG = "MinersDownloader";
 
-        DownloadSetup _downloadSetup;
+        private DownloadSetup _downloadSetup;
 
         private Downloader downloader;
         private Timer timer;
         private int ticksSinceUpdate;
         private long lastProgress;
-        Thread _UnzipThread = null;
+        private Thread _UnzipThread = null;
 
-        bool isDownloadSizeInit = false;
+        private bool isDownloadSizeInit = false;
 
-        IMinerUpdateIndicator _minerUpdateIndicator;
+        private IMinerUpdateIndicator _minerUpdateIndicator;
 
-        public MinersDownloader(DownloadSetup downloadSetup) {
+        public MinersDownloader(DownloadSetup downloadSetup)
+        {
             _downloadSetup = downloadSetup;
 
             var extensions = new List<IExtension>();
-            try {
+            try
+            {
                 extensions.Add(new CoreExtention());
                 extensions.Add(new HttpFtpProtocolExtension());
-            } catch { }
+            }
+            catch { }
         }
 
-        public void Start(IMinerUpdateIndicator minerUpdateIndicator) {
+        public void Start(IMinerUpdateIndicator minerUpdateIndicator)
+        {
             _minerUpdateIndicator = minerUpdateIndicator;
 
             // if something not right delete previous and download new
-            try {
-                if (File.Exists(_downloadSetup.BinsZipLocation)) {
+            try
+            {
+                if (File.Exists(_downloadSetup.BinsZipLocation))
+                {
                     File.Delete(_downloadSetup.BinsZipLocation);
                 }
-                if (Directory.Exists(_downloadSetup.ZipedFolderName)) {
+                if (Directory.Exists(_downloadSetup.ZipedFolderName))
+                {
                     Directory.Delete(_downloadSetup.ZipedFolderName, true);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Helpers.ConsolePrint("MinersDownloader", e.Message);
             }
             Downlaod();
         }
 
         // #2 download the file
-        private void Downlaod() {
+        private void Downlaod()
+        {
             lastProgress = 0;
             ticksSinceUpdate = 0;
 
@@ -85,14 +90,18 @@ namespace zPoolMiner.Utils {
 
         #region Download delegates
 
-        private void tmrRefresh_Tick(Object stateInfo) {
-            if (downloader != null && downloader.State == DownloaderState.Working) {
-                if (!isDownloadSizeInit) {
+        private void tmrRefresh_Tick(Object stateInfo)
+        {
+            if (downloader != null && downloader.State == DownloaderState.Working)
+            {
+                if (!isDownloadSizeInit)
+                {
                     isDownloadSizeInit = true;
                     _minerUpdateIndicator.SetMaxProgressValue((int)(downloader.FileSize / 1024));
                 }
 
-                if (downloader.LastError != null) {
+                if (downloader.LastError != null)
+                {
                     Helpers.ConsolePrint("MinersDownloader", downloader.LastError.Message);
                 }
 
@@ -105,13 +114,18 @@ namespace zPoolMiner.Utils {
                     String.Format("{0}   {1}   {2}", speedString, percString, labelDownloaded));
 
                 // Diagnostic stuff
-                if (downloader.Transfered > lastProgress) {
+                if (downloader.Transfered > lastProgress)
+                {
                     ticksSinceUpdate = 0;
                     lastProgress = downloader.Transfered;
-                } else if (ticksSinceUpdate > 20) {
+                }
+                else if (ticksSinceUpdate > 20)
+                {
                     Helpers.ConsolePrint("MinersDownloader", "Maximum ticks reached, retrying");
                     ticksSinceUpdate = 0;
-                } else {
+                }
+                else
+                {
                     Helpers.ConsolePrint("MinersDownloader", "No progress in ticks " + ticksSinceUpdate.ToString());
                     ticksSinceUpdate++;
                 }
@@ -119,13 +133,18 @@ namespace zPoolMiner.Utils {
         }
 
         // The event that will trigger when the WebClient is completed
-        private void DownloadCompleted(object sender, DownloaderEventArgs e) {
+        private void DownloadCompleted(object sender, DownloaderEventArgs e)
+        {
             timer.Dispose();
 
-            if (downloader != null) {
-                if (downloader.State == DownloaderState.EndedWithError) {
+            if (downloader != null)
+            {
+                if (downloader.State == DownloaderState.EndedWithError)
+                {
                     Helpers.ConsolePrint("MinersDownloader", downloader.LastError.Message);
-                } else if (downloader.State == DownloaderState.Ended) {
+                }
+                else if (downloader.State == DownloaderState.Ended)
+                {
                     Helpers.ConsolePrint(TAG, "DownloadCompleted Success");
                     System.Threading.Thread.Sleep(100);
                     int try_count = 50;
@@ -138,21 +157,25 @@ namespace zPoolMiner.Utils {
 
         #endregion Download delegates
 
-
-        private void UnzipStart() {
-            try {
+        private void UnzipStart()
+        {
+            try
+            {
                 _minerUpdateIndicator.SetTitle(International.GetText("MinersDownloadManager_Title_Settup"));
-            } catch {
-
+            }
+            catch
+            {
             }
             _UnzipThread = new Thread(UnzipThreadRoutine);
             _UnzipThread.Start();
         }
 
-        private void UnzipThreadRoutine() {
-            try {
-                if (File.Exists(_downloadSetup.BinsZipLocation)) {
-                    
+        private void UnzipThreadRoutine()
+        {
+            try
+            {
+                if (File.Exists(_downloadSetup.BinsZipLocation))
+                {
                     Helpers.ConsolePrint(TAG, _downloadSetup.BinsZipLocation + " already downloaded");
                     Helpers.ConsolePrint(TAG, "unzipping");
 
@@ -161,8 +184,10 @@ namespace zPoolMiner.Utils {
                     var archive = ArchiveFactory.Open(_downloadSetup.BinsZipLocation);
                     _minerUpdateIndicator.SetMaxProgressValue(100);
                     long SizeCount = 0;
-                    foreach (var entry in archive.Entries) {
-                        if (!entry.IsDirectory) {
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (!entry.IsDirectory)
+                        {
                             SizeCount += entry.CompressedSize;
                             Helpers.ConsolePrint(TAG, entry.Key);
                             entry.WriteToDirectory("", ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
@@ -176,17 +201,25 @@ namespace zPoolMiner.Utils {
                     // after unzip stuff
                     _minerUpdateIndicator.FinishMsg(true);
                     // remove bins zip
-                    try {
-                        if (File.Exists(_downloadSetup.BinsZipLocation)) {
+                    try
+                    {
+                        if (File.Exists(_downloadSetup.BinsZipLocation))
+                        {
                             File.Delete(_downloadSetup.BinsZipLocation);
                         }
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         Helpers.ConsolePrint("MinersDownloader.UnzipThreadRoutine", "Cannot delete exception: " + e.Message);
                     }
-                } else {
+                }
+                else
+                {
                     Helpers.ConsolePrint(TAG, String.Format("UnzipThreadRoutine {0} file not found", _downloadSetup.BinsZipLocation));
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Helpers.ConsolePrint(TAG, "UnzipThreadRoutine has encountered an error: " + e.Message);
             }
         }

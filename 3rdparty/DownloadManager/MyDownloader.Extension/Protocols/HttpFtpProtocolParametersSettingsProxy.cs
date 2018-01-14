@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace MyDownloader.Extension.Protocols
 {
-    class HttpFtpProtocolParametersSettingsProxy : IHttpFtpProtocolParameters
+    internal class HttpFtpProtocolParametersSettingsProxy : IHttpFtpProtocolParameters
     {
         #region IHttpFtpProtocolParameters Members
 
@@ -92,6 +88,6 @@ namespace MyDownloader.Extension.Protocols
             }
         }
 
-        #endregion
+        #endregion IHttpFtpProtocolParameters Members
     }
 }

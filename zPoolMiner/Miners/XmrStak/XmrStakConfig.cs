@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
-namespace zPoolMiner.Miners
+﻿namespace zPoolMiner.Miners
 {
     public class XmrStakConfig
     {
-        public XmrStakConfig(string poolAddr, string wallet, int port) {
+        public XmrStakConfig(string poolAddr, string wallet, int port)
+        {
             pool_address = poolAddr;
             wallet_address = wallet;
             httpd_port = port;
@@ -18,7 +12,7 @@ namespace zPoolMiner.Miners
         /*
          * TLS Settings
          * If you need real security, make sure tls_secure_algo is enabled (otherwise MITM attack can downgrade encryption
-         * to trivially breakable stuff like DES and MD5), and verify the server's fingerprint through a trusted channel. 
+         * to trivially breakable stuff like DES and MD5), and verify the server's fingerprint through a trusted channel.
          *
          * use_tls         - This option will make us connect using Transport Layer Security.
          * tls_secure_algo - Use only secure algorithms. This will make us quit with an error if we can't negotiate a secure algo.
@@ -39,8 +33,8 @@ namespace zPoolMiner.Miners
 
         /*
          * Network timeouts.
-         * Because of the way this client is written it doesn't need to constantly talk (keep-alive) to the server to make 
-         * sure it is there. We detect a buggy / overloaded server by the call timeout. The default values will be ok for 
+         * Because of the way this client is written it doesn't need to constantly talk (keep-alive) to the server to make
+         * sure it is there. We detect a buggy / overloaded server by the call timeout. The default values will be ok for
          * nearly all cases. If they aren't the pool has most likely overload issues. Low call timeout values are preferable -
          * long timeouts mean that we waste hashes on potentially stale jobs. Connection report will tell you how long the
          * server usually takes to process our calls.
@@ -62,11 +56,11 @@ namespace zPoolMiner.Miners
          * performance monitors, there is very little reason to spew out pages of text instead of concise reports.
          * Press 'h' (hashrate), 'r' (results) or 'c' (connection) to print reports.
          *
-         * verbose_level - 0 - Don't print anything. 
+         * verbose_level - 0 - Don't print anything.
          *                 1 - Print intro, connection event, disconnect event
          *                 2 - All of level 1, and new job (block) event if the difficulty is different from the last job
          *                 3 - All of level 1, and new job (block) event in all cases, result submission event.
-         *                 4 - All of level 3, and automatic hashrate report printing 
+         *                 4 - All of level 3, and automatic hashrate report printing
          */
         public int verbose_level = 4;
 

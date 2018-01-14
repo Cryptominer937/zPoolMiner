@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace MyDownloader.Core.Concurrency
@@ -9,9 +7,9 @@ namespace MyDownloader.Core.Concurrency
     {
         #region Fields
 
-        private object obj; 
+        private object obj;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -21,7 +19,7 @@ namespace MyDownloader.Core.Concurrency
             Monitor.Enter(this.obj);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IDisposable Members
 
@@ -30,6 +28,6 @@ namespace MyDownloader.Core.Concurrency
             Monitor.Exit(this.obj);
         }
 
-        #endregion
-    } 
+        #endregion IDisposable Members
+    }
 }

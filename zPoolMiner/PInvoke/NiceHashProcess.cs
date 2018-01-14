@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace zPoolMiner
@@ -35,7 +33,7 @@ namespace zPoolMiner
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        struct STARTUPINFO
+        private struct STARTUPINFO
         {
             public Int32 cb;
             public string lpReserved;
@@ -86,18 +84,18 @@ namespace zPoolMiner
         private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern IntPtr GetStdHandle(int nStdHandle);
+        private static extern IntPtr GetStdHandle(int nStdHandle);
 
         [DllImport("kernel32.dll")]
-        static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe,
+        private static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe,
            ref SECURITY_ATTRIBUTES lpPipeAttributes, uint nSize);
 
         // ctrl+c
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool AttachConsole(uint dwProcessId);
+        private static extern bool AttachConsole(uint dwProcessId);
 
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern bool FreeConsole();
+        private static extern bool FreeConsole();
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool GenerateConsoleCtrlEvent(CtrlTypes dwCtrlEvent, uint dwProcessGroupId);
@@ -110,9 +108,10 @@ namespace zPoolMiner
         public static extern bool AllocConsole();
 
         [DllImport("kernel32.dll")]
-        static extern uint GetLastError();
+        private static extern uint GetLastError();
 
-        enum CtrlTypes {
+        private enum CtrlTypes
+        {
             CTRL_C_EVENT = 0,
             CTRL_BREAK_EVENT,
             CTRL_CLOSE_EVENT,
@@ -120,7 +119,7 @@ namespace zPoolMiner
             CTRL_SHUTDOWN_EVENT
         }
 
-        // A delegate type to be used as the handler routine 
+        // A delegate type to be used as the handler routine
         // for SetConsoleCtrlHandler.
         private delegate bool HandlerRoutine(CtrlTypes CtrlType);
 
@@ -150,15 +149,18 @@ namespace zPoolMiner
             tSec.nLength = Marshal.SizeOf(tSec);
 
             uint sflags = 0;
-            if (StartInfo.CreateNoWindow) {
+            if (StartInfo.CreateNoWindow)
+            {
                 sflags = CREATE_NO_WINDOW;
             }
-            else if (StartInfo.WindowStyle == ProcessWindowStyle.Minimized) {
+            else if (StartInfo.WindowStyle == ProcessWindowStyle.Minimized)
+            {
                 sInfo.dwFlags = STARTF_USESHOWWINDOW;
                 sInfo.wShowWindow = SW_SHOWMINNOACTIVE;
                 sflags = CREATE_NEW_CONSOLE;
             }
-            else {
+            else
+            {
                 sflags = CREATE_NEW_CONSOLE;
             }
 
@@ -174,7 +176,7 @@ namespace zPoolMiner
                 sflags | NORMAL_PRIORITY_CLASS,
                 IntPtr.Zero,
                 workDir,
-                ref sInfo, 
+                ref sInfo,
                 out pInfo);
 
             if (!res)
@@ -231,14 +233,16 @@ namespace zPoolMiner
             pHandle = IntPtr.Zero;
         }
 
-        bool signalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent) {
+        private bool signalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent)
+        {
             bool success = false;
             //uint thisConsoleId = GetCurrentProcessId();
             // Leave current console if it exists
             // (otherwise AttachConsole will return ERROR_ACCESS_DENIED)
             bool consoleDetached = (FreeConsole() != false);
 
-            if (AttachConsole(dwProcessId) != false) {
+            if (AttachConsole(dwProcessId) != false)
+            {
                 // Add a fake Ctrl-C handler for avoid instant kill is this console
                 // WARNING: do not revert it or current program will be also killed
                 SetConsoleCtrlHandler(null, true);
@@ -248,11 +252,14 @@ namespace zPoolMiner
                 WaitForSingleObject(pHandle, 10000);
             }
 
-            if (consoleDetached) {
+            if (consoleDetached)
+            {
                 // Create a new console if previous was deleted by OS
-                if (AttachConsole(thisConsoleId) == false) {
+                if (AttachConsole(thisConsoleId) == false)
+                {
                     uint errorCode = GetLastError();
-                    if (errorCode == 31) { // 31=ERROR_GEN_FAILURE
+                    if (errorCode == 31)
+                    { // 31=ERROR_GEN_FAILURE
                         AllocConsole();
                     }
                 }
@@ -261,10 +268,12 @@ namespace zPoolMiner
             return success;
         }
 
-        public void SendCtrlC(uint thisConsoleId) {
+        public void SendCtrlC(uint thisConsoleId)
+        {
             if (pHandle == IntPtr.Zero) return;
 
-            if (tHandle != null) {
+            if (tHandle != null)
+            {
                 bRunning = false;
                 tHandle.Join();
             }

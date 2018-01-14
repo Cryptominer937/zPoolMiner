@@ -1,12 +1,12 @@
 ﻿/*
   Adapted from OpenHardwareMonitor https://github.com/openhardwaremonitor/openhardwaremonitor
- 
+
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
- 
+
   Copyright (C) 2009-2012 Michael M�ller <mmoeller@openhardwaremonitor.org>
-	
+
 */
 
 using System;
@@ -17,10 +17,8 @@ using System.Runtime.InteropServices;
 
 namespace NVIDIA
 {
-
     internal static class PInvokeDelegateFactory
     {
-
         private static readonly ModuleBuilder moduleBuilder =
           AppDomain.CurrentDomain.DefineDynamicAssembly(
             new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
@@ -31,13 +29,15 @@ namespace NVIDIA
           new Dictionary<Tuple<DllImportAttribute, Type>, Type>();
 
         public static void CreateDelegate<T>(DllImportAttribute dllImportAttribute,
-          out T newDelegate) where T : class {
+          out T newDelegate) where T : class
+        {
             Type wrapperType;
             Tuple<DllImportAttribute, Type> key =
               new Tuple<DllImportAttribute, Type>(dllImportAttribute, typeof(T));
             wrapperTypes.TryGetValue(key, out wrapperType);
 
-            if (wrapperType == null) {
+            if (wrapperType == null)
+            {
                 wrapperType = CreateWrapperType(typeof(T), dllImportAttribute);
                 wrapperTypes.Add(key, wrapperType);
             }
@@ -46,10 +46,9 @@ namespace NVIDIA
               dllImportAttribute.EntryPoint) as T;
         }
 
-
         private static Type CreateWrapperType(Type delegateType,
-          DllImportAttribute dllImportAttribute) {
-
+          DllImportAttribute dllImportAttribute)
+        {
             TypeBuilder typeBuilder = moduleBuilder.DefineType(
               "PInvokeDelegateFactoryInternalWrapperType" + wrapperTypes.Count);
 

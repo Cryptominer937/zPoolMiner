@@ -1,11 +1,11 @@
-﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner {
+namespace zPoolMiner
+{
     // this class mirrors the web profitability, chech what https://www.nicehash.com/?p=calc is using for each algo
-    static class ProfitabilityCalculator {
+    internal static class ProfitabilityCalculator
+    {
         private const double kHs = 1000;
         private const double MHs = 1000000;
         private const double GHs = 1000000000;
@@ -44,15 +44,17 @@ namespace zPoolMiner {
             { AlgorithmType.CryptoNight ,                   kHs },
             { AlgorithmType.Lbry ,                          GHs },
             { AlgorithmType.Equihash ,                      1 }, // Sols /s
-            { AlgorithmType.Pascal ,                        GHs }, 
+            { AlgorithmType.Pascal ,                        GHs },
             { AlgorithmType.X11Gost ,                       MHs },
             { AlgorithmType.Sia ,                           GHs },
             { AlgorithmType.Blake2s ,                       GHs },
             { AlgorithmType.Skunk ,                         MHs }
         };
 
-        public static double GetFormatedSpeed(double speed, AlgorithmType type) {
-            if (_div.ContainsKey(type)) {
+        public static double GetFormatedSpeed(double speed, AlgorithmType type)
+        {
+            if (_div.ContainsKey(type))
+            {
                 return speed / _div[type];
             }
             return speed; // should never happen

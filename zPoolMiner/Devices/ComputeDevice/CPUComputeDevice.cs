@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using zPoolMiner.Enums;
 using System.Diagnostics;
+using zPoolMiner.Enums;
 
 namespace zPoolMiner.Devices
 {
-    class CPUComputeDevice : ComputeDevice
+    internal class CPUComputeDevice : ComputeDevice
     {
-        PerformanceCounter cpuCounter;
+        private PerformanceCounter cpuCounter;
 
-        public override float Load {
-            get {
-                try {
+        public override float Load
+        {
+            get
+            {
+                try
+                {
                     if (cpuCounter != null) return cpuCounter.NextValue();
-                } catch (Exception e) { Helpers.ConsolePrint("CPUDIAG", e.ToString()); }
+                }
+                catch (Exception e) { Helpers.ConsolePrint("CPUDIAG", e.ToString()); }
                 return 0;
             }
         }
@@ -29,7 +29,8 @@ namespace zPoolMiner.Devices
                   false,
                   DeviceType.CPU,
                   String.Format(International.GetText("ComputeDevice_Short_Name_CPU"), CPUCount),
-                  0) {
+                  0)
+        {
             Threads = threads;
             AffinityMask = affinityMask;
             UUID = GetUUID(ID, GroupNames.GetGroupName(DeviceGroupType, ID), Name, DeviceGroupType);

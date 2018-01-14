@@ -19,7 +19,8 @@ vector<Platform> AMDOpenCLDeviceDetection::getPlatforms() {
 	vector<Platform> platforms;
 	try {
 		Platform::get(&platforms);
-	} catch (Error const& err) {
+	}
+	catch (Error const& err) {
 #if defined(CL_PLATFORM_NOT_FOUND_KHR)
 		if (err.err() == CL_PLATFORM_NOT_FOUND_KHR)
 			cout << "No OpenCL platforms found" << endl;
@@ -34,7 +35,8 @@ vector<Device> AMDOpenCLDeviceDetection::getDevices(vector<Platform> const& _pla
 	vector<Device> devices;
 	try {
 		_platforms[_platformId].getDevices(/*CL_DEVICE_TYPE_CPU| */CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR, &devices);
-	} catch (Error const& err) {
+	}
+	catch (Error const& err) {
 		// if simply no devices found return empty vector
 		if (err.err() != CL_DEVICE_NOT_FOUND)
 			throw err;
@@ -135,7 +137,7 @@ void AMDOpenCLDeviceDetection::PrintDevicesJson() {
 				cout << "\t\t\t\t\"" << "DeviceID" << "\" : " << dev.DeviceID << "," << endl; // num
 				cout << "\t\t\t\t\"" << "AMD_BUS_ID" << "\" : " << dev.AMD_BUS_ID << "," << endl; // num
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_NAME" << "\" : \"" << dev._CL_DEVICE_NAME << "\"," << endl;
-				cout << "\t\t\t\t\"" << "_CL_DEVICE_TYPE" << "\" : \"" << dev._CL_DEVICE_TYPE << "\"," << endl; 
+				cout << "\t\t\t\t\"" << "_CL_DEVICE_TYPE" << "\" : \"" << dev._CL_DEVICE_TYPE << "\"," << endl;
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_GLOBAL_MEM_SIZE" << "\" : " << dev._CL_DEVICE_GLOBAL_MEM_SIZE << "," << endl; // num
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_VENDOR" << "\" : \"" << dev._CL_DEVICE_VENDOR << "\"," << endl;
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_VERSION" << "\" : \"" << dev._CL_DEVICE_VERSION << "\"," << endl;
@@ -149,7 +151,6 @@ void AMDOpenCLDeviceDetection::PrintDevicesJson() {
 
 	cout << "]" << endl;
 }
-
 
 void AMDOpenCLDeviceDetection::PrintDevicesJsonDirty() {
 	cout << "[";

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace zPoolMiner.Enums {
-    public enum MinerType {
+﻿namespace zPoolMiner.Enums
+{
+    public enum MinerType
+    {
         NONE,
         ccminer,
         ccminer_CryptoNight,

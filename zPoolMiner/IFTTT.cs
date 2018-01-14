@@ -1,19 +1,14 @@
-﻿using Newtonsoft.Json;
-using zPoolMiner.Configs;
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Specialized;
 using System.Net;
 using System.Text;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+using zPoolMiner.Configs;
 
 namespace zPoolMiner
 {
-    class IFTTT
+    internal class IFTTT
     {
-
-        const string apiUrl = "https://maker.ifttt.com/trigger/";
+        private const string apiUrl = "https://maker.ifttt.com/trigger/";
 
         public static void PostToIFTTT(string action, string msg)
         {
@@ -39,8 +34,6 @@ namespace zPoolMiner
             {
                 Helpers.ConsolePrint("NICEHASH", ex.Message);
             }
-
         }
-
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace zPoolMiner.Enums
+﻿namespace zPoolMiner.Enums
 {
-    public enum CPUExtensionType : int {
+    public enum CPUExtensionType : int
+    {
         Automatic = 0,
         AVX2_AES = 1,
         AVX2 = 2,

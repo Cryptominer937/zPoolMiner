@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using Newtonsoft.Json;
 using zPoolMiner.Enums;
 
 namespace zPoolMiner
 {
-    class International
+    internal class International
     {
         private class Language
         {
@@ -63,7 +62,7 @@ namespace zPoolMiner
                     return;
                 }
             }
-            
+
             Helpers.ConsolePrint("NICEHASH", "Critical error: missing language");
         }
 

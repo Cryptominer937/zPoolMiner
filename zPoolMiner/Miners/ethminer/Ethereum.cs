@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.IO;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Sockets;
-using System.Windows.Forms;
 using zPoolMiner.Configs;
-using zPoolMiner.Miners;
-using zPoolMiner.Miners.Grouping;
 
 namespace zPoolMiner
 {
@@ -147,7 +137,7 @@ namespace zPoolMiner
         public static void GetCurrentBlock(string worker)
         {
             string ret = NiceHashStats.GetNiceHashAPIData("https://etherchain.org/api/blocks/count", worker);
-            
+
             if (ret == null)
             {
                 Helpers.ConsolePrint(worker, String.Format("Failed to obtain current block, using default {0}.", ConfigManager.GeneralConfig.ethminerDefaultBlockHeight));

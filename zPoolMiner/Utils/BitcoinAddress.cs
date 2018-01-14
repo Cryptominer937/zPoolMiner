@@ -40,8 +40,8 @@ namespace zPoolMiner
             return rg.IsMatch(strToCheck);
         }
 
-        const string Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-        const int Size = 25;
+        private const string Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+        private const int Size = 25;
 
         private static byte[] DecodeBase58(string input)
         {
@@ -76,4 +76,3 @@ namespace zPoolMiner
         }
     }
 }
- 

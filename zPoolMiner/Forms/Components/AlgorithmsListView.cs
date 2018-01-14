@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using zPoolMiner.Enums;
-using zPoolMiner.Configs;
-using zPoolMiner.Forms.Components;
 using zPoolMiner.Devices;
-using zPoolMiner.Miners;
 using zPoolMiner.Interfaces;
 
-namespace zPoolMiner.Forms.Components {
-    public partial class AlgorithmsListView : UserControl {
-
-        private const int ENABLED   = 0;
+namespace zPoolMiner.Forms.Components
+{
+    public partial class AlgorithmsListView : UserControl
+    {
+        private const int ENABLED = 0;
         private const int ALGORITHM = 1;
-        private const int SPEED     = 2;
-        private const int RATIO     = 3;
-        private const int RATE      = 4;
+        private const int SPEED = 2;
+        private const int RATIO = 3;
+        private const int RATE = 4;
 
-        public interface IAlgorithmsListView {
+        public interface IAlgorithmsListView
+        {
             void SetCurrentlySelected(ListViewItem lvi, ComputeDevice computeDevice);
+
             void HandleCheck(ListViewItem lvi);
+
             void ChangeSpeed(ListViewItem lvi);
         }
 
@@ -31,45 +27,61 @@ namespace zPoolMiner.Forms.Components {
 
         public IBenchmarkCalculation BenchmarkCalculation { get; set; }
 
-        ComputeDevice _computeDevice;
+        private ComputeDevice _computeDevice;
 
-        private class DefaultAlgorithmColorSeter : IListItemCheckColorSetter {
+        private class DefaultAlgorithmColorSeter : IListItemCheckColorSetter
+        {
             private static Color DISABLED_COLOR = Color.DarkGray;
             private static Color BENCHMARKED_COLOR = Color.LightGreen;
             private static Color UNBENCHMARKED_COLOR = Color.LightBlue;
-            public void LviSetColor(ListViewItem lvi) {
+
+            public void LviSetColor(ListViewItem lvi)
+            {
                 Algorithm algorithm = lvi.Tag as Algorithm;
-                if (algorithm != null) {
-                    if (algorithm.Enabled == false && !algorithm.IsBenchmarkPending) {
+                if (algorithm != null)
+                {
+                    if (algorithm.Enabled == false && !algorithm.IsBenchmarkPending)
+                    {
                         lvi.BackColor = DISABLED_COLOR;
-                    } else if (algorithm.BenchmarkSpeed > 0 && !algorithm.IsBenchmarkPending) {
+                    }
+                    else if (algorithm.BenchmarkSpeed > 0 && !algorithm.IsBenchmarkPending)
+                    {
                         lvi.BackColor = BENCHMARKED_COLOR;
-                    } else {
+                    }
+                    else
+                    {
                         lvi.BackColor = UNBENCHMARKED_COLOR;
                     }
                 }
             }
         }
 
-        IListItemCheckColorSetter _listItemCheckColorSetter = new DefaultAlgorithmColorSeter();
+        private IListItemCheckColorSetter _listItemCheckColorSetter = new DefaultAlgorithmColorSeter();
 
         // disable checkboxes when in benchmark mode
         private bool _isInBenchmark = false;
+
         // helper for benchmarking logic
-        public bool IsInBenchmark {
+        public bool IsInBenchmark
+        {
             get { return _isInBenchmark; }
-            set {
-                if (value) {
+            set
+            {
+                if (value)
+                {
                     _isInBenchmark = value;
                     listViewAlgorithms.CheckBoxes = false;
-                } else {
+                }
+                else
+                {
                     _isInBenchmark = value;
                     listViewAlgorithms.CheckBoxes = true;
                 }
             }
         }
 
-        public AlgorithmsListView() {
+        public AlgorithmsListView()
+        {
             InitializeComponent();
             // callback initializations
             listViewAlgorithms.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(listViewAlgorithms_ItemSelectionChanged);
@@ -77,7 +89,8 @@ namespace zPoolMiner.Forms.Components {
             IsInBenchmark = false;
         }
 
-        public void InitLocale() {
+        public void InitLocale()
+        {
             listViewAlgorithms.Columns[ENABLED].Text = International.GetText("AlgorithmsListView_Enabled");
             listViewAlgorithms.Columns[ALGORITHM].Text = International.GetText("AlgorithmsListView_Algorithm");
             listViewAlgorithms.Columns[SPEED].Text = International.GetText("AlgorithmsListView_Speed");
@@ -85,11 +98,13 @@ namespace zPoolMiner.Forms.Components {
             listViewAlgorithms.Columns[RATE].Text = International.GetText("AlgorithmsListView_Rate");
         }
 
-        public void SetAlgorithms(ComputeDevice computeDevice, bool isEnabled) {
+        public void SetAlgorithms(ComputeDevice computeDevice, bool isEnabled)
+        {
             _computeDevice = computeDevice;
             listViewAlgorithms.BeginUpdate();
             listViewAlgorithms.Items.Clear();
-            foreach (var alg in computeDevice.GetAlgorithmSettings()) {
+            foreach (var alg in computeDevice.GetAlgorithmSettings())
+            {
                 ListViewItem lvi = new ListViewItem();
                 ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
 
@@ -105,9 +120,12 @@ namespace zPoolMiner.Forms.Components {
             Enabled = isEnabled;
         }
 
-        public void RepaintStatus(bool isEnabled, string uuid) {
-            if (_computeDevice != null && _computeDevice.UUID == uuid) {
-                foreach (ListViewItem lvi in listViewAlgorithms.Items) {
+        public void RepaintStatus(bool isEnabled, string uuid)
+        {
+            if (_computeDevice != null && _computeDevice.UUID == uuid)
+            {
+                foreach (ListViewItem lvi in listViewAlgorithms.Items)
+                {
                     Algorithm algo = lvi.Tag as Algorithm;
                     lvi.SubItems[SPEED].Text = algo.BenchmarkSpeedString();
                     _listItemCheckColorSetter.LviSetColor(lvi);
@@ -117,22 +135,29 @@ namespace zPoolMiner.Forms.Components {
         }
 
         #region Callbacks Events
-        private void listViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e) {
-            if (ComunicationInterface != null) {
+
+        private void listViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (ComunicationInterface != null)
+            {
                 ComunicationInterface.SetCurrentlySelected(e.Item, _computeDevice);
             }
         }
 
-        private void listViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e) {
-            if (IsInBenchmark) {
+        private void listViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (IsInBenchmark)
+            {
                 e.Item.Checked = !e.Item.Checked;
                 return;
             }
             var algo = e.Item.Tag as Algorithm;
-            if (algo != null) {
+            if (algo != null)
+            {
                 algo.Enabled = e.Item.Checked;
             }
-            if (ComunicationInterface != null) {
+            if (ComunicationInterface != null)
+            {
                 ComunicationInterface.HandleCheck(e.Item);
             }
             var lvi = e.Item as ListViewItem;
@@ -140,25 +165,34 @@ namespace zPoolMiner.Forms.Components {
             // update benchmark status data
             if (BenchmarkCalculation != null) BenchmarkCalculation.CalcBenchmarkDevicesAlgorithmQueue();
         }
-        #endregion //Callbacks Events
 
-        public void ResetListItemColors() {
-            foreach (ListViewItem lvi in listViewAlgorithms.Items) {
-                if (_listItemCheckColorSetter != null) {
+        #endregion Callbacks Events
+
+        public void ResetListItemColors()
+        {
+            foreach (ListViewItem lvi in listViewAlgorithms.Items)
+            {
+                if (_listItemCheckColorSetter != null)
+                {
                     _listItemCheckColorSetter.LviSetColor(lvi);
                 }
             }
         }
 
         // benchmark settings
-        public void SetSpeedStatus(ComputeDevice computeDevice, Algorithm algorithm, string status) {
-            if (algorithm != null) {
+        public void SetSpeedStatus(ComputeDevice computeDevice, Algorithm algorithm, string status)
+        {
+            if (algorithm != null)
+            {
                 algorithm.BenchmarkStatus = status;
                 // gui update only if same as selected
-                if (_computeDevice != null && computeDevice.UUID == _computeDevice.UUID) {
-                    foreach (ListViewItem lvi in listViewAlgorithms.Items) {
+                if (_computeDevice != null && computeDevice.UUID == _computeDevice.UUID)
+                {
+                    foreach (ListViewItem lvi in listViewAlgorithms.Items)
+                    {
                         Algorithm algo = lvi.Tag as Algorithm;
-                        if (algo != null && algo.AlgorithmStringID == algorithm.AlgorithmStringID) {
+                        if (algo != null && algo.AlgorithmStringID == algorithm.AlgorithmStringID)
+                        {
                             // TODO handle numbers
                             lvi.SubItems[SPEED].Text = algorithm.BenchmarkSpeedString();
                             lvi.SubItems[RATE].Text = algorithm.CurPayingRate;
@@ -171,9 +205,11 @@ namespace zPoolMiner.Forms.Components {
             }
         }
 
-        private void listViewAlgorithms_MouseClick(object sender, MouseEventArgs e) {
+        private void listViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
+        {
             if (IsInBenchmark) return;
-            if (e.Button == MouseButtons.Right) {
+            if (e.Button == MouseButtons.Right)
+            {
                 contextMenuStrip1.Items.Clear();
                 // disable all
                 {
@@ -200,23 +236,31 @@ namespace zPoolMiner.Forms.Components {
             }
         }
 
-        private void toolStripMenuItemEnableAll_Click(object sender, EventArgs e) {
-            foreach (ListViewItem lvi in listViewAlgorithms.Items) {
+        private void toolStripMenuItemEnableAll_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listViewAlgorithms.Items)
+            {
                 lvi.Checked = true;
             }
         }
 
-        private void toolStripMenuItemDisableAll_Click(object sender, EventArgs e) {
-            foreach (ListViewItem lvi in listViewAlgorithms.Items) {
+        private void toolStripMenuItemDisableAll_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listViewAlgorithms.Items)
+            {
                 lvi.Checked = false;
             }
         }
 
-        private void toolStripMenuItemClear_Click(object sender, EventArgs e) {
-            if (_computeDevice != null) {
-                foreach (ListViewItem lvi in listViewAlgorithms.SelectedItems) {
+        private void toolStripMenuItemClear_Click(object sender, EventArgs e)
+        {
+            if (_computeDevice != null)
+            {
+                foreach (ListViewItem lvi in listViewAlgorithms.SelectedItems)
+                {
                     var algorithm = lvi.Tag as Algorithm;
-                    if (algorithm != null) {
+                    if (algorithm != null)
+                    {
                         algorithm.BenchmarkSpeed = 0;
                         algorithm.SecondaryBenchmarkSpeed = 0;
                         RepaintStatus(_computeDevice.Enabled, _computeDevice.UUID);
@@ -228,6 +272,5 @@ namespace zPoolMiner.Forms.Components {
                 }
             }
         }
-
     }
 }

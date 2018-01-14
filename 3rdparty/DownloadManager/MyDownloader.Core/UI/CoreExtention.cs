@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
 
 namespace MyDownloader.Core.UI
@@ -19,6 +16,6 @@ namespace MyDownloader.Core.UI
             get { return new CoreUIExtention(); }
         }
 
-        #endregion
+        #endregion IExtension Members
     }
 }

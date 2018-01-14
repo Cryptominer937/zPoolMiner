@@ -1,14 +1,13 @@
-﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using WebSocketSharp;
+﻿using Newtonsoft.Json;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner.Miners.Parsing {
-    public class MinerOption {
+namespace zPoolMiner.Miners.Parsing
+{
+    public class MinerOption
+    {
         [JsonConstructor]
-        public MinerOption(string iType, string iShortName, string iLongName, string iDefault, MinerOptionFlagType iFlagType, string iSeparator = "") {
+        public MinerOption(string iType, string iShortName, string iLongName, string iDefault, MinerOptionFlagType iFlagType, string iSeparator = "")
+        {
             this.Type = iType;
             this.ShortName = iShortName;
             this.LongName = iLongName;

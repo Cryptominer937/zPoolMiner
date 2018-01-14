@@ -1,10 +1,10 @@
-﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner.Miners.Grouping {
-    public class MiningSetup {
+namespace zPoolMiner.Miners.Grouping
+{
+    public class MiningSetup
+    {
         public List<MiningPair> MiningPairs { get; private set; }
         public string MinerPath { get; private set; }
         public string MinerName { get; private set; }
@@ -12,10 +12,12 @@ namespace zPoolMiner.Miners.Grouping {
         public AlgorithmType CurrentSecondaryAlgorithmType { get; private set; }
         public bool IsInit { get; private set; }
 
-        public MiningSetup(List<MiningPair> miningPairs) {
+        public MiningSetup(List<MiningPair> miningPairs)
+        {
             this.IsInit = false;
             this.CurrentAlgorithmType = AlgorithmType.NONE;
-            if (miningPairs != null && miningPairs.Count > 0) {
+            if (miningPairs != null && miningPairs.Count > 0)
+            {
                 this.MiningPairs = miningPairs;
                 this.MiningPairs.Sort((a, b) => a.Device.ID - b.Device.ID);
                 this.MinerName = miningPairs[0].Algorithm.MinerName;

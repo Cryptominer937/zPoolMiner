@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace zPoolMiner.Enums {
-    
+﻿namespace zPoolMiner.Enums
+{
     /// <summary>
     /// This is used for ethminers DAG generation mode
     /// </summary>
-    public enum DagGenerationType : int {
+    public enum DagGenerationType : int
+    {
         SingleKeep = 0,
         Single,
         Sequential,

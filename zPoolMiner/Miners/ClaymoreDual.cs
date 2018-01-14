@@ -1,15 +1,16 @@
-﻿using zPoolMiner.Configs;
+﻿using System;
+using zPoolMiner.Configs;
 using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace zPoolMiner.Miners {
-    public class ClaymoreDual : ClaymoreBaseMiner {
+namespace zPoolMiner.Miners
+{
+    public class ClaymoreDual : ClaymoreBaseMiner
+    {
+        private const string _LOOK_FOR_START = "ETH - Total Speed:";
 
-        const string _LOOK_FOR_START = "ETH - Total Speed:";
         public ClaymoreDual(AlgorithmType secondaryAlgorithmType)
-            : base("ClaymoreDual", _LOOK_FOR_START) {
+            : base("ClaymoreDual", _LOOK_FOR_START)
+        {
             ignoreZero = true;
             api_read_mult = 1000;
             ConectionType = NHMConectionType.STRATUM_TCP;
@@ -18,34 +19,43 @@ namespace zPoolMiner.Miners {
 
         // eth-only: 1%
         // eth-dual-mine: 2%
-        protected override double DevFee() {
+        protected override double DevFee()
+        {
             return IsDual() ? 2.0 : 1.0;
         }
 
         // the short form the miner uses for secondary algo in cmd line and log
-        public string SecondaryShortName() {
-            switch (SecondaryAlgorithmType) {
+        public string SecondaryShortName()
+        {
+            switch (SecondaryAlgorithmType)
+            {
                 case AlgorithmType.Decred:
                     return "dcr";
+
                 case AlgorithmType.Lbry:
                     return "lbc";
+
                 case AlgorithmType.Pascal:
                     return "pasc";
+
                 case AlgorithmType.Sia:
                     return "sc";
             }
             return "";
         }
 
-        protected override string SecondaryLookForStart() {
+        protected override string SecondaryLookForStart()
+        {
             return (SecondaryShortName() + " - Total Speed:").ToLower();
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds() {
+        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        {
             return 90 * 1000; // 1.5 minute max, whole waiting time 75seconds
         }
 
-        private string GetStartCommand(string url, string btcAdress, string worker) {
+        private string GetStartCommand(string url, string btcAdress, string worker)
+        {
             string username = GetUsername(btcAdress, worker);
 
             string dualModeParams = "";
@@ -57,30 +67,37 @@ namespace zPoolMiner.Miners {
                     {
                         AlgorithmType dual = AlgorithmType.NONE;
                         string coinP = "";
-                        if (pair.CurrentExtraLaunchParameters.Contains("Decred")) {
+                        if (pair.CurrentExtraLaunchParameters.Contains("Decred"))
+                        {
                             dual = AlgorithmType.Decred;
                             coinP = " -dcoin dcr ";
                         }
-                        if (pair.CurrentExtraLaunchParameters.Contains("Siacoin")) {
+                        if (pair.CurrentExtraLaunchParameters.Contains("Siacoin"))
+                        {
                             dual = AlgorithmType.Sia;
                             coinP = " -dcoin sc";
                         }
-                        if (pair.CurrentExtraLaunchParameters.Contains("Lbry"))  {
+                        if (pair.CurrentExtraLaunchParameters.Contains("Lbry"))
+                        {
                             dual = AlgorithmType.Lbry;
                             coinP = " -dcoin lbc ";
                         }
-                        if (pair.CurrentExtraLaunchParameters.Contains("Pascal")) {
+                        if (pair.CurrentExtraLaunchParameters.Contains("Pascal"))
+                        {
                             dual = AlgorithmType.Pascal;
                             coinP = " -dcoin pasc ";
                         }
-                        if (dual != AlgorithmType.NONE)  {
+                        if (dual != AlgorithmType.NONE)
+                        {
                             string urlSecond = Globals.GetLocationURL(dual, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
                             dualModeParams = String.Format(" {0} -dpool {1} -dwal {2}", coinP, urlSecond, username);
                             break;
                         }
                     }
                 }
-            } else {
+            }
+            else
+            {
                 string urlSecond = Globals.GetLocationURL(SecondaryAlgorithmType, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
                 dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw x", SecondaryShortName(), urlSecond, username);
             }
@@ -91,13 +108,15 @@ namespace zPoolMiner.Miners {
                 + dualModeParams;
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
+        public override void Start(string url, string btcAdress, string worker)
+        {
             string username = GetUsername(btcAdress, worker);
             LastCommandLine = GetStartCommand(url, btcAdress, worker) + " -dbg -1";
             ProcessHandle = _Start();
         }
 
-        protected override string DeviceCommand(int amdCount = 1) {
+        protected override string DeviceCommand(int amdCount = 1)
+        {
             // If no AMD cards loaded, instruct CD to only regard NV cards for indexing
             // This will allow proper indexing if AMD GPUs or APUs are present in the system but detection disabled
             string ret = (amdCount == 0) ? " -platform 2" : "";
@@ -106,20 +125,23 @@ namespace zPoolMiner.Miners {
 
         // benchmark stuff
 
-        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time) {
+        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
+        {
             // network stub
             string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
             // demo for benchmark
             string ret = GetStartCommand(url, Globals.GetBitcoinUser(), ConfigManager.GeneralConfig.WorkerName.Trim());
             // local benhcmark
-            if (!IsDual()) {
+            if (!IsDual())
+            {
                 benchmarkTimeWait = time;
                 return ret + "  -benchmark 1";
-            } else {
-                benchmarkTimeWait = Math.Max(60, Math.Min(120, time*3));  // dual seems to stop mining after this time if redirect output is true
+            }
+            else
+            {
+                benchmarkTimeWait = Math.Max(60, Math.Min(120, time * 3));  // dual seems to stop mining after this time if redirect output is true
                 return ret;  // benchmark 1 does not output secondary speeds
             }
         }
-
     }
 }

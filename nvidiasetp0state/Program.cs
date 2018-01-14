@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 
 namespace nvidiasetp0state
 {
-    class Program
+    internal class Program
     {
         private static int SetP0State()
         {
@@ -134,7 +132,7 @@ namespace nvidiasetp0state
                 return 3;
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Environment.ExitCode = SetP0State();
         }

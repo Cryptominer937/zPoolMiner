@@ -1,24 +1,21 @@
 ﻿using Newtonsoft.Json;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Grouping;
-using zPoolMiner.Miners.Parsing;
-using zPoolMiner.Configs;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
+using zPoolMiner.Configs;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
     public class DSTM : Miner
     {
-
         private class Result
         {
             public int gpu_id { get; set; }
@@ -33,6 +30,7 @@ namespace zPoolMiner.Miners
             public int rejected_shares { get; set; }
             public int latency { get; set; }
         }
+
         private class JsonApiResponse
         {
             public uint id { get; set; }
@@ -48,10 +46,10 @@ namespace zPoolMiner.Miners
 
         private int benchmarkTimeWait = 2 * 45;
         private const string LOOK_FOR_START = "avg:";
-        int benchmark_read_count = 0;
-        double benchmark_sum = 0.0d;
-        const string LOOK_FOR_END = "i/s:";
-        const double DevFee = 2.0;
+        private int benchmark_read_count = 0;
+        private double benchmark_sum = 0.0d;
+        private const string LOOK_FOR_END = "i/s:";
+        private const double DevFee = 2.0;
 
         public DSTM() : base("dstm")
         {
@@ -71,7 +69,7 @@ namespace zPoolMiner.Miners
         {
             var ret = GetDevicesCommandString()
                 + " --server " + url.Split(':')[0]
-                + " --user " + btcAddress + " --pass "+ worker +" --port "
+                + " --user " + btcAddress + " --pass " + worker + " --port "
                 + url.Split(':')[1] + " --telemetry=127.0.0.1:" + APIPort;
             return ret;
         }
@@ -82,7 +80,6 @@ namespace zPoolMiner.Miners
             foreach (var nvidia_pair in this.MiningSetup.MiningPairs)
             {
                 deviceStringCommand += nvidia_pair.Device.ID + " ";
-
             }
 
             deviceStringCommand += " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
@@ -138,7 +135,6 @@ namespace zPoolMiner.Miners
                         || BenchmarkSignalTimedout
                         || BenchmarkException != null)
                     {
-
                         string imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillMinerBase(imageName);
@@ -166,7 +162,6 @@ namespace zPoolMiner.Miners
                         // wait a second reduce CPU load
                         Thread.Sleep(1000);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -335,7 +330,6 @@ namespace zPoolMiner.Miners
             uint tmpSpeed = 0;
             if (resp != null && resp.error == null)
             {
-
                 foreach (var result in resp.result)
                 {
                     tmpSpeed = result.sol_ps;

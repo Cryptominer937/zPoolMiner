@@ -1,16 +1,18 @@
-﻿using zPoolMiner.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using zPoolMiner.Enums;
 
-namespace zPoolMiner.Miners.Parsing {
-    public class MinerOptionPackage {
+namespace zPoolMiner.Miners.Parsing
+{
+    public class MinerOptionPackage
+    {
         public string Name;
         public MinerType Type;
         public List<MinerOption> GeneralOptions;
         public List<MinerOption> TemperatureOptions;
 
-        public MinerOptionPackage(MinerType iType, List<MinerOption> iGeneralOptions, List<MinerOption> iTemperatureOptions) {
+        public MinerOptionPackage(MinerType iType, List<MinerOption> iGeneralOptions, List<MinerOption> iTemperatureOptions)
+        {
             this.Type = iType;
             this.GeneralOptions = iGeneralOptions;
             this.TemperatureOptions = iTemperatureOptions;

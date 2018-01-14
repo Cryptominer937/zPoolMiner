@@ -1,7 +1,4 @@
 ﻿using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace zPoolMiner.Devices
 {
@@ -16,23 +13,33 @@ namespace zPoolMiner.Devices
                                         "NVIDIA6.x",
                                                   };
 
-        public static string GetGroupName(DeviceGroupType type, int id) {
-            if(DeviceGroupType.CPU == type) {
-                return "CPU"+id;
-            } else if ((int)type < _names.Length && (int)type >= 0) {
+        public static string GetGroupName(DeviceGroupType type, int id)
+        {
+            if (DeviceGroupType.CPU == type)
+            {
+                return "CPU" + id;
+            }
+            else if ((int)type < _names.Length && (int)type >= 0)
+            {
                 return _names[(int)type];
             }
             return "UnknownGroup";
         }
 
-        public static string GetNameGeneral(DeviceType type) {
-            if(DeviceType.CPU == type) {
+        public static string GetNameGeneral(DeviceType type)
+        {
+            if (DeviceType.CPU == type)
+            {
                 return "CPU";
-            } else if(DeviceType.NVIDIA == type) {
+            }
+            else if (DeviceType.NVIDIA == type)
+            {
                 return "NVIDIA";
-            } else if (DeviceType.AMD == type) {
+            }
+            else if (DeviceType.AMD == type)
+            {
                 return "AMD";
-            } 
+            }
             return "UnknownDeviceType";
         }
     }

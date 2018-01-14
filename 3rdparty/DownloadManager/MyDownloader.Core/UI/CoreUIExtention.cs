@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
 using System.Windows.Forms;
 
 namespace MyDownloader.Core.UI
 {
-    public class CoreUIExtention: IUIExtension
+    public class CoreUIExtention : IUIExtension
     {
         #region IUIExtension Members
 
@@ -30,6 +27,6 @@ namespace MyDownloader.Core.UI
             Settings.Default.Save();
         }
 
-        #endregion
+        #endregion IUIExtension Members
     }
 }

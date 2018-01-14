@@ -1,22 +1,18 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using Microsoft.Win32;
-using zPoolMiner.Configs;
 using System.Globalization;
-using zPoolMiner.PInvoke;
 using System.Management;
+using zPoolMiner.Configs;
 using zPoolMiner.Enums;
+using zPoolMiner.PInvoke;
 
 namespace zPoolMiner
 {
-    class Helpers : PInvokeHelpers
+    internal class Helpers : PInvokeHelpers
     {
-        
-
-        static bool is64BitProcess = (IntPtr.Size == 8);
+        private static bool is64BitProcess = (IntPtr.Size == 8);
         public static bool Is64BitOperatingSystem = is64BitProcess || InternalCheckIsWow64();
 
         public static bool InternalCheckIsWow64()
@@ -47,7 +43,7 @@ namespace zPoolMiner
             Debug.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
 #endif
 #if !DEBUG
-            Console.WriteLine("[" +DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
+            Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
 #endif
 
             if (ConfigManager.GeneralConfig.LogToFile && Logger.IsInit)
@@ -72,7 +68,7 @@ namespace zPoolMiner
         public static void ConsolePrint(string grp, string text, object arg0, object arg1, object arg2)
         {
             ConsolePrint(grp, String.Format(text, arg0, arg1, arg2));
-        }    
+        }
 
         public static uint GetIdleTime()
         {
@@ -131,7 +127,8 @@ namespace zPoolMiner
             }
         }
 
-        public static string FormatSpeedOutput(double speed, string separator=" ") {
+        public static string FormatSpeedOutput(double speed, string separator = " ")
+        {
             string ret = "";
 
             if (speed < 1000)
@@ -146,12 +143,15 @@ namespace zPoolMiner
             return ret;
         }
 
-        public static string FormatDualSpeedOutput(AlgorithmType algorithmID, double primarySpeed, double secondarySpeed=0) {
+        public static string FormatDualSpeedOutput(AlgorithmType algorithmID, double primarySpeed, double secondarySpeed = 0)
+        {
             string ret;
-            if (secondarySpeed > 0) {
+            if (secondarySpeed > 0)
+            {
                 ret = FormatSpeedOutput(primarySpeed, "") + "/" + FormatSpeedOutput(secondarySpeed, "") + " ";
             }
-            else {
+            else
+            {
                 ret = FormatSpeedOutput(primarySpeed);
             }
 
@@ -161,11 +161,13 @@ namespace zPoolMiner
                 return ret + "H/s ";
         }
 
-        public static string GetMotherboardID() {
+        public static string GetMotherboardID()
+        {
             ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
             ManagementObjectCollection moc = mos.Get();
             string serial = "";
-            foreach (ManagementObject mo in moc) {
+            foreach (ManagementObject mo in moc)
+            {
                 serial = (string)mo["SerialNumber"];
             }
 
@@ -173,48 +175,61 @@ namespace zPoolMiner
         }
 
         // TODO could have multiple cpus
-        public static string GetCpuID() {
+        public static string GetCpuID()
+        {
             string id = "N/A";
-            try {
+            try
+            {
                 ManagementObjectCollection mbsList = null;
                 ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_processor");
                 mbsList = mbs.Get();
-                foreach (ManagementObject mo in mbsList) {
+                foreach (ManagementObject mo in mbsList)
+                {
                     id = mo["ProcessorID"].ToString();
                 }
-            } catch { }
+            }
+            catch { }
             return id;
         }
 
-        public static bool WebRequestTestGoogle() {
+        public static bool WebRequestTestGoogle()
+        {
             string url = "http://www.google.com";
-            try {
+            try
+            {
                 System.Net.WebRequest myRequest = System.Net.WebRequest.Create(url);
                 myRequest.Timeout = Globals.FirstNetworkCheckTimeoutTimeMS;
                 System.Net.WebResponse myResponse = myRequest.GetResponse();
-            } catch (System.Net.WebException) {
+            }
+            catch (System.Net.WebException)
+            {
                 return false;
             }
             return true;
         }
 
-        // Checking the version using >= will enable forward compatibility, 
+        // Checking the version using >= will enable forward compatibility,
         // however you should always compile your code on newer versions of
         // the framework to ensure your app works the same.
-        private static bool Is45DotVersion(int releaseKey) {
-            if (releaseKey >= 393295) {
+        private static bool Is45DotVersion(int releaseKey)
+        {
+            if (releaseKey >= 393295)
+            {
                 //return "4.6 or later";
                 return true;
             }
-            if ((releaseKey >= 379893)) {
+            if ((releaseKey >= 379893))
+            {
                 //return "4.5.2 or later";
                 return true;
             }
-            if ((releaseKey >= 378675)) {
+            if ((releaseKey >= 378675))
+            {
                 //return "4.5.1 or later";
                 return true;
             }
-            if ((releaseKey >= 378389)) {
+            if ((releaseKey >= 378389))
+            {
                 //return "4.5 or later";
                 return true;
             }
@@ -224,65 +239,88 @@ namespace zPoolMiner
             return false;
         }
 
-        public static bool Is45NetOrHigher() {
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\")) {
-                if (ndpKey != null && ndpKey.GetValue("Release") != null) {
+        public static bool Is45NetOrHigher()
+        {
+            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\"))
+            {
+                if (ndpKey != null && ndpKey.GetValue("Release") != null)
+                {
                     return Is45DotVersion((int)ndpKey.GetValue("Release"));
-                } else {
+                }
+                else
+                {
                     return false;
                 }
             }
         }
 
-        public static bool IsConnectedToInternet() {
+        public static bool IsConnectedToInternet()
+        {
             bool returnValue = false;
-            try {
+            try
+            {
                 int Desc;
                 returnValue = InternetGetConnectedState(out Desc, 0);
-            } catch {
+            }
+            catch
+            {
                 returnValue = false;
             }
             return returnValue;
         }
 
         // parsing helpers
-        public static int ParseInt(string text) {
+        public static int ParseInt(string text)
+        {
             int tmpVal = 0;
-            if (Int32.TryParse(text, out tmpVal)) {
+            if (Int32.TryParse(text, out tmpVal))
+            {
                 return tmpVal;
             }
             return 0;
         }
-        public static long ParseLong(string text) {
+
+        public static long ParseLong(string text)
+        {
             long tmpVal = 0;
-            if (Int64.TryParse(text, out tmpVal)) {
+            if (Int64.TryParse(text, out tmpVal))
+            {
                 return tmpVal;
             }
             return 0;
         }
-        public static double ParseDouble(string text) {
-            try {
+
+        public static double ParseDouble(string text)
+        {
+            try
+            {
                 string parseText = text.Replace(',', '.');
                 return Double.Parse(parseText, CultureInfo.InvariantCulture);
-            } catch {
+            }
+            catch
+            {
                 return 0;
             }
         }
 
         // IsWMI enabled
-        public static bool IsWMIEnabled() {
-            try {
+        public static bool IsWMIEnabled()
+        {
+            try
+            {
                 ManagementObjectCollection moc = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem").Get();
                 ConsolePrint("NICEHASH", "WMI service seems to be running, ManagementObjectSearcher returned success.");
                 return true;
             }
-            catch {
+            catch
+            {
                 ConsolePrint("NICEHASH", "ManagementObjectSearcher not working need WMI service to be running");
             }
             return false;
         }
 
-        public static void InstallVcRedist() {
+        public static void InstallVcRedist()
+        {
             Process CudaDevicesDetection = new Process();
             CudaDevicesDetection.StartInfo.FileName = @"bin\vc_redist.x64.exe";
             CudaDevicesDetection.StartInfo.Arguments = "/q /norestart";
@@ -308,7 +346,8 @@ namespace zPoolMiner
                 { "GPU_FORCE_64BIT_PTR",        "1" }
             };
 
-            foreach (var kvp in envNameValues) {
+            foreach (var kvp in envNameValues)
+            {
                 string envName = kvp.Key;
                 string envValue = kvp.Value;
                 // Check if all the variables is set

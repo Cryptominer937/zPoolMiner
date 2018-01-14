@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using zPoolMiner.Configs;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Parsing;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace zPoolMiner.Miners
 {
-    class sgminer : Miner
+    internal class sgminer : Miner
     {
         private readonly int GPUPlatformNumber;
-        Stopwatch _benchmarkTimer = new Stopwatch();
+        private Stopwatch _benchmarkTimer = new Stopwatch();
 
         public sgminer()
             : base("sgminer_AMD")
@@ -23,19 +23,27 @@ namespace zPoolMiner.Miners
         }
 
         // use ONLY for exiting a benchmark
-        public void KillSGMiner() {
-            foreach (Process process in Process.GetProcessesByName("sgminer")) {
+        public void KillSGMiner()
+        {
+            foreach (Process process in Process.GetProcessesByName("sgminer"))
+            {
                 try { process.Kill(); } catch (Exception e) { Helpers.ConsolePrint(MinerDeviceName, e.ToString()); }
             }
         }
 
-        public override void EndBenchmarkProcces() {
-            if (BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling) {
+        public override void EndBenchmarkProcces()
+        {
+            if (BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling)
+            {
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Killing;
-                try {
+                try
+                {
                     Helpers.ConsolePrint("BENCHMARK", String.Format("Trying to kill benchmark process {0} algorithm {1}", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
                     KillSGMiner();
-                } catch { } finally {
+                }
+                catch { }
+                finally
+                {
                     BenchmarkProcessStatus = BenchmarkProcessStatus.DoneKilling;
                     Helpers.ConsolePrint("BENCHMARK", String.Format("Benchmark process {0} algorithm {1} KILLED", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
                     //BenchmarkHandle = null;
@@ -43,22 +51,25 @@ namespace zPoolMiner.Miners
             }
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds() {
+        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        {
             return 90 * 1000; // 1.5 minute max, whole waiting time 75seconds
         }
 
-        protected override void _Stop(MinerStopType willswitch) {
+        protected override void _Stop(MinerStopType willswitch)
+        {
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
         public override void Start(string url, string btcAdress, string worker)
         {
-            if (!IsInit) {
+            if (!IsInit)
+            {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAdress, worker);
-            
+
             LastCommandLine = " --gpu-platform " + GPUPlatformNumber +
                               " -k " + MiningSetup.MinerName +
                               " --url=" + url +
@@ -78,9 +89,11 @@ namespace zPoolMiner.Miners
         }
 
         // new decoupled benchmarking routines
+
         #region Decoupled benchmarking routines
 
-        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time) {
+        protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
+        {
             string CommandLine;
 
             string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
@@ -113,8 +126,10 @@ namespace zPoolMiner.Miners
             return CommandLine;
         }
 
-        protected override bool BenchmarkParseLine(string outdata) {
-            if (outdata.Contains("Average hashrate:") && outdata.Contains("/s") && BenchmarkAlgorithm.NiceHashID != AlgorithmType.DaggerHashimoto) {
+        protected override bool BenchmarkParseLine(string outdata)
+        {
+            if (outdata.Contains("Average hashrate:") && outdata.Contains("/s") && BenchmarkAlgorithm.NiceHashID != AlgorithmType.DaggerHashimoto)
+            {
                 int i = outdata.IndexOf(": ");
                 int k = outdata.IndexOf("/s");
 
@@ -132,7 +147,9 @@ namespace zPoolMiner.Miners
 
                 BenchmarkAlgorithm.BenchmarkSpeed = speed;
                 return true;
-            } else if (outdata.Contains(String.Format("GPU{0}", MiningSetup.MiningPairs[0].Device.ID)) && outdata.Contains("s):") && BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto) {
+            }
+            else if (outdata.Contains(String.Format("GPU{0}", MiningSetup.MiningPairs[0].Device.ID)) && outdata.Contains("s):") && BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto)
+            {
                 int i = outdata.IndexOf("s):");
                 int k = outdata.IndexOf("(avg)");
 
@@ -142,10 +159,13 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + hashSpeed);
 
                 double mult = 1;
-                if (hashSpeed.Contains("K")) {
+                if (hashSpeed.Contains("K"))
+                {
                     hashSpeed = hashSpeed.Replace("K", " ");
                     mult = 1000;
-                } else if (hashSpeed.Contains("M")) {
+                }
+                else if (hashSpeed.Contains("M"))
+                {
                     hashSpeed = hashSpeed.Replace("M", " ");
                     mult = 1000000;
                 }
@@ -160,18 +180,21 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-        protected override void BenchmarkThreadRoutineStartSettup() {
+        protected override void BenchmarkThreadRoutineStartSettup()
+        {
             // sgminer extra settings
             AlgorithmType NHDataIndex = BenchmarkAlgorithm.NiceHashID;
 
-            if (Globals.NiceHashData == null) {
+            if (Globals.NiceHashData == null)
+            {
                 Helpers.ConsolePrint("BENCHMARK", "Skipping sgminer benchmark because there is no internet " +
                     "connection. Sgminer needs internet connection to do benchmarking.");
 
                 throw new Exception("No internet connection");
             }
 
-            if (Globals.NiceHashData[NHDataIndex].paying == 0) {
+            if (Globals.NiceHashData[NHDataIndex].paying == 0)
+            {
                 Helpers.ConsolePrint("BENCHMARK", "Skipping sgminer benchmark because there is no work on Nicehash.com " +
                     "[algo: " + BenchmarkAlgorithm.AlgorithmName + "(" + NHDataIndex + ")]");
 
@@ -184,31 +207,38 @@ namespace zPoolMiner.Miners
             //BenchmarkHandle.BeginOutputReadLine();
         }
 
-        protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata) {
-            if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds) {
+        protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata)
+        {
+            if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds)
+            {
                 string resp = GetAPIDataAsync(APIPort, "quit").Result.TrimEnd(new char[] { (char)0 });
                 Helpers.ConsolePrint("BENCHMARK", "SGMiner Response: " + resp);
             }
-            if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds + 2) {
+            if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds + 2)
+            {
                 _benchmarkTimer.Stop();
                 // this is safe in a benchmark
                 KillSGMiner();
                 BenchmarkSignalHanged = true;
             }
-            if (!BenchmarkSignalFinnished && outdata != null) {
+            if (!BenchmarkSignalFinnished && outdata != null)
+            {
                 CheckOutdata(outdata);
             }
         }
 
-        protected override string GetFinalBenchmarkString() {
-            if (BenchmarkAlgorithm.BenchmarkSpeed <= 0) {
+        protected override string GetFinalBenchmarkString()
+        {
+            if (BenchmarkAlgorithm.BenchmarkSpeed <= 0)
+            {
                 Helpers.ConsolePrint("sgminer_GetFinalBenchmarkString", International.GetText("sgminer_precise_try"));
                 return International.GetText("sgminer_precise_try");
             }
             return base.GetFinalBenchmarkString();
         }
 
-        protected override void BenchmarkThreadRoutine(object CommandLine) {
+        protected override void BenchmarkThreadRoutine(object CommandLine)
+        {
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS * 3); // increase wait for sgminer
 
             BenchmarkSignalQuit = false;
@@ -216,7 +246,8 @@ namespace zPoolMiner.Miners
             BenchmarkSignalFinnished = false;
             BenchmarkException = null;
 
-            try {
+            try
+            {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
                 BenchmarkThreadRoutineStartSettup();
@@ -225,7 +256,8 @@ namespace zPoolMiner.Miners
                 //var exitSucces = BenchmarkHandle.WaitForExit(timeoutTime * 1000);
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
-                while(true) {
+                while (true)
+                {
                     string outdata = BenchmarkHandle.StandardOutput.ReadLine();
                     BenchmarkOutputErrorDataReceivedImpl(outdata);
                     // terminate process situations
@@ -233,56 +265,72 @@ namespace zPoolMiner.Miners
                         || BenchmarkSignalFinnished
                         || BenchmarkSignalHanged
                         || BenchmarkSignalTimedout
-                        || BenchmarkException != null) {
+                        || BenchmarkException != null)
+                    {
                         //EndBenchmarkProcces();
                         // this is safe in a benchmark
                         KillSGMiner();
-                        if (BenchmarkSignalTimedout) {
+                        if (BenchmarkSignalTimedout)
+                        {
                             throw new Exception("Benchmark timedout");
                         }
-                        if (BenchmarkException != null) {
+                        if (BenchmarkException != null)
+                        {
                             throw BenchmarkException;
                         }
-                        if (BenchmarkSignalQuit) {
+                        if (BenchmarkSignalQuit)
+                        {
                             throw new Exception("Termined by user request");
                         }
-                        if (BenchmarkSignalHanged) {
+                        if (BenchmarkSignalHanged)
+                        {
                             throw new Exception("SGMiner is not responding");
                         }
-                        if (BenchmarkSignalFinnished) {
+                        if (BenchmarkSignalFinnished)
+                        {
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         // wait a second reduce CPU load
                         Thread.Sleep(1000);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 BenchmarkThreadRoutineCatch(ex);
-            } finally {
+            }
+            finally
+            {
                 BenchmarkThreadRoutineFinish();
             }
         }
 
-        #endregion // Decoupled benchmarking routines
+        #endregion Decoupled benchmarking routines
 
         // TODO _currentMinerReadStatus
-        public override async Task<APIData> GetSummaryAsync() {
+        public override async Task<APIData> GetSummaryAsync()
+        {
             string resp;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
             resp = await GetAPIDataAsync(APIPort, "summary");
-            if (resp == null) {
+            if (resp == null)
+            {
                 _currentMinerReadStatus = MinerAPIReadStatus.NONE;
                 return null;
             }
             //// sgminer debug log
             //Helpers.ConsolePrint("sgminer-DEBUG_resp", resp);
 
-            try {
+            try
+            {
                 // Checks if all the GPUs are Alive first
                 string resp2 = await GetAPIDataAsync(APIPort, "devs");
-                if (resp2 == null) {
+                if (resp2 == null)
+                {
                     _currentMinerReadStatus = MinerAPIReadStatus.NONE;
                     return null;
                 }
@@ -291,8 +339,10 @@ namespace zPoolMiner.Miners
 
                 string[] checkGPUStatus = resp2.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                for (int i = 1; i < checkGPUStatus.Length - 1; i++) {
-                    if (checkGPUStatus[i].Contains("Enabled=Y") && !checkGPUStatus[i].Contains("Status=Alive")) {
+                for (int i = 1; i < checkGPUStatus.Length - 1; i++)
+                {
+                    if (checkGPUStatus[i].Contains("Enabled=Y") && !checkGPUStatus[i].Contains("Status=Alive"))
+                    {
                         Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " GPU " + i + ": Sick/Dead/NoStart/Initialising/Disabled/Rejecting/Unknown");
                         _currentMinerReadStatus = MinerAPIReadStatus.WAIT;
                         return null;
@@ -301,7 +351,8 @@ namespace zPoolMiner.Miners
 
                 string[] resps = resp.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (resps[1].Contains("SUMMARY")) {
+                if (resps[1].Contains("SUMMARY"))
+                {
                     string[] data = resps[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Get miner's current total speed
@@ -311,7 +362,8 @@ namespace zPoolMiner.Miners
 
                     ad.Speed = Double.Parse(speed[1]) * 1000;
 
-                    if (total_mh <= PreviousTotalMH) {
+                    if (total_mh <= PreviousTotalMH)
+                    {
                         Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " SGMiner might be stuck as no new hashes are being produced");
                         Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Prev Total MH: " + PreviousTotalMH + " .. Current Total MH: " + total_mh);
                         _currentMinerReadStatus = MinerAPIReadStatus.NONE;
@@ -319,10 +371,14 @@ namespace zPoolMiner.Miners
                     }
 
                     PreviousTotalMH = total_mh;
-                } else {
+                }
+                else
+                {
                     ad.Speed = 0;
                 }
-            } catch {
+            }
+            catch
+            {
                 _currentMinerReadStatus = MinerAPIReadStatus.NONE;
                 return null;
             }

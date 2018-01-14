@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace zPoolMiner
 {
-    class CPUID
+    internal class CPUID
     {
         [DllImport("cpuid.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr _GetCPUName();
@@ -53,17 +51,20 @@ namespace zPoolMiner
             return coreCount;
         }
 
-        public static int GetNumberOfCores() {
+        public static int GetNumberOfCores()
+        {
             int coreCount = 0;
 
-            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get()) {
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+            {
                 coreCount += int.Parse(item["NumberOfCores"].ToString());
             }
 
             return coreCount;
         }
 
-        public static bool IsHypeThreadingEnabled() {
+        public static bool IsHypeThreadingEnabled()
+        {
             return GetVirtualCoresCount() > GetNumberOfCores();
         }
 

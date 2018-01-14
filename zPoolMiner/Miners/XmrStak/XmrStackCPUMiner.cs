@@ -1,44 +1,47 @@
 ﻿using Newtonsoft.Json.Linq;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Parsing;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Net.Sockets;
-using System.Text;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
 
-namespace zPoolMiner.Miners {
-
+namespace zPoolMiner.Miners
+{
     public class XmrStackCPUMinerConfig : XmrStakConfig
     {
         public XmrStackCPUMinerConfig(int numberOfthreads, string poolAddr, string wallet, int port)
-            : base(poolAddr, wallet, port) {
+            : base(poolAddr, wallet, port)
+        {
             cpu_thread_num = numberOfthreads;
         }
 
-        public void Inti_cpu_threads_conf(bool low_power_mode, bool no_prefetch, bool affine_to_cpu, bool isHyperThreading) {
+        public void Inti_cpu_threads_conf(bool low_power_mode, bool no_prefetch, bool affine_to_cpu, bool isHyperThreading)
+        {
             cpu_threads_conf = new List<JObject>();
-            if (isHyperThreading) {
-                for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu) {
+            if (isHyperThreading)
+            {
+                for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu)
+                {
                     cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode = low_power_mode, no_prefetch = no_prefetch, affine_to_cpu = i_cpu * 2 }));
                 }
-            } else {
-                for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu) {
-                    if (affine_to_cpu) {
+            }
+            else
+            {
+                for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu)
+                {
+                    if (affine_to_cpu)
+                    {
                         cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode = low_power_mode, no_prefetch = no_prefetch, affine_to_cpu = i_cpu }));
-                    } else {
+                    }
+                    else
+                    {
                         cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode = low_power_mode, no_prefetch = no_prefetch, affine_to_cpu = false }));
                     }
                 }
             }
         }
-        /* 
-         * Number of threads. You can configure them below. Cryptonight uses 2MB of memory, so the optimal setting 
+
+        /*
+         * Number of threads. You can configure them below. Cryptonight uses 2MB of memory, so the optimal setting
          * here is the size of your L3 cache divided by 2. Intel mid-to-high end desktop processors have 2MB of L3
          * cache per physical core. Low end cpus can have 1.5 or 1 MB while Xeons can have 2, 2.5 or 3MB per core.
          */
@@ -46,22 +49,22 @@ namespace zPoolMiner.Miners {
 
         /*
          * Thread configuration for each thread. Make sure it matches the number above.
-         * low_power_mode - This mode will double the cache usage, and double the single thread performance. It will 
-         *                  consume much less power (as less cores are working), but will max out at around 80-85% of 
+         * low_power_mode - This mode will double the cache usage, and double the single thread performance. It will
+         *                  consume much less power (as less cores are working), but will max out at around 80-85% of
          *                  the maximum performance.
          *
          * no_prefetch -    This mode meant for large pages only. It will generate an error if running on slow memory
          *                  Some sytems can gain up to extra 5% here, but sometimes it will have no difference or make
          *                  things slower.
          *
-         * affine_to_cpu -  This can be either false (no affinity), or the CPU core number. Note that on hyperthreading 
-         *                  systems it is better to assign threads to physical cores. On Windows this usually means selecting 
-         *                  even or odd numbered cpu numbers. For Linux it will be usually the lower CPU numbers, so for a 4 
+         * affine_to_cpu -  This can be either false (no affinity), or the CPU core number. Note that on hyperthreading
+         *                  systems it is better to assign threads to physical cores. On Windows this usually means selecting
+         *                  even or odd numbered cpu numbers. For Linux it will be usually the lower CPU numbers, so for a 4
          *                  physical core CPU you should select cpu numbers 0-3.
          *
          */
         public List<JObject> cpu_threads_conf;
-        //"cpu_threads_conf" : [ 
+        //"cpu_threads_conf" : [
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 0 },
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 1 },
         //],
@@ -94,9 +97,9 @@ namespace zPoolMiner.Miners {
          * and "* hard memlock 262144". You can also do it Windows-style and simply run-as-root, but this is NOT
          * recommended for security reasons.
          *
-         * Memory locking means that the kernel can't swap out the page to disk - something that is unlikey to happen on a 
-         * command line system that isn't starved of memory. I haven't observed any difference on a CLI Linux system between 
-         * locked and unlocked memory. If that is your setup see option "no_mlck". 
+         * Memory locking means that the kernel can't swap out the page to disk - something that is unlikey to happen on a
+         * command line system that isn't starved of memory. I haven't observed any difference on a CLI Linux system between
+         * locked and unlocked memory. If that is your setup see option "no_mlck".
          */
 
         /*
@@ -115,14 +118,14 @@ namespace zPoolMiner.Miners {
          *                  if a block isn't found within 30 minutes then you might run into nonce collisions. Number
          *                  of threads in this mode is hard-limited to 32.
          */
-        public readonly bool nicehash_nonce = true; // 
+        public readonly bool nicehash_nonce = true; //
 
         /*
          * Manual hardware AES override
          *
-         * Some VMs don't report AES capability correctly. You can set this value to true to enforce hardware AES or 
+         * Some VMs don't report AES capability correctly. You can set this value to true to enforce hardware AES or
          * to false to force disable AES or null to let the miner decide if AES is used.
-         * 
+         *
          * WARNING: setting this to true on a CPU that doesn't support hardware AES will crash the miner.
          */
         public readonly bool? aes_override = null;
@@ -131,21 +134,27 @@ namespace zPoolMiner.Miners {
     public class XmrStackCPUMiner : XmrStak
     {
         public XmrStackCPUMiner()
-            : base("XmrStackCPUMiner") {
+            : base("XmrStackCPUMiner")
+        {
             this.ConectionType = NHMConectionType.NONE;
             IsNeverHideMiningWindow = true;
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds() {
+        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        {
             return 3600000; // 1hour
         }
 
-        protected override void prepareConfigFile(string pool, string wallet) {
-            if (this.MiningSetup.MiningPairs.Count > 0) {
-                try {
+        protected override void prepareConfigFile(string pool, string wallet)
+        {
+            if (this.MiningSetup.MiningPairs.Count > 0)
+            {
+                try
+                {
                     bool IsHyperThreadingEnabled = this.MiningSetup.MiningPairs[0].CurrentExtraLaunchParameters.Contains("enable_ht=true");
                     int numTr = ExtraLaunchParametersParser.GetThreadsNumber(this.MiningSetup.MiningPairs[0]);
-                    if (IsHyperThreadingEnabled) {
+                    if (IsHyperThreadingEnabled)
+                    {
                         numTr /= 2;
                     }
                     var config = new XmrStackCPUMinerConfig(numTr, pool, wallet, this.APIPort);
@@ -158,12 +167,15 @@ namespace zPoolMiner.Miners {
                     int end = writeStr.LastIndexOf("}");
                     writeStr = writeStr.Substring(start + 1, end - 1);
                     System.IO.File.WriteAllText(WorkingDirectory + GetConfigFileName(), writeStr);
-                } catch {
+                }
+                catch
+                {
                 }
             }
         }
 
-        protected override NiceHashProcess _Start() {
+        protected override NiceHashProcess _Start()
+        {
             NiceHashProcess P = base._Start();
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
@@ -173,7 +185,8 @@ namespace zPoolMiner.Miners {
             return P;
         }
 
-        protected override Process BenchmarkStartProcess(string CommandLine) {
+        protected override Process BenchmarkStartProcess(string CommandLine)
+        {
             Process BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;

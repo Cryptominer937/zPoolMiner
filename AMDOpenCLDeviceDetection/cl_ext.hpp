@@ -163,7 +163,7 @@
 #endif
 #endif // _WIN32
 
-// 
+//
 //#if defined(USE_CL_DEVICE_FISSION)
 #include <CL/cl_ext.h> // include this for AMD topology
 //#endif
@@ -183,13 +183,13 @@
 #if defined(CL_VERSION_1_2) && !defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS)
 #define __CL_EXPLICIT_CONSTRUCTORS explicit
 #else // #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS)
-#define __CL_EXPLICIT_CONSTRUCTORS 
+#define __CL_EXPLICIT_CONSTRUCTORS
 #endif // #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS)
 
 // Define deprecated prefixes and suffixes to ensure compilation
 // in case they are not pre-defined
 #if !defined(CL_EXT_PREFIX__VERSION_1_1_DEPRECATED)
-#define CL_EXT_PREFIX__VERSION_1_1_DEPRECATED  
+#define CL_EXT_PREFIX__VERSION_1_1_DEPRECATED
 #endif // #if !defined(CL_EXT_PREFIX__VERSION_1_1_DEPRECATED)
 #if !defined(CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED)
 #define CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
@@ -208,7 +208,7 @@
 
 #if !defined(__NO_STD_STRING)
 #include <string>
-#endif 
+#endif
 
 #if defined(__linux__) || defined(__APPLE__) || defined(__MACOSX)
 #include <alloca.h>
@@ -219,20 +219,18 @@
 
 #include <cstring>
 
-
 /*! \namespace cl
 *
 * \brief The OpenCL C++ bindings are defined within this namespace.
 *
 */
 namespace cl {
-
 	class Memory;
 
 	/**
 	* Deprecated APIs for 1.2
 	*/
-#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2)) 
+#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 #define __INIT_CL_EXT_FCN_PTR(name) \
     if(!pfn_##name) { \
         pfn_##name = (PFN_##name) \
@@ -310,7 +308,6 @@ namespace cl {
 #define __ERR_STR(x) NULL
 #endif // __CL_ENABLE_EXCEPTIONS
 
-
 	namespace detail
 	{
 #if defined(__CL_ENABLE_EXCEPTIONS)
@@ -331,8 +328,6 @@ namespace cl {
 		}
 #endif // __CL_ENABLE_EXCEPTIONS
 	}
-
-
 
 	//! \cond DOXYGEN_DETAIL
 #if !defined(__CL_USER_OVERRIDE_ERROR_STRINGS)
@@ -420,7 +415,6 @@ namespace cl {
 #define __ENQUEUE_ACQUIRE_GL_ERR            __ERR_STR(clEnqueueAcquireGLObjects)
 #define __ENQUEUE_RELEASE_GL_ERR            __ERR_STR(clEnqueueReleaseGLObjects)
 
-
 #define __RETAIN_ERR                        __ERR_STR(Retain Object)
 #define __RELEASE_ERR                       __ERR_STR(Release Object)
 #define __FLUSH_ERR                         __ERR_STR(clFlush)
@@ -439,7 +433,7 @@ namespace cl {
 	/**
 	* Deprecated APIs for 1.2
 	*/
-#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2)) 
+#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 #define __ENQUEUE_MARKER_ERR                __ERR_STR(clEnqueueMarker)
 #define __ENQUEUE_WAIT_FOR_EVENTS_ERR       __ERR_STR(clEnqueueWaitForEvents)
 #define __ENQUEUE_BARRIER_ERR               __ERR_STR(clEnqueueBarrier)
@@ -463,7 +457,7 @@ namespace cl {
 
 #if !defined(__USE_DEV_STRING) && !defined(__NO_STD_STRING)
 	typedef std::string STRING_CLASS;
-#elif !defined(__USE_DEV_STRING) 
+#elif !defined(__USE_DEV_STRING)
 
 	/*! \class string
 	* \brief Simple string class, that provides a limited subset of std::string
@@ -502,7 +496,7 @@ namespace cl {
 			if (size > 0) {
 				str_ = new char[size_ + 1];
 				if (str_ != NULL) {
-					memcpy(str_, str, size_  * sizeof(char));
+					memcpy(str_, str, size_ * sizeof(char));
 					str_[size_] = '\0';
 				}
 				else {
@@ -630,7 +624,7 @@ namespace cl {
 		}
 
 		//! \brief Queries the length of the string, excluding any added '\0's.
-		::size_t size(void) const   { return size_; }
+		::size_t size(void) const { return size_; }
 
 		//! \brief Queries the length of the string, excluding any added '\0's.
 		::size_t length(void) const { return size(); }
@@ -641,12 +635,12 @@ namespace cl {
 		const char * c_str(void) const { return (str_) ? str_ : ""; }
 	};
 	typedef cl::string STRING_CLASS;
-#endif // #elif !defined(__USE_DEV_STRING) 
+#endif // #elif !defined(__USE_DEV_STRING)
 
 #if !defined(__USE_DEV_VECTOR) && !defined(__NO_STD_VECTOR)
 #define VECTOR_CLASS std::vector
-#elif !defined(__USE_DEV_VECTOR) 
-#define VECTOR_CLASS cl::vector 
+#elif !defined(__USE_DEV_VECTOR)
+#define VECTOR_CLASS cl::vector
 
 #if !defined(__MAX_DEFAULT_VECTOR_SIZE)
 #define __MAX_DEFAULT_VECTOR_SIZE 10
@@ -809,7 +803,7 @@ namespace cl {
 		}
 
 		//! \brief Conversion operator to T*.
-		operator T* ()             { return data_; }
+		operator T* () { return data_; }
 
 		//! \brief Conversion operator to const T*.
 		operator const T* () const { return data_; }
@@ -1012,12 +1006,8 @@ namespace cl {
 	};
 #endif // #if !defined(__USE_DEV_VECTOR) && !defined(__NO_STD_VECTOR)
 
-
-
-
-
 	namespace detail {
-#define __DEFAULT_NOT_INITIALIZED 1 
+#define __DEFAULT_NOT_INITIALIZED 1
 #define __DEFAULT_BEING_INITIALIZED 2
 #define __DEFAULT_INITIALIZED 4
 
@@ -1043,7 +1033,6 @@ namespace cl {
 
 		inline void fence() { _mm_mfence(); }
 	}; // namespace detail
-
 
 	/*! \brief class used to interface between C++ and
 	*  OpenCL C calls that require arrays of size_t values, whose
@@ -1075,14 +1064,13 @@ namespace cl {
 		}
 
 		//! \brief Conversion operator to T*.
-		operator ::size_t* ()             { return data_; }
+		operator ::size_t* () { return data_; }
 
 		//! \brief Conversion operator to const T*.
 		operator const ::size_t* () const { return data_; }
 	};
 
 	namespace detail {
-
 		// Generic getInfoHelper. The final parameter is used to guide overload
 		// resolution: the actual parameter passed is an int, which makes this
 		// a worse conversion sequence than a specialization that declares the
@@ -1377,7 +1365,6 @@ namespace cl {
     \
     F(cl_event_info, CL_EVENT_CONTEXT, cl::Context)
 #endif // CL_VERSION_1_1
-
 
 #if defined(CL_VERSION_1_2)
 #define __PARAM_NAME_INFO_1_2(F) \
@@ -1710,7 +1697,6 @@ struct param_traits<detail:: token,param_name>       \
 			}
 		};
 
-
 		// Extracts version number with major in the upper 16 bits, minor in the lower 16
 		static cl_uint getVersion(const char *versionInfo)
 		{
@@ -1913,7 +1899,6 @@ struct param_traits<detail:: token,param_name>       \
 				}
 			}
 		};
-
 	} // namespace detail
 	//! \endcond
 
@@ -1925,7 +1910,7 @@ struct param_traits<detail:: token,param_name>       \
 	struct ImageFormat : public cl_image_format
 	{
 		//! \brief Default constructor - performs no initialization.
-		ImageFormat(){}
+		ImageFormat() {}
 
 		//! \brief Initializing constructor.
 		ImageFormat(cl_channel_order order, cl_channel_type type)
@@ -2057,7 +2042,7 @@ struct param_traits<detail:: token,param_name>       \
 			VECTOR_CLASS<Device>* devices)
 		{
 			typedef CL_API_ENTRY cl_int
-				(CL_API_CALL * PFN_clCreateSubDevicesEXT)(
+			(CL_API_CALL * PFN_clCreateSubDevicesEXT)(
 				cl_device_id /*in_device*/,
 				const cl_device_partition_property_ext * /* properties */,
 				cl_uint /*num_entries*/,
@@ -2097,7 +2082,7 @@ struct param_traits<detail:: token,param_name>       \
 	{
 	public:
 		//! \brief Default constructor - initializes to NULL.
-		Platform() : detail::Wrapper<cl_type>()  { }
+		Platform() : detail::Wrapper<cl_type>() { }
 
 		/*! \brief Copy constructor.
 		*
@@ -2355,7 +2340,6 @@ struct param_traits<detail:: token,param_name>       \
 			return get(errResult);
 		}
 
-
 #if defined(CL_VERSION_1_2)
 		//! \brief Wrapper for clUnloadCompiler().
 		cl_int
@@ -2413,10 +2397,10 @@ struct param_traits<detail:: token,param_name>       \
 			const VECTOR_CLASS<Device>& devices,
 			cl_context_properties* properties = NULL,
 			void (CL_CALLBACK * notifyFptr)(
-			const char *,
-			const void *,
-			::size_t,
-			void *) = NULL,
+				const char *,
+				const void *,
+				::size_t,
+				void *) = NULL,
 			void* data = NULL,
 			cl_int* err = NULL)
 		{
@@ -2443,10 +2427,10 @@ struct param_traits<detail:: token,param_name>       \
 			const Device& device,
 			cl_context_properties* properties = NULL,
 			void (CL_CALLBACK * notifyFptr)(
-			const char *,
-			const void *,
-			::size_t,
-			void *) = NULL,
+				const char *,
+				const void *,
+				::size_t,
+				void *) = NULL,
 			void* data = NULL,
 			cl_int* err = NULL)
 		{
@@ -2473,10 +2457,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_device_type type,
 			cl_context_properties* properties = NULL,
 			void (CL_CALLBACK * notifyFptr)(
-			const char *,
-			const void *,
-			::size_t,
-			void *) = NULL,
+				const char *,
+				const void *,
+				::size_t,
+				void *) = NULL,
 			void* data = NULL,
 			cl_int* err = NULL)
 		{
@@ -2555,7 +2539,6 @@ struct param_traits<detail:: token,param_name>       \
 				*err = default_error_;
 			}
 			return default_;
-
 		}
 
 		//! \brief Default constructor - initializes to NULL.
@@ -2682,7 +2665,6 @@ struct param_traits<detail:: token,param_name>       \
 
 		return device;
 	}
-
 
 #ifdef _WIN32
 	__declspec(selectany) volatile int Context::default_initialized_ = __DEFAULT_NOT_INITIALIZED;
@@ -2820,10 +2802,10 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				::clSetEventCallback(
-				object_,
-				type,
-				pfn_notify,
-				user_data),
+					object_,
+					type,
+					pfn_notify,
+					user_data),
 				__SET_EVENT_CALLBACK_ERR);
 		}
 #endif
@@ -3011,13 +2993,12 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				::clSetMemObjectDestructorCallback(
-				object_,
-				pfn_notify,
-				user_data),
+					object_,
+					pfn_notify,
+					user_data),
 				__SET_MEM_OBJECT_DESTRUCTOR_CALLBACK_ERR);
 		}
 #endif
-
 	};
 
 	// Pre-declare copy functions
@@ -3737,7 +3718,6 @@ struct param_traits<detail:: token,param_name>       \
 	};
 #endif // #if defined(CL_VERSION_1_2)
 
-
 	/*! \brief Class interface for 2D Image Memory objects.
 	*
 	*  See Memory for details about copy semantics, etc.
@@ -3853,7 +3833,6 @@ struct param_traits<detail:: token,param_name>       \
 		}
 	};
 
-
 #if !defined(CL_VERSION_1_2)
 	/*! \brief Class interface for GL 2D Image Memory objects.
 	*
@@ -3893,7 +3872,6 @@ struct param_traits<detail:: token,param_name>       \
 			if (err != NULL) {
 				*err = error;
 			}
-
 		}
 
 		//! \brief Default constructor - initializes to NULL.
@@ -4424,7 +4402,6 @@ struct param_traits<detail:: token,param_name>       \
 	};
 
 	namespace detail {
-
 		template <typename T>
 		struct KernelArgumentHandler
 		{
@@ -4438,7 +4415,6 @@ struct param_traits<detail:: token,param_name>       \
 			static ::size_t size(const LocalSpaceArg& value) { return value.size_; }
 			static void* ptr(LocalSpaceArg&) { return NULL; }
 		};
-
 	}
 	//! \endcond
 
@@ -4576,7 +4552,7 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				detail::getInfo(
-				&::clGetKernelWorkGroupInfo, object_, device(), name, param),
+					&::clGetKernelWorkGroupInfo, object_, device(), name, param),
 				__GET_KERNEL_WORK_GROUP_INFO_ERR);
 		}
 
@@ -4598,10 +4574,10 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				::clSetKernelArg(
-				object_,
-				index,
-				detail::KernelArgumentHandler<T>::size(value),
-				detail::KernelArgumentHandler<T>::ptr(value)),
+					object_,
+					index,
+					detail::KernelArgumentHandler<T>::size(value),
+					detail::KernelArgumentHandler<T>::ptr(value)),
 				__SET_KERNEL_ARGS_ERR);
 		}
 
@@ -4639,7 +4615,6 @@ struct param_traits<detail:: token,param_name>       \
 			detail::errHandler(error, __CREATE_PROGRAM_WITH_SOURCE_ERR);
 
 			if (error == CL_SUCCESS) {
-
 				error = ::clBuildProgram(
 					object_,
 					0,
@@ -4674,7 +4649,6 @@ struct param_traits<detail:: token,param_name>       \
 			detail::errHandler(error, __CREATE_PROGRAM_WITH_SOURCE_ERR);
 
 			if (error == CL_SUCCESS && build) {
-
 				error = ::clBuildProgram(
 					object_,
 					0,
@@ -4708,7 +4682,6 @@ struct param_traits<detail:: token,param_name>       \
 			detail::errHandler(error, __CREATE_PROGRAM_WITH_SOURCE_ERR);
 
 			if (error == CL_SUCCESS && build) {
-
 				error = ::clBuildProgram(
 					object_,
 					0,
@@ -4820,7 +4793,6 @@ struct param_traits<detail:: token,param_name>       \
 			}
 		}
 
-
 #if defined(CL_VERSION_1_2)
 		/**
 		* Create program using builtin kernels.
@@ -4833,7 +4805,6 @@ struct param_traits<detail:: token,param_name>       \
 			cl_int* err = NULL)
 		{
 			cl_int error;
-
 
 			::size_t numDevices = devices.size();
 			cl_device_id* deviceIDs = (cl_device_id*)alloca(numDevices * sizeof(cl_device_id));
@@ -4889,13 +4860,13 @@ struct param_traits<detail:: token,param_name>       \
 
 			return detail::errHandler(
 				::clBuildProgram(
-				object_,
-				(cl_uint)
-				devices.size(),
-				deviceIDs,
-				options,
-				notifyFptr,
-				data),
+					object_,
+					(cl_uint)
+					devices.size(),
+					deviceIDs,
+					options,
+					notifyFptr,
+					data),
 				__BUILD_PROGRAM_ERR);
 		}
 
@@ -4906,12 +4877,12 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				::clBuildProgram(
-				object_,
-				0,
-				NULL,
-				options,
-				notifyFptr,
-				data),
+					object_,
+					0,
+					NULL,
+					options,
+					notifyFptr,
+					data),
 				__BUILD_PROGRAM_ERR);
 		}
 
@@ -4923,15 +4894,15 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				::clCompileProgram(
-				object_,
-				0,
-				NULL,
-				options,
-				0,
-				NULL,
-				NULL,
-				notifyFptr,
-				data),
+					object_,
+					0,
+					NULL,
+					options,
+					0,
+					NULL,
+					NULL,
+					notifyFptr,
+					data),
 				__COMPILE_PROGRAM_ERR);
 		}
 #endif
@@ -4963,7 +4934,7 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				detail::getInfo(
-				&::clGetProgramBuildInfo, object_, device(), name, param),
+					&::clGetProgramBuildInfo, object_, device(), name, param),
 				__GET_PROGRAM_BUILD_INFO_ERR);
 		}
 
@@ -5101,7 +5072,6 @@ struct param_traits<detail:: token,param_name>       \
 		if (err != NULL) {
 			*err = error;
 		}
-
 	}
 
 	/*! \class CommandQueue
@@ -5215,7 +5185,6 @@ struct param_traits<detail:: token,param_name>       \
 				*err = default_error_;
 			}
 			return default_;
-
 		}
 
 		CommandQueue() { }
@@ -5243,7 +5212,7 @@ struct param_traits<detail:: token,param_name>       \
 		{
 			return detail::errHandler(
 				detail::getInfo(
-				&::clGetCommandQueueInfo, object_, name, param),
+					&::clGetCommandQueueInfo, object_, name, param),
 				__GET_COMMAND_QUEUE_INFO_ERR);
 		}
 
@@ -5272,11 +5241,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueReadBuffer(
-				object_, buffer(), blocking, offset, size,
-				ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, buffer(), blocking, offset, size,
+					ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_READ_BUFFER_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5297,11 +5266,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueWriteBuffer(
-				object_, buffer(), blocking, offset, size,
-				ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, buffer(), blocking, offset, size,
+					ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_WRITE_BUFFER_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5322,10 +5291,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueCopyBuffer(
-				object_, src(), dst(), src_offset, dst_offset, size,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, src(), dst(), src_offset, dst_offset, size,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQEUE_COPY_BUFFER_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5351,20 +5320,20 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueReadBufferRect(
-				object_,
-				buffer(),
-				blocking,
-				(const ::size_t *)buffer_offset,
-				(const ::size_t *)host_offset,
-				(const ::size_t *)region,
-				buffer_row_pitch,
-				buffer_slice_pitch,
-				host_row_pitch,
-				host_slice_pitch,
-				ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					buffer(),
+					blocking,
+					(const ::size_t *)buffer_offset,
+					(const ::size_t *)host_offset,
+					(const ::size_t *)region,
+					buffer_row_pitch,
+					buffer_slice_pitch,
+					host_row_pitch,
+					host_slice_pitch,
+					ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_READ_BUFFER_RECT_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5390,20 +5359,20 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueWriteBufferRect(
-				object_,
-				buffer(),
-				blocking,
-				(const ::size_t *)buffer_offset,
-				(const ::size_t *)host_offset,
-				(const ::size_t *)region,
-				buffer_row_pitch,
-				buffer_slice_pitch,
-				host_row_pitch,
-				host_slice_pitch,
-				ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					buffer(),
+					blocking,
+					(const ::size_t *)buffer_offset,
+					(const ::size_t *)host_offset,
+					(const ::size_t *)region,
+					buffer_row_pitch,
+					buffer_slice_pitch,
+					host_row_pitch,
+					host_slice_pitch,
+					ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_WRITE_BUFFER_RECT_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5428,19 +5397,19 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueCopyBufferRect(
-				object_,
-				src(),
-				dst(),
-				(const ::size_t *)src_origin,
-				(const ::size_t *)dst_origin,
-				(const ::size_t *)region,
-				src_row_pitch,
-				src_slice_pitch,
-				dst_row_pitch,
-				dst_slice_pitch,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					src(),
+					dst(),
+					(const ::size_t *)src_origin,
+					(const ::size_t *)dst_origin,
+					(const ::size_t *)region,
+					src_row_pitch,
+					src_slice_pitch,
+					dst_row_pitch,
+					dst_slice_pitch,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQEUE_COPY_BUFFER_RECT_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5468,15 +5437,15 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueFillBuffer(
-				object_,
-				buffer(),
-				static_cast<void*>(&pattern),
-				sizeof(PatternType),
-				offset,
-				size,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					buffer(),
+					static_cast<void*>(&pattern),
+					sizeof(PatternType),
+					offset,
+					size,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_FILL_BUFFER_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5500,11 +5469,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueReadImage(
-				object_, image(), blocking, (const ::size_t *) origin,
-				(const ::size_t *) region, row_pitch, slice_pitch, ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, image(), blocking, (const ::size_t *) origin,
+					(const ::size_t *) region, row_pitch, slice_pitch, ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_READ_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5527,11 +5496,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueWriteImage(
-				object_, image(), blocking, (const ::size_t *) origin,
-				(const ::size_t *) region, row_pitch, slice_pitch, ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, image(), blocking, (const ::size_t *) origin,
+					(const ::size_t *) region, row_pitch, slice_pitch, ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_WRITE_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5552,11 +5521,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueCopyImage(
-				object_, src(), dst(), (const ::size_t *) src_origin,
-				(const ::size_t *)dst_origin, (const ::size_t *) region,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, src(), dst(), (const ::size_t *) src_origin,
+					(const ::size_t *)dst_origin, (const ::size_t *) region,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_COPY_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5584,14 +5553,14 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueFillImage(
-				object_,
-				image(),
-				static_cast<void*>(&fillColor),
-				(const ::size_t *) origin,
-				(const ::size_t *) region,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					image(),
+					static_cast<void*>(&fillColor),
+					(const ::size_t *) origin,
+					(const ::size_t *) region,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_FILL_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5618,14 +5587,14 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueFillImage(
-				object_,
-				image(),
-				static_cast<void*>(&fillColor),
-				(const ::size_t *) origin,
-				(const ::size_t *) region,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					image(),
+					static_cast<void*>(&fillColor),
+					(const ::size_t *) origin,
+					(const ::size_t *) region,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_FILL_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5652,14 +5621,14 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueFillImage(
-				object_,
-				image(),
-				static_cast<void*>(&fillColor),
-				(const ::size_t *) origin,
-				(const ::size_t *) region,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					image(),
+					static_cast<void*>(&fillColor),
+					(const ::size_t *) origin,
+					(const ::size_t *) region,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_FILL_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5681,11 +5650,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueCopyImageToBuffer(
-				object_, src(), dst(), (const ::size_t *) src_origin,
-				(const ::size_t *) region, dst_offset,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, src(), dst(), (const ::size_t *) src_origin,
+					(const ::size_t *) region, dst_offset,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_COPY_IMAGE_TO_BUFFER_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5706,11 +5675,11 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueCopyBufferToImage(
-				object_, src(), dst(), src_offset,
-				(const ::size_t *) dst_origin, (const ::size_t *) region,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, src(), dst(), src_offset,
+					(const ::size_t *) dst_origin, (const ::size_t *) region,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_COPY_BUFFER_TO_IMAGE_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5782,10 +5751,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueUnmapMemObject(
-				object_, memory(), mapped_ptr,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, memory(), mapped_ptr,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_UNMAP_MEM_OBJECT_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5813,10 +5782,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueMarkerWithWaitList(
-				object_,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_MARKER_WAIT_LIST_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5843,10 +5812,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueBarrierWithWaitList(
-				object_,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_BARRIER_WAIT_LIST_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5864,7 +5833,7 @@ struct param_traits<detail:: token,param_name>       \
 			cl_mem_migration_flags flags,
 			const VECTOR_CLASS<Event>* events = NULL,
 			Event* event = NULL
-			)
+		)
 		{
 			cl_event tmp;
 
@@ -5873,16 +5842,15 @@ struct param_traits<detail:: token,param_name>       \
 				localMemObjects[i] = memObjects[i]();
 			}
 
-
 			cl_int err = detail::errHandler(
 				::clEnqueueMigrateMemObjects(
-				object_,
-				(cl_uint)memObjects.size(),
-				static_cast<const cl_mem*>(localMemObjects),
-				flags,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(cl_uint)memObjects.size(),
+					static_cast<const cl_mem*>(localMemObjects),
+					flags,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_UNMAP_MEM_OBJECT_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5903,13 +5871,13 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueNDRangeKernel(
-				object_, kernel(), (cl_uint)global.dimensions(),
-				offset.dimensions() != 0 ? (const ::size_t*) offset : NULL,
-				(const ::size_t*) global,
-				local.dimensions() != 0 ? (const ::size_t*) local : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, kernel(), (cl_uint)global.dimensions(),
+					offset.dimensions() != 0 ? (const ::size_t*) offset : NULL,
+					(const ::size_t*) global,
+					local.dimensions() != 0 ? (const ::size_t*) local : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_NDRANGE_KERNEL_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5926,10 +5894,10 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueTask(
-				object_, kernel(),
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, kernel(),
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_TASK_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5959,13 +5927,13 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueNativeKernel(
-				object_, userFptr, args.first, args.second,
-				(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
-				mems,
-				(mem_locs != NULL) ? (const void **)&mem_locs->front() : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_, userFptr, args.first, args.second,
+					(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
+					mems,
+					(mem_locs != NULL) ? (const void **)&mem_locs->front() : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_NATIVE_KERNEL);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -5977,7 +5945,7 @@ struct param_traits<detail:: token,param_name>       \
 		/**
 		* Deprecated APIs for 1.2
 		*/
-#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2)) 
+#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 		CL_EXT_PREFIX__VERSION_1_1_DEPRECATED
 			cl_int enqueueMarker(Event* event = NULL) const CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
 		{
@@ -5990,15 +5958,15 @@ struct param_traits<detail:: token,param_name>       \
 			cl_int enqueueWaitForEvents(const VECTOR_CLASS<Event>& events) const CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
 		{
 			return detail::errHandler(
-			::clEnqueueWaitForEvents(
-			object_,
-			(cl_uint)events.size(),
-			(const cl_event*)&events.front()),
-			__ENQUEUE_WAIT_FOR_EVENTS_ERR);
+				::clEnqueueWaitForEvents(
+					object_,
+					(cl_uint)events.size(),
+					(const cl_event*)&events.front()),
+				__ENQUEUE_WAIT_FOR_EVENTS_ERR);
 		}
 #endif // #if defined(CL_VERSION_1_1)
 
-			cl_int enqueueAcquireGLObjects(
+		cl_int enqueueAcquireGLObjects(
 			const VECTOR_CLASS<Memory>* mem_objects = NULL,
 			const VECTOR_CLASS<Event>* events = NULL,
 			Event* event = NULL) const
@@ -6006,12 +5974,12 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueAcquireGLObjects(
-				object_,
-				(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
-				(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
+					(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_ACQUIRE_GL_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -6028,12 +5996,12 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				::clEnqueueReleaseGLObjects(
-				object_,
-				(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
-				(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
+					(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_RELEASE_GL_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -6071,12 +6039,12 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				pfn_clEnqueueAcquireD3D10ObjectsKHR(
-				object_,
-				(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
-				(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
+					(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_ACQUIRE_GL_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -6104,12 +6072,12 @@ struct param_traits<detail:: token,param_name>       \
 			cl_event tmp;
 			cl_int err = detail::errHandler(
 				pfn_clEnqueueReleaseD3D10ObjectsKHR(
-				object_,
-				(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
-				(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
-				(events != NULL) ? (cl_uint)events->size() : 0,
-				(events != NULL) ? (cl_event*)&events->front() : NULL,
-				(event != NULL) ? &tmp : NULL),
+					object_,
+					(mem_objects != NULL) ? (cl_uint)mem_objects->size() : 0,
+					(mem_objects != NULL) ? (const cl_mem *)&mem_objects->front() : NULL,
+					(events != NULL) ? (cl_uint)events->size() : 0,
+					(events != NULL) ? (cl_event*)&events->front() : NULL,
+					(event != NULL) ? &tmp : NULL),
 				__ENQUEUE_RELEASE_GL_ERR);
 
 			if (event != NULL && err == CL_SUCCESS)
@@ -6122,17 +6090,17 @@ struct param_traits<detail:: token,param_name>       \
 		/**
 		* Deprecated APIs for 1.2
 		*/
-#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2)) 
+#if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 		CL_EXT_PREFIX__VERSION_1_1_DEPRECATED
 			cl_int enqueueBarrier() const CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
 		{
 			return detail::errHandler(
-			::clEnqueueBarrier(object_),
-			__ENQUEUE_BARRIER_ERR);
+				::clEnqueueBarrier(object_),
+				__ENQUEUE_BARRIER_ERR);
 		}
 #endif // #if defined(CL_VERSION_1_1)
 
-			cl_int flush() const
+		cl_int flush() const
 		{
 			return detail::errHandler(::clFlush(object_), __FLUSH_ERR);
 		}
@@ -6238,10 +6206,10 @@ struct param_traits<detail:: token,param_name>       \
 		cl_event tmp;
 		cl_int err = detail::errHandler(
 			::clEnqueueUnmapMemObject(
-			queue(), memory(), mapped_ptr,
-			(events != NULL) ? (cl_uint)events->size() : 0,
-			(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
-			(event != NULL) ? &tmp : NULL),
+				queue(), memory(), mapped_ptr,
+				(events != NULL) ? (cl_uint)events->size() : 0,
+				(events != NULL && events->size() > 0) ? (cl_event*)&events->front() : NULL,
+				(event != NULL) ? &tmp : NULL),
 			__ENQUEUE_UNMAP_MEM_OBJECT_ERR);
 
 		if (event != NULL && err == CL_SUCCESS)
@@ -6279,7 +6247,7 @@ struct param_traits<detail:: token,param_name>       \
 		cl_int error;
 
 		::size_t length = endIterator - startIterator;
-		::size_t byteLength = length*sizeof(DataType);
+		::size_t byteLength = length * sizeof(DataType);
 
 		DataType *pointer =
 			static_cast<DataType*>(enqueueMapBuffer(buffer, CL_TRUE, CL_MAP_WRITE, 0, byteLength, 0, 0, &error));
@@ -6292,7 +6260,7 @@ struct param_traits<detail:: token,param_name>       \
 			startIterator,
 			endIterator,
 			stdext::checked_array_iterator<DataType*>(
-			pointer, length));
+				pointer, length));
 #else
 		std::copy(startIterator, endIterator, pointer);
 #endif
@@ -6316,7 +6284,7 @@ struct param_traits<detail:: token,param_name>       \
 		cl_int error;
 
 		::size_t length = endIterator - startIterator;
-		::size_t byteLength = length*sizeof(DataType);
+		::size_t byteLength = length * sizeof(DataType);
 
 		DataType *pointer =
 			static_cast<DataType*>(enqueueMapBuffer(buffer, CL_TRUE, CL_MAP_READ, 0, byteLength, 0, 0, &error));
@@ -6581,7 +6549,6 @@ struct param_traits<detail:: token,param_name>       \
 			event);
 	}
 
-
 	inline cl_int flush(void)
 	{
 		cl_int error;
@@ -6602,7 +6569,6 @@ struct param_traits<detail:: token,param_name>       \
 		if (error != CL_SUCCESS) {
 			return error;
 		}
-
 
 		return queue.finish();
 	}
@@ -6626,7 +6592,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(NullRange)
 		{
-
 		}
 
 		EnqueueArgs(NDRange global, NDRange local) :
@@ -6635,7 +6600,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(local)
 		{
-
 		}
 
 		EnqueueArgs(NDRange offset, NDRange global, NDRange local) :
@@ -6644,7 +6608,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(local)
 		{
-
 		}
 
 		EnqueueArgs(Event e, NDRange global) :
@@ -6681,7 +6644,6 @@ struct param_traits<detail:: token,param_name>       \
 			local_(NullRange),
 			events_(events)
 		{
-
 		}
 
 		EnqueueArgs(const VECTOR_CLASS<Event> &events, NDRange global, NDRange local) :
@@ -6691,7 +6653,6 @@ struct param_traits<detail:: token,param_name>       \
 			local_(local),
 			events_(events)
 		{
-
 		}
 
 		EnqueueArgs(const VECTOR_CLASS<Event> &events, NDRange offset, NDRange global, NDRange local) :
@@ -6701,7 +6662,6 @@ struct param_traits<detail:: token,param_name>       \
 			local_(local),
 			events_(events)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, NDRange global) :
@@ -6710,7 +6670,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(NullRange)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, NDRange global, NDRange local) :
@@ -6719,7 +6678,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(local)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, NDRange offset, NDRange global, NDRange local) :
@@ -6728,7 +6686,6 @@ struct param_traits<detail:: token,param_name>       \
 			global_(global),
 			local_(local)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, Event e, NDRange global) :
@@ -6765,7 +6722,6 @@ struct param_traits<detail:: token,param_name>       \
 			local_(NullRange),
 			events_(events)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, const VECTOR_CLASS<Event> &events, NDRange global, NDRange local) :
@@ -6775,7 +6731,6 @@ struct param_traits<detail:: token,param_name>       \
 			local_(local),
 			events_(events)
 		{
-
 		}
 
 		EnqueueArgs(CommandQueue &queue, const VECTOR_CLASS<Event> &events, NDRange offset, NDRange global, NDRange local) :
@@ -6785,12 +6740,10 @@ struct param_traits<detail:: token,param_name>       \
 			local_(local),
 			events_(events)
 		{
-
 		}
 	};
 
 	namespace detail {
-
 		class NullType {};
 
 		template<int index, typename T0>
@@ -6820,7 +6773,7 @@ struct param_traits<detail:: token,param_name>       \
 			typename T24, typename T25, typename T26, typename T27,
 			typename T28, typename T29, typename T30, typename T31
 		>
-		class KernelFunctorGlobal
+			class KernelFunctorGlobal
 		{
 		private:
 			Kernel kernel_;
@@ -6918,11 +6871,9 @@ struct param_traits<detail:: token,param_name>       \
 
 				return event;
 			}
-
 		};
 
 		//------------------------------------------------------------------------------------------------------
-
 
 		template<
 			typename T0,
@@ -6956,10 +6907,10 @@ struct param_traits<detail:: token,param_name>       \
 			typename T28,
 			typename T29,
 			typename T30,
-			typename T31>
-		struct functionImplementation_
+			typename T31 >
+			struct functionImplementation_
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -6991,19 +6942,17 @@ struct param_traits<detail:: token,param_name>       \
 				T28,
 				T29,
 				T30,
-				T31> FunctorType;
+				T31 > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 32))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -7115,8 +7064,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg30,
 					arg31);
 			}
-
-
 		};
 
 		template<
@@ -7150,9 +7097,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T27,
 			typename T28,
 			typename T29,
-			typename T30>
-		struct functionImplementation_
-			<	T0,
+			typename T30 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -7183,9 +7130,9 @@ struct param_traits<detail:: token,param_name>       \
 			T28,
 			T29,
 			T30,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -7217,19 +7164,17 @@ struct param_traits<detail:: token,param_name>       \
 				T28,
 				T29,
 				T30,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 31))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -7338,8 +7283,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg29,
 					arg30);
 			}
-
-
 		};
 
 		template<
@@ -7372,9 +7315,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T26,
 			typename T27,
 			typename T28,
-			typename T29>
-		struct functionImplementation_
-			<	T0,
+			typename T29 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -7405,9 +7348,9 @@ struct param_traits<detail:: token,param_name>       \
 			T28,
 			T29,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -7439,19 +7382,17 @@ struct param_traits<detail:: token,param_name>       \
 				T28,
 				T29,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 30))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -7557,8 +7498,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg28,
 					arg29);
 			}
-
-
 		};
 
 		template<
@@ -7590,9 +7529,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T25,
 			typename T26,
 			typename T27,
-			typename T28>
-		struct functionImplementation_
-			<	T0,
+			typename T28 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -7623,9 +7562,9 @@ struct param_traits<detail:: token,param_name>       \
 			T28,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -7657,19 +7596,17 @@ struct param_traits<detail:: token,param_name>       \
 				T28,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 29))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -7772,8 +7709,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg27,
 					arg28);
 			}
-
-
 		};
 
 		template<
@@ -7804,9 +7739,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T24,
 			typename T25,
 			typename T26,
-			typename T27>
-		struct functionImplementation_
-			<	T0,
+			typename T27 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -7837,9 +7772,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -7871,19 +7806,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 28))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -7983,8 +7916,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg26,
 					arg27);
 			}
-
-
 		};
 
 		template<
@@ -8014,9 +7945,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T23,
 			typename T24,
 			typename T25,
-			typename T26>
-		struct functionImplementation_
-			<	T0,
+			typename T26 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -8047,9 +7978,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -8081,19 +8012,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 27))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -8190,8 +8119,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg25,
 					arg26);
 			}
-
-
 		};
 
 		template<
@@ -8220,9 +8147,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T22,
 			typename T23,
 			typename T24,
-			typename T25>
-		struct functionImplementation_
-			<	T0,
+			typename T25 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -8253,9 +8180,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -8287,19 +8214,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 26))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -8393,8 +8318,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg24,
 					arg25);
 			}
-
-
 		};
 
 		template<
@@ -8422,9 +8345,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T21,
 			typename T22,
 			typename T23,
-			typename T24>
-		struct functionImplementation_
-			<	T0,
+			typename T24 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -8455,9 +8378,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -8489,19 +8412,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 25))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -8592,8 +8513,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg23,
 					arg24);
 			}
-
-
 		};
 
 		template<
@@ -8620,9 +8539,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T20,
 			typename T21,
 			typename T22,
-			typename T23>
-		struct functionImplementation_
-			<	T0,
+			typename T23 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -8653,9 +8572,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -8687,19 +8606,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 24))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -8787,8 +8704,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg22,
 					arg23);
 			}
-
-
 		};
 
 		template<
@@ -8814,9 +8729,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T19,
 			typename T20,
 			typename T21,
-			typename T22>
-		struct functionImplementation_
-			<	T0,
+			typename T22 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -8847,9 +8762,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -8881,19 +8796,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 23))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -8978,8 +8891,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg21,
 					arg22);
 			}
-
-
 		};
 
 		template<
@@ -9004,9 +8915,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T18,
 			typename T19,
 			typename T20,
-			typename T21>
-		struct functionImplementation_
-			<	T0,
+			typename T21 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9037,9 +8948,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9071,19 +8982,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 22))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -9165,8 +9074,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg20,
 					arg21);
 			}
-
-
 		};
 
 		template<
@@ -9190,9 +9097,9 @@ struct param_traits<detail:: token,param_name>       \
 			typename T17,
 			typename T18,
 			typename T19,
-			typename T20>
-		struct functionImplementation_
-			<	T0,
+			typename T20 >
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9223,9 +9130,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9257,19 +9164,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 21))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -9348,8 +9253,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg19,
 					arg20);
 			}
-
-
 		};
 
 		template<
@@ -9373,8 +9276,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T17,
 			typename T18,
 			typename T19>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9405,9 +9308,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9439,19 +9342,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 20))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -9527,8 +9428,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg18,
 					arg19);
 			}
-
-
 		};
 
 		template<
@@ -9551,8 +9450,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T16,
 			typename T17,
 			typename T18>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9583,9 +9482,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9617,19 +9516,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 19))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -9702,8 +9599,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg17,
 					arg18);
 			}
-
-
 		};
 
 		template<
@@ -9725,8 +9620,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T15,
 			typename T16,
 			typename T17>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9757,9 +9652,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9791,19 +9686,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 18))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -9873,8 +9766,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg16,
 					arg17);
 			}
-
-
 		};
 
 		template<
@@ -9895,8 +9786,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T14,
 			typename T15,
 			typename T16>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -9927,9 +9818,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -9961,19 +9852,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 17))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10040,8 +9929,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg15,
 					arg16);
 			}
-
-
 		};
 
 		template<
@@ -10061,8 +9948,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T13,
 			typename T14,
 			typename T15>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10093,9 +9980,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10127,19 +10014,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 16))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10203,8 +10088,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg14,
 					arg15);
 			}
-
-
 		};
 
 		template<
@@ -10223,8 +10106,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T12,
 			typename T13,
 			typename T14>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10255,9 +10138,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10289,19 +10172,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 15))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10362,8 +10243,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg13,
 					arg14);
 			}
-
-
 		};
 
 		template<
@@ -10381,8 +10260,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T11,
 			typename T12,
 			typename T13>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10413,9 +10292,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10447,19 +10326,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 14))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10517,8 +10394,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg12,
 					arg13);
 			}
-
-
 		};
 
 		template<
@@ -10535,8 +10410,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T10,
 			typename T11,
 			typename T12>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10567,9 +10442,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10601,19 +10476,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 13))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10668,8 +10541,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg11,
 					arg12);
 			}
-
-
 		};
 
 		template<
@@ -10685,8 +10556,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T9,
 			typename T10,
 			typename T11>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10717,9 +10588,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10751,19 +10622,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 12))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10815,8 +10684,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg10,
 					arg11);
 			}
-
-
 		};
 
 		template<
@@ -10831,8 +10698,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T8,
 			typename T9,
 			typename T10>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -10863,9 +10730,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -10897,19 +10764,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 11))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -10958,8 +10823,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg9,
 					arg10);
 			}
-
-
 		};
 
 		template<
@@ -10973,8 +10836,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T7,
 			typename T8,
 			typename T9>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11005,9 +10868,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11039,19 +10902,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 10))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11097,8 +10958,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg8,
 					arg9);
 			}
-
-
 		};
 
 		template<
@@ -11111,8 +10970,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T6,
 			typename T7,
 			typename T8>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11143,9 +11002,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11177,19 +11036,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 9))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11232,8 +11089,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg7,
 					arg8);
 			}
-
-
 		};
 
 		template<
@@ -11245,8 +11100,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T5,
 			typename T6,
 			typename T7>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11277,9 +11132,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11311,19 +11166,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 8))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11363,8 +11216,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg6,
 					arg7);
 			}
-
-
 		};
 
 		template<
@@ -11375,8 +11226,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T4,
 			typename T5,
 			typename T6>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11407,9 +11258,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11441,19 +11292,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 7))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11490,8 +11339,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg5,
 					arg6);
 			}
-
-
 		};
 
 		template<
@@ -11501,8 +11348,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T3,
 			typename T4,
 			typename T5>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11533,9 +11380,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11567,19 +11414,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 6))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11613,8 +11458,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg4,
 					arg5);
 			}
-
-
 		};
 
 		template<
@@ -11623,8 +11466,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T2,
 			typename T3,
 			typename T4>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11655,9 +11498,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11689,19 +11532,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 5))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11732,8 +11573,6 @@ struct param_traits<detail:: token,param_name>       \
 					arg3,
 					arg4);
 			}
-
-
 		};
 
 		template<
@@ -11741,8 +11580,8 @@ struct param_traits<detail:: token,param_name>       \
 			typename T1,
 			typename T2,
 			typename T3>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			T3,
@@ -11773,9 +11612,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11807,19 +11646,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 4))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11847,16 +11684,14 @@ struct param_traits<detail:: token,param_name>       \
 					arg2,
 					arg3);
 			}
-
-
 		};
 
 		template<
 			typename T0,
 			typename T1,
 			typename T2>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			T2,
 			NullType,
@@ -11887,9 +11722,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				T2,
@@ -11921,19 +11756,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 3))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -11958,15 +11791,13 @@ struct param_traits<detail:: token,param_name>       \
 					arg1,
 					arg2);
 			}
-
-
 		};
 
 		template<
 			typename T0,
 			typename T1>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			T1,
 			NullType,
 			NullType,
@@ -11997,9 +11828,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				T1,
 				NullType,
@@ -12031,19 +11862,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 2))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -12065,14 +11894,12 @@ struct param_traits<detail:: token,param_name>       \
 					arg0,
 					arg1);
 			}
-
-
 		};
 
 		template<
 			typename T0>
-		struct functionImplementation_
-			<	T0,
+			struct functionImplementation_
+			< T0,
 			NullType,
 			NullType,
 			NullType,
@@ -12103,9 +11930,9 @@ struct param_traits<detail:: token,param_name>       \
 			NullType,
 			NullType,
 			NullType,
-			NullType>
+			NullType >
 		{
-			typedef detail::KernelFunctorGlobal<
+			typedef detail::KernelFunctorGlobal <
 				T0,
 				NullType,
 				NullType,
@@ -12137,19 +11964,17 @@ struct param_traits<detail:: token,param_name>       \
 				NullType,
 				NullType,
 				NullType,
-				NullType> FunctorType;
+				NullType > FunctorType;
 
 			FunctorType functor_;
 
 			functionImplementation_(const FunctorType &functor) :
 				functor_(functor)
 			{
-
 #if (defined(_WIN32) && defined(_VARIADIC_MAX) && (_VARIADIC_MAX < 1))
 				// Fail variadic expansion for dev11
 				static_assert(0, "Visual Studio has a hard limit of argument count for a std::function expansion. Please define _VARIADIC_MAX to be 10. If you need more arguments than that VC12 and below cannot support it.");
 #endif
-
 			}
 
 			//! \brief Return type of the functor
@@ -12168,14 +11993,7 @@ struct param_traits<detail:: token,param_name>       \
 					enqueueArgs,
 					arg0);
 			}
-
-
 		};
-
-
-
-
-
 	} // namespace detail
 
 	//----------------------------------------------------------------------------------------------
@@ -12198,7 +12016,7 @@ struct param_traits<detail:: token,param_name>       \
 		typename T29 = detail::NullType, typename T30 = detail::NullType,
 		typename T31 = detail::NullType
 	>
-	struct make_kernel :
+		struct make_kernel :
 		public detail::functionImplementation_<
 		T0, T1, T2, T3,
 		T4, T5, T6, T7,
@@ -12236,7 +12054,7 @@ struct param_traits<detail:: token,param_name>       \
 			T24, T25, T26, T27,
 			T28, T29, T30, T31
 			>(
-			FunctorType(program, name, err))
+				FunctorType(program, name, err))
 		{}
 
 		make_kernel(
@@ -12251,10 +12069,9 @@ struct param_traits<detail:: token,param_name>       \
 			T24, T25, T26, T27,
 			T28, T29, T30, T31
 			>(
-			FunctorType(kernel))
+				FunctorType(kernel))
 		{}
 	};
-
 
 	//----------------------------------------------------------------------------------------------------------------------
 
@@ -12342,10 +12159,9 @@ struct param_traits<detail:: token,param_name>       \
 #undef __PARAM_NAME_DEVICE_FISSION
 #endif // USE_CL_DEVICE_FISSION
 
-#undef __DEFAULT_NOT_INITIALIZED 
-#undef __DEFAULT_BEING_INITIALIZED 
+#undef __DEFAULT_NOT_INITIALIZED
+#undef __DEFAULT_BEING_INITIALIZED
 #undef __DEFAULT_INITIALIZED
-
 } // namespace cl
 
 #ifdef _WIN32

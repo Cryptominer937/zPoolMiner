@@ -1,33 +1,38 @@
-﻿using zPoolMiner.Configs;
-using zPoolMiner.Enums;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.NetworkInformation;
-using System.Text;
+using zPoolMiner.Configs;
 
-namespace zPoolMiner.Miners {
-    public static class MinersApiPortsManager {
+namespace zPoolMiner.Miners
+{
+    public static class MinersApiPortsManager
+    {
         private static HashSet<int> _usedPorts = new HashSet<int>();
 
-        public static bool IsPortAvaliable(int port) {
+        public static bool IsPortAvaliable(int port)
+        {
             bool isAvailable = true;
 
             IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
             // check TCP
             {
                 var tcpIpEndpoints = ipGlobalProperties.GetActiveTcpListeners();
-                foreach (var tcp in tcpIpEndpoints) {
-                    if (tcp.Port == port) {
+                foreach (var tcp in tcpIpEndpoints)
+                {
+                    if (tcp.Port == port)
+                    {
                         isAvailable = false;
                         break;
                     }
                 }
             }
             // check UDP
-            if (isAvailable) {
+            if (isAvailable)
+            {
                 var udpIpEndpoints = ipGlobalProperties.GetActiveUdpListeners();
-                foreach (var udp in udpIpEndpoints) {
-                    if (udp.Port == port) {
+                foreach (var udp in udpIpEndpoints)
+                {
+                    if (udp.Port == port)
+                    {
                         isAvailable = false;
                         break;
                     }
@@ -36,18 +41,22 @@ namespace zPoolMiner.Miners {
             return isAvailable;
         }
 
-        public static int GetAvaliablePort() {
+        public static int GetAvaliablePort()
+        {
             int port = ConfigManager.GeneralConfig.ApiBindPortPoolStart;
             int newPortEnd = port + 3000;
-            for (; port < newPortEnd; ++port) {
-                if (MinersSettingsManager.AllReservedPorts.Contains(port) == false && IsPortAvaliable(port) && _usedPorts.Add(port)) {
+            for (; port < newPortEnd; ++port)
+            {
+                if (MinersSettingsManager.AllReservedPorts.Contains(port) == false && IsPortAvaliable(port) && _usedPorts.Add(port))
+                {
                     break;
                 }
             }
             return port;
         }
 
-        public static void RemovePort(int port) {
+        public static void RemovePort(int port)
+        {
             _usedPorts.Remove(port);
         }
     }
