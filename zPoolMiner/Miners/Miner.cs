@@ -469,9 +469,11 @@ namespace zPoolMiner
 
             if (!BenchmarkHandle.Start()) return null;
 
-            _currentPidData = new MinerPID_Data();
-            _currentPidData.minerBinPath = BenchmarkHandle.StartInfo.FileName;
-            _currentPidData.PID = BenchmarkHandle.Id;
+            _currentPidData = new MinerPID_Data
+            {
+                minerBinPath = BenchmarkHandle.StartInfo.FileName,
+                PID = BenchmarkHandle.Id
+            };
             _allPidData.Add(_currentPidData);
 
             return BenchmarkHandle;
@@ -560,10 +562,9 @@ namespace zPoolMiner
                 int b = hashspeed.IndexOf(" ");
                 if (b < 0)
                 {
-                    int stub;
                     for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
                     {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub))
+                        if (Int32.TryParse(hashspeed[_i].ToString(), out int stub))
                         {
                             b = _i;
                             break;
@@ -602,10 +603,9 @@ namespace zPoolMiner
                 int b = hashspeed.IndexOf(" ");
                 if (b < 0)
                 {
-                    int stub;
                     for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
                     {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub))
+                        if (Int32.TryParse(hashspeed[_i].ToString(), out int stub))
                         {
                             b = _i;
                             break;
@@ -948,9 +948,11 @@ namespace zPoolMiner
                 {
                     IsRunning = true;
 
-                    _currentPidData = new MinerPID_Data();
-                    _currentPidData.minerBinPath = P.StartInfo.FileName;
-                    _currentPidData.PID = P.Id;
+                    _currentPidData = new MinerPID_Data
+                    {
+                        minerBinPath = P.StartInfo.FileName,
+                        PID = P.Id
+                    };
                     _allPidData.Add(_currentPidData);
 
                     Helpers.ConsolePrint(MinerTAG(), "Starting miner " + ProcessTag() + " " + LastCommandLine);

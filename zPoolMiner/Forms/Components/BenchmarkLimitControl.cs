@@ -89,8 +89,7 @@ namespace zPoolMiner.Forms.Components
         private void setTimeLimit(BenchmarkPerformanceType type, string numString)
         {
             if (_timeLimits == null) return;
-            int value;
-            if (Int32.TryParse(numString, out value))
+            if (Int32.TryParse(numString, out int value))
             {
                 _timeLimits[(int)type] = value;
             }

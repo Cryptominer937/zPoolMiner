@@ -20,11 +20,11 @@ namespace zPoolMiner.Miners.Equihash
 
         private class Stratum
         {
-            public string target { get; set; }
-            public bool connected { get; set; }
-            public int connection_failures { get; set; }
-            public string host { get; set; }
-            public int port { get; set; }
+            public string Target { get; set; }
+            public bool Connected { get; set; }
+            public int Connection_failures { get; set; }
+            public string Host { get; set; }
+            public int Port { get; set; }
         }
 
         private class JsonApiResponse

@@ -32,21 +32,21 @@ namespace zPoolMiner
 
         #region JSON Models
 
-        private class nicehash_login
+        private class Nicehash_login
         {
             public string method = "login";
             public string version;
             public int protocol = 1;
         }
 
-        private class nicehash_credentials
+        private class Nicehash_credentials
         {
             public string method = "credentials.set";
             public string btc;
             public string worker;
         }
 
-        private class nicehash_device_status
+        private class Nicehash_device_status
         {
             public string method = "devices.status";
             public List<JArray> devices;
@@ -115,8 +115,8 @@ namespace zPoolMiner
                     Reader.Close();
                     Response.Close();
 
-                    var zData = JsonConvert.DeserializeObject<Dictionary<string, zPoolAlgo>>(ResponseFromServer);
-                    zSetAlgorithmRates(zData.Values.ToArray());
+                    var zData = JsonConvert.DeserializeObject<Dictionary<string, ZPoolAlgo>>(ResponseFromServer);
+                    ZSetAlgorithmRates(zData.Values.ToArray());
                 }
                 catch (Exception e)
                 {
@@ -135,8 +135,10 @@ namespace zPoolMiner
                     }
                     //send login
                     var version = "NHML/" + Application.ProductVersion;
-                    var login = new nicehash_login();
-                    login.version = version;
+                    var login = new Nicehash_login
+                    {
+                        version = version
+                    };
                     var loginJson = JsonConvert.SerializeObject(login);
                     SendData(loginJson);
 
@@ -309,7 +311,7 @@ namespace zPoolMiner
             }
         }
 
-        private static void zSetAlgorithmRates(zPoolAlgo[] data)
+        private static void ZSetAlgorithmRates(ZPoolAlgo[] data)
         {
             try
             {
@@ -331,8 +333,7 @@ namespace zPoolMiner
         {
             try
             {
-                double bal = 0d;
-                double.TryParse(balance, NumberStyles.Number, CultureInfo.InvariantCulture, out bal);
+                double.TryParse(balance, NumberStyles.Number, CultureInfo.InvariantCulture, out double bal);
                 Balance = bal;
                 OnBalanceUpdate.Emit(null, EventArgs.Empty);
             }
@@ -354,9 +355,11 @@ namespace zPoolMiner
 
         public static void SetCredentials(string btc, string worker)
         {
-            var data = new nicehash_credentials();
-            data.btc = btc;
-            data.worker = worker;
+            var data = new Nicehash_credentials
+            {
+                btc = btc,
+                worker = worker
+            };
             if (BitcoinAddress.ValidateBitcoinAddress(data.btc) && BitcoinAddress.ValidateWorkerName(worker))
             {
                 var sendData = JsonConvert.SerializeObject(data);
@@ -375,9 +378,11 @@ namespace zPoolMiner
             {
                 try
                 {
-                    var array = new JArray();
-                    array.Add(device.Index);
-                    array.Add(device.Name);
+                    var array = new JArray
+                    {
+                        device.Index,
+                        device.Name
+                    };
                     int status = Convert.ToInt32(activeIDs.Contains(device.Index)) + (((int)device.DeviceType + 1) * 2);
                     array.Add(status);
                     array.Add((uint)device.Load);
@@ -388,8 +393,10 @@ namespace zPoolMiner
                 }
                 catch (Exception e) { Helpers.ConsolePrint("SOCKET", e.ToString()); }
             }
-            var data = new nicehash_device_status();
-            data.devices = deviceList;
+            var data = new Nicehash_device_status
+            {
+                devices = deviceList
+            };
             var sendData = JsonConvert.SerializeObject(data);
             // This function is run every minute and sends data every run which has two auxiliary effects
             // Keeps connection alive and attempts reconnection if internet was dropped
@@ -431,23 +438,23 @@ namespace zPoolMiner
         }
     }
 
-    public class zPoolAlgo
+    public class ZPoolAlgo
     {
-        public string name { get; set; }
-        public int port { get; set; }
+        public string Name { get; set; }
+        public int Port { get; set; }
 
         //public decimal coins { get; set; }
         //public decimal fees { get; set; }
         //public decimal hashrate { get; set; }
         //public int workers { get; set; }
-        public decimal estimate_current { get; set; }
+        public decimal Estimate_current { get; set; }
 
-        public decimal estimate_last24h { get; set; }
-        public decimal actual_last24h { get; set; }
+        public decimal Estimate_last24h { get; set; }
+        public decimal Actual_last24h { get; set; }
 
-        public decimal NormalizedEstimate => MagnitudeFactor(name) * estimate_current;
-        public decimal Normalized24HrEstimate => MagnitudeFactor(name) * estimate_last24h;
-        public decimal Normalized24HrActual => MagnitudeFactor(name) * actual_last24h * 0.001m;
+        public decimal NormalizedEstimate => MagnitudeFactor(Name) * Estimate_current;
+        public decimal Normalized24HrEstimate => MagnitudeFactor(Name) * Estimate_last24h;
+        public decimal Normalized24HrActual => MagnitudeFactor(Name) * Actual_last24h * 0.001m;
         public decimal MidPoint24HrEstimate => (Normalized24HrEstimate + Normalized24HrActual) / 2m;
 
         // if the normalized estimate (now) is 20% less than the midpoint, we want to return the
@@ -459,54 +466,54 @@ namespace zPoolMiner
         //public decimal hashrate_last24h { get; set; }
         //public decimal rental_current { get; set; }
 
-        public zAlgorithm Algorithm => ToAlgorithm(name);
+        public ZAlgorithm Algorithm => ToAlgorithm(Name);
 
-        private zAlgorithm ToAlgorithm(string s)
+        private ZAlgorithm ToAlgorithm(string s)
         {
             switch (s.ToLower())
             {
-                case "bitcore": return zAlgorithm.bitcore;
-                case "blake2s": return zAlgorithm.blake2s;
-                case "blakecoin": return zAlgorithm.blake256r8;
-                case "c11": return zAlgorithm.c11;
-                case "equihash": return zAlgorithm.equihash;
-                case "groestl": return zAlgorithm.groestl;
-                case "hsr": return zAlgorithm.hsr;
-                case "keccak": return zAlgorithm.keccak;
-                case "lbry": return zAlgorithm.lbry;
-                case "lyra2v2": return zAlgorithm.lyra2v2;
-                case "myr-gr": return zAlgorithm.myriad_groestl;
-                case "neoscrypt": return zAlgorithm.neoscrypt;
-                case "nist5": return zAlgorithm.nist5;
-                case "phi": return zAlgorithm.phi;
-                case "polytimos": return zAlgorithm.polytimos;
-                case "quark": return zAlgorithm.quark;
-                case "qubit": return zAlgorithm.qubit;
-                case "scrypt": return zAlgorithm.scrypt;
-                case "sha256": return zAlgorithm.sha256;
-                case "sib": return zAlgorithm.sib;
-                case "skein": return zAlgorithm.skein;
-                case "skunk": return zAlgorithm.skunk;
-                case "timetravel": return zAlgorithm.timetravel;
-                case "tribus": return zAlgorithm.tribus;
-                case "veltor": return zAlgorithm.veltor;
-                case "x11": return zAlgorithm.x11;
-                case "x11evo": return zAlgorithm.x11evo;
-                case "x13": return zAlgorithm.x13;
-                case "x14": return zAlgorithm.x14;
-                case "x17": return zAlgorithm.x17;
-                case "xevan": return zAlgorithm.xevan;
-                case "yescrypt": return zAlgorithm.yescrypt;
+                case "bitcore": return ZAlgorithm.bitcore;
+                case "blake2s": return ZAlgorithm.blake2s;
+                case "blakecoin": return ZAlgorithm.blake256r8;
+                case "c11": return ZAlgorithm.c11;
+                case "equihash": return ZAlgorithm.equihash;
+                case "groestl": return ZAlgorithm.groestl;
+                case "hsr": return ZAlgorithm.hsr;
+                case "keccak": return ZAlgorithm.keccak;
+                case "lbry": return ZAlgorithm.lbry;
+                case "lyra2v2": return ZAlgorithm.lyra2v2;
+                case "myr-gr": return ZAlgorithm.myriad_groestl;
+                case "neoscrypt": return ZAlgorithm.neoscrypt;
+                case "nist5": return ZAlgorithm.nist5;
+                case "phi": return ZAlgorithm.phi;
+                case "polytimos": return ZAlgorithm.polytimos;
+                case "quark": return ZAlgorithm.quark;
+                case "qubit": return ZAlgorithm.qubit;
+                case "scrypt": return ZAlgorithm.scrypt;
+                case "sha256": return ZAlgorithm.sha256;
+                case "sib": return ZAlgorithm.sib;
+                case "skein": return ZAlgorithm.skein;
+                case "skunk": return ZAlgorithm.skunk;
+                case "timetravel": return ZAlgorithm.timetravel;
+                case "tribus": return ZAlgorithm.tribus;
+                case "veltor": return ZAlgorithm.veltor;
+                case "x11": return ZAlgorithm.x11;
+                case "x11evo": return ZAlgorithm.x11evo;
+                case "x13": return ZAlgorithm.x13;
+                case "x14": return ZAlgorithm.x14;
+                case "x17": return ZAlgorithm.x17;
+                case "xevan": return ZAlgorithm.xevan;
+                case "yescrypt": return ZAlgorithm.yescrypt;
                     //case "hmq1725": return zAlgorithm.hmq1725;
                     //case "m7m": return zAlgorithm.m7m;
             }
 
-            return zAlgorithm.unknown;
+            return ZAlgorithm.unknown;
         }
 
         public int NiceHashAlgoId()
         {
-            switch (name)
+            switch (Name)
             {
                 case "bitcore": return 0;
                 case "blake2s": return 1;
@@ -583,7 +590,7 @@ namespace zPoolMiner
                     : Max(values[0], Min(values.Skip(1).ToArray()));
     }
 
-    public enum zAlgorithm
+    public enum ZAlgorithm
     {
         bitcore,
         blake2s,

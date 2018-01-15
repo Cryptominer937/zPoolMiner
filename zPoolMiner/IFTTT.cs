@@ -20,10 +20,12 @@ namespace zPoolMiner
 
                 using (WebClient client = new WebClient())
                 {
-                    var postData = new NameValueCollection();
-                    postData["value1"] = worker;
-                    postData["value2"] = msg;
-                    postData["value3"] = minProfit;
+                    var postData = new NameValueCollection
+                    {
+                        ["value1"] = worker,
+                        ["value2"] = msg,
+                        ["value3"] = minProfit
+                    };
 
                     var response = client.UploadValues(apiUrl + action + "/with/key/" + key, postData);
 

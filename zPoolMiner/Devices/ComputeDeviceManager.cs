@@ -393,9 +393,8 @@ namespace zPoolMiner.Devices
                     bool allVideoContollersOK = true;
                     foreach (var manObj in moc)
                     {
-                        ulong memTmp = 0;
                         //Int16 ram_Str = manObj["ProtocolSupported"] as Int16; manObj["AdapterRAM"] as string
-                        UInt64.TryParse(SafeGetProperty(manObj, "AdapterRAM"), out memTmp);
+                        UInt64.TryParse(SafeGetProperty(manObj, "AdapterRAM"), out ulong memTmp);
                         var vidController = new VideoControllerData()
                         {
                             Name = SafeGetProperty(manObj, "Name"),
@@ -548,14 +547,13 @@ namespace zPoolMiner.Devices
                         if (NVAPI.IsAvailable)
                         {
                             NvPhysicalGpuHandle[] handles = new NvPhysicalGpuHandle[NVAPI.MAX_PHYSICAL_GPUS];
-                            int count;
                             if (NVAPI.NvAPI_EnumPhysicalGPUs == null)
                             {
                                 Helpers.ConsolePrint("NVAPI", "NvAPI_EnumPhysicalGPUs unavailable");
                             }
                             else
                             {
-                                var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out count);
+                                var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out int count);
                                 if (status != NvStatus.OK)
                                 {
                                     Helpers.ConsolePrint("NVAPI", "Enum physical GPUs failed with status: " + status);
@@ -632,8 +630,7 @@ namespace zPoolMiner.Devices
                                         group = DeviceGroupType.NVIDIA_6_x;
                                         break;
                                 }
-                                NvPhysicalGpuHandle handle;
-                                idHandles.TryGetValue(cudaDev.pciBusID, out handle);
+                                idHandles.TryGetValue(cudaDev.pciBusID, out NvPhysicalGpuHandle handle);
                                 Avaliable.AllAvaliableDevices.Add(
                                     new CudaComputeDevice(cudaDev, group, ++GPUCount, handle)
                                 );
@@ -1080,10 +1077,12 @@ namespace zPoolMiner.Devices
                                         if (busID != -1 && _busIdsInfo.ContainsKey(busID))
                                         {
                                             var deviceName = _busIdsInfo[busID].Item1;
-                                            var newAmdDev = new AmdGpuDevice(AMD_Devices[i_id], deviceDriverOld[deviceName], _busIdsInfo[busID].Item3, deviceDriverNO_neoscrypt_lyra2re[deviceName]);
-                                            newAmdDev.DeviceName = deviceName;
-                                            newAmdDev.UUID = _busIdsInfo[busID].Item2;
-                                            newAmdDev.AdapterIndex = _busIdsInfo[busID].Item4;
+                                            var newAmdDev = new AmdGpuDevice(AMD_Devices[i_id], deviceDriverOld[deviceName], _busIdsInfo[busID].Item3, deviceDriverNO_neoscrypt_lyra2re[deviceName])
+                                            {
+                                                DeviceName = deviceName,
+                                                UUID = _busIdsInfo[busID].Item2,
+                                                AdapterIndex = _busIdsInfo[busID].Item4
+                                            };
                                             bool isDisabledGroup = ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD;
                                             string skipOrAdd = isDisabledGroup ? "SKIPED" : "ADDED";
                                             string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";
@@ -1141,9 +1140,11 @@ namespace zPoolMiner.Devices
 
                                         var deviceName = AMDVideoControllers[i].Name;
                                         if (AMDVideoControllers[i].InfSection == null) AMDVideoControllers[i].InfSection = "";
-                                        var newAmdDev = new AmdGpuDevice(AMD_Devices[i], deviceDriverOld[deviceName], AMDVideoControllers[i].InfSection, deviceDriverNO_neoscrypt_lyra2re[deviceName]);
-                                        newAmdDev.DeviceName = deviceName;
-                                        newAmdDev.UUID = "UNUSED";
+                                        var newAmdDev = new AmdGpuDevice(AMD_Devices[i], deviceDriverOld[deviceName], AMDVideoControllers[i].InfSection, deviceDriverNO_neoscrypt_lyra2re[deviceName])
+                                        {
+                                            DeviceName = deviceName,
+                                            UUID = "UNUSED"
+                                        };
                                         bool isDisabledGroup = ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD;
                                         string skipOrAdd = isDisabledGroup ? "SKIPED" : "ADDED";
                                         string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";

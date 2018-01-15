@@ -50,18 +50,22 @@ namespace zPoolMiner
 
         public static IAppender CreateFileAppender()
         {
-            RollingFileAppender appender = new RollingFileAppender();
-            appender.Name = "RollingFileAppender";
-            appender.File = _logPath + "log.txt";
-            appender.AppendToFile = true;
-            appender.RollingStyle = RollingFileAppender.RollingMode.Size;
-            appender.MaxSizeRollBackups = 1;
-            appender.MaxFileSize = ConfigManager.GeneralConfig.LogMaxFileSize;
-            appender.PreserveLogFileNameExtension = true;
-            appender.Encoding = System.Text.Encoding.Unicode;
+            RollingFileAppender appender = new RollingFileAppender
+            {
+                Name = "RollingFileAppender",
+                File = _logPath + "log.txt",
+                AppendToFile = true,
+                RollingStyle = RollingFileAppender.RollingMode.Size,
+                MaxSizeRollBackups = 1,
+                MaxFileSize = ConfigManager.GeneralConfig.LogMaxFileSize,
+                PreserveLogFileNameExtension = true,
+                Encoding = System.Text.Encoding.Unicode
+            };
 
-            PatternLayout layout = new PatternLayout();
-            layout.ConversionPattern = "[%date{yyyy-MM-dd HH:mm:ss}] [%level] %message%newline";
+            PatternLayout layout = new PatternLayout
+            {
+                ConversionPattern = "[%date{yyyy-MM-dd HH:mm:ss}] [%level] %message%newline"
+            };
             layout.ActivateOptions();
 
             appender.Layout = layout;

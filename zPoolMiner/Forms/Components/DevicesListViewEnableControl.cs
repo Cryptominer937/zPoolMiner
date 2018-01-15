@@ -137,11 +137,13 @@ namespace zPoolMiner.Forms.Components
             // set devices
             foreach (var computeDevice in computeDevices)
             {
-                ListViewItem lvi = new ListViewItem();
-                //lvi.SubItems.Add(computeDevice.Name);
-                lvi.Checked = computeDevice.Enabled;
-                lvi.Text = computeDevice.GetFullName();
-                lvi.Tag = computeDevice;
+                ListViewItem lvi = new ListViewItem
+                {
+                    //lvi.SubItems.Add(computeDevice.Name);
+                    Checked = computeDevice.Enabled,
+                    Text = computeDevice.GetFullName(),
+                    Tag = computeDevice
+                };
                 listViewDevices.Items.Add(lvi);
                 _listItemCheckColorSetter.LviSetColor(lvi);
             }
@@ -203,9 +205,11 @@ namespace zPoolMiner.Forms.Components
                             {
                                 if (cDev.Enabled)
                                 {
-                                    var copyBenchDropDownItem = new ToolStripMenuItem();
-                                    copyBenchDropDownItem.Text = cDev.Name;
-                                    copyBenchDropDownItem.Checked = cDev.UUID == CDevice.BenchmarkCopyUUID;
+                                    var copyBenchDropDownItem = new ToolStripMenuItem
+                                    {
+                                        Text = cDev.Name,
+                                        Checked = cDev.UUID == CDevice.BenchmarkCopyUUID
+                                    };
                                     copyBenchDropDownItem.Click += toolStripMenuItemCopySettings_Click;
                                     copyBenchDropDownItem.Tag = cDev.UUID;
                                     copyBenchItem.DropDownItems.Add(copyBenchDropDownItem);

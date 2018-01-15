@@ -287,12 +287,7 @@ namespace MyDownloader.Core
             get { return segmentCalculator; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                segmentCalculator = value;
+                segmentCalculator = value ?? throw new ArgumentNullException("value");
             }
         }
 
@@ -301,12 +296,7 @@ namespace MyDownloader.Core
             get { return mirrorSelector; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                mirrorSelector = value;
+                mirrorSelector = value ?? throw new ArgumentNullException("value");
                 mirrorSelector.Init(this);
             }
         }
@@ -334,66 +324,42 @@ namespace MyDownloader.Core
 
         protected virtual void OnRestartingSegment(Segment segment)
         {
-            if (RestartingSegment != null)
-            {
-                RestartingSegment(this, new SegmentEventArgs(this, segment));
-            }
+            RestartingSegment?.Invoke(this, new SegmentEventArgs(this, segment));
         }
 
         protected virtual void OnSegmentStoped(Segment segment)
         {
-            if (SegmentStoped != null)
-            {
-                SegmentStoped(this, new SegmentEventArgs(this, segment));
-            }
+            SegmentStoped?.Invoke(this, new SegmentEventArgs(this, segment));
         }
 
         protected virtual void OnSegmentFailed(Segment segment)
         {
-            if (SegmentFailed != null)
-            {
-                SegmentFailed(this, new SegmentEventArgs(this, segment));
-            }
+            SegmentFailed?.Invoke(this, new SegmentEventArgs(this, segment));
         }
 
         protected virtual void OnSegmentStarting(Segment segment)
         {
-            if (SegmentStarting != null)
-            {
-                SegmentStarting(this, new SegmentEventArgs(this, segment));
-            }
+            SegmentStarting?.Invoke(this, new SegmentEventArgs(this, segment));
         }
 
         protected virtual void OnSegmentStarted(Segment segment)
         {
-            if (SegmentStarted != null)
-            {
-                SegmentStarted(this, new SegmentEventArgs(this, segment));
-            }
+            SegmentStarted?.Invoke(this, new SegmentEventArgs(this, segment));
         }
 
         protected virtual void OnStateChanged()
         {
-            if (StateChanged != null)
-            {
-                StateChanged(this, EventArgs.Empty);
-            }
+            StateChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnEnding()
         {
-            if (Ending != null)
-            {
-                Ending(this, EventArgs.Empty);
-            }
+            Ending?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnInfoReceived()
         {
-            if (InfoReceived != null)
-            {
-                InfoReceived(this, EventArgs.Empty);
-            }
+            InfoReceived?.Invoke(this, EventArgs.Empty);
         }
 
         public IDisposable LockSegments()
@@ -582,7 +548,7 @@ namespace MyDownloader.Core
             // allocs the file on disk
             AllocLocalFile();
 
-            long segmentSize;
+            //long segmentSize;
 
             CalculatedSegment[] calculatedSegments;
 
@@ -837,10 +803,9 @@ namespace MyDownloader.Core
 
                     while (location != this.ResourceLocation)
                     {
-                        Stream tempStream;
 
                         // get the remote file info on mirror
-                        RemoteFileInfo tempRemoteInfo = provider.GetFileInfo(location, out tempStream);
+                        RemoteFileInfo tempRemoteInfo = provider.GetFileInfo(location, out Stream tempStream);
                         if (tempStream != null) tempStream.Dispose();
 
                         // check if the file on mirror is the same
@@ -980,9 +945,11 @@ namespace MyDownloader.Core
                         long newSize = oldSegment.MissingTransfer / 2;
 
                         // create a new segment allocation the half old segment
-                        Segment newSegment = new Segment();
-                        newSegment.Index = this.segments.Count;
-                        newSegment.StartPosition = oldSegment.StartPosition + newSize;
+                        Segment newSegment = new Segment
+                        {
+                            Index = this.segments.Count,
+                            StartPosition = oldSegment.StartPosition + newSize
+                        };
                         newSegment.InitialStartPosition = newSegment.StartPosition;
                         newSegment.EndPosition = oldSegment.EndPosition;
                         newSegment.OutputStream = oldSegment.OutputStream;

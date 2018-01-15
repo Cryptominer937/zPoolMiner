@@ -37,11 +37,13 @@ namespace MyDownloader.App.UI
         {
             get
             {
-                ResourceLocation rl = new ResourceLocation();
-                rl.Authenticate = chkLogin.Checked;
-                rl.Login = txtLogin.Text;
-                rl.Password = txtPass.Text;
-                rl.URL = txtURL.Text;
+                ResourceLocation rl = new ResourceLocation
+                {
+                    Authenticate = chkLogin.Checked,
+                    Login = txtLogin.Text,
+                    Password = txtPass.Text,
+                    URL = txtURL.Text
+                };
 
                 return rl;
             }

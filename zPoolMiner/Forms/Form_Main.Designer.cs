@@ -77,7 +77,7 @@
             this.buttonStartMining.TabIndex = 6;
             this.buttonStartMining.Text = "&Start";
             this.buttonStartMining.UseVisualStyleBackColor = true;
-            this.buttonStartMining.Click += new System.EventHandler(this.buttonStartMining_Click);
+            this.buttonStartMining.Click += new System.EventHandler(this.ButtonStartMining_Click);
             // 
             // textBoxBTCAddress
             // 
@@ -85,7 +85,7 @@
             this.textBoxBTCAddress.Name = "textBoxBTCAddress";
             this.textBoxBTCAddress.Size = new System.Drawing.Size(237, 20);
             this.textBoxBTCAddress.TabIndex = 1;
-            this.textBoxBTCAddress.Leave += new System.EventHandler(this.textBoxCheckBoxMain_Leave);
+            this.textBoxBTCAddress.Leave += new System.EventHandler(this.TextBoxCheckBoxMain_Leave);
             // 
             // labelServiceLocation
             // 
@@ -111,7 +111,7 @@
             this.comboBoxLocation.Name = "comboBoxLocation";
             this.comboBoxLocation.Size = new System.Drawing.Size(121, 21);
             this.comboBoxLocation.TabIndex = 0;
-            this.comboBoxLocation.Leave += new System.EventHandler(this.textBoxCheckBoxMain_Leave);
+            this.comboBoxLocation.Leave += new System.EventHandler(this.TextBoxCheckBoxMain_Leave);
             // 
             // labelBitcoinAddress
             // 
@@ -182,7 +182,7 @@
             this.toolStripStatusLabelBalanceText.Size = new System.Drawing.Size(38, 20);
             this.toolStripStatusLabelBalanceText.Text = "$/Day";
             this.toolStripStatusLabelBalanceText.Visible = false;
-            this.toolStripStatusLabelBalanceText.Click += new System.EventHandler(this.toolStripStatusLabelBalanceText_Click);
+            this.toolStripStatusLabelBalanceText.Click += new System.EventHandler(this.ToolStripStatusLabelBalanceText_Click);
             // 
             // toolStripStatusLabelBalanceBTCValue
             // 
@@ -217,9 +217,9 @@
             this.toolStripStatusLabel10.Name = "toolStripStatusLabel10";
             this.toolStripStatusLabel10.Size = new System.Drawing.Size(35, 20);
             this.toolStripStatusLabel10.Visible = false;
-            this.toolStripStatusLabel10.Click += new System.EventHandler(this.toolStripStatusLabel10_Click);
-            this.toolStripStatusLabel10.MouseLeave += new System.EventHandler(this.toolStripStatusLabel10_MouseLeave);
-            this.toolStripStatusLabel10.MouseHover += new System.EventHandler(this.toolStripStatusLabel10_MouseHover);
+            this.toolStripStatusLabel10.Click += new System.EventHandler(this.ToolStripStatusLabel10_Click);
+            this.toolStripStatusLabel10.MouseLeave += new System.EventHandler(this.ToolStripStatusLabel10_MouseLeave);
+            this.toolStripStatusLabel10.MouseHover += new System.EventHandler(this.ToolStripStatusLabel10_MouseHover);
             // 
             // toolStripStatusLabel1
             // 
@@ -237,7 +237,7 @@
             this.linkLabelCheckStats.TabIndex = 9;
             this.linkLabelCheckStats.TabStop = true;
             this.linkLabelCheckStats.Text = "Check my stats online!";
-            this.linkLabelCheckStats.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCheckStats_LinkClicked);
+            this.linkLabelCheckStats.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelCheckStats_LinkClicked);
             // 
             // labelWorkerName
             // 
@@ -254,7 +254,7 @@
             this.textBoxWorkerName.Name = "textBoxWorkerName";
             this.textBoxWorkerName.Size = new System.Drawing.Size(187, 20);
             this.textBoxWorkerName.TabIndex = 2;
-            this.textBoxWorkerName.Leave += new System.EventHandler(this.textBoxCheckBoxMain_Leave);
+            this.textBoxWorkerName.Leave += new System.EventHandler(this.TextBoxCheckBoxMain_Leave);
             // 
             // buttonStopMining
             // 
@@ -266,7 +266,7 @@
             this.buttonStopMining.TabIndex = 7;
             this.buttonStopMining.Text = "St&op";
             this.buttonStopMining.UseVisualStyleBackColor = true;
-            this.buttonStopMining.Click += new System.EventHandler(this.buttonStopMining_Click);
+            this.buttonStopMining.Click += new System.EventHandler(this.ButtonStopMining_Click);
             // 
             // buttonBenchmark
             // 
@@ -277,7 +277,7 @@
             this.buttonBenchmark.TabIndex = 4;
             this.buttonBenchmark.Text = "&Benchmark";
             this.buttonBenchmark.UseVisualStyleBackColor = true;
-            this.buttonBenchmark.Click += new System.EventHandler(this.buttonBenchmark_Click);
+            this.buttonBenchmark.Click += new System.EventHandler(this.ButtonBenchmark_Click);
             // 
             // buttonSettings
             // 
@@ -288,7 +288,7 @@
             this.buttonSettings.TabIndex = 5;
             this.buttonSettings.Text = "S&ettings";
             this.buttonSettings.UseVisualStyleBackColor = true;
-            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            this.buttonSettings.Click += new System.EventHandler(this.ButtonSettings_Click);
             // 
             // buttonLogo
             // 
@@ -303,7 +303,7 @@
             this.buttonLogo.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.buttonLogo.UseMnemonic = false;
             this.buttonLogo.UseVisualStyleBackColor = true;
-            this.buttonLogo.Click += new System.EventHandler(this.buttonLogo_Click);
+            this.buttonLogo.Click += new System.EventHandler(this.ButtonLogo_Click);
             // 
             // linkLabelChooseBTCWallet
             // 
@@ -315,11 +315,11 @@
             this.linkLabelChooseBTCWallet.TabStop = true;
             this.linkLabelChooseBTCWallet.Text = "Help me choose my Bitcoin wallet";
             this.linkLabelChooseBTCWallet.Visible = false;
-            this.linkLabelChooseBTCWallet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelChooseBTCWallet_LinkClicked);
+            this.linkLabelChooseBTCWallet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseBTCWallet_LinkClicked);
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
             // 
             // labelDemoMode
             // 
@@ -376,7 +376,7 @@
             this.buttonHelp.TabIndex = 8;
             this.buttonHelp.Text = "&Help";
             this.buttonHelp.UseVisualStyleBackColor = true;
-            this.buttonHelp.Click += new System.EventHandler(this.buttonHelp_Click);
+            this.buttonHelp.Click += new System.EventHandler(this.ButtonHelp_Click);
             // 
             // linkLabelNewVersion
             // 
@@ -385,7 +385,7 @@
             this.linkLabelNewVersion.Name = "linkLabelNewVersion";
             this.linkLabelNewVersion.Size = new System.Drawing.Size(0, 13);
             this.linkLabelNewVersion.TabIndex = 110;
-            this.linkLabelNewVersion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelNewVersion_LinkClicked);
+            this.linkLabelNewVersion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelNewVersion_LinkClicked);
             // 
             // devicesListViewEnableControl1
             // 

@@ -22,8 +22,7 @@ namespace zPoolMiner
             {
                 using (Process p = Process.GetCurrentProcess())
                 {
-                    bool retVal;
-                    if (!IsWow64Process(p.Handle, out retVal))
+                    if (!IsWow64Process(p.Handle, out bool retVal))
                     {
                         return false;
                     }
@@ -259,8 +258,7 @@ namespace zPoolMiner
             bool returnValue = false;
             try
             {
-                int Desc;
-                returnValue = InternetGetConnectedState(out Desc, 0);
+                returnValue = InternetGetConnectedState(out int Desc, 0);
             }
             catch
             {
@@ -272,8 +270,7 @@ namespace zPoolMiner
         // parsing helpers
         public static int ParseInt(string text)
         {
-            int tmpVal = 0;
-            if (Int32.TryParse(text, out tmpVal))
+            if (Int32.TryParse(text, out int tmpVal))
             {
                 return tmpVal;
             }
@@ -282,8 +279,7 @@ namespace zPoolMiner
 
         public static long ParseLong(string text)
         {
-            long tmpVal = 0;
-            if (Int64.TryParse(text, out tmpVal))
+            if (Int64.TryParse(text, out long tmpVal))
             {
                 return tmpVal;
             }
@@ -370,11 +366,13 @@ namespace zPoolMiner
         {
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = "nvidiasetp0state.exe";
-                psi.Verb = "runas";
-                psi.UseShellExecute = true;
-                psi.CreateNoWindow = true;
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "nvidiasetp0state.exe",
+                    Verb = "runas",
+                    UseShellExecute = true,
+                    CreateNoWindow = true
+                };
                 Process p = Process.Start(psi);
                 p.WaitForExit();
                 if (p.ExitCode != 0)

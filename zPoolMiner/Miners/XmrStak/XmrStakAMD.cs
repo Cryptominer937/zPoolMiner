@@ -100,8 +100,10 @@ namespace zPoolMiner.Miners
                         new XmrStakGPUSettings(pair.Device.ID, intensity)));
                 }
                 config.Initialize_gpu_threads_conf(gpuConfigs);
-                var serializer = new JsonSerializer();
-                serializer.TypeNameHandling = TypeNameHandling.All;
+                var serializer = new JsonSerializer
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                };
                 var confJson = JObject.FromObject(config);
                 var writeStr = confJson.ToString();
                 var start = writeStr.IndexOf("{");

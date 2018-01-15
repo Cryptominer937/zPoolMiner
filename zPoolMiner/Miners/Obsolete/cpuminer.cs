@@ -86,8 +86,7 @@ namespace zPoolMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
-            double lastSpeed = 0;
-            if (double.TryParse(outdata, out lastSpeed))
+            if (double.TryParse(outdata, out double lastSpeed))
             {
                 BenchmarkAlgorithm.BenchmarkSpeed = lastSpeed;
                 return true;

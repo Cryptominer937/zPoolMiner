@@ -210,10 +210,12 @@ namespace NVIDIA.NVAPI
 
         static NVAPI()
         {
-            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll");
-            attribute.CallingConvention = CallingConvention.Cdecl;
-            attribute.PreserveSig = true;
-            attribute.EntryPoint = "nvapi_QueryInterface";
+            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll")
+            {
+                CallingConvention = CallingConvention.Cdecl,
+                PreserveSig = true,
+                EntryPoint = "nvapi_QueryInterface"
+            };
             PInvokeDelegateFactory.CreateDelegate(attribute, out nvapi_QueryInterface);
 
             try

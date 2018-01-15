@@ -40,7 +40,7 @@ namespace zPoolMiner
             currentSMA = sma;
         }
 
-        public NiceHashData(zPoolAlgo[] data)
+        public NiceHashData(ZPoolAlgo[] data)
         {
             recentPaying = new Dictionary<AlgorithmType, List<double>>();
             var sma = new Dictionary<AlgorithmType, NiceHashSMA>();
@@ -48,7 +48,7 @@ namespace zPoolMiner
             {
                 sma[(AlgorithmType)algo.NiceHashAlgoId()] = new NiceHashSMA
                 {
-                    port = algo.port,
+                    port = algo.Port,
                     name = algo.Algorithm.ToString().ToLower(),
                     algo = algo.NiceHashAlgoId(),
                     paying = 0

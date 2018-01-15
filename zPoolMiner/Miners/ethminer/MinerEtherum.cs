@@ -140,8 +140,7 @@ namespace zPoolMiner.Miners
         {
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
-            bool ismining;
-            var getSpeedStatus = GetSpeed(out ismining, out ad.Speed);
+            var getSpeedStatus = GetSpeed(out bool ismining, out ad.Speed);
             if (GetSpeedStatus.GOT == getSpeedStatus)
             {
                 // fix MH/s

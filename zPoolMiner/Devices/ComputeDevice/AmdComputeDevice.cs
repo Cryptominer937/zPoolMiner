@@ -12,8 +12,10 @@ namespace zPoolMiner.Devices
         {
             get
             {
-                var adlf = new ADLFanSpeedValue();
-                adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_RPM;
+                var adlf = new ADLFanSpeedValue
+                {
+                    SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_RPM
+                };
                 var result = ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf);
                 if (result != ADL.ADL_SUCCESS)
                 {

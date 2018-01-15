@@ -12,17 +12,15 @@ namespace zPoolMiner.Utils
 
         public CommandLineParser(string[] argv)
         {
-            string tmpString;
-            if (ParseCommandLine(argv, "-config", out tmpString))
+            if (ParseCommandLine(argv, "-config", out string tmpString))
             {
                 Helpers.ConsolePrint("CommandLineParser", "-config parameter has been depreciated, run setting from GUI");
             }
             if (ParseCommandLine(argv, "-lang", out tmpString))
             {
                 IsLang = true;
-                int tmp;
                 // if parsing fails set to default
-                if (Int32.TryParse(tmpString, out tmp))
+                if (Int32.TryParse(tmpString, out int tmp))
                 {
                     LangValue = (LanguageType)tmp;
                 }

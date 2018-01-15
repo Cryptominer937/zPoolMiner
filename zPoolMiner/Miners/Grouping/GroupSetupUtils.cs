@@ -226,10 +226,12 @@ namespace zPoolMiner.Miners.Grouping
                 var algo_id = algo.AlgorithmStringID;
                 if (BenchmarkSums.ContainsKey(algo_id) == false)
                 {
-                    var ssc = new SpeedSumCount();
-                    ssc.count = 1;
-                    ssc.speed = algo.BenchmarkSpeed;
-                    ssc.secondarySpeed = algo.SecondaryBenchmarkSpeed;
+                    var ssc = new SpeedSumCount
+                    {
+                        count = 1,
+                        speed = algo.BenchmarkSpeed,
+                        secondarySpeed = algo.SecondaryBenchmarkSpeed
+                    };
                     BenchmarkSums[algo_id] = ssc;
                 }
                 else

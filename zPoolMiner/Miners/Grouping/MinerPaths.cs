@@ -154,40 +154,40 @@ namespace zPoolMiner.Miners.Grouping
             switch (minerBaseType)
             {
                 case MinerBaseType.ccminer:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_22:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_alexis_hsr:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_alexis78:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_klaust818:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_palgin:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_polytimos:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_skunkkrnlx:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_xevan:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.ccminer_tpruvot2:
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
                 case MinerBaseType.sgminer:
-                    return AMD_GROUP.sgminer_path(algoType);
+                    return AMD_GROUP.Sgminer_path(algoType);
 
                 case MinerBaseType.GatelessGate:
-                    return AMD_GROUP.glg_path(algoType);
+                    return AMD_GROUP.Glg_path(algoType);
 
                 case MinerBaseType.nheqminer:
                     return Data.nheqminer;
@@ -208,7 +208,7 @@ namespace zPoolMiner.Miners.Grouping
                     return Data.XmrStackCPUMiner;
 
                 case MinerBaseType.ccminer_alexis:
-                    return NVIDIA_GROUPS.ccminer_unstable_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_unstable_path(algoType, devGroupType);
 
                 case MinerBaseType.experimental:
                     return EXPERIMENTAL.GetPath(algoType, devGroupType);
@@ -232,7 +232,7 @@ namespace zPoolMiner.Miners.Grouping
                     return Data.ClaymoreCryptoNightMiner_old;
 
                 case MinerBaseType.hsrneoscrypt:
-                    return NVIDIA_GROUPS.hsrneoscrypt_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
             }
             return Data.NONE;
         }
@@ -277,7 +277,7 @@ namespace zPoolMiner.Miners.Grouping
         ////// private stuff from here on
         private static class NVIDIA_GROUPS
         {
-            public static string ccminer_sm21_or_sm3x(AlgorithmType algorithmType)
+            public static string Ccminer_sm21_or_sm3x(AlgorithmType algorithmType)
             {
                 if (AlgorithmType.Decred == algorithmType)
                 {
@@ -290,7 +290,7 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.ccminer_tpruvot;
             }
 
-            public static string ccminer_sm5x_or_sm6x(AlgorithmType algorithmType)
+            public static string Ccminer_sm5x_or_sm6x(AlgorithmType algorithmType)
             {
                 if (AlgorithmType.Decred == algorithmType)
                 {
@@ -361,7 +361,7 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.ccminer_sp;
             }
 
-            public static string hsrneoscrypt_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            public static string Hsrneoscrypt_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
@@ -382,12 +382,12 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.NONE; // should not happen
             }
 
-            public static string ccminer_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            public static string Ccminer_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
-                    return NVIDIA_GROUPS.ccminer_sm21_or_sm3x(algorithmType);
+                    return NVIDIA_GROUPS.Ccminer_sm21_or_sm3x(algorithmType);
                 }
                 // CN exception
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.CryptoNight || AlgorithmType.X17 == algorithmType || AlgorithmType.Tribus == algorithmType)
@@ -397,13 +397,13 @@ namespace zPoolMiner.Miners.Grouping
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    return NVIDIA_GROUPS.ccminer_sm5x_or_sm6x(algorithmType);
+                    return NVIDIA_GROUPS.Ccminer_sm5x_or_sm6x(algorithmType);
                 }
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
 
-            public static string ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            public static string Ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
@@ -420,7 +420,7 @@ namespace zPoolMiner.Miners.Grouping
 
         private static class AMD_GROUP
         {
-            public static string sgminer_path(AlgorithmType type)
+            public static string Sgminer_path(AlgorithmType type)
             {
                 if (AlgorithmType.CryptoNight == type || AlgorithmType.DaggerHashimoto == type)
                 {
@@ -429,7 +429,7 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.sgminer_5_6_0_general;
             }
 
-            public static string glg_path(AlgorithmType type)
+            public static string Glg_path(AlgorithmType type)
             {
                 // AlgorithmType.Pascal == type || AlgorithmType.DaggerHashimoto == type || AlgorithmType.Decred == type || AlgorithmType.Lbry == type || AlgorithmType.X11Gost == type || AlgorithmType.DaggerHashimoto == type
                 if (AlgorithmType.CryptoNight == type || AlgorithmType.Equihash == type || AlgorithmType.NeoScrypt == type || AlgorithmType.Keccak == type)
@@ -464,7 +464,7 @@ namespace zPoolMiner.Miners.Grouping
             {
                 if (devGroupType == DeviceGroupType.NVIDIA_6_x)
                 {
-                    return NVIDIA_GROUPS.ccminer_path(algoType, devGroupType);
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
                 }
                 return Data.NONE; // should not happen
             }

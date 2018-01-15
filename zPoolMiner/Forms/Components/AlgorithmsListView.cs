@@ -213,22 +213,28 @@ namespace zPoolMiner.Forms.Components
                 contextMenuStrip1.Items.Clear();
                 // disable all
                 {
-                    var disableAllItems = new ToolStripMenuItem();
-                    disableAllItems.Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll");
+                    var disableAllItems = new ToolStripMenuItem
+                    {
+                        Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll")
+                    };
                     disableAllItems.Click += toolStripMenuItemDisableAll_Click;
                     contextMenuStrip1.Items.Add(disableAllItems);
                 }
                 // enable all
                 {
-                    var enableAllItems = new ToolStripMenuItem();
-                    enableAllItems.Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll");
+                    var enableAllItems = new ToolStripMenuItem
+                    {
+                        Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll")
+                    };
                     enableAllItems.Click += toolStripMenuItemEnableAll_Click;
                     contextMenuStrip1.Items.Add(enableAllItems);
                 }
                 // clear item
                 {
-                    var clearItem = new ToolStripMenuItem();
-                    clearItem.Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem");
+                    var clearItem = new ToolStripMenuItem
+                    {
+                        Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem")
+                    };
                     clearItem.Click += toolStripMenuItemClear_Click;
                     contextMenuStrip1.Items.Add(clearItem);
                 }

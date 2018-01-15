@@ -239,33 +239,39 @@ namespace zPoolMiner.Devices
         // getters
         public ComputeDeviceConfig GetComputeDeviceConfig()
         {
-            ComputeDeviceConfig ret = new ComputeDeviceConfig();
-            ret.Enabled = this.Enabled;
-            ret.Name = this.Name;
-            ret.UUID = this.UUID;
+            ComputeDeviceConfig ret = new ComputeDeviceConfig
+            {
+                Enabled = this.Enabled,
+                Name = this.Name,
+                UUID = this.UUID
+            };
             return ret;
         }
 
         public DeviceBenchmarkConfig GetAlgorithmDeviceConfig()
         {
-            DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig();
-            ret.DeviceName = this.Name;
-            ret.DeviceUUID = this.UUID;
+            DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig
+            {
+                DeviceName = this.Name,
+                DeviceUUID = this.UUID
+            };
             // init algo settings
             foreach (var algo in this.AlgorithmSettings)
             {
                 // create/setup
-                AlgorithmConfig conf = new AlgorithmConfig();
-                conf.Name = algo.AlgorithmStringID;
-                conf.NiceHashID = algo.NiceHashID;
-                conf.SecondaryNiceHashID = algo.SecondaryNiceHashID;
-                conf.MinerBaseType = algo.MinerBaseType;
-                conf.MinerName = algo.MinerName; // TODO probably not needed
-                conf.BenchmarkSpeed = algo.BenchmarkSpeed;
-                conf.SecondaryBenchmarkSpeed = algo.SecondaryBenchmarkSpeed;
-                conf.ExtraLaunchParameters = algo.ExtraLaunchParameters;
-                conf.Enabled = algo.Enabled;
-                conf.LessThreads = algo.LessThreads;
+                AlgorithmConfig conf = new AlgorithmConfig
+                {
+                    Name = algo.AlgorithmStringID,
+                    NiceHashID = algo.NiceHashID,
+                    SecondaryNiceHashID = algo.SecondaryNiceHashID,
+                    MinerBaseType = algo.MinerBaseType,
+                    MinerName = algo.MinerName, // TODO probably not needed
+                    BenchmarkSpeed = algo.BenchmarkSpeed,
+                    SecondaryBenchmarkSpeed = algo.SecondaryBenchmarkSpeed,
+                    ExtraLaunchParameters = algo.ExtraLaunchParameters,
+                    Enabled = algo.Enabled,
+                    LessThreads = algo.LessThreads
+                };
                 // insert
                 ret.AlgorithmSettings.Add(conf);
             }

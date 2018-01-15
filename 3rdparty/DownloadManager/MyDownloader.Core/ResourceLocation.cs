@@ -26,8 +26,10 @@ namespace MyDownloader.Core
 
         public static ResourceLocation FromURL(string url)
         {
-            ResourceLocation rl = new ResourceLocation();
-            rl.URL = url;
+            ResourceLocation rl = new ResourceLocation
+            {
+                URL = url
+            };
             return rl;
         }
 
@@ -52,11 +54,13 @@ namespace MyDownloader.Core
             string login,
             string password)
         {
-            ResourceLocation rl = new ResourceLocation();
-            rl.URL = url;
-            rl.Authenticate = authenticate;
-            rl.Login = login;
-            rl.Password = password;
+            ResourceLocation rl = new ResourceLocation
+            {
+                URL = url,
+                Authenticate = authenticate,
+                Login = login,
+                Password = password
+            };
             return rl;
         }
 

@@ -50,8 +50,7 @@ namespace zPoolMiner
             }
 
             //Helpers.ConsolePrint("CurrencyConverter", "Current Currency: " + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
-            double usdExchangeRate = 1.0;
-            if (exchanges_fiat.TryGetValue(ActiveDisplayCurrency, out usdExchangeRate))
+            if (exchanges_fiat.TryGetValue(ActiveDisplayCurrency, out double usdExchangeRate))
                 return amount * usdExchangeRate;
             else
             {

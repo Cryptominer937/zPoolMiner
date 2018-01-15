@@ -134,8 +134,7 @@ namespace zPoolMiner.Forms.Components
         private void textChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
-            double value;
-            if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out value))
+            if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out double value))
             {
                 _currentlySelectedAlgorithm.BenchmarkSpeed = value;
             }
@@ -144,8 +143,7 @@ namespace zPoolMiner.Forms.Components
 
         private void secondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
-            double secondaryValue;
-            if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out secondaryValue))
+            if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
             {
                 _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed = secondaryValue;
             }
@@ -165,8 +163,7 @@ namespace zPoolMiner.Forms.Components
         private void LessThreads_Leave(object sender, EventArgs e)
         {
             TextBox txtbox = (TextBox)sender;
-            int val;
-            if (Int32.TryParse(txtbox.Text, out val))
+            if (Int32.TryParse(txtbox.Text, out int val))
             {
                 if (Globals.ThreadsPerCPU - val < 1)
                 {

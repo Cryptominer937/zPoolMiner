@@ -9,15 +9,15 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class hsrneoscrypt : Miner
+    public class Hsrneoscrypt : Miner
     {
         private int benchmarkTimeWait = 11 * 60;
 
-        public hsrneoscrypt() : base("hsrneoscrypt_NVIDIA")
+        public Hsrneoscrypt() : base("hsrneoscrypt_NVIDIA")
         {
         }
 
-        private bool benchmarkException
+        private bool BenchmarkException
         {
             get
             {
@@ -137,7 +137,7 @@ namespace zPoolMiner.Miners
         protected override bool BenchmarkParseLine(string outdata)
         {
             Helpers.ConsolePrint(MinerTAG(), outdata);
-            if (benchmarkException)
+            if (BenchmarkException)
             {
                 if (outdata.Contains("speed is "))
                 {
@@ -182,8 +182,10 @@ namespace zPoolMiner.Miners
         public override async Task<APIData> GetSummaryAsync()
         {
             // CryptoNight does not have api bind port
-            APIData hsrData = new APIData(MiningSetup.CurrentAlgorithmType);
-            hsrData.Speed = 0;
+            APIData hsrData = new APIData(MiningSetup.CurrentAlgorithmType)
+            {
+                Speed = 0
+            };
             if (IsAPIReadException)
             {
                 // check if running

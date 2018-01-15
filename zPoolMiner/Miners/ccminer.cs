@@ -113,8 +113,7 @@ namespace zPoolMiner.Miners
                     int len = outdata.Length - speedLength - st;
 
                     string parse = outdata.Substring(st, len).Trim();
-                    double tmp;
-                    Double.TryParse(parse, NumberStyles.Any, CultureInfo.InvariantCulture, out tmp);
+                    Double.TryParse(parse, NumberStyles.Any, CultureInfo.InvariantCulture, out double tmp);
 
                     // save speed
                     int i = outdata.IndexOf("Benchmark:");
@@ -200,8 +199,10 @@ namespace zPoolMiner.Miners
                     }
                 }
 
-                APIData CryptoNightData = new APIData(MiningSetup.CurrentAlgorithmType);
-                CryptoNightData.Speed = totalSpeed;
+                APIData CryptoNightData = new APIData(MiningSetup.CurrentAlgorithmType)
+                {
+                    Speed = totalSpeed
+                };
                 _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                 // check if speed zero
                 if (CryptoNightData.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;

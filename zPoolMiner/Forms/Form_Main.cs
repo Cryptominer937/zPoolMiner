@@ -476,8 +476,10 @@ namespace zPoolMiner
                 // less GPUs than before, ACT!
                 try
                 {
-                    ProcessStartInfo onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat");
-                    onGPUsLost.WindowStyle = ProcessWindowStyle.Minimized;
+                    ProcessStartInfo onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat")
+                    {
+                        WindowStyle = ProcessWindowStyle.Minimized
+                    };
                     System.Diagnostics.Process.Start(onGPUsLost);
                 }
                 catch (Exception ex)
@@ -495,8 +497,10 @@ namespace zPoolMiner
             {
                 if (cdev.Enabled)
                 {
-                    var newGroupProfitControl = new GroupProfitControl();
-                    newGroupProfitControl.Visible = false;
+                    var newGroupProfitControl = new GroupProfitControl
+                    {
+                        Visible = false
+                    };
                     flowLayoutPanelRates.Controls.Add(newGroupProfitControl);
                 }
             }
@@ -751,19 +755,19 @@ namespace zPoolMiner
             return true;
         }
 
-        private void linkLabelCheckStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelCheckStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (!VerifyMiningAddress(true)) return;
 
             System.Diagnostics.Process.Start(Links.CheckStats + textBoxBTCAddress.Text.Trim());
         }
 
-        private void linkLabelChooseBTCWallet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelChooseBTCWallet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_BTC_Wallet_Faq);
         }
 
-        private void linkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(VisitURLNew);
         }
@@ -775,7 +779,7 @@ namespace zPoolMiner
             MessageBoxManager.Unregister();
         }
 
-        private void buttonBenchmark_Click(object sender, EventArgs e)
+        private void ButtonBenchmark_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.ServiceLocation = comboBoxLocation.SelectedIndex;
 
@@ -788,11 +792,11 @@ namespace zPoolMiner
             InitMainConfigGUIData();
             if (startMining)
             {
-                buttonStartMining_Click(null, null);
+                ButtonStartMining_Click(null, null);
             }
         }
 
-        private void buttonSettings_Click(object sender, EventArgs e)
+        private void ButtonSettings_Click(object sender, EventArgs e)
         {
             Form_Settings Settings = new Form_Settings();
             SetChildFormCenter(Settings);
@@ -816,7 +820,7 @@ namespace zPoolMiner
             }
         }
 
-        private void buttonStartMining_Click(object sender, EventArgs e)
+        private void ButtonStartMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = true;
             if (StartMining(true) == StartMiningReturnType.ShowNoMining)
@@ -829,7 +833,7 @@ namespace zPoolMiner
             }
         }
 
-        private void buttonStopMining_Click(object sender, EventArgs e)
+        private void ButtonStopMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = false;
             StopMining();
@@ -847,32 +851,32 @@ namespace zPoolMiner
             return ret;
         }
 
-        private void buttonLogo_Click(object sender, EventArgs e)
+        private void ButtonLogo_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.VisitURL);
         }
 
-        private void buttonHelp_Click(object sender, EventArgs e)
+        private void ButtonHelp_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Help);
         }
 
-        private void toolStripStatusLabel10_Click(object sender, EventArgs e)
+        private void ToolStripStatusLabel10_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Paying_Faq);
         }
 
-        private void toolStripStatusLabel10_MouseHover(object sender, EventArgs e)
+        private void ToolStripStatusLabel10_MouseHover(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Hand;
         }
 
-        private void toolStripStatusLabel10_MouseLeave(object sender, EventArgs e)
+        private void ToolStripStatusLabel10_MouseLeave(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Default;
         }
 
-        private void textBoxCheckBoxMain_Leave(object sender, EventArgs e)
+        private void TextBoxCheckBoxMain_Leave(object sender, EventArgs e)
         {
             if (VerifyMiningAddress(false))
             {
@@ -904,7 +908,7 @@ namespace zPoolMiner
         }
 
         // Restore zPoolMiner from the system tray
-        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        private void NotifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
@@ -1101,7 +1105,7 @@ namespace zPoolMiner
         {
         }
 
-        private void toolStripStatusLabelBalanceText_Click(object sender, EventArgs e)
+        private void ToolStripStatusLabelBalanceText_Click(object sender, EventArgs e)
         {
         }
     }
