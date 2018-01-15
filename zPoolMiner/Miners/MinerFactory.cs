@@ -126,6 +126,9 @@ namespace zPoolMiner.Miners
 
                 case MinerBaseType.Claymore_old:
                     return new ClaymoreCryptoNightMiner(true);
+
+                case MinerBaseType.hsrneoscrypt:
+                    return new hsrneoscrypt();
             }
             return null;
         }

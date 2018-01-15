@@ -23,6 +23,7 @@
         EWBF,
         DSTM,
         Xmrig,
+        hsrneoscrypt,
         END
     }
 }

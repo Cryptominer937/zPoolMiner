@@ -411,6 +411,13 @@ namespace zPoolMiner.Devices
                             new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X11Gost, "sib")
                         }
                     },
+                    //Add HSRNeoscrypt by Palgin
+                    { MinerBaseType.hsrneoscrypt,
+                         new List<Algorithm>() {
+                             new Algorithm(MinerBaseType.hsrneoscrypt, AlgorithmType.NeoScrypt, "Neoscrypt"),
+                         }
+                     },
+
                     //{ MinerBaseType.ethminer,
                     //    new List<Algorithm>() {
                     //        new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto")

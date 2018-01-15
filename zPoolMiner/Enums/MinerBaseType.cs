@@ -38,6 +38,7 @@
         Xmrig,
         XmrStakAMD,
         Claymore_old,
+        hsrneoscrypt,
         END
     }
 }
