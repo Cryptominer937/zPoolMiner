@@ -11,33 +11,33 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class excavator : Miner
+    public class Excavator : Miner
     {
         private class DeviceStat
         {
-            public int id { get; set; }
-            public string name { get; set; }
-            public double speed_hps { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double Speed_hps { get; set; }
         }
 
         private class Result
         {
-            public bool connected { get; set; }
-            public double interval_seconds { get; set; }
-            public double speed_hps { get; set; }
-            public List<DeviceStat> devices { get; set; }
-            public double accepted_per_minute { get; set; }
-            public double rejected_per_minute { get; set; }
+            public bool Connected { get; set; }
+            public double Interval_seconds { get; set; }
+            public double Speed_hps { get; set; }
+            public List<DeviceStat> Devices { get; set; }
+            public double Accepted_per_minute { get; set; }
+            public double Rejected_per_minute { get; set; }
         }
 
         private class JsonApiResponse
         {
-            public string method { get; set; }
-            public Result result { get; set; }
-            public object error { get; set; }
+            public string Method { get; set; }
+            public Result Result { get; set; }
+            public object Error { get; set; }
         }
 
-        public excavator()
+        public Excavator()
             : base("excavator")
         {
             ConectionType = NHMConectionType.NONE;
@@ -161,9 +161,9 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint("ERROR", ex.Message);
             }
 
-            if (resp != null && resp.error == null)
+            if (resp != null && resp.Error == null)
             {
-                ad.Speed = resp.result.speed_hps;
+                ad.Speed = resp.Result.Speed_hps;
                 _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {

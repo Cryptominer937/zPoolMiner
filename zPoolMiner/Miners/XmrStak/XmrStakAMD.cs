@@ -86,7 +86,7 @@ namespace zPoolMiner.Miners
             return 5 * 60 * 1000;  // 5 minutes
         }
 
-        protected override void prepareConfigFile(string pool, string wallet)
+        protected override void PrepareConfigFile(string pool, string wallet)
         {
             try
             {

@@ -3,9 +3,9 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class eqm : nheqBase
+    public class Eqm : NheqBase
     {
-        public eqm()
+        public Eqm()
             : base("eqm")
         {
             ConectionType = NHMConectionType.LOCKED;
@@ -67,11 +67,11 @@ namespace zPoolMiner.Miners
         {
             if (outdata.Contains(TOTAL_MES) && outdata.Contains(Iter_PER_SEC))
             {
-                curSpeed = getNumber(outdata, TOTAL_MES, Iter_PER_SEC) * SolMultFactor;
+                curSpeed = GetNumber(outdata, TOTAL_MES, Iter_PER_SEC) * SolMultFactor;
             }
             if (outdata.Contains(TOTAL_MES) && outdata.Contains(Sols_PER_SEC))
             {
-                var sols = getNumber(outdata, TOTAL_MES, Sols_PER_SEC);
+                var sols = GetNumber(outdata, TOTAL_MES, Sols_PER_SEC);
                 if (sols > 0)
                 {
                     BenchmarkAlgorithm.BenchmarkSpeed = curSpeed;

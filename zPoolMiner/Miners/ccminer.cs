@@ -8,9 +8,9 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class ccminer : Miner
+    public class Ccminer : Miner
     {
-        public ccminer() : base("ccminer_NVIDIA")
+        public Ccminer() : base("ccminer_NVIDIA")
         {
         }
 
@@ -20,7 +20,7 @@ namespace zPoolMiner.Miners
         private double _cryptonightTotal = 0;
         private const int _cryptonightTotalDelim = 2;
 
-        private bool benchmarkException
+        private bool BenchmarkException
         {
             get
             {
@@ -83,7 +83,7 @@ namespace zPoolMiner.Miners
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            string timeLimit = (benchmarkException) ? "" : " --time-limit " + time.ToString();
+            string timeLimit = (BenchmarkException) ? "" : " --time-limit " + time.ToString();
             string CommandLine = " --algo=" + algorithm.MinerName +
                               " --benchmark" +
                               timeLimit + " " +
@@ -104,7 +104,7 @@ namespace zPoolMiner.Miners
         protected override bool BenchmarkParseLine(string outdata)
         {
             // cryptonight exception
-            if (benchmarkException)
+            if (BenchmarkException)
             {
                 int speedLength = (BenchmarkAlgorithm.NiceHashID == AlgorithmType.CryptoNight) ? 6 : 8;
                 if (outdata.Contains("Total: "))

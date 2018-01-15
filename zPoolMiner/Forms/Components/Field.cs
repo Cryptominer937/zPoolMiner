@@ -45,12 +45,12 @@ namespace zPoolMiner.Forms.Components
 
         public void SetInputModeDoubleOnly()
         {
-            textBox.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxDoubleOnly_KeyPress);
+            textBox.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxDoubleOnly_KeyPress);
         }
 
         public void SetInputModeIntOnly()
         {
-            textBox.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
+            textBox.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
         }
 
         public void SetOnTextChanged(EventHandler textChanged)

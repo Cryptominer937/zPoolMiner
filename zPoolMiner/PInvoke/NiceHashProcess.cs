@@ -197,7 +197,7 @@ namespace zPoolMiner
             if (ExitEvent != null)
             {
                 bRunning = true;
-                tHandle = new Thread(cThread);
+                tHandle = new Thread(CThread);
                 tHandle.Start();
             }
 
@@ -233,7 +233,7 @@ namespace zPoolMiner
             pHandle = IntPtr.Zero;
         }
 
-        private bool signalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent)
+        private bool SignalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent)
         {
             bool success = false;
             //uint thisConsoleId = GetCurrentProcessId();
@@ -277,11 +277,11 @@ namespace zPoolMiner
                 bRunning = false;
                 tHandle.Join();
             }
-            signalCtrl(thisConsoleId, (uint)this.Id, CtrlTypes.CTRL_C_EVENT);
+            SignalCtrl(thisConsoleId, (uint)this.Id, CtrlTypes.CTRL_C_EVENT);
             pHandle = IntPtr.Zero;
         }
 
-        private void cThread()
+        private void CThread()
         {
             while (bRunning)
             {

@@ -92,10 +92,7 @@ namespace MyDownloader.App.UI
 
         private void txtURL_TextChanged(object sender, EventArgs e)
         {
-            if (UrlChanged != null)
-            {
-                UrlChanged(this, EventArgs.Empty);
-            }
+            UrlChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void Location_Load(object sender, EventArgs e)

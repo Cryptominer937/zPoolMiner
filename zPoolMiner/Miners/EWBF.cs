@@ -20,24 +20,24 @@ namespace zPoolMiner.Miners
     {
         private class Result
         {
-            public uint gpuid { get; set; }
-            public uint cudaid { get; set; }
-            public string busid { get; set; }
-            public uint gpu_status { get; set; }
-            public int solver { get; set; }
-            public int temperature { get; set; }
-            public uint gpu_power_usage { get; set; }
-            public uint speed_sps { get; set; }
-            public uint accepted_shares { get; set; }
-            public uint rejected_shares { get; set; }
+            public uint Gpuid { get; set; }
+            public uint Cudaid { get; set; }
+            public string Busid { get; set; }
+            public uint Gpu_status { get; set; }
+            public int Solver { get; set; }
+            public int Temperature { get; set; }
+            public uint Gpu_power_usage { get; set; }
+            public uint Speed_sps { get; set; }
+            public uint Accepted_shares { get; set; }
+            public uint Rejected_shares { get; set; }
         }
 
         private class JsonApiResponse
         {
-            public uint id { get; set; }
-            public string method { get; set; }
-            public object error { get; set; }
-            public List<Result> result { get; set; }
+            public uint Id { get; set; }
+            public string Method { get; set; }
+            public object Error { get; set; }
+            public List<Result> Result { get; set; }
         }
 
         private int benchmarkTimeWait = 2 * 45;
@@ -238,7 +238,7 @@ namespace zPoolMiner.Miners
                             string lineLowered = line.ToLower();
                             if (lineLowered.Contains(LOOK_FOR_START))
                             {
-                                benchmark_sum += getNumber(lineLowered);
+                                benchmark_sum += GetNumber(lineLowered);
                                 ++benchmark_read_count;
                             }
                         }
@@ -285,12 +285,12 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-        protected double getNumber(string outdata)
+        protected double GetNumber(string outdata)
         {
-            return getNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
+            return GetNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
         }
 
-        protected double getNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
+        protected double GetNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
         {
             try
             {
@@ -344,9 +344,9 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(MinerTAG(), ex.Message);
             }
 
-            if (resp != null && resp.error == null)
+            if (resp != null && resp.Error == null)
             {
-                ad.Speed = resp.result.Aggregate<Result, uint>(0, (current, t1) => current + t1.speed_sps);
+                ad.Speed = resp.Result.Aggregate<Result, uint>(0, (current, t1) => current + t1.Speed_sps);
                 _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {

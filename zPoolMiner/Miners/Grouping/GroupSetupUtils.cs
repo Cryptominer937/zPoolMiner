@@ -15,7 +15,7 @@ namespace zPoolMiner.Miners.Grouping
             return algo != null && algo.Enabled && algo.BenchmarkSpeed > 0;
         }
 
-        public static Tuple<ComputeDevice, DeviceMiningStatus> getDeviceMiningStatus(ComputeDevice device)
+        public static Tuple<ComputeDevice, DeviceMiningStatus> GetDeviceMiningStatus(ComputeDevice device)
         {
             DeviceMiningStatus status = DeviceMiningStatus.CanMine;
             if (device == null)
@@ -47,7 +47,7 @@ namespace zPoolMiner.Miners.Grouping
             List<MiningDevice> miningDevices = new List<MiningDevice>();
             foreach (var dev in devices)
             {
-                var devStatus = getDeviceMiningStatus(dev);
+                var devStatus = GetDeviceMiningStatus(dev);
                 if (devStatus.Item2 == DeviceMiningStatus.CanMine)
                 {
                     miningDevices.Add(new MiningDevice(dev));

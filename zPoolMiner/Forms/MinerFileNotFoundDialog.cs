@@ -20,7 +20,7 @@ namespace zPoolMiner
             buttonOK.Text = International.GetText("Global_OK");
         }
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
             if (chkBoxDisableDetection.Checked)
                 DisableDetection = true;
@@ -28,9 +28,9 @@ namespace zPoolMiner
             this.Close();
         }
 
-        private void linkLabelError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/nicehash/zPoolMiner#troubleshooting");
+            System.Diagnostics.Process.Start("https://github.com/Cryptominer937/zPoolMiner/issues");
         }
     }
 }

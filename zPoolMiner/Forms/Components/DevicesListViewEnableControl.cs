@@ -20,8 +20,7 @@ namespace zPoolMiner.Forms.Components
 
             public void LviSetColor(ListViewItem lvi)
             {
-                var cdvo = lvi.Tag as ComputeDevice;
-                if (cdvo != null)
+                if (lvi.Tag is ComputeDevice cdvo)
                 {
                     if (cdvo.Enabled)
                     {
@@ -100,7 +99,7 @@ namespace zPoolMiner.Forms.Components
 
             SaveToGeneralConfig = false;
             // intialize ListView callbacks
-            listViewDevices.ItemChecked += new ItemCheckedEventHandler(listViewDevicesItemChecked);
+            listViewDevices.ItemChecked += new ItemCheckedEventHandler(ListViewDevicesItemChecked);
             //listViewDevices.CheckBoxes = false;
             IsMining = false;
             BenchmarkCalculation = null;
@@ -164,7 +163,7 @@ namespace zPoolMiner.Forms.Components
             //listViewDevices.Columns[DEVICE].Text = International.GetText("ListView_Device");
         }
 
-        private void listViewDevicesItemChecked(object sender, ItemCheckedEventArgs e)
+        private void ListViewDevicesItemChecked(object sender, ItemCheckedEventArgs e)
         {
             var CDevice = e.Item.Tag as ComputeDevice;
             CDevice.Enabled = e.Item.Checked;
@@ -173,8 +172,7 @@ namespace zPoolMiner.Forms.Components
             {
                 ConfigManager.GeneralConfigFileCommit();
             }
-            var lvi = e.Item as ListViewItem;
-            if (lvi != null) _listItemCheckColorSetter.LviSetColor(lvi);
+            if (e.Item is ListViewItem lvi) _listItemCheckColorSetter.LviSetColor(lvi);
             if (_algorithmsListView != null) _algorithmsListView.RepaintStatus(CDevice.Enabled, CDevice.UUID);
             if (BenchmarkCalculation != null) BenchmarkCalculation.CalcBenchmarkDevicesAlgorithmQueue();
         }
@@ -184,7 +182,7 @@ namespace zPoolMiner.Forms.Components
             listViewDevices.ItemSelectionChanged += callback;
         }
 
-        private void listViewDevices_MouseClick(object sender, MouseEventArgs e)
+        private void ListViewDevices_MouseClick(object sender, MouseEventArgs e)
         {
             if (IsInBenchmark) return;
             if (IsMining) return;
@@ -210,7 +208,7 @@ namespace zPoolMiner.Forms.Components
                                         Text = cDev.Name,
                                         Checked = cDev.UUID == CDevice.BenchmarkCopyUUID
                                     };
-                                    copyBenchDropDownItem.Click += toolStripMenuItemCopySettings_Click;
+                                    copyBenchDropDownItem.Click += ToolStripMenuItemCopySettings_Click;
                                     copyBenchDropDownItem.Tag = cDev.UUID;
                                     copyBenchItem.DropDownItems.Add(copyBenchDropDownItem);
                                 }
@@ -224,14 +222,12 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void toolStripMenuItemCopySettings_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemCopySettings_Click(object sender, EventArgs e)
         {
             var CDevice = listViewDevices.FocusedItem.Tag as ComputeDevice;
-            ToolStripMenuItem item = sender as ToolStripMenuItem;
-            if (item != null)
+            if (sender is ToolStripMenuItem item)
             {
-                var uuid = item.Tag as string;
-                if (uuid != null)
+                if (item.Tag is string uuid)
                 {
                     var copyBenchCDev = ComputeDeviceManager.Avaliable.GetDeviceWithUUID(uuid);
                     CDevice.BenchmarkCopyUUID = uuid;

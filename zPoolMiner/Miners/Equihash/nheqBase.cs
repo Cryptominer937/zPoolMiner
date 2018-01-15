@@ -11,7 +11,7 @@ using zPoolMiner.Miners.Grouping;
 
 namespace zPoolMiner.Miners
 {
-    public abstract class nheqBase : Miner
+    public abstract class NheqBase : Miner
     {
         protected MiningSetup CPU_Setup = new MiningSetup(null);
         protected MiningSetup NVIDIA_Setup = new MiningSetup(null);
@@ -27,21 +27,21 @@ namespace zPoolMiner.Miners
 
         private class Result
         {
-            public double interval_seconds { get; set; }
-            public double speed_ips { get; set; }
-            public double speed_sps { get; set; }
-            public double accepted_per_minute { get; set; }
-            public double rejected_per_minute { get; set; }
+            public double Interval_seconds { get; set; }
+            public double Speed_ips { get; set; }
+            public double Speed_sps { get; set; }
+            public double Accepted_per_minute { get; set; }
+            public double Rejected_per_minute { get; set; }
         }
 
         private class JsonApiResponse
         {
-            public string method { get; set; }
-            public Result result { get; set; }
-            public object error { get; set; }
+            public string Method { get; set; }
+            public Result Result { get; set; }
+            public object Error { get; set; }
         }
 
-        public nheqBase(string minerDeviceName)
+        public NheqBase(string minerDeviceName)
             : base(minerDeviceName)
         {
             AMD_OCL_PLATFORM = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
@@ -105,9 +105,9 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint("ERROR", ex.Message);
             }
 
-            if (resp != null && resp.error == null)
+            if (resp != null && resp.Error == null)
             {
-                ad.Speed = resp.result.speed_sps;
+                ad.Speed = resp.Result.Speed_sps;
                 _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {
@@ -128,7 +128,7 @@ namespace zPoolMiner.Miners
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }
 
-        protected double getNumber(string outdata, string startF, string remF)
+        protected double GetNumber(string outdata, string startF, string remF)
         {
             try
             {

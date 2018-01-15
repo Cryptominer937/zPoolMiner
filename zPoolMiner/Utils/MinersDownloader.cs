@@ -84,13 +84,13 @@ namespace zPoolMiner.Utils
                 10,
                 true);
 
-            timer = new Timer(tmrRefresh_Tick);
+            timer = new Timer(TmrRefresh_Tick);
             timer.Change(0, 500);
         }
 
         #region Download delegates
 
-        private void tmrRefresh_Tick(Object stateInfo)
+        private void TmrRefresh_Tick(Object stateInfo)
         {
             if (downloader != null && downloader.State == DownloaderState.Working)
             {

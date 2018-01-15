@@ -353,7 +353,7 @@ namespace zPoolMiner.Forms
                 this.checkBox_DisableDetectionAMD.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_DisableDetectionNVIDIA.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_MinimizeToTray.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_HideMiningWindows.CheckedChanged += new System.EventHandler(this.checkBox_HideMiningWindows_CheckChanged);
+                this.checkBox_HideMiningWindows.CheckedChanged += new System.EventHandler(this.CheckBox_HideMiningWindows_CheckChanged);
                 this.checkBox_DebugConsole.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_ShowDriverVersionWarning.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_DisableWindowsErrorReporting.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
@@ -364,7 +364,7 @@ namespace zPoolMiner.Forms
                 this.checkBox_AutoStartMining.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_AllowMultipleInstances.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
                 this.checkBox_MinimizeMiningWindows.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_UseIFTTT.CheckedChanged += new System.EventHandler(checkBox_UseIFTTT_CheckChanged);
+                this.checkBox_UseIFTTT.CheckedChanged += new System.EventHandler(CheckBox_UseIFTTT_CheckChanged);
                 this.checkBox_RunScriptOnCUDA_GPU_Lost.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
             }
             // Add EventHandler for all the general tab's textboxes
@@ -384,17 +384,17 @@ namespace zPoolMiner.Forms
                 this.textBox_APIBindPortStart.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
                 this.textBox_MinProfit.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
                 // set int only keypress
-                this.textBox_SwitchMinSecondsFixed.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_SwitchMinSecondsDynamic.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_SwitchMinSecondsAMD.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_MinerAPIQueryInterval.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_MinerRestartDelayMS.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_MinIdleSeconds.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_LogMaxFileSize.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_ethminerDefaultBlockHeight.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-                this.textBox_APIBindPortStart.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
+                this.textBox_SwitchMinSecondsFixed.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_SwitchMinSecondsDynamic.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_SwitchMinSecondsAMD.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_MinerAPIQueryInterval.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_MinerRestartDelayMS.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_MinIdleSeconds.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_LogMaxFileSize.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_ethminerDefaultBlockHeight.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                this.textBox_APIBindPortStart.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
                 // set double only keypress
-                this.textBox_MinProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxDoubleOnly_KeyPress);
+                this.textBox_MinProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxDoubleOnly_KeyPress);
             }
             // Add EventHandler for all the general tab's textboxes
             {
@@ -406,7 +406,7 @@ namespace zPoolMiner.Forms
 
             // CPU exceptions
             comboBox_CPU0_ForceCPUExtension.SelectedIndex = (int)ConfigManager.GeneralConfig.ForceCPUExtension;
-            comboBox_CPU0_ForceCPUExtension.SelectedIndexChanged += comboBox_CPU0_ForceCPUExtension_SelectedIndexChanged;
+            comboBox_CPU0_ForceCPUExtension.SelectedIndexChanged += ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged;
             // fill dag dropdown
             comboBox_DagLoadMode.Items.Clear();
             for (int i = 0; i < (int)DagGenerationType.END; ++i)
@@ -439,7 +439,7 @@ namespace zPoolMiner.Forms
                 checkBox_IdleWhenNoInternetAccess.Checked = ConfigManager.GeneralConfig.IdleWhenNoInternetAccess;
                 this.checkBox_Use3rdPartyMiners.Checked = ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.YES;
                 this.checkBox_AllowMultipleInstances.Checked = ConfigManager.GeneralConfig.AllowMultipleInstances;
-                checkBox_RunAtStartup.Checked = isInStartupRegistry();
+                checkBox_RunAtStartup.Checked = IsInStartupRegistry();
                 checkBox_MinimizeMiningWindows.Checked = ConfigManager.GeneralConfig.MinimizeMiningWindows;
                 checkBox_MinimizeMiningWindows.Enabled = !ConfigManager.GeneralConfig.HideMiningWindows;
                 checkBox_UseIFTTT.Checked = ConfigManager.GeneralConfig.UseIFTTT;
@@ -526,7 +526,7 @@ namespace zPoolMiner.Forms
 
         private void InitializeDevicesCallbacks()
         {
-            devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(devicesListView1_ItemSelectionChanged);
+            devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(DevicesListView1_ItemSelectionChanged);
         }
 
         #endregion Tab Devices
@@ -562,7 +562,7 @@ namespace zPoolMiner.Forms
             ConfigManager.GeneralConfig.RunScriptOnCUDA_GPU_Lost = checkBox_RunScriptOnCUDA_GPU_Lost.Checked;
         }
 
-        private void checkBox_AMD_DisableAMDTempControl_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_AMD_DisableAMDTempControl_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
 
@@ -586,7 +586,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void checkBox_DisableDefaultOptimizations_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_DisableDefaultOptimizations_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
 
@@ -629,12 +629,12 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void checkBox_RunAtStartup_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_RunAtStartup_CheckedChanged(object sender, EventArgs e)
         {
             isStartupChanged = true;
         }
 
-        private bool isInStartupRegistry()
+        private bool IsInStartupRegistry()
         {
             // Value is stored in registry
             var startVal = "";
@@ -699,7 +699,7 @@ namespace zPoolMiner.Forms
             ConfigManager.GeneralConfig.EthminerDagGenerationType = (DagGenerationType)comboBox_DagLoadMode.SelectedIndex;
         }
 
-        private void comboBox_CPU0_ForceCPUExtension_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmbbox = (ComboBox)sender;
             ConfigManager.GeneralConfig.ForceCPUExtension = (CPUExtensionType)cmbbox.SelectedIndex;
@@ -709,7 +709,7 @@ namespace zPoolMiner.Forms
 
         #region Tab Device
 
-        private void devicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void DevicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             algorithmSettingsControl1.Deselect();
             // show algorithms
@@ -718,7 +718,7 @@ namespace zPoolMiner.Forms
             groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
         }
 
-        private void buttonSelectedProfit_Click(object sender, EventArgs e)
+        private void ButtonSelectedProfit_Click(object sender, EventArgs e)
         {
             if (_selectedComputeDevice == null)
             {
@@ -738,7 +738,7 @@ namespace zPoolMiner.Forms
             System.Diagnostics.Process.Start(url);
         }
 
-        private void buttonAllProfit_Click(object sender, EventArgs e)
+        private void ButtonAllProfit_Click(object sender, EventArgs e)
         {
             var url = Links.NHM_Profit_Check + "CUSTOM";
             Dictionary<AlgorithmType, double> total = new Dictionary<AlgorithmType, double>();
@@ -768,14 +768,14 @@ namespace zPoolMiner.Forms
 
         #endregion Tab Device
 
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        private void ToolTip1_Popup(object sender, PopupEventArgs e)
         {
             toolTip1.ToolTipTitle = International.GetText("Form_Settings_ToolTip_Explaination");
         }
 
         #region Form Buttons
 
-        private void buttonDefaults_Click(object sender, EventArgs e)
+        private void ButtonDefaults_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(International.GetText("Form_Settings_buttonDefaultsMsg"),
                                                   International.GetText("Form_Settings_buttonDefaultsTitle"),
@@ -793,7 +793,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void buttonSaveClose_Click(object sender, EventArgs e)
+        private void ButtonSaveClose_Click(object sender, EventArgs e)
         {
             MessageBox.Show(International.GetText("Form_Settings_buttonSaveMsg"),
                             International.GetText("Form_Settings_buttonSaveTitle"),
@@ -809,7 +809,7 @@ namespace zPoolMiner.Forms
             this.Close();
         }
 
-        private void buttonCloseNoSave_Click(object sender, EventArgs e)
+        private void ButtonCloseNoSave_Click(object sender, EventArgs e)
         {
             IsChangeSaved = false;
             this.Close();
@@ -868,7 +868,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void currencyConverterCombobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void CurrencyConverterCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Selected = currencyConverterCombobox.SelectedItem.ToString();
             ConfigManager.GeneralConfig.DisplayCurrency = Selected;
@@ -876,7 +876,7 @@ namespace zPoolMiner.Forms
 
         #endregion Form Callbacks
 
-        private void tabControlGeneral_Selected(object sender, TabControlEventArgs e)
+        private void TabControlGeneral_Selected(object sender, TabControlEventArgs e)
         {
             // set first device selected {
             if (ComputeDeviceManager.Avaliable.AllAvaliableDevices.Count > 0)
@@ -885,7 +885,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void checkBox_Use3rdPartyMiners_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_Use3rdPartyMiners_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
             if (this.checkBox_Use3rdPartyMiners.Checked)
@@ -901,7 +901,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void checkBox_HideMiningWindows_CheckChanged(object sender, EventArgs e)
+        private void CheckBox_HideMiningWindows_CheckChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
             IsChange = true;
@@ -909,7 +909,7 @@ namespace zPoolMiner.Forms
             checkBox_MinimizeMiningWindows.Enabled = !checkBox_HideMiningWindows.Checked;
         }
 
-        private void checkBox_UseIFTTT_CheckChanged(object sender, EventArgs e)
+        private void CheckBox_UseIFTTT_CheckChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
             IsChange = true;
@@ -919,7 +919,7 @@ namespace zPoolMiner.Forms
             textBox_IFTTTKey.Enabled = checkBox_UseIFTTT.Checked;
         }
 
-        private void buttonSelectedProfit_Click_1(object sender, EventArgs e)
+        private void ButtonSelectedProfit_Click_1(object sender, EventArgs e)
         {
 
         }

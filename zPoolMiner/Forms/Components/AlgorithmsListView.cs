@@ -37,8 +37,7 @@ namespace zPoolMiner.Forms.Components
 
             public void LviSetColor(ListViewItem lvi)
             {
-                Algorithm algorithm = lvi.Tag as Algorithm;
-                if (algorithm != null)
+                if (lvi.Tag is Algorithm algorithm)
                 {
                     if (algorithm.Enabled == false && !algorithm.IsBenchmarkPending)
                     {
@@ -84,8 +83,8 @@ namespace zPoolMiner.Forms.Components
         {
             InitializeComponent();
             // callback initializations
-            listViewAlgorithms.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(listViewAlgorithms_ItemSelectionChanged);
-            listViewAlgorithms.ItemChecked += (ItemCheckedEventHandler)listViewAlgorithms_ItemChecked;
+            listViewAlgorithms.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(ListViewAlgorithms_ItemSelectionChanged);
+            listViewAlgorithms.ItemChecked += (ItemCheckedEventHandler)ListViewAlgorithms_ItemChecked;
             IsInBenchmark = false;
         }
 
@@ -136,7 +135,7 @@ namespace zPoolMiner.Forms.Components
 
         #region Callbacks Events
 
-        private void listViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void ListViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (ComunicationInterface != null)
             {
@@ -144,15 +143,14 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void listViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void ListViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             if (IsInBenchmark)
             {
                 e.Item.Checked = !e.Item.Checked;
                 return;
             }
-            var algo = e.Item.Tag as Algorithm;
-            if (algo != null)
+            if (e.Item.Tag is Algorithm algo)
             {
                 algo.Enabled = e.Item.Checked;
             }
@@ -190,8 +188,7 @@ namespace zPoolMiner.Forms.Components
                 {
                     foreach (ListViewItem lvi in listViewAlgorithms.Items)
                     {
-                        Algorithm algo = lvi.Tag as Algorithm;
-                        if (algo != null && algo.AlgorithmStringID == algorithm.AlgorithmStringID)
+                        if (lvi.Tag is Algorithm algo && algo.AlgorithmStringID == algorithm.AlgorithmStringID)
                         {
                             // TODO handle numbers
                             lvi.SubItems[SPEED].Text = algorithm.BenchmarkSpeedString();
@@ -205,7 +202,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void listViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
+        private void ListViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
         {
             if (IsInBenchmark) return;
             if (e.Button == MouseButtons.Right)
@@ -217,7 +214,7 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll")
                     };
-                    disableAllItems.Click += toolStripMenuItemDisableAll_Click;
+                    disableAllItems.Click += ToolStripMenuItemDisableAll_Click;
                     contextMenuStrip1.Items.Add(disableAllItems);
                 }
                 // enable all
@@ -226,7 +223,7 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll")
                     };
-                    enableAllItems.Click += toolStripMenuItemEnableAll_Click;
+                    enableAllItems.Click += ToolStripMenuItemEnableAll_Click;
                     contextMenuStrip1.Items.Add(enableAllItems);
                 }
                 // clear item
@@ -235,14 +232,14 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem")
                     };
-                    clearItem.Click += toolStripMenuItemClear_Click;
+                    clearItem.Click += ToolStripMenuItemClear_Click;
                     contextMenuStrip1.Items.Add(clearItem);
                 }
                 contextMenuStrip1.Show(Cursor.Position);
             }
         }
 
-        private void toolStripMenuItemEnableAll_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemEnableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
             {
@@ -250,7 +247,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void toolStripMenuItemDisableAll_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDisableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
             {
@@ -258,14 +255,13 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void toolStripMenuItemClear_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemClear_Click(object sender, EventArgs e)
         {
             if (_computeDevice != null)
             {
                 foreach (ListViewItem lvi in listViewAlgorithms.SelectedItems)
                 {
-                    var algorithm = lvi.Tag as Algorithm;
-                    if (algorithm != null)
+                    if (lvi.Tag is Algorithm algorithm)
                     {
                         algorithm.BenchmarkSpeed = 0;
                         algorithm.SecondaryBenchmarkSpeed = 0;

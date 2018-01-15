@@ -6,9 +6,9 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class cpuminer : Miner
+    public class Cpuminer : Miner
     {
-        public cpuminer()
+        public Cpuminer()
             : base("cpuminer_CPU")
         {
         }

@@ -18,13 +18,13 @@ namespace zPoolMiner.Forms
             this.button_Decline.Text = International.GetText("Form_Main_3rdParty_Button_Refuse_Text");
         }
 
-        private void button_Agree_Click(object sender, EventArgs e)
+        private void Button_Agree_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.Use3rdPartyMiners = Use3rdPartyMiners.YES;
             this.Close();
         }
 
-        private void button_Decline_Click(object sender, EventArgs e)
+        private void Button_Decline_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.Use3rdPartyMiners = Use3rdPartyMiners.NO;
             this.Close();

@@ -436,7 +436,7 @@ namespace zPoolMiner
             BenchmarkHandle.StartInfo.FileName = MiningSetup.MinerPath;
 
             // sgminer quickfix
-            if (this is sgminer | this is glg)
+            if (this is Sgminer | this is Glg)
             {
                 BenchmarkProcessPath = "cmd / " + BenchmarkHandle.StartInfo.FileName;
                 BenchmarkHandle.StartInfo.FileName = "cmd";

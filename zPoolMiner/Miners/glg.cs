@@ -10,12 +10,12 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    internal class glg : Miner
+    internal class Glg : Miner
     {
         private readonly int GPUPlatformNumber;
         private Stopwatch _benchmarkTimer = new Stopwatch();
 
-        public glg()
+        public Glg()
             : base("glg_AMD")
         {
             GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;

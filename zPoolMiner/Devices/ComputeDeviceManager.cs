@@ -42,7 +42,7 @@ namespace zPoolMiner.Devices
                     {
                         return true;
                     }
-                    if (leftPart == b.leftPart && getRightVal(rightPart) < getRightVal(b.rightPart))
+                    if (leftPart == b.leftPart && GetRightVal(rightPart) < GetRightVal(b.rightPart))
                     {
                         return true;
                     }
@@ -57,7 +57,7 @@ namespace zPoolMiner.Devices
                 public int leftPart;
                 public int rightPart;
 
-                private int getRightVal(int val)
+                private int GetRightVal(int val)
                 {
                     if (val >= 10)
                     {
@@ -132,7 +132,7 @@ namespace zPoolMiner.Devices
                 return INVALID_SMI_DRIVER;
             }
 
-            private static void showMessageAndStep(string infoMsg)
+            private static void ShowMessageAndStep(string infoMsg)
             {
                 if (MessageNotifier != null) MessageNotifier.SetMessageAndIncrementStep(infoMsg);
             }
@@ -204,19 +204,19 @@ namespace zPoolMiner.Devices
                 }
                 else
                 {
-                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_CUDA_Query"));
+                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_CUDA_Query"));
                     NVIDIA.QueryCudaDevices();
                 }
                 // OpenCL and AMD
                 if (ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD)
                 {
                     Helpers.ConsolePrint(TAG, "Skipping AMD device detection, settings set to disabled");
-                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query_Skip"));
+                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query_Skip"));
                 }
                 else
                 {
                     // #3 OpenCL
-                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_OpenCL_Query"));
+                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_OpenCL_Query"));
                     OpenCL.QueryOpenCLDevices();
                     // #4 AMD query AMD from OpenCL devices, get serial and add devices
                     AMD.QueryAMD();
@@ -850,7 +850,7 @@ namespace zPoolMiner.Devices
                     #endregion AMD driver check, ADL returns 0
 
                     // get platform version
-                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query"));
+                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query"));
                     List<OpenCLDevice> amdOCLDevices = new List<OpenCLDevice>();
                     string AMDOpenCLPlatformStringKey = "";
                     if (IsOpenCLQuerrySuccess)
@@ -933,10 +933,7 @@ namespace zPoolMiner.Devices
                                         ADLRet = ADL.ADL_Main_Control_Create(ADL.ADL_Main_Memory_Alloc, 1);
                                     if (ADL.ADL_SUCCESS == ADLRet)
                                     {
-                                        if (null != ADL.ADL_Adapter_NumberOfAdapters_Get)
-                                        {
-                                            ADL.ADL_Adapter_NumberOfAdapters_Get(ref NumberOfAdapters);
-                                        }
+                                        ADL.ADL_Adapter_NumberOfAdapters_Get?.Invoke(ref NumberOfAdapters);
                                         Helpers.ConsolePrint(TAG, "Number Of Adapters: " + NumberOfAdapters.ToString());
 
                                         if (0 < NumberOfAdapters)

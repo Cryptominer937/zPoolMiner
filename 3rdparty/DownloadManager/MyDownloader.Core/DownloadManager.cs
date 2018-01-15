@@ -193,44 +193,29 @@ namespace MyDownloader.Core
         {
             addBatchCount++;
 
-            if (BeginAddBatchDownloads != null)
-            {
-                BeginAddBatchDownloads(this, EventArgs.Empty);
-            }
+            BeginAddBatchDownloads?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnEndAddBatchDownloads()
         {
             addBatchCount--;
 
-            if (EndAddBatchDownloads != null)
-            {
-                EndAddBatchDownloads(this, EventArgs.Empty);
-            }
+            EndAddBatchDownloads?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnDownloadEnded(Downloader d)
         {
-            if (DownloadEnded != null)
-            {
-                DownloadEnded(this, new DownloaderEventArgs(d));
-            }
+            DownloadEnded?.Invoke(this, new DownloaderEventArgs(d));
         }
 
         protected virtual void OnDownloadAdded(Downloader d, bool willStart)
         {
-            if (DownloadAdded != null)
-            {
-                DownloadAdded(this, new DownloaderEventArgs(d, willStart));
-            }
+            DownloadAdded?.Invoke(this, new DownloaderEventArgs(d, willStart));
         }
 
         protected virtual void OnDownloadRemoved(Downloader d)
         {
-            if (DownloadRemoved != null)
-            {
-                DownloadRemoved(this, new DownloaderEventArgs(d));
-            }
+            DownloadRemoved?.Invoke(this, new DownloaderEventArgs(d));
         }
 
         public void SwapDownloads(int idx, bool isThreadSafe)

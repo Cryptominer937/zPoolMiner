@@ -40,7 +40,7 @@ namespace zPoolMiner.Miners
         {
             if (AlgorithmType.NeoScrypt == algorithmType && DeviceType.NVIDIA == deviceType)
             {
-                return new ccminer();
+                return new Ccminer();
             }
             return null;
         }
@@ -50,43 +50,43 @@ namespace zPoolMiner.Miners
             switch (minerBaseType)
             {
                 case MinerBaseType.ccminer:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_22:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_alexis_hsr:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_alexis78:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_klaust818:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_polytimos:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_xevan:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_palgin:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_skunkkrnlx:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.ccminer_tpruvot2:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.sgminer:
-                    return new sgminer();
+                    return new Sgminer();
 
                 case MinerBaseType.GatelessGate:
-                    return new glg();
+                    return new Glg();
 
                 case MinerBaseType.nheqminer:
-                    return new nheqminer();
+                    return new Nheqminer();
 
                 case MinerBaseType.ethminer:
                     return CreateEthminer(deviceType);
@@ -98,13 +98,13 @@ namespace zPoolMiner.Miners
                     return new OptiminerZcashMiner();
 
                 case MinerBaseType.excavator:
-                    return new excavator();
+                    return new Excavator();
 
                 case MinerBaseType.XmrStackCPU:
                     return new XmrStackCPUMiner();
 
                 case MinerBaseType.ccminer_alexis:
-                    return new ccminer();
+                    return new Ccminer();
 
                 case MinerBaseType.experimental:
                     return CreateExperimental(deviceType, algorithmType);

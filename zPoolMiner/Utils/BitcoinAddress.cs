@@ -34,7 +34,7 @@ namespace zPoolMiner
             return true;
         }
 
-        public static bool isAlphaNumeric(string strToCheck)
+        public static bool IsAlphaNumeric(string strToCheck)
         {
             Regex rg = new Regex(@"^[a-zA-Z0-9\s,]*$");
             return rg.IsMatch(strToCheck);

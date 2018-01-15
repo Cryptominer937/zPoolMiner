@@ -22,9 +22,9 @@ namespace zPoolMiner.Forms.Components
             field_LessThreads.SetInputModeIntOnly();
 
             field_LessThreads.SetOnTextLeave(LessThreads_Leave);
-            fieldBoxBenchmarkSpeed.SetOnTextChanged(textChangedBenchmarkSpeed);
-            secondaryFieldBoxBenchmarkSpeed.SetOnTextChanged(secondaryTextChangedBenchmarkSpeed);
-            richTextBoxExtraLaunchParameters.TextChanged += textChangedExtraLaunchParameters;
+            fieldBoxBenchmarkSpeed.SetOnTextChanged(TextChangedBenchmarkSpeed);
+            secondaryFieldBoxBenchmarkSpeed.SetOnTextChanged(SecondaryTextChangedBenchmarkSpeed);
+            richTextBoxExtraLaunchParameters.TextChanged += TextChangedExtraLaunchParameters;
         }
 
         public void Deselect()
@@ -57,7 +57,7 @@ namespace zPoolMiner.Forms.Components
 
         private string ParseStringDefault(string value)
         {
-            return value == null ? "" : value;
+            return value ?? "";
         }
 
         private string ParseDoubleDefault(double value)
@@ -71,8 +71,7 @@ namespace zPoolMiner.Forms.Components
             if (lvi == null) return;
 
             _computeDevice = computeDevice;
-            var algorithm = lvi.Tag as Algorithm;
-            if (algorithm != null)
+            if (lvi.Tag is Algorithm algorithm)
             {
                 _selected = true;
                 _currentlySelectedAlgorithm = algorithm;
@@ -115,8 +114,7 @@ namespace zPoolMiner.Forms.Components
         {
             if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
             {
-                var algorithm = lvi.Tag as Algorithm;
-                if (algorithm != null)
+                if (lvi.Tag is Algorithm algorithm)
                 {
                     fieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.BenchmarkSpeed);
                     secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.SecondaryBenchmarkSpeed);
@@ -131,26 +129,26 @@ namespace zPoolMiner.Forms.Components
 
         #region Callbacks Events
 
-        private void textChangedBenchmarkSpeed(object sender, EventArgs e)
+        private void TextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
             if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out double value))
             {
                 _currentlySelectedAlgorithm.BenchmarkSpeed = value;
             }
-            updateSpeedText();
+            UpdateSpeedText();
         }
 
-        private void secondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
+        private void SecondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
             {
                 _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed = secondaryValue;
             }
-            updateSpeedText();
+            UpdateSpeedText();
         }
 
-        private void updateSpeedText()
+        private void UpdateSpeedText()
         {
             var speedString = Helpers.FormatDualSpeedOutput(_currentlySelectedAlgorithm.NiceHashID, _currentlySelectedAlgorithm.BenchmarkSpeed, _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed);
             // update lvi speed
@@ -187,7 +185,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void textChangedExtraLaunchParameters(object sender, EventArgs e)
+        private void TextChangedExtraLaunchParameters(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
             var ExtraLaunchParams = richTextBoxExtraLaunchParameters.Text.Replace("\r\n", " ");

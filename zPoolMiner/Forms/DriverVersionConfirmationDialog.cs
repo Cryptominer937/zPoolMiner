@@ -17,7 +17,7 @@ namespace zPoolMiner
             buttonOK.Text = International.GetText("Global_OK");
         }
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
             if (chkBoxDontShowAgain.Checked)
             {
@@ -28,7 +28,7 @@ namespace zPoolMiner
             this.Close();
         }
 
-        private void linkToDriverDownloadPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkToDriverDownloadPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://support.amd.com/en-us/download/desktop/legacy?product=legacy3&os=Windows+7+-+64");
         }

@@ -16,7 +16,7 @@ namespace zPoolMiner.Miners
             IsNeverHideMiningWindow = true;
         }
 
-        protected abstract void prepareConfigFile(string pool, string wallet);
+        protected abstract void PrepareConfigFile(string pool, string wallet);
 
         protected string GetConfigFileName()
         {
@@ -49,7 +49,7 @@ namespace zPoolMiner.Miners
             string username = GetUsername(btcAdress, worker);
             LastCommandLine = GetConfigFileName();
 
-            prepareConfigFile(url, username);
+            PrepareConfigFile(url, username);
 
             ProcessHandle = _Start();
         }
@@ -57,7 +57,7 @@ namespace zPoolMiner.Miners
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
             string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
-            prepareConfigFile(url, Globals.DemoUser);
+            PrepareConfigFile(url, Globals.DemoUser);
             return "benchmark_mode " + GetConfigFileName();
         }
 

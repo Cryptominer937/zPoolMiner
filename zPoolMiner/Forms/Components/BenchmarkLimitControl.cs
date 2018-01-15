@@ -43,9 +43,9 @@ namespace zPoolMiner.Forms.Components
         public BenchmarkLimitControl()
         {
             InitializeComponent();
-            textBoxQuick.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-            textBoxStandard.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
-            textBoxPrecise.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
+            textBoxQuick.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+            textBoxStandard.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+            textBoxPrecise.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
             _textBoxes = new TextBox[] { textBoxQuick, textBoxStandard, textBoxPrecise };
             //InitLocale();
         }
@@ -69,24 +69,24 @@ namespace zPoolMiner.Forms.Components
 
         #region Events
 
-        private void textBoxQuick_TextChanged(object sender, EventArgs e)
+        private void TextBoxQuick_TextChanged(object sender, EventArgs e)
         {
-            setTimeLimit(BenchmarkPerformanceType.Quick, textBoxQuick.Text);
+            SetTimeLimit(BenchmarkPerformanceType.Quick, textBoxQuick.Text);
         }
 
-        private void textBoxStandard_TextChanged(object sender, EventArgs e)
+        private void TextBoxStandard_TextChanged(object sender, EventArgs e)
         {
-            setTimeLimit(BenchmarkPerformanceType.Standard, textBoxStandard.Text);
+            SetTimeLimit(BenchmarkPerformanceType.Standard, textBoxStandard.Text);
         }
 
-        private void textBoxPrecise_TextChanged(object sender, EventArgs e)
+        private void TextBoxPrecise_TextChanged(object sender, EventArgs e)
         {
-            setTimeLimit(BenchmarkPerformanceType.Precise, textBoxPrecise.Text);
+            SetTimeLimit(BenchmarkPerformanceType.Precise, textBoxPrecise.Text);
         }
 
         #endregion Events
 
-        private void setTimeLimit(BenchmarkPerformanceType type, string numString)
+        private void SetTimeLimit(BenchmarkPerformanceType type, string numString)
         {
             if (_timeLimits == null) return;
             if (Int32.TryParse(numString, out int value))

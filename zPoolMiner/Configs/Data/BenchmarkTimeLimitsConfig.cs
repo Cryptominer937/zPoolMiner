@@ -30,7 +30,7 @@ namespace zPoolMiner.Configs.Data
         private int[] _benchmarkTimeLimitsNVIDIA = MemoryHelper.DeepClone(DEFAULT_CPU_NVIDIA);
         private int[] _benchmarkTimeLimitsAMD = MemoryHelper.DeepClone(DEFAULT_AMD);
 
-        private bool isValid(int[] value)
+        private bool IsValid(int[] value)
         {
             return value != null && value.Length == SIZE;
         }
@@ -44,7 +44,7 @@ namespace zPoolMiner.Configs.Data
             get { return _benchmarkTimeLimitsCPU; }
             set
             {
-                if (isValid(value))
+                if (IsValid(value))
                 {
                     _benchmarkTimeLimitsCPU = MemoryHelper.DeepClone(value);
                 }
@@ -60,7 +60,7 @@ namespace zPoolMiner.Configs.Data
             get { return _benchmarkTimeLimitsNVIDIA; }
             set
             {
-                if (isValid(value))
+                if (IsValid(value))
                 {
                     _benchmarkTimeLimitsNVIDIA = MemoryHelper.DeepClone(value);
                 }
@@ -76,7 +76,7 @@ namespace zPoolMiner.Configs.Data
             get { return _benchmarkTimeLimitsAMD; }
             set
             {
-                if (isValid(value))
+                if (IsValid(value))
                 {
                     _benchmarkTimeLimitsAMD = MemoryHelper.DeepClone(value);
                 }

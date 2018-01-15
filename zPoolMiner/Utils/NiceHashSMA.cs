@@ -62,7 +62,7 @@ namespace zPoolMiner
         {
             if (algo >= 0 && recentPaying.ContainsKey(algo))
             {
-                if (recentPaying[algo].Count >= ConfigManager.GeneralConfig.NormalizedProfitHistory || currentPayingForAlgo(algo) == 0)
+                if (recentPaying[algo].Count >= ConfigManager.GeneralConfig.NormalizedProfitHistory || CurrentPayingForAlgo(algo) == 0)
                 {
                     recentPaying[algo].RemoveAt(0);
                 }
@@ -76,7 +76,7 @@ namespace zPoolMiner
             {
                 if (currentSMA.ContainsKey(algo))
                 {
-                    var current = currentPayingForAlgo(algo);
+                    var current = CurrentPayingForAlgo(algo);
 
                     if (ConfigManager.GeneralConfig.NormalizedProfitHistory > 0
                         && recentPaying[algo].Count >= ConfigManager.GeneralConfig.NormalizedProfitHistory)
@@ -112,7 +112,7 @@ namespace zPoolMiner
             return currentSMA;
         }
 
-        private double currentPayingForAlgo(AlgorithmType algo)
+        private double CurrentPayingForAlgo(AlgorithmType algo)
         {
             if (recentPaying.ContainsKey(algo))
                 return recentPaying[algo].LastOrDefault();

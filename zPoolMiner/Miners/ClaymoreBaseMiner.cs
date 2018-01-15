@@ -57,9 +57,9 @@ namespace zPoolMiner.Miners
 
         private class JsonApiResponse
         {
-            public List<string> result { get; set; }
-            public int id { get; set; }
-            public object error { get; set; }
+            public List<string> Result { get; set; }
+            public int Id { get; set; }
+            public object Error { get; set; }
         }
 
         public override async Task<APIData> GetSummaryAsync()
@@ -87,14 +87,14 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(this.MinerTAG(), "GetSummary exception: " + ex.Message);
             }
 
-            if (resp != null && resp.error == null)
+            if (resp != null && resp.Error == null)
             {
                 //Helpers.ConsolePrint("ClaymoreZcashMiner API back:", "resp != null && resp.error == null");
-                if (resp.result != null && resp.result.Count > 4)
+                if (resp.Result != null && resp.Result.Count > 4)
                 {
                     //Helpers.ConsolePrint("ClaymoreZcashMiner API back:", "resp.result != null && resp.result.Count > 4");
-                    var speeds = resp.result[3].Split(';');
-                    var secondarySpeeds = (IsDual()) ? resp.result[5].Split(';') : new string[0];
+                    var speeds = resp.Result[3].Split(';');
+                    var secondarySpeeds = (IsDual()) ? resp.Result[5].Split(';') : new string[0];
                     ad.Speed = 0;
                     ad.SecondarySpeed = 0;
                     foreach (var speed in speeds)
@@ -224,7 +224,7 @@ namespace zPoolMiner.Miners
                     {
                         if (ignoreZero)
                         {
-                            double got = getNumber(lineLowered);
+                            double got = GetNumber(lineLowered);
                             if (got != 0)
                             {
                                 benchmark_sum += got;
@@ -233,7 +233,7 @@ namespace zPoolMiner.Miners
                         }
                         else
                         {
-                            benchmark_sum += getNumber(lineLowered);
+                            benchmark_sum += GetNumber(lineLowered);
                             ++benchmark_read_count;
                         }
                     }
@@ -241,7 +241,7 @@ namespace zPoolMiner.Miners
                     {
                         if (ignoreZero)
                         {
-                            double got = getNumber(lineLowered, SecondaryLookForStart(), LOOK_FOR_END);
+                            double got = GetNumber(lineLowered, SecondaryLookForStart(), LOOK_FOR_END);
                             if (got != 0)
                             {
                                 secondary_benchmark_sum += got;
@@ -250,7 +250,7 @@ namespace zPoolMiner.Miners
                         }
                         else
                         {
-                            secondary_benchmark_sum += getNumber(lineLowered);
+                            secondary_benchmark_sum += GetNumber(lineLowered);
                             ++secondary_benchmark_read_count;
                         }
                     }
@@ -275,12 +275,12 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-        protected double getNumber(string outdata)
+        protected double GetNumber(string outdata)
         {
-            return getNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
+            return GetNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
         }
 
-        protected double getNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
+        protected double GetNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
         {
             try
             {

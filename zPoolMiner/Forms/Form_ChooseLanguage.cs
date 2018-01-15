@@ -33,14 +33,14 @@ namespace zPoolMiner.Forms
             this.textBox_TOS.ScrollBars = ScrollBars.Vertical;
         }
 
-        private void button_OK_Click(object sender, EventArgs e)
+        private void Button_OK_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.Language = (LanguageType)comboBox_Languages.SelectedIndex;
             ConfigManager.GeneralConfigFileCommit();
             this.Close();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_TOS.Checked)
             {

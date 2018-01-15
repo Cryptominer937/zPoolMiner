@@ -46,17 +46,17 @@ namespace zPoolMiner.Forms.Components
             radioButton_PreciseBenchmark.Text = International.GetText("Form_Benchmark_radioButton_PreciseBenchmark");
         }
 
-        private void radioButton_QuickBenchmark_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_QuickBenchmark_CheckedChanged(object sender, EventArgs e)
         {
             PerformanceType = BenchmarkPerformanceType.Quick;
         }
 
-        private void radioButton_StandardBenchmark_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_StandardBenchmark_CheckedChanged(object sender, EventArgs e)
         {
             PerformanceType = BenchmarkPerformanceType.Standard;
         }
 
-        private void radioButton_PreciseBenchmark_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_PreciseBenchmark_CheckedChanged(object sender, EventArgs e)
         {
             PerformanceType = BenchmarkPerformanceType.Precise;
         }

@@ -18,30 +18,30 @@ namespace zPoolMiner.Miners
     {
         private class Result
         {
-            public int gpu_id { get; set; }
-            public int temperature { get; set; }
-            public double sol_ps { get; set; }
-            public double avg_sol_ps { get; set; }
-            public double sol_pw { get; set; }
-            public double avg_sol_pw { get; set; }
-            public double power_usage { get; set; }
-            public double avg_power_usage { get; set; }
-            public int accepted_shares { get; set; }
-            public int rejected_shares { get; set; }
-            public int latency { get; set; }
+            public int Gpu_id { get; set; }
+            public int Temperature { get; set; }
+            public double Sol_ps { get; set; }
+            public double Avg_sol_ps { get; set; }
+            public double Sol_pw { get; set; }
+            public double Avg_sol_pw { get; set; }
+            public double Power_usage { get; set; }
+            public double Avg_power_usage { get; set; }
+            public int Accepted_shares { get; set; }
+            public int Rejected_shares { get; set; }
+            public int Latency { get; set; }
         }
 
         private class JsonApiResponse
         {
-            public uint id { get; set; }
-            public Result[] result { get; set; }
-            public uint uptime { get; set; }
-            public uint contime { get; set; }
-            public string server { get; set; }
-            public uint port { get; set; }
-            public string user { get; set; }
-            public string version { get; set; }
-            public object error { get; set; }
+            public uint Id { get; set; }
+            public Result[] Result { get; set; }
+            public uint Uptime { get; set; }
+            public uint Contime { get; set; }
+            public string Server { get; set; }
+            public uint Port { get; set; }
+            public string User { get; set; }
+            public string Version { get; set; }
+            public object Error { get; set; }
         }
 
         private int benchmarkTimeWait = 2 * 45;
@@ -219,7 +219,7 @@ namespace zPoolMiner.Miners
                             string lineLowered = line.ToLower();
                             if (lineLowered.Contains(LOOK_FOR_START))
                             {
-                                benchmark_sum += getNumber(lineLowered);
+                                benchmark_sum += GetNumber(lineLowered);
                                 ++benchmark_read_count;
                             }
                         }
@@ -266,12 +266,12 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-        protected double getNumber(string outdata)
+        protected double GetNumber(string outdata)
         {
-            return getNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
+            return GetNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
         }
 
-        protected double getNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
+        protected double GetNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
         {
             try
             {

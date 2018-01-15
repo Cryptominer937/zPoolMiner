@@ -11,17 +11,17 @@ namespace zPoolMiner
     {
         public class Result
         {
-            public Object algorithms { get; set; }
-            public Object servers { get; set; }
-            public Object idealratios { get; set; }
-            public List<Dictionary<string, string>> exchanges { get; set; }
-            public Dictionary<string, double> exchanges_fiat { get; set; }
+            public Object Algorithms { get; set; }
+            public Object Servers { get; set; }
+            public Object Idealratios { get; set; }
+            public List<Dictionary<string, string>> Exchanges { get; set; }
+            public Dictionary<string, double> Exchanges_fiat { get; set; }
         }
 
         public class ExchangeRateJSON
         {
-            public Result result { get; set; }
-            public string method { get; set; }
+            public Result Result { get; set; }
+            public string Method { get; set; }
         }
 
         private const string apiUrl = "https://api.nicehash.com/api?method=nicehash.service.info";

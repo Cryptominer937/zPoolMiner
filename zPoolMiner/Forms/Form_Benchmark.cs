@@ -195,8 +195,7 @@ namespace zPoolMiner.Forms
 
         public void LviSetColor(ListViewItem lvi)
         {
-            var CDevice = lvi.Tag as ComputeDevice;
-            if (CDevice != null && _benchmarkDevicesAlgorithmStatus != null)
+            if (lvi.Tag is ComputeDevice CDevice && _benchmarkDevicesAlgorithmStatus != null)
             {
                 var uuid = CDevice.UUID;
                 if (!CDevice.Enabled)
@@ -276,7 +275,7 @@ namespace zPoolMiner.Forms
 
             //groupBoxAlgorithmBenchmarkSettings.Enabled = _singleBenchmarkType == AlgorithmType.NONE;
             devicesListViewEnableControl1.Enabled = true;
-            devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(devicesListView1_ItemSelectionChanged);
+            devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(DevicesListView1_ItemSelectionChanged);
 
             devicesListViewEnableControl1.SetAlgorithmsListView(algorithmsListView1);
             devicesListViewEnableControl1.IsBenchmarkForm = true;
@@ -326,11 +325,11 @@ namespace zPoolMiner.Forms
         {
             if (_inBenchmark)
             {
-                algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, getDotsWaitString());
+                algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, GetDotsWaitString());
             }
         }
 
-        private string getDotsWaitString()
+        private string GetDotsWaitString()
         {
             ++dotCount;
             if (dotCount > 3) dotCount = 1;
@@ -641,7 +640,7 @@ namespace zPoolMiner.Forms
 
                 _currentMiner.BenchmarkStart(time, this);
                 algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm,
-                    getDotsWaitString());
+                    GetDotsWaitString());
             }
             else
             {
@@ -701,7 +700,7 @@ namespace zPoolMiner.Forms
         {
             this.Invoke((MethodInvoker)delegate
             {
-                algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, getDotsWaitString());
+                algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, GetDotsWaitString());
             });
         }
 
@@ -851,7 +850,7 @@ namespace zPoolMiner.Forms
             }
         }
 
-        private void devicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void DevicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //algorithmSettingsControl1.Deselect();
             // show algorithms
@@ -859,7 +858,7 @@ namespace zPoolMiner.Forms
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
         }
 
-        private void radioButton_SelectedUnbenchmarked_CheckedChanged_1(object sender, EventArgs e)
+        private void RadioButton_SelectedUnbenchmarked_CheckedChanged_1(object sender, EventArgs e)
         {
             _algorithmOption = AlgorithmBenchmarkSettingsType.SelectedUnbenchmarkedAlgorithms;
             CalcBenchmarkDevicesAlgorithmQueue();
@@ -867,7 +866,7 @@ namespace zPoolMiner.Forms
             algorithmsListView1.ResetListItemColors();
         }
 
-        private void radioButton_RE_SelectedUnbenchmarked_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_RE_SelectedUnbenchmarked_CheckedChanged(object sender, EventArgs e)
         {
             _algorithmOption = AlgorithmBenchmarkSettingsType.ReBecnhSelectedAlgorithms;
             CalcBenchmarkDevicesAlgorithmQueue();
@@ -875,12 +874,12 @@ namespace zPoolMiner.Forms
             algorithmsListView1.ResetListItemColors();
         }
 
-        private void checkBox_StartMiningAfterBenchmark_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_StartMiningAfterBenchmark_CheckedChanged(object sender, EventArgs e)
         {
             this.StartMining = this.checkBox_StartMiningAfterBenchmark.Checked;
         }
 
-        private void algorithmsListView1_Load(object sender, EventArgs e)
+        private void AlgorithmsListView1_Load(object sender, EventArgs e)
         {
         }
     }

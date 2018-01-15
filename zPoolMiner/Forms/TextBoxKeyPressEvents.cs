@@ -4,7 +4,7 @@ namespace zPoolMiner
 {
     internal static class TextBoxKeyPressEvents
     {
-        public static void textBoxIntsOnly_KeyPress(object sender, KeyPressEventArgs e)
+        public static void TextBoxIntsOnly_KeyPress(object sender, KeyPressEventArgs e)
         {
             // allow only one zero
             var textBox = sender as TextBox;
@@ -19,7 +19,7 @@ namespace zPoolMiner
             }
         }
 
-        public static void textBoxDoubleOnly_KeyPress(object sender, KeyPressEventArgs e)
+        public static void TextBoxDoubleOnly_KeyPress(object sender, KeyPressEventArgs e)
         {
             // allow only one zero
             var textBox = sender as TextBox;
@@ -29,7 +29,7 @@ namespace zPoolMiner
                 e.Handled = true;
                 return;
             }
-            if (doubleInvalid(e.KeyChar))
+            if (DoubleInvalid(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -40,7 +40,7 @@ namespace zPoolMiner
             }
         }
 
-        private static bool doubleInvalid(char c)
+        private static bool DoubleInvalid(char c)
         {
             return !char.IsControl(c) && !char.IsDigit(c) && (c != '.');
         }
