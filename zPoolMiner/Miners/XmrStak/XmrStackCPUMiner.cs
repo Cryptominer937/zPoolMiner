@@ -21,7 +21,7 @@ namespace zPoolMiner.Miners
             {
                 for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu)
                 {
-                    cpu_threads_conf.Add(JObject.FromObject(new {  low_power_mode,  no_prefetch, affine_to_cpu = i_cpu * 2 }));
+                    cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu * 2 }));
                 }
             }
             else
@@ -30,11 +30,11 @@ namespace zPoolMiner.Miners
                 {
                     if (affine_to_cpu)
                     {
-                        cpu_threads_conf.Add(JObject.FromObject(new {  low_power_mode,  no_prefetch, affine_to_cpu = i_cpu }));
+                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu }));
                     }
                     else
                     {
-                        cpu_threads_conf.Add(JObject.FromObject(new {  low_power_mode,  no_prefetch, affine_to_cpu = false }));
+                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = false }));
                     }
                 }
             }

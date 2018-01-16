@@ -103,11 +103,9 @@ namespace zPoolMiner.Miners.Grouping
             public const string glg = _bin + @"\glg\gatelessgate.exe";
             public const string nheqminer = _bin + @"\nheqminer_v0.4b\nheqminer.exe";
             public const string excavator = _bin + @"\excavator\excavator.exe";
-
             public const string XmrStackCPUMiner = _bin + @"\xmr-stak-cpu\xmr-stak-cpu.exe";
             public const string XmrStakAMD = _bin + @"\xmr-stak-amd\xmr-stak-amd.exe";
             public const string Xmrig = _bin + @"\xmrig\xmrig.exe";
-
             public const string NONE = "";
 
             // root binary folder
@@ -122,6 +120,7 @@ namespace zPoolMiner.Miners.Grouping
             public const string DSTM = _bin_3rdparty + @"\dstm\zm.exe";
             public const string hsrneoscrypt = _bin_3rdparty + @"\hsrminer_neoscrypt\hsrminer_neoscrypt.exe";
             public const string prospector = _bin_3rdparty + @"\prospector\prospector.exe";
+            public const string mkxminer = _bin_3rdparty + @"\mkxminer\mkxminer.exe";
         }
 
         // NEW START
@@ -233,6 +232,9 @@ namespace zPoolMiner.Miners.Grouping
 
                 case MinerBaseType.hsrneoscrypt:
                     return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
+
+                case MinerBaseType.mkxminer:
+                    return Data.mkxminer;
             }
             return Data.NONE;
         }
@@ -329,6 +331,7 @@ namespace zPoolMiner.Miners.Grouping
                     return Data.ccminer_alexis_hsr;
                 }
                 if (AlgorithmType.Phi == algorithmType
+                    || AlgorithmType.NeoScrypt == algorithmType
                     || AlgorithmType.Tribus == algorithmType
                     || AlgorithmType.Skunk == algorithmType)
                 {

@@ -3,18 +3,23 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using zPoolMiner.Configs;
+using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class Hsrneoscrypt : Miner
+    internal class Mkxminer : Miner
     {
         private int benchmarkTimeWait = 11 * 60;
+        private readonly int GPUPlatformNumber;
 
-        public Hsrneoscrypt() : base("hsrneoscrypt_NVIDIA")
+        public Mkxminer() : base("mkxminer_AMD")
+
         {
+            GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
+            IsKillAllUsedMinerProcs = true;
         }
 
         private bool BenchmarkException
@@ -43,16 +48,17 @@ namespace zPoolMiner.Miners
             }
             string username = GetUsername(btcAdress, worker);
 
-            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt;
-
             LastCommandLine = " --url=" + url +
-                                  " --user=" + btcAdress +
-                          " -p " + worker +
-                                  ExtraLaunchParametersParser.ParseForMiningSetup(
-                                                                MiningSetup,
-                                                                DeviceType.NVIDIA) +
-                                  " --devices ";
+                                 " --user=" + btcAdress +
+                         " -p " + worker + "-I 23 " +
+                                 ExtraLaunchParametersParser.ParseForMiningSetup(
+                                                               MiningSetup,
+                                                               DeviceType.AMD) +
+                                 " --devices ";
             LastCommandLine += GetDevicesCommandString();
+
+            LastCommandLine += GetDevicesCommandString();
+
             ProcessHandle = _Start();
         }
 
@@ -76,10 +82,10 @@ namespace zPoolMiner.Miners
 
             string CommandLine = " --url=" + url +
                                   " --user=" + Globals.DemoUser +
-                          " -p Benchmark " +
+                          " -p Benchmark -I 23" +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
-                                                                DeviceType.NVIDIA) +
+                                                                DeviceType.AMD) +
                                   " --devices ";
             CommandLine += GetDevicesCommandString();
 
@@ -93,10 +99,10 @@ namespace zPoolMiner.Miners
             Helpers.ConsolePrint(MinerTAG(), outdata);
             if (BenchmarkException)
             {
-                if (outdata.Contains("speed is "))
+                if (outdata.Contains("> "))
                 {
-                    int st = outdata.IndexOf("speed is ");
-                    int end = outdata.IndexOf("kH/s");
+                    int st = outdata.IndexOf("> ");
+                    int end = outdata.IndexOf("MH/s");
                     //      int len = outdata.Length - speedLength - st;
 
                     //          string parse = outdata.Substring(st, len-1).Trim();
@@ -133,10 +139,11 @@ namespace zPoolMiner.Miners
 
         #endregion Decoupled benchmarking routines
 
+        // TODO _currentMinerReadStatus
         public override async Task<APIData> GetSummaryAsync()
         {
             // CryptoNight does not have api bind port
-            APIData hsrData = new APIData(MiningSetup.CurrentAlgorithmType)
+            APIData mkxminerData = new APIData(MiningSetup.CurrentAlgorithmType)
             {
                 Speed = 0
             };
@@ -177,12 +184,12 @@ namespace zPoolMiner.Miners
                     }
                 }
 
-                hsrData.Speed = totalSpeed;
-                return hsrData;
+                mkxminerData.Speed = totalSpeed;
+                return mkxminerData;
             }
 
             //  return await GetSummaryCPU_hsrneoscryptAsync();
-            return hsrData;
+            return mkxminerData;
         }
     }
 }

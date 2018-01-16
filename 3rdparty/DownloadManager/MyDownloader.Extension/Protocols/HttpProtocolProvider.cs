@@ -11,10 +11,10 @@ namespace MyDownloader.Extension.Protocols
     {
         static HttpProtocolProvider()
         {
-            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(certificateCallBack);
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertificateCallBack);
         }
 
-        private static bool certificateCallBack(
+        private static bool CertificateCallBack(
             object sender,
             X509Certificate certificate,
             X509Chain chain,
@@ -38,8 +38,10 @@ namespace MyDownloader.Extension.Protocols
                     login = login.Substring(slashIndex + 1);
                 }
 
-                NetworkCredential myCred = new NetworkCredential(login, rl.Password);
-                myCred.Domain = domain;
+                NetworkCredential myCred = new NetworkCredential(login, rl.Password)
+                {
+                    Domain = domain
+                };
 
                 request.Credentials = myCred;
             }
@@ -81,11 +83,13 @@ namespace MyDownloader.Extension.Protocols
             FillCredentials(request, rl);
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            RemoteFileInfo result = new RemoteFileInfo();
-            result.MimeType = response.ContentType;
-            result.LastModified = response.LastModified;
-            result.FileSize = response.ContentLength;
-            result.AcceptRanges = String.Compare(response.Headers["Accept-Ranges"], "bytes", true) == 0;
+            RemoteFileInfo result = new RemoteFileInfo
+            {
+                MimeType = response.ContentType,
+                LastModified = response.LastModified,
+                FileSize = response.ContentLength,
+                AcceptRanges = String.Compare(response.Headers["Accept-Ranges"], "bytes", true) == 0
+            };
 
             stream = response.GetResponseStream();
 

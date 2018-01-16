@@ -26,7 +26,7 @@ namespace zPoolMiner
         }
     }
 
-    internal class NiceHashStats
+    internal class CryptoStats
     {
 #pragma warning disable 649
 

@@ -84,6 +84,28 @@ namespace zPoolMiner.Miners.Parsing
                 }
             ),
             new MinerOptionPackage(
+                 MinerType.mkxminer,
+                 new List<MinerOption>() {
+                     // SingleParam
+                     new MinerOption("ExitSick", "", "--exitsick", null, MinerOptionFlagType.SingleParam, ""),
+                     new MinerOption("Asm", "", "--asm", null, MinerOptionFlagType.SingleParam, ""),
+                     // MultiParam TODO IMPORTANT check defaults
+                     new MinerOption("GPUclock" , "", "--engine", "-1", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("Memclock" , "", "--memclock", "-1", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("Powertune", "", "--powertune", "-1", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("GPUvoltage", "", "--vddc", "-1", MinerOptionFlagType.MultiParam, ","), // default none
+                 },
+                 // TemperatureOptions
+                 new List<MinerOption>() {
+                     new MinerOption("GpuFan", "", "--fan", "30-95", MinerOptionFlagType.MultiParam, ","), // default none
+                     new MinerOption("TempCutoff", "", "--temp-cutoff", "95", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("TempOverheat", "", "--temp-overheat", "85", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("TempTarget", "", "--temp-target", "75", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("AutoFan", "", "--auto-fan", null, MinerOptionFlagType.Uni, ""),
+                     new MinerOption("AutoGpu", "", "--auto-gpu", null, MinerOptionFlagType.Uni, "")
+                 }
+             ),
+            new MinerOptionPackage(
                  MinerType.glg,
                  new List<MinerOption>() {
                      // SingleParam

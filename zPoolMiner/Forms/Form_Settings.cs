@@ -803,7 +803,7 @@ namespace zPoolMiner.Forms
 
             if (isCredChange)
             {
-                NiceHashStats.SetCredentials(ConfigManager.GeneralConfig.BitcoinAddress.Trim(), ConfigManager.GeneralConfig.WorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.BitcoinAddress.Trim(), ConfigManager.GeneralConfig.WorkerName.Trim());
             }
 
             this.Close();
@@ -921,7 +921,6 @@ namespace zPoolMiner.Forms
 
         private void ButtonSelectedProfit_Click_1(object sender, EventArgs e)
         {
-
         }
     }
 }

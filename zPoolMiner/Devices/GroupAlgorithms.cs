@@ -159,7 +159,42 @@ namespace zPoolMiner.Devices
                         if (device.DriverDisableAlgos)
                         {
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
-                            algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
+                            //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
+                        }
+                        if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
+                        {
+                            var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
+                            int Lyra2REv2_Index = mkxminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.Lyra2REv2);
+
+                            if (Lyra2REv2_Index > -1)
+                            {
+                                if (device.Codename.Contains("gfx804")) //rx550
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
+                                }
+                                if (device.Codename.Contains("Pitcairn")) //r7-370
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
+                                }
+                                if (device.Codename.Contains("Baffin")) //rx460/560
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
+                                }
+
+                                if (device.Codename.Contains("Ellesmere")) //rx570/580
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
+                                }
+
+                                if (device.Codename.Contains("Hawaii"))
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
+                                }
+                                else if (device.Name.Contains("Vega"))
+                                {
+                                    mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "-I 23";
+                                }
+                            }
                         }
 
                         // disable by default
@@ -306,7 +341,11 @@ namespace zPoolMiner.Devices
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 12 --gpu-threads 2" }
                          }
                      },
-
+                    { MinerBaseType.mkxminer,
+                         new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.mkxminer, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = "--exitsick -I 23" }
+                         }
+                     },
                     { MinerBaseType.Claymore,
                         new List<Algorithm>() {
                             //new Algorithm(MinerBaseType.Claymore, AlgorithmType.CryptoNight, "cryptonight"),
@@ -401,6 +440,7 @@ namespace zPoolMiner.Devices
                     },
                     { MinerBaseType.ccminer_tpruvot2,
                         new List<Algorithm>() {
+                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.NeoScrypt, "neoscrypt"),
                             new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Skunk, "skunk"),
                             new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Tribus, "tribus"),
                             new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Phi, "phi")

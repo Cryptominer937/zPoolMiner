@@ -80,8 +80,6 @@ namespace MyDownloader.Core
 
         #endregion Properties
 
-
-
         #region Methods
 
         private void downloader_StateChanged(object sender, EventArgs e)

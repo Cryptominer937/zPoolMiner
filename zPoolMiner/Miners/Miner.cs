@@ -315,7 +315,6 @@ namespace zPoolMiner
         protected string GetUsername(string btcAdress, string worker)
         {
             if (IS_DONATING) return Globals.DemoUser;
-
             if (worker.Length > 0)
                 return btcAdress;// + "." + worker;
 

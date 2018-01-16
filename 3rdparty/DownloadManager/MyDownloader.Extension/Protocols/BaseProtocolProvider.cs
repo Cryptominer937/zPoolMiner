@@ -23,8 +23,10 @@ namespace MyDownloader.Extension.Protocols
         {
             if (HttpFtpProtocolExtension.parameters.UseProxy)
             {
-                WebProxy proxy = new WebProxy(HttpFtpProtocolExtension.parameters.ProxyAddress, HttpFtpProtocolExtension.parameters.ProxyPort);
-                proxy.BypassProxyOnLocal = HttpFtpProtocolExtension.parameters.ProxyByPassOnLocal;
+                WebProxy proxy = new WebProxy(HttpFtpProtocolExtension.parameters.ProxyAddress, HttpFtpProtocolExtension.parameters.ProxyPort)
+                {
+                    BypassProxyOnLocal = HttpFtpProtocolExtension.parameters.ProxyByPassOnLocal
+                };
                 request.Proxy = proxy;
 
                 if (!String.IsNullOrEmpty(HttpFtpProtocolExtension.parameters.ProxyUserName))

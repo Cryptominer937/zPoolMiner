@@ -803,7 +803,6 @@ namespace MyDownloader.Core
 
                     while (location != this.ResourceLocation)
                     {
-
                         // get the remote file info on mirror
                         RemoteFileInfo tempRemoteInfo = provider.GetFileInfo(location, out Stream tempStream);
                         if (tempStream != null) tempStream.Dispose();

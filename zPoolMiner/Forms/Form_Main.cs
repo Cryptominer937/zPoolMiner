@@ -122,7 +122,7 @@ namespace zPoolMiner
 
             toolStripStatusLabelGlobalRateText.Text = International.GetText("Form_Main_global_rate") + ":";
             toolStripStatusLabelBTCDayText.Text = "BTC/" + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
 
             devicesListViewEnableControl1.InitLocale();
 
@@ -177,7 +177,7 @@ namespace zPoolMiner
             }
 
             toolStripStatusLabelBalanceDollarValue.Text = "(" + ExchangeRateAPI.ActiveDisplayCurrency + ")";
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
             BalanceCallback(null, null); // update currency changes
 
             if (_isDeviceDetectionInitialized)
@@ -295,13 +295,13 @@ namespace zPoolMiner
 
             LoadingScreen.IncreaseLoadCounterAndMessage(International.GetText("Form_Main_loadtext_GetNiceHashSMA"));
             // Init ws connection
-            NiceHashStats.OnBalanceUpdate += BalanceCallback;
-            NiceHashStats.OnSMAUpdate += SMACallback;
-            NiceHashStats.OnVersionUpdate += VersionUpdateCallback;
-            NiceHashStats.OnConnectionLost += ConnectionLostCallback;
-            NiceHashStats.OnConnectionEstablished += ConnectionEstablishedCallback;
-            NiceHashStats.OnVersionBurn += VersionBurnCallback;
-            NiceHashStats.StartConnection(Links.NHM_Socket_Address);
+            CryptoStats.OnBalanceUpdate += BalanceCallback;
+            CryptoStats.OnSMAUpdate += SMACallback;
+            CryptoStats.OnVersionUpdate += VersionUpdateCallback;
+            CryptoStats.OnConnectionLost += ConnectionLostCallback;
+            CryptoStats.OnConnectionEstablished += ConnectionEstablishedCallback;
+            CryptoStats.OnVersionBurn += VersionBurnCallback;
+            CryptoStats.StartConnection(Links.NHM_Socket_Address);
 
             // increase timeout
             if (Globals.IsFirstNetworkCheckTimeout)
@@ -608,13 +608,13 @@ namespace zPoolMiner
             }
 
             toolStripStatusLabelBTCDayValue.Text = ExchangeRateAPI.ConvertToActiveCurrency((TotalRate * factorTimeUnit * Globals.BitcoinUSDRate)).ToString("F2", CultureInfo.InvariantCulture);
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
         }
 
         private void BalanceCallback(object sender, EventArgs e)
         {
             Helpers.ConsolePrint("NICEHASH", "Balance update");
-            double Balance = NiceHashStats.Balance;
+            double Balance = CryptoStats.Balance;
             if (Balance > 0)
             {
                 if (ConfigManager.GeneralConfig.AutoScaleBTCValues && Balance < 0.1)
@@ -657,9 +657,9 @@ namespace zPoolMiner
         {
             Helpers.ConsolePrint("NICEHASH", "SMA Update");
             isSMAUpdated = true;
-            if (NiceHashStats.AlgorithmRates != null)
+            if (CryptoStats.AlgorithmRates != null)
             {
-                Globals.NiceHashData = NiceHashStats.AlgorithmRates;
+                Globals.NiceHashData = CryptoStats.AlgorithmRates;
             }
         }
 
@@ -694,12 +694,12 @@ namespace zPoolMiner
         private void ConnectionEstablishedCallback(object sender, EventArgs e)
         {
             // send credentials
-            NiceHashStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
+            CryptoStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
         }
 
         private void VersionUpdateCallback(object sender, EventArgs e)
         {
-            var ver = NiceHashStats.Version;
+            var ver = CryptoStats.Version;
             if (ver == null) return;
 
             Version programVersion = new Version(Application.ProductVersion);
@@ -884,7 +884,7 @@ namespace zPoolMiner
                     || ConfigManager.GeneralConfig.WorkerName != textBoxWorkerName.Text.Trim())
                 {
                     // Reset credentials
-                    NiceHashStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
+                    CryptoStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
                 }
                 // Commit to config.json
                 ConfigManager.GeneralConfig.BitcoinAddress = textBoxBTCAddress.Text.Trim();
@@ -1099,14 +1099,6 @@ namespace zPoolMiner
             }
 
             UpdateGlobalRate();
-        }
-
-        private void Form_Main_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void ToolStripStatusLabelBalanceText_Click(object sender, EventArgs e)
-        {
         }
     }
 }

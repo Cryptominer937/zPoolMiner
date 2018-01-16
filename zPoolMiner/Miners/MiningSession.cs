@@ -441,6 +441,7 @@ namespace zPoolMiner.Miners
                     {
                         toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];
 
+                        Helpers.ConsolePrint(TAG, String.Format("STARTING", " DEV_FEE", " Mining Dev-Fee for 12 Minutes."));
                         var miningPairs = newGroupedMiningPairs[runningGroupKey];
                         var newAlgoType = GetMinerPairAlgorithmType(miningPairs);
                         GroupMiner newGroupMiner = null;
@@ -465,7 +466,7 @@ namespace zPoolMiner.Miners
                     else if (Miner.IS_DONATING && Miner.SHOULD_STOP_DONATING)
                     {
                         toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];
-
+                        Helpers.ConsolePrint(TAG, String.Format("STOPPING", " DEV_FEE", " Next Dev-Fee Mining will start in 12 Hours."));
                         var miningPairs = newGroupedMiningPairs[runningGroupKey];
                         var newAlgoType = GetMinerPairAlgorithmType(miningPairs);
                         GroupMiner newGroupMiner = null;

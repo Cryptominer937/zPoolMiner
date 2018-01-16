@@ -24,6 +24,7 @@
         DSTM,
         Xmrig,
         hsrneoscrypt,
+        mkxminer,
         END
     }
 }

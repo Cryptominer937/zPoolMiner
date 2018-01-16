@@ -21,8 +21,10 @@ namespace MyDownloader.Extension.Protocols
                     login = login.Substring(slashIndex + 1);
                 }
 
-                NetworkCredential myCred = new NetworkCredential(login, rl.Password);
-                myCred.Domain = domain;
+                NetworkCredential myCred = new NetworkCredential(login, rl.Password)
+                {
+                    Domain = domain
+                };
 
                 request.Credentials = myCred;
             }
@@ -52,8 +54,10 @@ namespace MyDownloader.Extension.Protocols
         {
             FtpWebRequest request;
 
-            RemoteFileInfo result = new RemoteFileInfo();
-            result.AcceptRanges = true;
+            RemoteFileInfo result = new RemoteFileInfo
+            {
+                AcceptRanges = true
+            };
 
             stream = null;
 
