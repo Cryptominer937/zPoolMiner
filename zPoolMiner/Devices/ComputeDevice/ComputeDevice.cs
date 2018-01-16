@@ -338,7 +338,7 @@ namespace zPoolMiner.Devices
             {
                 return this.AlgorithmSettings;
             }
-            var third_party_miners = new List<MinerBaseType>() { MinerBaseType.Claymore, MinerBaseType.OptiminerAMD, MinerBaseType.EWBF, MinerBaseType.Prospector, MinerBaseType.mkxminer };
+            var third_party_miners = new List<MinerBaseType>() { MinerBaseType.Claymore, MinerBaseType.OptiminerAMD, MinerBaseType.EWBF, MinerBaseType.Prospector };
 
             return this.AlgorithmSettings.FindAll((a) => third_party_miners.IndexOf(a.MinerBaseType) == -1);
         }

@@ -1,19 +1,22 @@
 ﻿using Newtonsoft.Json;
-using SQLite.Net;
-using SQLite.Net.Attributes;
-using SQLite.Net.Platform.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using zPoolMiner.Configs;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
+using zPoolMiner.Miners.Parsing;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
+using System.Net;
+using SQLite.Net;
+using SQLite.Net.Platform.Win32;
+using SQLite.Net.Attributes;
 
 namespace zPoolMiner.Miners
 {
@@ -26,7 +29,6 @@ namespace zPoolMiner.Miners
                 return NVPlatform >= 0 || AMDPlatform >= 0;
             }
         }
-
         public static int NVPlatform = -1;
         public static int AMDPlatform = -1;
 
@@ -40,27 +42,24 @@ namespace zPoolMiner.Miners
             return -1;
         }
     }
-
     public class Prospector : Miner
     {
-        private class Hashrates
+        private class hashrates
         {
             [PrimaryKey, AutoIncrement]
-            public int Id { get; set; }
-
-            public int Session_id { get; set; }
-            public string Coin { get; set; }
-            public string Device { get; set; }
-            public int Time { get; set; }
-            public double Rate { get; set; }
+            public int id { get; set; }
+            public int session_id { get; set; }
+            public string coin { get; set; }
+            public string device { get; set; }
+            public int time { get; set; }
+            public double rate { get; set; }
         }
 
-        private class Sessions
+        private class sessions
         {
             [PrimaryKey, AutoIncrement]
-            public int Id { get; set; }
-
-            public string Start { get; set; }
+            public int id { get; set; }
+            public string start { get; set; }
         }
 
         private class ProspectorDatabase : SQLiteConnection
@@ -72,7 +71,7 @@ namespace zPoolMiner.Miners
             {
                 try
                 {
-                    return Table<Hashrates>().Where(x => x.Device == device).OrderByDescending(x => x.Time).Take(1).FirstOrDefault().Rate;
+                    return Table<hashrates>().Where(x => x.device == device).OrderByDescending(x => x.time).Take(1).FirstOrDefault().rate;
                 }
                 catch (Exception e)
                 {
@@ -81,29 +80,29 @@ namespace zPoolMiner.Miners
                 }
             }
 
-            public IEnumerable<Hashrates> QuerySpeedsForSession(int id)
+            public IEnumerable<hashrates> QuerySpeedsForSession(int id)
             {
                 try
                 {
-                    return Table<Hashrates>().Where(x => x.Session_id == id);
+                    return Table<hashrates>().Where(x => x.session_id == id);
                 }
                 catch (Exception e)
                 {
                     Helpers.ConsolePrint("PROSPECTORSQL", e.ToString());
-                    return new List<Hashrates>();
+                    return new List<hashrates>();
                 }
             }
 
-            public Sessions LastSession()
+            public sessions LastSession()
             {
                 try
                 {
-                    return Table<Sessions>().LastOrDefault();
+                    return Table<sessions>().LastOrDefault();
                 }
                 catch (Exception e)
                 {
                     Helpers.ConsolePrint("PROSPECTORSQL", e.ToString());
-                    return new Sessions();
+                    return new sessions();
                 }
             }
         }
@@ -130,7 +129,7 @@ namespace zPoolMiner.Miners
             return 3600000; // 1hour
         }
 
-        private string DeviceIDString(int id, DeviceType type)
+        private string deviceIDString(int id, DeviceType type)
         {
             var platform = 0;
             if (InitPlatforms())
@@ -151,7 +150,7 @@ namespace zPoolMiner.Miners
             return String.Format("config_{0}.toml", this.MiningSetup.MiningPairs[0].Device.ID);
         }
 
-        private void PrepareConfigFile(string pool, string wallet, string worker)
+        private void prepareConfigFile(string pool, string wallet, string worker)
         {
             if (this.MiningSetup.MiningPairs.Count > 0)
             {
@@ -169,7 +168,7 @@ namespace zPoolMiner.Miners
 
                     foreach (var dev in MiningSetup.MiningPairs)
                     {
-                        sb.AppendLine(String.Format("[gpus.{0}]", DeviceIDString(dev.Device.ID, dev.Device.DeviceType)));
+                        sb.AppendLine(String.Format("[gpus.{0}]", deviceIDString(dev.Device.ID, dev.Device.DeviceType)));
                         sb.AppendLine("enabled = true");
                         sb.AppendLine(String.Format("label = \"{0}\"", dev.Device.Name));
                     }
@@ -245,7 +244,6 @@ namespace zPoolMiner.Miners
 
             return ProspectorPlatforms.IsInit;
         }
-
         protected void CleanAllOldLogs()
         {
             // clean old logs
@@ -270,10 +268,10 @@ namespace zPoolMiner.Miners
 
         private class HashrateApiResponse
         {
-            public string Coin { get; set; }
-            public string Device { get; set; }
-            public double Rate { get; set; }
-            public string Time { get; set; }
+            public string coin { get; set; }
+            public string device { get; set; }
+            public double rate { get; set; }
+            public string time { get; set; }
         }
 
         public override async Task<APIData> GetSummaryAsync()
@@ -304,9 +302,9 @@ namespace zPoolMiner.Miners
                 ad.Speed = 0;
                 foreach (var response in resp)
                 {
-                    if (response.Coin == MiningSetup.MinerName)
+                    if (response.coin == MiningSetup.MinerName)
                     {
-                        ad.Speed += response.Rate;
+                        ad.Speed += response.rate;
                         _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                     }
                 }
@@ -334,7 +332,7 @@ namespace zPoolMiner.Miners
         private string GetStartupCommand(string url, string btcAddress, string worker)
         {
             string username = GetUsername(btcAddress, worker);
-            PrepareConfigFile(url, username, worker);
+            prepareConfigFile(url, username, worker);
             return "--config " + GetConfigFileName();
         }
 
@@ -348,7 +346,6 @@ namespace zPoolMiner.Miners
             string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
             return GetStartupCommand(url, Globals.GetBitcoinUser(), ConfigManager.GeneralConfig.WorkerName.Trim());
         }
-
         private bool IsActiveProcess(int pid)
         {
             try
@@ -399,6 +396,7 @@ namespace zPoolMiner.Miners
                         || BenchmarkSignalTimedout
                         || BenchmarkException != null)
                     {
+
                         string imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillProspectorClaymoreMinerBase(imageName);
@@ -447,21 +445,21 @@ namespace zPoolMiner.Miners
                 }
 
                 var session = database.LastSession();
-                var sessionStart = Convert.ToDateTime(session.Start);
+                var sessionStart = Convert.ToDateTime(session.start);
                 if (sessionStart < startTime)
                 {
                     throw new Exception("Session not recorded!");
                 }
 
-                var hashrates = database.QuerySpeedsForSession(session.Id);
+                var hashrates = database.QuerySpeedsForSession(session.id);
 
                 double speed = 0;
                 int speedRead = 0;
                 foreach (var hashrate in hashrates)
                 {
-                    if (hashrate.Coin == MiningSetup.MinerName && hashrate.Rate > 0)
+                    if (hashrate.coin == MiningSetup.MinerName && hashrate.rate > 0)
                     {
-                        speed += hashrate.Rate;
+                        speed += hashrate.rate;
                         speedRead++;
                     }
                 }
@@ -483,7 +481,6 @@ namespace zPoolMiner.Miners
             Helpers.ConsolePrint("BENCHMARK", outdata);
             return false;
         }
-
-        #endregion Benchmark
+        #endregion Benchmarking
     }
 }

@@ -83,7 +83,7 @@ namespace zPoolMiner.Miners.Parsing
                     new MinerOption("AutoGpu", "", "--auto-gpu", null, MinerOptionFlagType.Uni, "")
                 }
             ),
-            new MinerOptionPackage(
+            /*new MinerOptionPackage(
                  MinerType.mkxminer,
                  new List<MinerOption>() {
                      // SingleParam
@@ -104,7 +104,7 @@ namespace zPoolMiner.Miners.Parsing
                      new MinerOption("AutoFan", "", "--auto-fan", null, MinerOptionFlagType.Uni, ""),
                      new MinerOption("AutoGpu", "", "--auto-gpu", null, MinerOptionFlagType.Uni, "")
                  }
-             ),
+             ),*/
             new MinerOptionPackage(
                  MinerType.glg,
                  new List<MinerOption>() {

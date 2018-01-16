@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Parsing;
+  using System.Diagnostics;
+  using System.Globalization;
+  using zPoolMiner.Configs;
+  using zPoolMiner.Devices;
+  using zPoolMiner.Enums;
+ using zPoolMiner.Miners.Grouping;
+  using zPoolMiner.Miners.Parsing;
+  using System.Threading;
+  using System.Threading.Tasks;
 
 namespace zPoolMiner.Miners
 {

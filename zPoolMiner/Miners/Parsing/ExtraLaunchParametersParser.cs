@@ -283,10 +283,10 @@ namespace zPoolMiner.Miners.Parsing
             {
                 return MinerType.glg;
             }
-            if (MinerBaseType.mkxminer == minerBaseType)
+            /*if (MinerBaseType.mkxminer == minerBaseType)
             {
                 return MinerType.mkxminer;
-            }
+            }*/
             if (MinerBaseType.ccminer == minerBaseType || MinerBaseType.ccminer_alexis == minerBaseType || MinerBaseType.ccminer_22 == minerBaseType || MinerBaseType.ccminer_alexis_hsr == minerBaseType || MinerBaseType.ccminer_alexis78 == minerBaseType || MinerBaseType.ccminer_klaust818 == minerBaseType || MinerBaseType.ccminer_polytimos == minerBaseType || MinerBaseType.ccminer_xevan == minerBaseType || MinerBaseType.ccminer_palgin == minerBaseType || MinerBaseType.ccminer_skunkkrnlx == minerBaseType || MinerBaseType.ccminer_tpruvot2 == minerBaseType || MinerBaseType.experimental == minerBaseType)
             {
                 if (AlgorithmType.CryptoNight == algorithmType)

@@ -22,7 +22,7 @@ namespace zPoolMiner.Devices
                         {
                             var sgminerAlgos = algoSettings[MinerBaseType.sgminer];
                             int Lyra2REv2_Index = sgminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.Lyra2REv2);
-                            int NeoScrypt_Index = sgminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.NeoScrypt);
+                            //int NeoScrypt_Index = sgminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.NeoScrypt);
                             int CryptoNight_Index = sgminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.CryptoNight);
 
                             // Check for optimized version
@@ -30,11 +30,11 @@ namespace zPoolMiner.Devices
                             {
                                 sgminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--nfactor 10 --xintensity 64 --thread-concurrency 0 --worksize 64 --gpu-threads 2";
                             }
-                            if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
-                            {
-                                sgminerAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
-                                Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
-                            }
+                            //if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
+                            //{
+                            //    sgminerAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
+                            //    Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
+                            //}
                             if (CryptoNight_Index > -1)
                             {
                                 if (device.Codename.Contains("Hawaii"))
@@ -53,6 +53,7 @@ namespace zPoolMiner.Devices
                             int Lyra2REv2_Index = glgAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.Lyra2REv2);
                             int NeoScrypt_Index = glgAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.NeoScrypt);
                             int CryptoNight_Index = glgAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.CryptoNight);
+
 
                             // Check for optimized version
                             if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
@@ -89,11 +90,11 @@ namespace zPoolMiner.Devices
                                     glgAlgos[CryptoNight_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + " --rawintensity 1850 -w 8 -g 2";
                                 }
                             }
-                        }
-                        // Ellesmere, Polaris
-                        // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
-                        if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
-                        {
+                            }
+                            // Ellesmere, Polaris
+                            // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
+                             if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
+                            {
                             foreach (var algosInMiner in algoSettings)
                             {
                                 foreach (var algo in algosInMiner.Value)
@@ -161,6 +162,7 @@ namespace zPoolMiner.Devices
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
                         }
+                        /*
                         if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
                         {
                             var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
@@ -195,7 +197,7 @@ namespace zPoolMiner.Devices
                                     mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "-I 23";
                                 }
                             }
-                        }
+                        } */
 
                         // disable by default
                         {
@@ -314,7 +316,7 @@ namespace zPoolMiner.Devices
                 return new Dictionary<MinerBaseType, List<Algorithm>>() {
                     { MinerBaseType.sgminer,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = DefaultParam + "--nfactor 10 --xintensity  160 --thread-concurrency    0 --worksize  64 --gpu-threads 1" },
                             // not on zPool
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.DaggerHashimoto, "ethash") { ExtraLaunchParameters = RemDis + "--xintensity 512 -w 192 -g 1" },
@@ -323,29 +325,42 @@ namespace zPoolMiner.Devices
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.CryptoNight, "cryptonight") { ExtraLaunchParameters = DefaultParam + "--rawintensity 512 -w 4 -g 2" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 19 -w 128 -g 2" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 15" }
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 15" },
+                            //Cryptominer937 Additions                            
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Skein, "skeincoin") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 256 --intensity d" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Blake2s, "sia") { ExtraLaunchParameters = DefaultParam + "--intensity d" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Phi, "phi") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Veltor, "veltor") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Tribus, "tribus") { ExtraLaunchParameters = DefaultParam + "--shaders 1792 --lookup-gap 4 --intensity 19" },
+                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Xevan, "xevan") { ExtraLaunchParameters = DefaultParam + "--intensity 19" }
+
                         }
                     },
 
                     { MinerBaseType.GatelessGate,
                          new List<Algorithm>() {
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1" },
-                           //  new Algorithm(MinerBaseType.glg, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = DefaultParam + "--nfactor 10 --xintensity  160 --thread-concurrency    0 --worksize  64 --gpu-threads 2" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity d --worksize  256 --gpu-threads 1" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 6 --worksize 128 --intensity d" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Equihash, "equihash"){ ExtraLaunchParameters = RemDis + "--xintensity 512 --worksize 256 --gpu-threads 2" },
                            //  new Algorithm(MinerBaseType.glg, AlgorithmType.DaggerHashimoto, "ethash") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 -w 192 -g 1" },
                            //  new Algorithm(MinerBaseType.glg, AlgorithmType.Decred, "decred") { ExtraLaunchParameters = RemDis + "--gpu-threads 1 --xintensity 256 --lookup-gap 2 --worksize 64" },
                            //  new Algorithm(MinerBaseType.glg, AlgorithmType.Lbry, "lbry") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 --worksize 128 --gpu-threads 2" },
                            //  new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.CryptoNight, "cryptonight") { ExtraLaunchParameters = DefaultParam + "--rawintensity 512 -w 8 -g 2" },
                            //  new Algorithm(MinerBaseType.glg, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
-                           //  new Algorithm(MinerBaseType.glg, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 16 -w 64 -g 2" },
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 12 --gpu-threads 2" }
+                             //new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 16 -w 64 -g 2" },
+                             //new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Skein, "skein") { ExtraLaunchParameters = DefaultParam + "--intensity d --gpu-threads 2" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity d --gpu-threads 2" }
                          }
                      },
-                    { MinerBaseType.mkxminer,
+                    /*{ MinerBaseType.mkxminer,
                          new List<Algorithm>() {
                             new Algorithm(MinerBaseType.mkxminer, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = "--exitsick -I 23" }
                          }
-                     },
+                     },*/
                     { MinerBaseType.Claymore,
                         new List<Algorithm>() {
                             //new Algorithm(MinerBaseType.Claymore, AlgorithmType.CryptoNight, "cryptonight"),

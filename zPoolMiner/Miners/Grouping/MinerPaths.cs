@@ -98,8 +98,13 @@ namespace zPoolMiner.Miners.Grouping
             /// sgminers
             /// </summary>
             public const string sgminer_5_6_0_general = _bin + @"\sgminer-5-6-0-general\sgminer.exe";
-
             public const string sgminer_gm = _bin + @"\sgminer-gm\sgminer.exe";
+            public const string sgminer_HSR = _bin + @"\sgminer-HSR\sgminer.exe";
+            public const string sgminer_Phi = _bin + @"\sgminer-Phi\sgminer.exe";
+            public const string sgminer_Bitcore = _bin + @"\sgminer-Bitcore\sgminer.exe";
+            public const string sgminer_Skein = _bin + @"\sgminer-Skein\sgminer.exe";
+            public const string sgminer_Tribus = _bin + @"\sgminer-Tribus\sgminer.exe";
+            public const string sgminer_Xevan = _bin + @"\sgminer-Xevan\sgminer.exe";
             public const string glg = _bin + @"\glg\gatelessgate.exe";
             public const string nheqminer = _bin + @"\nheqminer_v0.4b\nheqminer.exe";
             public const string excavator = _bin + @"\excavator\excavator.exe";
@@ -233,8 +238,8 @@ namespace zPoolMiner.Miners.Grouping
                 case MinerBaseType.hsrneoscrypt:
                     return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
 
-                case MinerBaseType.mkxminer:
-                    return Data.mkxminer;
+                //case MinerBaseType.mkxminer:
+                    //return Data.mkxminer;
             }
             return Data.NONE;
         }
@@ -429,13 +434,38 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.sgminer_gm;
                 }
+                if (AlgorithmType.Skein == type)
+                {
+                    return Data.sgminer_Skein;
+                }
+                if (AlgorithmType.Bitcore == type)
+                {
+                    return Data.sgminer_Bitcore;
+                }
+                if (AlgorithmType.Hsr == type)
+                {
+                    return Data.sgminer_HSR;
+                }
+                if (AlgorithmType.Phi == type)
+                {
+                    return Data.sgminer_Phi;
+                }
+                if (AlgorithmType.Tribus == type || AlgorithmType.Veltor == type)
+                {
+                    return Data.sgminer_Tribus;
+                }
+                if (AlgorithmType.Xevan == type)
+                {
+                    return Data.sgminer_Xevan;
+                }
+
                 return Data.sgminer_5_6_0_general;
             }
 
             public static string Glg_path(AlgorithmType type)
             {
                 // AlgorithmType.Pascal == type || AlgorithmType.DaggerHashimoto == type || AlgorithmType.Decred == type || AlgorithmType.Lbry == type || AlgorithmType.X11Gost == type || AlgorithmType.DaggerHashimoto == type
-                if (AlgorithmType.CryptoNight == type || AlgorithmType.Equihash == type || AlgorithmType.NeoScrypt == type || AlgorithmType.Keccak == type)
+                if (AlgorithmType.CryptoNight == type || AlgorithmType.Equihash == type || AlgorithmType.NeoScrypt == type || AlgorithmType.Lyra2REv2 == type  || AlgorithmType.Myriad_groestl == type  || AlgorithmType.Keccak == type)
                 {
                     return Data.glg;
                 }
