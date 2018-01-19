@@ -83,7 +83,7 @@ namespace zPoolMiner.Miners.Parsing
                     new MinerOption("AutoGpu", "", "--auto-gpu", null, MinerOptionFlagType.Uni, "")
                 }
             ),
-            /*new MinerOptionPackage(
+           /* new MinerOptionPackage(
                  MinerType.mkxminer,
                  new List<MinerOption>() {
                      // SingleParam
@@ -92,6 +92,7 @@ namespace zPoolMiner.Miners.Parsing
                      // MultiParam TODO IMPORTANT check defaults
                      new MinerOption("GPUclock" , "", "--engine", "-1", MinerOptionFlagType.MultiParam, ","),
                      new MinerOption("Memclock" , "", "--memclock", "-1", MinerOptionFlagType.MultiParam, ","),
+                     new MinerOption("Intensity", "-I", "--intensity", "d", MinerOptionFlagType.MultiParam, ","), // default is "d" check if -1 works
                      new MinerOption("Powertune", "", "--powertune", "-1", MinerOptionFlagType.MultiParam, ","),
                      new MinerOption("GPUvoltage", "", "--vddc", "-1", MinerOptionFlagType.MultiParam, ","), // default none
                  },

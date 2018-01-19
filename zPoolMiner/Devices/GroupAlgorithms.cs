@@ -162,8 +162,8 @@ namespace zPoolMiner.Devices
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
                         }
-                        /*
-                        if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
+                        
+                        /*if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
                         {
                             var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
                             int Lyra2REv2_Index = mkxminerAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.Lyra2REv2);

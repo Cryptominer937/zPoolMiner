@@ -557,7 +557,6 @@ namespace zPoolMiner
             switch (s)
             {
                 case "decred":
-                case "bitcore":
                 case "blakecoin":
                 case "blake2s":
                 case "keccak":

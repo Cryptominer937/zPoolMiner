@@ -10,7 +10,7 @@ namespace zPoolMiner
         {
             try
             {
-                if (address.Length < 26 || address.Length > 35) return false;
+                if (address.Length < 1 || address.Length > 50) return false;
                 var decoded = DecodeBase58(address);
                 var d1 = Hash(SubArray(decoded, 0, 21));
                 var d2 = Hash(d1);

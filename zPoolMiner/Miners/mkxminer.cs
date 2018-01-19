@@ -13,6 +13,7 @@ namespace zPoolMiner.Miners
     internal class Mkxminer : Miner
     {
         private int benchmarkTimeWait = 11 * 60;
+
         private readonly int GPUPlatformNumber;
 
         public Mkxminer() : base("mkxminer_AMD")
@@ -20,25 +21,27 @@ namespace zPoolMiner.Miners
         {
             GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
             IsKillAllUsedMinerProcs = true;
+            IsNeverHideMiningWindow = true;
         }
 
         private bool BenchmarkException
         {
             get
             {
-                return MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt;
+                return MiningSetup.MinerPath == MinerPaths.Data.mkxminer;
             }
         }
 
         protected override int GET_MAX_CooldownTimeInMilliseconds()
         {
-            if (this.MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt)
+            if (this.MiningSetup.MinerPath == MinerPaths.Data.mkxminer)
             {
                 return 60 * 1000 * 11; // wait wait for hashrate string
             }
             return 660 * 1000; // 11 minute max
         }
 
+      
         public override void Start(string url, string btcAdress, string worker)
         {
             if (!IsInit)
@@ -48,17 +51,14 @@ namespace zPoolMiner.Miners
             }
             string username = GetUsername(btcAdress, worker);
 
-            LastCommandLine = " --url=" + url +
-                                 " --user=" + btcAdress +
+            LastCommandLine = " --url " + url +
+                                 " --user " + btcAdress +
                          " -p " + worker + "-I 23 " +
                                  ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                MiningSetup,
                                                                DeviceType.AMD) +
-                                 " --devices ";
+                                 " --device ";
             LastCommandLine += GetDevicesCommandString();
-
-            LastCommandLine += GetDevicesCommandString();
-
             ProcessHandle = _Start();
         }
 
@@ -71,6 +71,7 @@ namespace zPoolMiner.Miners
 
         #region Decoupled benchmarking routines
 
+
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
             string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
@@ -80,13 +81,11 @@ namespace zPoolMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
 
-            string CommandLine = " --url=" + url +
-                                  " --user=" + Globals.DemoUser +
-                          " -p Benchmark -I 23" +
+            string CommandLine = " --url " + url + " --user " + Globals.DemoUser + " -p Benchmark -I 23" +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.AMD) +
-                                  " --devices ";
+                                  " --device ";
             CommandLine += GetDevicesCommandString();
 
             Helpers.ConsolePrint(MinerTAG(), CommandLine);
@@ -95,6 +94,7 @@ namespace zPoolMiner.Miners
         }
 
         protected override bool BenchmarkParseLine(string outdata)
+
         {
             Helpers.ConsolePrint(MinerTAG(), outdata);
             if (BenchmarkException)
@@ -112,7 +112,7 @@ namespace zPoolMiner.Miners
                     // save speed
                     //       int i = outdata.IndexOf("Benchmark:");
                     //       int k = outdata.IndexOf("/s");
-                    string hashspeed = outdata.Substring(st + 9, end - st - 9);
+                    string hashspeed = outdata.Substring(st + 6, end - st - 6);
                     /*
                     int b = hashspeed.IndexOf(" ");
                        if (hashspeed.Contains("k"))
@@ -153,7 +153,7 @@ namespace zPoolMiner.Miners
                 if (ProcessHandle == null)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer Proccess is null");
+                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer Proccess is null");
                     return null;
                 }
                 try
@@ -163,24 +163,24 @@ namespace zPoolMiner.Miners
                 catch (ArgumentException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
                 catch (InvalidOperationException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
 
                 var totalSpeed = 0.0d;
                 foreach (var miningPair in MiningSetup.MiningPairs)
                 {
-                    var algo = miningPair.Device.GetAlgorithm(MinerBaseType.hsrneoscrypt, AlgorithmType.NeoScrypt, AlgorithmType.NONE);
+                    var algo = miningPair.Device.GetAlgorithm(MinerBaseType.mkxminer, AlgorithmType.Lyra2REv2, AlgorithmType.NONE);
                     if (algo != null)
                     {
                         totalSpeed += algo.BenchmarkSpeed;
-                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer. Used benchmark hashrate");
+                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer. Used benchmark hashrate");
                     }
                 }
 
@@ -188,7 +188,7 @@ namespace zPoolMiner.Miners
                 return mkxminerData;
             }
 
-            //  return await GetSummaryCPU_hsrneoscryptAsync();
+            //  return await GetSummaryCPU_mkxminerAsync();
             return mkxminerData;
         }
     }
