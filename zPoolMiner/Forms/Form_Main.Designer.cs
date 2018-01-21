@@ -156,9 +156,9 @@
             this.toolStripStatusLabelBalanceDollarValue,
             this.toolStripStatusLabel10,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 419);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 422);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(760, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(762, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -388,7 +388,7 @@
             this.groupBox1.AutoSize = true;
             this.groupBox1.Controls.Add(this.flowLayoutPanelRates);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox1.Location = new System.Drawing.Point(12, 308);
+            this.groupBox1.Location = new System.Drawing.Point(12, 311);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(567, 116);
             this.groupBox1.TabIndex = 108;
@@ -441,9 +441,9 @@
             this.panel1.Controls.Add(this.buttonStopMining);
             this.panel1.Controls.Add(this.buttonSettings);
             this.panel1.Controls.Add(this.buttonStartMining);
-            this.panel1.Location = new System.Drawing.Point(590, -1);
+            this.panel1.Location = new System.Drawing.Point(592, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(166, 437);
+            this.panel1.Size = new System.Drawing.Size(166, 440);
             this.panel1.TabIndex = 111;
             // 
             // panel6
@@ -493,7 +493,7 @@
             this.panel5.Margin = new System.Windows.Forms.Padding(5);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(4);
-            this.panel5.Size = new System.Drawing.Size(354, 228);
+            this.panel5.Size = new System.Drawing.Size(356, 231);
             this.panel5.TabIndex = 113;
             // 
             // devicesListViewEnableControl1
@@ -511,7 +511,7 @@
             this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
             this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(352, 222);
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(354, 225);
             this.devicesListViewEnableControl1.TabIndex = 109;
             // 
             // richTextBox1
@@ -524,7 +524,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(12, 91);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(203, 206);
+            this.richTextBox1.Size = new System.Drawing.Size(203, 209);
             this.richTextBox1.TabIndex = 114;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -545,7 +545,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(760, 441);
+            this.ClientSize = new System.Drawing.Size(762, 444);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel5);
