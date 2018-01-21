@@ -156,9 +156,9 @@
             this.toolStripStatusLabelBalanceDollarValue,
             this.toolStripStatusLabel10,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 412);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 419);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(743, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(760, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -251,6 +251,7 @@
             // 
             // linkLabelCheckStats
             // 
+            this.linkLabelCheckStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelCheckStats.AutoSize = true;
             this.linkLabelCheckStats.Location = new System.Drawing.Point(15, 24);
             this.linkLabelCheckStats.Name = "linkLabelCheckStats";
@@ -280,6 +281,7 @@
             // 
             // buttonStopMining
             // 
+            this.buttonStopMining.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonStopMining.Enabled = false;
             this.buttonStopMining.Location = new System.Drawing.Point(3, 195);
             this.buttonStopMining.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -304,6 +306,7 @@
             // 
             // buttonSettings
             // 
+            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSettings.Location = new System.Drawing.Point(3, 258);
             this.buttonSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonSettings.Name = "buttonSettings";
@@ -360,13 +363,15 @@
             // 
             // flowLayoutPanelRates
             // 
+            this.flowLayoutPanelRates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelRates.AutoScroll = true;
             this.flowLayoutPanelRates.Controls.Add(this.panel2);
-            this.flowLayoutPanelRates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelRates.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelRates.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanelRates.Name = "flowLayoutPanelRates";
-            this.flowLayoutPanelRates.Size = new System.Drawing.Size(545, 79);
+            this.flowLayoutPanelRates.Size = new System.Drawing.Size(543, 79);
             this.flowLayoutPanelRates.TabIndex = 107;
             this.flowLayoutPanelRates.WrapContents = false;
             // 
@@ -379,11 +384,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.AutoSize = true;
             this.groupBox1.Controls.Add(this.flowLayoutPanelRates);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox1.Location = new System.Drawing.Point(12, 310);
+            this.groupBox1.Location = new System.Drawing.Point(12, 308);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(551, 99);
+            this.groupBox1.Size = new System.Drawing.Size(567, 116);
             this.groupBox1.TabIndex = 108;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Group/Device Rates:";
@@ -399,21 +406,9 @@
             this.label_NotProfitable.TabIndex = 110;
             this.label_NotProfitable.Text = "CURRENTLY MINING NOT PROFITABLE.";
             // 
-            // devicesListViewEnableControl1
-            // 
-            this.devicesListViewEnableControl1.BenchmarkCalculation = null;
-            this.devicesListViewEnableControl1.FirstColumnText = "Enabled";
-            this.devicesListViewEnableControl1.IsInBenchmark = false;
-            this.devicesListViewEnableControl1.IsMining = false;
-            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(11, 109);
-            this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
-            this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(435, 129);
-            this.devicesListViewEnableControl1.TabIndex = 109;
-            // 
             // buttonHelp
             // 
+            this.buttonHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonHelp.Location = new System.Drawing.Point(115, 387);
             this.buttonHelp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonHelp.Name = "buttonHelp";
@@ -435,6 +430,8 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.panel6);
@@ -444,9 +441,9 @@
             this.panel1.Controls.Add(this.buttonStopMining);
             this.panel1.Controls.Add(this.buttonSettings);
             this.panel1.Controls.Add(this.buttonStartMining);
-            this.panel1.Location = new System.Drawing.Point(581, -1);
+            this.panel1.Location = new System.Drawing.Point(590, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(166, 435);
+            this.panel1.Size = new System.Drawing.Size(166, 437);
             this.panel1.TabIndex = 111;
             // 
             // panel6
@@ -460,6 +457,7 @@
             // 
             // panel4
             // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel4.Controls.Add(this.linkLabelCheckStats);
             this.panel4.Location = new System.Drawing.Point(4, 319);
@@ -483,6 +481,10 @@
             // 
             // panel5
             // 
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.AutoSize = true;
             this.panel5.BackColor = System.Drawing.Color.Black;
             this.panel5.Controls.Add(this.label_NotProfitable);
             this.panel5.Controls.Add(this.labelDemoMode);
@@ -491,11 +493,15 @@
             this.panel5.Margin = new System.Windows.Forms.Padding(5);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(4);
-            this.panel5.Size = new System.Drawing.Size(340, 230);
+            this.panel5.Size = new System.Drawing.Size(354, 228);
             this.panel5.TabIndex = 113;
             // 
             // devicesListViewEnableControl1
             // 
+            this.devicesListViewEnableControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.devicesListViewEnableControl1.AutoSize = true;
             this.devicesListViewEnableControl1.BenchmarkCalculation = null;
             this.devicesListViewEnableControl1.FirstColumnText = "Enabled";
             this.devicesListViewEnableControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
@@ -505,11 +511,13 @@
             this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
             this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(332, 220);
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(352, 222);
             this.devicesListViewEnableControl1.TabIndex = 109;
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.richTextBox1.Font = new System.Drawing.Font("Franklin Gothic Medium", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
@@ -537,7 +545,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(743, 434);
+            this.ClientSize = new System.Drawing.Size(760, 441);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel5);
