@@ -1100,5 +1100,7 @@ namespace zPoolMiner
 
             UpdateGlobalRate();
         }
+
+        
     }
 }

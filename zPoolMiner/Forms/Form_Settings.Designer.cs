@@ -1002,12 +1002,12 @@
             this.comboBox_ServiceLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_ServiceLocation.FormattingEnabled = true;
             this.comboBox_ServiceLocation.Items.AddRange(new object[] {
-            "Europe - Amsterdam",
-            "USA - San Jose",
-            "China - Hong Kong",
-            "Japan - Tokyo",
-            "India - Chennai",
-            "Brazil - Sao Paulo"});
+            "Zpool",
+            "Coming Soon",
+            "Coming Soon",
+            "Coming Soon",
+            "Coming Soon",
+            "Coming Soon"});
             this.comboBox_ServiceLocation.Location = new System.Drawing.Point(160, 80);
             this.comboBox_ServiceLocation.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_ServiceLocation.Name = "comboBox_ServiceLocation";
@@ -1127,8 +1127,7 @@
             "SGD",
             "THB",
             "TWD",
-            "USD",
-            "ZAR"});
+            "USD"});
             this.currencyConverterCombobox.Location = new System.Drawing.Point(212, 36);
             this.currencyConverterCombobox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.currencyConverterCombobox.Name = "currencyConverterCombobox";

@@ -126,4 +126,16 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>286, 17</value>
   </metadata>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>1. Enter your wallet address.
+2. Set your Worker Name
+     *c=&lt;SYMBOL&gt; example c=BTC
+3. Start Benchmarking
+     *For AMD this will take some time
+4. Click Start and Happy Mining
+
+
+Report Issues at
+https://goo.gl/gpRtdM</value>
+  </data>
 </root>

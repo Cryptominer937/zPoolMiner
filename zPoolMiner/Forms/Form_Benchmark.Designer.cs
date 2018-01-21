@@ -39,19 +39,21 @@
             // 
             // StartStopBtn
             // 
-            this.StartStopBtn.Location = new System.Drawing.Point(436, 711);
+            this.StartStopBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartStopBtn.Location = new System.Drawing.Point(463, 293);
             this.StartStopBtn.Name = "StartStopBtn";
-            this.StartStopBtn.Size = new System.Drawing.Size(75, 23);
-            this.StartStopBtn.TabIndex = 100;
+            this.StartStopBtn.Size = new System.Drawing.Size(96, 82);
+            this.StartStopBtn.TabIndex = 101;
             this.StartStopBtn.Text = "&Start";
             this.StartStopBtn.UseVisualStyleBackColor = true;
             this.StartStopBtn.Click += new System.EventHandler(this.StartStopBtn_Click);
             // 
             // CloseBtn
             // 
-            this.CloseBtn.Location = new System.Drawing.Point(517, 711);
+            this.CloseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseBtn.Location = new System.Drawing.Point(463, 424);
             this.CloseBtn.Name = "CloseBtn";
-            this.CloseBtn.Size = new System.Drawing.Size(75, 23);
+            this.CloseBtn.Size = new System.Drawing.Size(96, 82);
             this.CloseBtn.TabIndex = 101;
             this.CloseBtn.Text = "&Close";
             this.CloseBtn.UseVisualStyleBackColor = true;
@@ -59,11 +61,14 @@
             // 
             // groupBoxBenchmarkProgress
             // 
+            this.groupBoxBenchmarkProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxBenchmarkProgress.Controls.Add(this.labelBenchmarkSteps);
             this.groupBoxBenchmarkProgress.Controls.Add(this.progressBarBenchmarkSteps);
-            this.groupBoxBenchmarkProgress.Location = new System.Drawing.Point(12, 687);
+            this.groupBoxBenchmarkProgress.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBoxBenchmarkProgress.Location = new System.Drawing.Point(12, 232);
             this.groupBoxBenchmarkProgress.Name = "groupBoxBenchmarkProgress";
-            this.groupBoxBenchmarkProgress.Size = new System.Drawing.Size(418, 47);
+            this.groupBoxBenchmarkProgress.Size = new System.Drawing.Size(546, 47);
             this.groupBoxBenchmarkProgress.TabIndex = 108;
             this.groupBoxBenchmarkProgress.TabStop = false;
             this.groupBoxBenchmarkProgress.Text = "Benchmark progress status:";
@@ -71,6 +76,7 @@
             // labelBenchmarkSteps
             // 
             this.labelBenchmarkSteps.AutoSize = true;
+            this.labelBenchmarkSteps.ForeColor = System.Drawing.SystemColors.Control;
             this.labelBenchmarkSteps.Location = new System.Drawing.Point(6, 24);
             this.labelBenchmarkSteps.Name = "labelBenchmarkSteps";
             this.labelBenchmarkSteps.Size = new System.Drawing.Size(116, 13);
@@ -79,16 +85,21 @@
             // 
             // progressBarBenchmarkSteps
             // 
+            this.progressBarBenchmarkSteps.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarBenchmarkSteps.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.progressBarBenchmarkSteps.Location = new System.Drawing.Point(162, 16);
             this.progressBarBenchmarkSteps.Name = "progressBarBenchmarkSteps";
-            this.progressBarBenchmarkSteps.Size = new System.Drawing.Size(161, 23);
+            this.progressBarBenchmarkSteps.Size = new System.Drawing.Size(340, 23);
             this.progressBarBenchmarkSteps.TabIndex = 108;
             // 
             // radioButton_SelectedUnbenchmarked
             // 
+            this.radioButton_SelectedUnbenchmarked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioButton_SelectedUnbenchmarked.AutoSize = true;
             this.radioButton_SelectedUnbenchmarked.Checked = true;
-            this.radioButton_SelectedUnbenchmarked.Location = new System.Drawing.Point(12, 640);
+            this.radioButton_SelectedUnbenchmarked.ForeColor = System.Drawing.SystemColors.Control;
+            this.radioButton_SelectedUnbenchmarked.Location = new System.Drawing.Point(12, 474);
             this.radioButton_SelectedUnbenchmarked.Name = "radioButton_SelectedUnbenchmarked";
             this.radioButton_SelectedUnbenchmarked.Size = new System.Drawing.Size(260, 17);
             this.radioButton_SelectedUnbenchmarked.TabIndex = 110;
@@ -99,8 +110,10 @@
             // 
             // radioButton_RE_SelectedUnbenchmarked
             // 
+            this.radioButton_RE_SelectedUnbenchmarked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioButton_RE_SelectedUnbenchmarked.AutoSize = true;
-            this.radioButton_RE_SelectedUnbenchmarked.Location = new System.Drawing.Point(12, 663);
+            this.radioButton_RE_SelectedUnbenchmarked.ForeColor = System.Drawing.SystemColors.Control;
+            this.radioButton_RE_SelectedUnbenchmarked.Location = new System.Drawing.Point(12, 497);
             this.radioButton_RE_SelectedUnbenchmarked.Name = "radioButton_RE_SelectedUnbenchmarked";
             this.radioButton_RE_SelectedUnbenchmarked.Size = new System.Drawing.Size(192, 17);
             this.radioButton_RE_SelectedUnbenchmarked.TabIndex = 110;
@@ -110,8 +123,10 @@
             // 
             // checkBox_StartMiningAfterBenchmark
             // 
+            this.checkBox_StartMiningAfterBenchmark.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_StartMiningAfterBenchmark.AutoSize = true;
-            this.checkBox_StartMiningAfterBenchmark.Location = new System.Drawing.Point(350, 664);
+            this.checkBox_StartMiningAfterBenchmark.ForeColor = System.Drawing.SystemColors.Control;
+            this.checkBox_StartMiningAfterBenchmark.Location = new System.Drawing.Point(302, 474);
             this.checkBox_StartMiningAfterBenchmark.Name = "checkBox_StartMiningAfterBenchmark";
             this.checkBox_StartMiningAfterBenchmark.Size = new System.Drawing.Size(161, 17);
             this.checkBox_StartMiningAfterBenchmark.TabIndex = 111;
@@ -121,39 +136,49 @@
             // 
             // algorithmsListView1
             // 
+            this.algorithmsListView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.algorithmsListView1.BenchmarkCalculation = null;
             this.algorithmsListView1.ComunicationInterface = null;
             this.algorithmsListView1.IsInBenchmark = false;
-            this.algorithmsListView1.Location = new System.Drawing.Point(12, 170);
+            this.algorithmsListView1.Location = new System.Drawing.Point(12, 12);
             this.algorithmsListView1.Name = "algorithmsListView1";
-            this.algorithmsListView1.Size = new System.Drawing.Size(580, 464);
+            this.algorithmsListView1.Size = new System.Drawing.Size(546, 217);
             this.algorithmsListView1.TabIndex = 109;
             this.algorithmsListView1.Load += new System.EventHandler(this.AlgorithmsListView1_Load);
             // 
             // benchmarkOptions1
             // 
-            this.benchmarkOptions1.Location = new System.Drawing.Point(394, 15);
+            this.benchmarkOptions1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.benchmarkOptions1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.benchmarkOptions1.ForeColor = System.Drawing.SystemColors.Control;
+            this.benchmarkOptions1.Location = new System.Drawing.Point(247, 315);
+            this.benchmarkOptions1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.benchmarkOptions1.Name = "benchmarkOptions1";
-            this.benchmarkOptions1.Size = new System.Drawing.Size(208, 112);
+            this.benchmarkOptions1.Size = new System.Drawing.Size(209, 116);
             this.benchmarkOptions1.TabIndex = 106;
             // 
             // devicesListViewEnableControl1
             // 
+            this.devicesListViewEnableControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.devicesListViewEnableControl1.BenchmarkCalculation = null;
             this.devicesListViewEnableControl1.FirstColumnText = "Benckmark";
             this.devicesListViewEnableControl1.IsInBenchmark = false;
             this.devicesListViewEnableControl1.IsMining = false;
-            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(12, 15);
+            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(13, 293);
+            this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
             this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(376, 149);
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(226, 171);
             this.devicesListViewEnableControl1.TabIndex = 0;
             // 
             // Form_Benchmark
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 746);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            this.ClientSize = new System.Drawing.Size(571, 517);
             this.Controls.Add(this.checkBox_StartMiningAfterBenchmark);
             this.Controls.Add(this.radioButton_RE_SelectedUnbenchmarked);
             this.Controls.Add(this.radioButton_SelectedUnbenchmarked);
@@ -163,7 +188,6 @@
             this.Controls.Add(this.StartStopBtn);
             this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.devicesListViewEnableControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form_Benchmark";

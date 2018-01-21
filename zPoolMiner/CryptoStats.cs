@@ -57,7 +57,7 @@ namespace zPoolMiner
 #pragma warning restore 649
 
         private const int deviceUpdateLaunchDelay = 20 * 1000;
-        private const int deviceUpdateInterval = 5 * 60 * 1000;
+        private const int deviceUpdateInterval = 60 * 1000;
 
         public static Dictionary<AlgorithmType, NiceHashSMA> AlgorithmRates { get; private set; }
         private static NiceHashData niceHashData;
@@ -405,7 +405,7 @@ namespace zPoolMiner
 
         #endregion Outgoing socket calls
 
-        public static string GetNiceHashAPIData(string URL, string worker)
+        public static string GetCryptominerAPIData(string URL, string worker)
         {
             string ResponseFromServer;
             try

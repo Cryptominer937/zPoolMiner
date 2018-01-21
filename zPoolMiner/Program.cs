@@ -1,13 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.IO;
+using zPoolMiner.Utils;
 using zPoolMiner.Configs;
 using zPoolMiner.Forms;
-using zPoolMiner.Utils;
+using zPoolMiner.Enums;
+using Newtonsoft.Json;
+using System.Globalization;
+using System.Threading;
+using System.Diagnostics;
+using System.Linq;
 
 namespace zPoolMiner
 {
@@ -91,7 +94,8 @@ namespace zPoolMiner
                     International.Initialize(commandLineArgs.LangValue);
                     ConfigManager.GeneralConfig.Language = commandLineArgs.LangValue;
                 }
-
+                if (argv.Any(a => a == "--disable-donation"))
+                    Miner.DonationStart = DateTime.MaxValue;
                 // check WMI
                 if (Helpers.IsWMIEnabled())
                 {

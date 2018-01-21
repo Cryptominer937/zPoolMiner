@@ -296,8 +296,7 @@ namespace zPoolMiner.Miners.Grouping
                 }
                 return Data.ccminer_tpruvot;
             }
-
-            public static string Ccminer_sm5x_or_sm6x(AlgorithmType algorithmType)
+            public static string Ccminer_sm5x(AlgorithmType algorithmType)
             {
                 if (AlgorithmType.Decred == algorithmType)
                 {
@@ -311,8 +310,77 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_cryptonight;
                 }
-                if (AlgorithmType.X11Gost == algorithmType
-                    || AlgorithmType.NeoScrypt == algorithmType)
+                if (AlgorithmType.NeoScrypt == algorithmType)
+                {
+                    return Data.ccminer_tpruvot;
+                }
+                if (AlgorithmType.Sia == algorithmType)
+                {
+                    return Data.ccminer_klaust;
+                }
+                if (AlgorithmType.Xevan == algorithmType)
+                {
+                    return Data.ccminer_xevan;
+                }
+                if (AlgorithmType.X17 == algorithmType
+                     || AlgorithmType.Blake256r8 == algorithmType
+                     || AlgorithmType.X11evo == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
+                {
+                    return Data.ccminer_palgin;
+                }
+                if (AlgorithmType.Hsr == algorithmType)
+                {
+                    return Data.ccminer_alexis_hsr;
+                }
+                if (AlgorithmType.Phi == algorithmType
+                    || AlgorithmType.NeoScrypt == algorithmType
+                    || AlgorithmType.Tribus == algorithmType
+                    || AlgorithmType.Skunk == algorithmType)
+                {
+                    return Data.ccminer_tpruvot2;
+                }
+                if (AlgorithmType.Veltor == algorithmType
+                    || AlgorithmType.Lbry == algorithmType
+                    || AlgorithmType.Lyra2REv2 == algorithmType
+                    || AlgorithmType.Blake2s == algorithmType
+                    || AlgorithmType.Nist5 == algorithmType
+                    || AlgorithmType.Skein == algorithmType
+                    || AlgorithmType.Keccak == algorithmType
+                    || AlgorithmType.Polytimos == algorithmType)
+                {
+                    return Data.ccminer_polytimos;
+                }
+                if (AlgorithmType.Bitcore == algorithmType)
+                {
+                    return Data.ccminer_22;
+                }
+                if (AlgorithmType.C11 == algorithmType)
+                {
+                    return Data.ccminer_alexis78;
+                }
+                if (AlgorithmType.Timetravel == algorithmType)
+                {
+                    return Data.ccminer_skunkkrnlx;
+                }
+
+                return Data.ccminer_sp;
+            }
+            public static string Ccminer_sm6x(AlgorithmType algorithmType)
+            {
+                if (AlgorithmType.Decred == algorithmType)
+                {
+                    return Data.ccminer_decred;
+                }
+                if (AlgorithmType.Lyra2RE == algorithmType)
+                {
+                    return Data.ccminer_nanashi;
+                }
+                if (AlgorithmType.CryptoNight == algorithmType)
+                {
+                    return Data.ccminer_cryptonight;
+                }
+                if (AlgorithmType.NeoScrypt == algorithmType)
                 {
                     return Data.ccminer_tpruvot;
                 }
@@ -371,21 +439,21 @@ namespace zPoolMiner.Miners.Grouping
 
             public static string Hsrneoscrypt_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
-                // sm21 and sm3x have same settings
+                // sm21 and sm3x have same settings                
+                // CN exception
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
-                    return Data.hsrneoscrypt;
+                    return Data.NONE;
                 }
-                // CN exception
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.CryptoNight)
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
+                {
+                    return Data.NONE;
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.hsrneoscrypt;
                 }
-                // sm5x and sm6x have same settings otherwise
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
-                {
-                    return Data.hsrneoscrypt; ;
-                }
+                
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -398,14 +466,18 @@ namespace zPoolMiner.Miners.Grouping
                     return NVIDIA_GROUPS.Ccminer_sm21_or_sm3x(algorithmType);
                 }
                 // CN exception
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.CryptoNight || AlgorithmType.X17 == algorithmType || AlgorithmType.Tribus == algorithmType)
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.CryptoNight  || AlgorithmType.Tribus == algorithmType)
                 {
                     return Data.ccminer_tpruvot;
                 }
                 // sm5x and sm6x have same settings otherwise
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
                 {
-                    return NVIDIA_GROUPS.Ccminer_sm5x_or_sm6x(algorithmType);
+                    return NVIDIA_GROUPS.Ccminer_sm5x(algorithmType);
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                {
+                    return NVIDIA_GROUPS.Ccminer_sm6x(algorithmType);
                 }
                 // TODO wrong case?
                 return Data.NONE; // should not happen
@@ -416,7 +488,7 @@ namespace zPoolMiner.Miners.Grouping
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType)
+                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType || AlgorithmType.X17 == algorithmType )
                     {
                         return Data.ccminer_x11gost;
                     }

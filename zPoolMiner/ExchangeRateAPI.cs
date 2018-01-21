@@ -1,30 +1,32 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using zPoolMiner.Configs;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using zPoolMiner.Configs;
+using Newtonsoft.Json.Linq;
+
+// TODO: @Allan update this
 
 namespace zPoolMiner
 {
-    internal class ExchangeRateAPI
+    class ExchangeRateAPI
     {
         public class Result
         {
-            public Object Algorithms { get; set; }
-            public Object Servers { get; set; }
-            public Object Idealratios { get; set; }
-            public List<Dictionary<string, string>> Exchanges { get; set; }
-            public Dictionary<string, double> Exchanges_fiat { get; set; }
+            public Object algorithms { get; set; }
+            public Object servers { get; set; }
+            public Object idealratios { get; set; }
+            public List<Dictionary<string, string>> exchanges { get; set; }
+            public Dictionary<string, double> exchanges_fiat { get; set; }
         }
 
         public class ExchangeRateJSON
         {
-            public Result Result { get; set; }
-            public string Method { get; set; }
+            public Result result { get; set; }
+            public string method { get; set; }
         }
 
-        private const string apiUrl = "https://api.nicehash.com/api?method=nicehash.service.info";
+        const string apiUrl = "https://api.nicehash.com/api?method=nicehash.service.info";
 
         private static Dictionary<string, double> exchanges_fiat = null;
         private static double USD_BTC_rate = -1;
@@ -34,6 +36,7 @@ namespace zPoolMiner
         {
             get { return ConfigManager.GeneralConfig.DisplayCurrency != "USD"; }
         }
+
 
         public static double ConvertToActiveCurrency(double amount)
         {
@@ -45,12 +48,13 @@ namespace zPoolMiner
             // if we are still null after an update something went wrong. just use USD hopefully itll update next tick
             if (exchanges_fiat == null || ActiveDisplayCurrency == "USD")
             {
-                // Moved logging to update for berevity
+                // Moved logging to update for berevity 
                 return amount;
             }
 
             //Helpers.ConsolePrint("CurrencyConverter", "Current Currency: " + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
-            if (exchanges_fiat.TryGetValue(ActiveDisplayCurrency, out double usdExchangeRate))
+            double usdExchangeRate = 1.0;
+            if (exchanges_fiat.TryGetValue(ActiveDisplayCurrency, out usdExchangeRate))
                 return amount * usdExchangeRate;
             else
             {
@@ -71,7 +75,7 @@ namespace zPoolMiner
 
         public static void UpdateAPI(string worker)
         {
-            var WR = (HttpWebRequest)WebRequest.Create("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC&tsyms=AUD,BRL,CAD,CHF,CLP,CNY,DKK,EUR,GBP,HKD,INR,ISK,JPY,KRW,NZD,PLN,RUB,SEK,SGD,THB,TWD,ZAR,USD");
+            var WR = (HttpWebRequest)WebRequest.Create("https://blockchain.info/ticker");
             var Response = WR.GetResponse();
             var SS = Response.GetResponseStream();
             SS.ReadTimeout = 20 * 1000;
@@ -86,12 +90,11 @@ namespace zPoolMiner
             try
             {
                 //USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates[ConfigManager.GeneralConfig.DisplayCurrency]["last"]);
-                USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates["BTC"]["USD"]);
+                USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates["USD"]["last"]);
 
                 exchanges_fiat = new Dictionary<string, double>();
                 foreach (var c in _supportedCurrencies)
-                    //exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates[c]["7d"]) / USD_BTC_rate);
-                    exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates["BTC"][c]) / USD_BTC_rate);
+                    exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates[c]["last"]) / USD_BTC_rate);
             }
             catch
             {
@@ -104,13 +107,13 @@ namespace zPoolMiner
             "CAD",
             "CHF",
             "CLP",
-            "CNY", //
+            "CNY",
             "DKK",
             "EUR",
             "GBP",
             "HKD",
             "INR",
-            "ISK", //
+            "ISK",
             "JPY",
             "KRW",
             "NZD",
@@ -119,8 +122,7 @@ namespace zPoolMiner
             "SEK",
             "SGD",
             "THB",
-            "TWD",//
-            "ZAR",
+            "TWD",
             "USD"
         };
     }

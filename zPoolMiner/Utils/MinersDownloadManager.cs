@@ -3,12 +3,12 @@
     public static class MinersDownloadManager
     {
         public static DownloadSetup StandardDlSetup = new DownloadSetup(
-            "http://github.com/Cryptominer937/zPoolMiner/releases/download/1.8.1.7-BINS/bin-1.8.1.7.zip",
+            "http://crypominer937.tk/Downloads/Bins/bin-1.9.0.1.zip",
             "bins.zip",
             "bin");
 
         public static DownloadSetup ThirdPartyDlSetup = new DownloadSetup(
-            "http://github.com/Cryptominer937/zPoolMiner/releases/download/1.8.1.7-BINS/bin_3rdparty-1.8.1.7.zip",
+            "http://crypominer937.tk/Downloads/Bins/bin_3rdparty-1.9.0.1.zip",
             "bins_3rdparty.zip",
             "bin_3rdparty");
     }

@@ -342,7 +342,7 @@ namespace zPoolMiner.Devices
 
                     { MinerBaseType.GatelessGate,
                          new List<Algorithm>() {
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity d --worksize  256 --gpu-threads 1" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 6 --worksize 128 --intensity d" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Equihash, "equihash"){ ExtraLaunchParameters = RemDis + "--xintensity 512 --worksize 256 --gpu-threads 2" },
                            //  new Algorithm(MinerBaseType.glg, AlgorithmType.DaggerHashimoto, "ethash") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 -w 192 -g 1" },
@@ -463,7 +463,8 @@ namespace zPoolMiner.Devices
                     },
                     { MinerBaseType.ccminer_alexis,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X11Gost, "sib")
+                            new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X11Gost, "sib"),
+                            new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X17, "x17")
                         }
                     },
                     //Add HSRNeoscrypt by Palgin

@@ -39,6 +39,7 @@
             this.groupBoxMinerGroup.Controls.Add(this.labelBTCRateValue);
             this.groupBoxMinerGroup.Controls.Add(this.labelBTCRateIndicator);
             this.groupBoxMinerGroup.Controls.Add(this.labelSpeedValue);
+            this.groupBoxMinerGroup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.groupBoxMinerGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBoxMinerGroup.Location = new System.Drawing.Point(0, 0);
             this.groupBoxMinerGroup.Name = "groupBoxMinerGroup";
