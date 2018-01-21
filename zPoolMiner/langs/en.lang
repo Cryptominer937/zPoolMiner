@@ -27,14 +27,13 @@
     "Month": "Month",
     "Year": "Year",
     "Quick": "Quick",
-    "Standard": "Standard",
-    "Precise": "Precise",
+    "Standard": "Nvidia",
+    "Precise": "AMD + Mixed",
     "ListView_Enabled": "Enabled",
     "ListView_Group": "Group",
     "ListView_Device": "Device",
     "ListView_Algorithm": "Algorithm",
     "ListView_Speed": "Speed",
-
 
     "Form_Main_visit_us": "https://github.com/Cryptominer937/zPoolMiner/releases",
     "Form_Main_check_stats": "Check my stats online!",
@@ -79,7 +78,6 @@
     "Form_Main_msgbox_buttonBenchmarkRestartWarningMsg": "{0} will exit now. This new settings dialog is still in beta and {0} needs to restart to take effect.",
     "Form_Main_msgbox_anti_botnet_msgbox": "zPool Miner has detected change of the hardware ID. If you did not download and install zPool Miner, your computer may be compromised. In that case, we suggest you to install an antivirus program or reinstall Windows.\r\n\r\nContinue with zPool Miner?",
 
-
     "Form_Benchmark_title": "Benchmark",
     "Form_Benchmark_buttonStartBenchmark": "Start &benchmark",
     "Form_Benchmark_buttonStopBenchmark": "St&op benchmark",
@@ -88,27 +86,23 @@
     "Form_Benchmark_buttonCheckProfitability": "Check &profitability",
     "Form_Benchmark_buttonSubmitHardware": "Submit &hardware",
     "Form_Benchmark_radioButton_QuickBenchmark": "&Quick (can be inaccurate)",
-    "Form_Benchmark_radioButton_StandardBenchmark": "&Standard",
-    "Form_Benchmark_radioButton_PreciseBenchmark": "&Precise (will take longer)",
+    "Form_Benchmark_radioButton_StandardBenchmark": "&Nvidia",
+    "Form_Benchmark_radioButton_PreciseBenchmark": "&AMD + Mixed AMD/Nvidia",
     "Form_Benchmark_listView_WaitSeconds": "Please wait about {0} seconds...",
     "Form_Benchmark_listView_WaitMinutes": "Please wait about {0} minutes...",
     "Form_Benchmark_listView_WaitForEth": "Benchmarking (2-4 minutes)...",
 
-
     "Form_Loading_label_LoadingText": "Loading, please wait...",
-
 
     "DriverVersionConfirmationDialog_title": "Update AMD Driver Recommended",
     "DriverVersionConfirmationDialog_labelWarning": "You're not using the optimal AMD Driver version. The most stable driver for mining is the 15.7.1 version.\nWe strongly suggest you to use this driver version.",
     "DriverVersionConfirmationDialog_linkToDriverDownloadPage": "&Link to Driver Download Page",
     "DriverVersionConfirmationDialog_chkBoxDontShowAgain": "&Do not show this warning again",
 
-
     "MinerFileNotFoundDialog_title": "File not found!",
     "MinerFileNotFoundDialog_linkLabelError": "{0}: File {1} is not found!\n\nPlease make sure that the file is accessible and that your anti-virus is not blocking the application.\nPlease refer the section \"My anti-virus is blocking the application\" at the Troubleshooting section ({2}).\n\nA re-download of zPool Miner might be needed.",
     "MinerFileNotFoundDialog_link": "Link",
     "MinerFileNotFoundDialog_chkBoxDisableDetection": "&Disable detection of this device",
-
 
     "SubmitResultDialog_title": "Submit Benchmark Result",
     "SubmitResultDialog_labelInstruction": "Please select a device to be benchmarked and once it is done, it will automatially open a \r\nnew web page to display the profitability calculator on the website.",
@@ -123,7 +117,6 @@
     "SubmitResultDialog_NoDeviceCheckedMsg": "Please choose at least one device to submit the results.",
     "SubmitResultDialog_UsePreviousBenchmarkedValueTitle": "Use previously benchmarked values?",
     "SubmitResultDialog_UsePreviousBenchmarkedValueMsg": "You could use previously benchmarked values. Choose Yes to use previously benchmarked values or choose No to re-run the benchmark.",
-
 
     "Form_Settings_General_DebugConsole": "Debug Console",
     "Form_Settings_General_AutoStartMining": "Autostart Mining",

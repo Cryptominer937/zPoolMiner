@@ -55,5 +55,15 @@ namespace zPoolMiner.Forms
                 button_OK.Enabled = false;
             }
         }
+
+        private void textBox_TOS_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_Instruction_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

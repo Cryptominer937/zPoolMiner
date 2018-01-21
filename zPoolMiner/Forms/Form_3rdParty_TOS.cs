@@ -29,5 +29,10 @@ namespace zPoolMiner.Forms
             ConfigManager.GeneralConfig.Use3rdPartyMiners = Use3rdPartyMiners.NO;
             this.Close();
         }
+
+        private void label_Tos_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

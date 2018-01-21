@@ -39,10 +39,11 @@
             this.labelWarning.AutoSize = true;
             this.labelWarning.Location = new System.Drawing.Point(7, 10);
             this.labelWarning.Name = "labelWarning";
-            this.labelWarning.Size = new System.Drawing.Size(488, 30);
+            this.labelWarning.Size = new System.Drawing.Size(571, 30);
             this.labelWarning.TabIndex = 99;
             this.labelWarning.Text = "You\'re not using optimal AMD Driver version. Most stable driver for mining is the" +
-    " 15.7.1 version.\r\nWe strongly suggest you to use this driver version.";
+    " 17.30.1029 Blockchain version.\r\nWe strongly suggest you to use this driver vers" +
+    "ion.";
             this.labelWarning.UseCompatibleTextRendering = true;
             this.labelWarning.UseMnemonic = false;
             // 

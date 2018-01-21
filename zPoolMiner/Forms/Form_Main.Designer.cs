@@ -558,7 +558,7 @@
             this.Enabled = false;
             this.Font = new System.Drawing.Font("Franklin Gothic Medium", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(576, 316);
+            this.MinimumSize = new System.Drawing.Size(778, 483);
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ZpoolMiner";

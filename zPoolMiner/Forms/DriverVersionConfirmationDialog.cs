@@ -30,7 +30,7 @@ namespace zPoolMiner
 
         private void LinkToDriverDownloadPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://support.amd.com/en-us/download/desktop/legacy?product=legacy3&os=Windows+7+-+64");
+            System.Diagnostics.Process.Start("http://support.amd.com/en-us/kb-articles/Pages/Radeon-Software-Crimson-ReLive-Edition-Beta-for-Blockchain-Compute-Release-Notes.aspx");
         }
     }
 }
