@@ -193,6 +193,11 @@ namespace zPoolMiner.Forms.Components
             _currentlySelectedAlgorithm.ExtraLaunchParameters = ExtraLaunchParams;
         }
 
+        private void fieldBoxBenchmarkSpeed_Load(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion Callbacks Events
 
         //private void buttonBenchmark_Click(object sender, EventArgs e) {
