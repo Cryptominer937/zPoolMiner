@@ -81,7 +81,7 @@ namespace zPoolMiner.Configs.Data
         // normalization stuff
         public double IQROverFactor = 3.0;
 
-        public int NormalizedProfitHistory = 15;
+        public int NormalizedProfitHistory = 5;
         public double IQRNormalizeFactor = 0.0;
 
         public bool CoolDownCheckEnabled = true;
@@ -135,7 +135,7 @@ namespace zPoolMiner.Configs.Data
             AllowMultipleInstances = true;
             UseIFTTT = false;
             IQROverFactor = 3.0;
-            NormalizedProfitHistory = 15;
+            NormalizedProfitHistory = 5;
             IQRNormalizeFactor = 0.0;
             CoolDownCheckEnabled = true;
             RunScriptOnCUDA_GPU_Lost = false;
@@ -201,7 +201,7 @@ namespace zPoolMiner.Configs.Data
             }
             if (NormalizedProfitHistory < 0)
             {
-                NormalizedProfitHistory = 15;
+                NormalizedProfitHistory = 5;
             }
             if (IQRNormalizeFactor < 0)
             {
