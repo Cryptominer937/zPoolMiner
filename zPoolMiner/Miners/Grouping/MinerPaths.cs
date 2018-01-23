@@ -124,6 +124,7 @@ namespace zPoolMiner.Miners.Grouping
             public const string EWBF = _bin_3rdparty + @"\ewbf\miner.exe";
             public const string DSTM = _bin_3rdparty + @"\dstm\zm.exe";
             public const string hsrneoscrypt = _bin_3rdparty + @"\hsrminer_neoscrypt\hsrminer_neoscrypt.exe";
+            public const string hsrneoscrypt_hsr = _bin_3rdparty + @"\hsrminer_neoscrypt\hsrminer_hsr.exe";
             public const string prospector = _bin_3rdparty + @"\prospector\prospector.exe";
             public const string mkxminer = _bin_3rdparty + @"\mkxminer\mkxminer.exe";
         }
