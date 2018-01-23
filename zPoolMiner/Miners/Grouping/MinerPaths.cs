@@ -238,7 +238,9 @@ namespace zPoolMiner.Miners.Grouping
 
                 case MinerBaseType.hsrneoscrypt:
                     return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
-
+                    
+                case MinerBaseType.hsrneoscrypt_hsr:
+                    return NVIDIA_GROUPS.hsrneoscrypt_hsr_path(algoType, devGroupType);
                 //case MinerBaseType.mkxminer:
                     //return Data.mkxminer;
             }
