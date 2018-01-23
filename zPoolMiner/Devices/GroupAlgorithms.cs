@@ -473,7 +473,11 @@ namespace zPoolMiner.Devices
                              new Algorithm(MinerBaseType.hsrneoscrypt, AlgorithmType.NeoScrypt, "Neoscrypt"),
                          }
                      },
-
+                    { MinerBaseType.hsrneoscrypt_hsr,
+                         new List<Algorithm>() {
+                             new Algorithm(MinerBaseType.hsrneoscrypt_hsr, AlgorithmType.Hsr, "hsr")
+                         }
+                     },
                     //{ MinerBaseType.ethminer,
                     //    new List<Algorithm>() {
                     //        new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto")
