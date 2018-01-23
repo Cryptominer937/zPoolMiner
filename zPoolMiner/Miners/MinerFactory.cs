@@ -129,7 +129,9 @@ namespace zPoolMiner.Miners
 
                 case MinerBaseType.hsrneoscrypt:
                     return new Hsrneoscrypt();
-
+                    
+                case MinerBaseType.hsrneoscrypt_hsr:
+                    return new Hsrneoscrypt_hsr();
                 //case MinerBaseType.mkxminer:
                    // return new Mkxminer();
             }
