@@ -12,7 +12,9 @@ namespace zPoolMiner.Miners
     public class Hsrneoscrypt : Miner
     {
         private int benchmarkTimeWait = 11 * 60;
-
+        
+        private const double DevFee = 1.0;
+        
         public Hsrneoscrypt() : base("hsrneoscrypt_NVIDIA")
         {
         }
@@ -119,7 +121,7 @@ namespace zPoolMiner.Miners
                    */
 
                     double speed = Double.Parse(hashspeed, CultureInfo.InvariantCulture);
-                    BenchmarkAlgorithm.BenchmarkSpeed = speed * 1000;
+                    BenchmarkAlgorithm.BenchmarkSpeed = (speed * 1000) * (1.0 - DevFee * 0.01);
                     BenchmarkSignalFinnished = true;
                 }
             }
