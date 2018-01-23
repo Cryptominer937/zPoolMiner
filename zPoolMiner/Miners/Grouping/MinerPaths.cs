@@ -462,7 +462,27 @@ namespace zPoolMiner.Miners.Grouping
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+            
+            public static string hsrneoscrypt_hsr_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            {
+                // sm21 and sm3x have same settings                
+                // CN exception
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
+                {
+                    return Data.NONE;
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
+                {
+                    return Data.NONE;
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                {
+                    return Data.hsrneoscrypt_hsr;
+                }
 
+                // TODO wrong case?
+                return Data.NONE; // should not happen
+            }
             public static string Ccminer_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
