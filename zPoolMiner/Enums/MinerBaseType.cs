@@ -39,6 +39,7 @@
         XmrStakAMD,
         Claymore_old,
         hsrneoscrypt,
+        hsrneoscrypt_hsr,
         //mkxminer,
         END
     }
