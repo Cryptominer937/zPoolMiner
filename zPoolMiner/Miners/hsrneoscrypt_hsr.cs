@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -9,13 +9,13 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class Hsrneoscrypt : Miner
+    public class Hsrneoscrypt_hsr : Miner
     {
         private int benchmarkTimeWait = 11 * 60;
         
         private const double DevFee = 1.0;
         
-        public Hsrneoscrypt() : base("hsrneoscrypt_NVIDIA")
+        public Hsrneoscrypt_hsr() : base("hsrneoscrypt_NVIDIA")
         {
         }
 
@@ -23,13 +23,13 @@ namespace zPoolMiner.Miners
         {
             get
             {
-                return MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt;
+                return MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt_hsr;
             }
         }
 
         protected override int GET_MAX_CooldownTimeInMilliseconds()
         {
-            if (this.MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt)
+            if (this.MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt_hsr)
             {
                 return 60 * 1000 * 11; // wait wait for hashrate string
             }
@@ -45,7 +45,7 @@ namespace zPoolMiner.Miners
             }
             string username = GetUsername(btcAdress, worker);
 
-            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt;
+            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.hsrneoscrypt_hsr;
 
             LastCommandLine = " --url=" + url +
                                   " --user=" + btcAdress +
@@ -73,12 +73,12 @@ namespace zPoolMiner.Miners
 
             string username = Globals.DemoUser;
 
-            if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
-                username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
+            //if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
+            //username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
 
             string CommandLine = " --url=" + url +
                                   " --user=" + Globals.DemoUser +
-                          " -p Benchmark " +
+                          " -p BENCHMARK " +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.NVIDIA) +
@@ -92,36 +92,28 @@ namespace zPoolMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
+            string hashSpeed = "";
+            int kspeed = 1;
             Helpers.ConsolePrint(MinerTAG(), outdata);
             if (BenchmarkException)
             {
                 if (outdata.Contains("speed is "))
                 {
                     int st = outdata.IndexOf("speed is ");
-                    int end = outdata.IndexOf("kH/s");
-                    //      int len = outdata.Length - speedLength - st;
+                    int k = outdata.IndexOf("H/s");
+                    if (outdata.Contains("kH/s"))
+                    {
+                        hashSpeed = outdata.Substring(st + 9, k - st - 10);
+                        kspeed = 1000;
+                    }
+                    if (outdata.Contains("MH/s"))
+                    {
+                        hashSpeed = outdata.Substring(st + 9, k - st - 10);
+                        kspeed = 1000000;
+                    }
 
-                    //          string parse = outdata.Substring(st, len-1).Trim();
-                    //          double tmp = 0;
-                    //          Double.TryParse(parse, NumberStyles.Any, CultureInfo.InvariantCulture, out tmp);
-
-                    // save speed
-                    //       int i = outdata.IndexOf("Benchmark:");
-                    //       int k = outdata.IndexOf("/s");
-                    string hashspeed = outdata.Substring(st + 9, end - st - 9);
-                    /*
-                    int b = hashspeed.IndexOf(" ");
-                       if (hashspeed.Contains("k"))
-                           tmp *= 1000;
-                       else if (hashspeed.Contains("m"))
-                           tmp *= 1000000;
-                       else if (hashspeed.Contains("g"))
-                           tmp *= 1000000000;
-                   }
-                   */
-
-                    double speed = Double.Parse(hashspeed, CultureInfo.InvariantCulture);
-                    BenchmarkAlgorithm.BenchmarkSpeed = (speed * 1000) * (1.0 - DevFee * 0.01);
+                    double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                    BenchmarkAlgorithm.BenchmarkSpeed = (speed * kspeed) * (1.0 - DevFee * 0.01);
                     BenchmarkSignalFinnished = true;
                 }
             }
@@ -171,7 +163,7 @@ namespace zPoolMiner.Miners
                 var totalSpeed = 0.0d;
                 foreach (var miningPair in MiningSetup.MiningPairs)
                 {
-                    var algo = miningPair.Device.GetAlgorithm(MinerBaseType.hsrneoscrypt, AlgorithmType.NeoScrypt, AlgorithmType.NONE);
+                    var algo = miningPair.Device.GetAlgorithm(MinerBaseType.hsrneoscrypt_hsr, AlgorithmType.Hsr, AlgorithmType.NONE);
                     if (algo != null)
                     {
                         totalSpeed += algo.BenchmarkSpeed;
