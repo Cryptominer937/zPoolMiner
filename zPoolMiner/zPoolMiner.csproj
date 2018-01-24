@@ -116,6 +116,7 @@
     <Compile Include="Miners\EWBF.cs" />
     <Compile Include="Miners\glg.cs" />
     <Compile Include="Miners\hsrneoscrypt.cs" />
+    <Compile Include="Miners\hsrneoscrypt_hsr.cs" />
     <Compile Include="Miners\prospector.cs" />
     <Compile Include="Miners\XmrStak\XmrStak.cs" />
     <Compile Include="Miners\XmrStak\XmrStakAMD.cs" />

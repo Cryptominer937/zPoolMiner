@@ -124,6 +124,7 @@ namespace zPoolMiner
                 }
             }
 
+
             private static void ConnectCallback(object sender, EventArgs e)
             {
                 try

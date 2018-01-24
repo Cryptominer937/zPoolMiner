@@ -464,6 +464,7 @@ namespace zPoolMiner.Devices
                     { MinerBaseType.ccminer_alexis,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X11Gost, "sib"),
+                            new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.Nist5, "nist5"),
                             new Algorithm(MinerBaseType.ccminer_alexis, AlgorithmType.X17, "x17")
                         }
                     },
