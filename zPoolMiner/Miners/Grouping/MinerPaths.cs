@@ -328,7 +328,7 @@ namespace zPoolMiner.Miners.Grouping
                 if (AlgorithmType.X17 == algorithmType
                      || AlgorithmType.Blake256r8 == algorithmType
                      || AlgorithmType.X11evo == algorithmType
-                    || AlgorithmType.X11Gost == algorithmType)
+                     || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_palgin;
                 }
@@ -343,14 +343,17 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_tpruvot2;
                 }
-                if (AlgorithmType.Veltor == algorithmType
+                if (AlgorithmType.X17 == algorithmType
+                    //zpool removed veltor
+                    //|| AlgorithmType.Veltor == algorithmType
                     || AlgorithmType.Lbry == algorithmType
                     || AlgorithmType.Lyra2REv2 == algorithmType
                     || AlgorithmType.Blake2s == algorithmType
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -358,9 +361,9 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.C11 == algorithmType
-                   || AlgorithmType.X17 == algorithmType
-                   || AlgorithmType.Nist5 == algorithmType)
+                if (AlgorithmType.Hsr == algorithmType
+                    || AlgorithmType.Blake256r8 == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_alexis78;
                 }
@@ -415,14 +418,17 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_tpruvot2;
                 }
-                if (AlgorithmType.Veltor == algorithmType
+                if (AlgorithmType.X17 == algorithmType
+                    //zpool removed veltor
+                    //|| AlgorithmType.Veltor == algorithmType
                     || AlgorithmType.Lbry == algorithmType
                     || AlgorithmType.Lyra2REv2 == algorithmType
                     || AlgorithmType.Blake2s == algorithmType
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -430,10 +436,11 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.C11 == algorithmType)
+                if (AlgorithmType.Hsr == algorithmType
+                    || AlgorithmType.Blake256r8 == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_alexis78;
-                }
                 if (AlgorithmType.Timetravel == algorithmType)
                 {
                     return Data.ccminer_skunkkrnlx;
@@ -508,11 +515,13 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.NONE; // should not happen
             }
 
+                // untested might not need anymore
             public static string Ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
+                    
                     if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType)
                     {
                         return Data.ccminer_x11gost;
