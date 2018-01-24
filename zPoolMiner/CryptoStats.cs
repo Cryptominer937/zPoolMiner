@@ -59,7 +59,7 @@ namespace zPoolMiner
         private const int deviceUpdateLaunchDelay = 20 * 1000;
         private const int deviceUpdateInterval = 60 * 1000;
 
-        public static Dictionary<AlgorithmType, NiceHashSMA> AlgorithmRates { get; private set; }
+        public static Dictionary<AlgorithmType, zPoolMinerSMA> AlgorithmRates { get; private set; }
         private static NiceHashData niceHashData;
         public static double Balance { get; private set; }
         public static string Version { get; private set; }

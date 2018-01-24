@@ -42,7 +42,7 @@ namespace zPoolMiner.Devices
                     {
                         return true;
                     }
-                    if (leftPart == b.leftPart && GetRightVal(rightPart) < GetRightVal(b.rightPart))
+                    if (leftPart == b.leftPart && getRightVal(rightPart) < getRightVal(b.rightPart))
                     {
                         return true;
                     }
@@ -57,7 +57,7 @@ namespace zPoolMiner.Devices
                 public int leftPart;
                 public int rightPart;
 
-                private int GetRightVal(int val)
+                private int getRightVal(int val)
                 {
                     if (val >= 10)
                     {
@@ -132,7 +132,7 @@ namespace zPoolMiner.Devices
                 return INVALID_SMI_DRIVER;
             }
 
-            private static void ShowMessageAndStep(string infoMsg)
+            private static void showMessageAndStep(string infoMsg)
             {
                 if (MessageNotifier != null) MessageNotifier.SetMessageAndIncrementStep(infoMsg);
             }
@@ -195,8 +195,7 @@ namespace zPoolMiner.Devices
                 WindowsDisplayAdapters.QueryVideoControllers();
                 // Order important CPU Query must be first
                 // #1 CPU
-                // We skip CPUs because zPool does not have cryptonight
-                //CPU.QueryCPUs();
+                // CPU.QueryCPUs();
                 // #2 CUDA
                 if (NVIDIA.IsSkipNVIDIA())
                 {
@@ -204,19 +203,19 @@ namespace zPoolMiner.Devices
                 }
                 else
                 {
-                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_CUDA_Query"));
+                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_CUDA_Query"));
                     NVIDIA.QueryCudaDevices();
                 }
                 // OpenCL and AMD
                 if (ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD)
                 {
                     Helpers.ConsolePrint(TAG, "Skipping AMD device detection, settings set to disabled");
-                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query_Skip"));
+                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query_Skip"));
                 }
                 else
                 {
                     // #3 OpenCL
-                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_OpenCL_Query"));
+                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_OpenCL_Query"));
                     OpenCL.QueryOpenCLDevices();
                     // #4 AMD query AMD from OpenCL devices, get serial and add devices
                     AMD.QueryAMD();
@@ -393,8 +392,9 @@ namespace zPoolMiner.Devices
                     bool allVideoContollersOK = true;
                     foreach (var manObj in moc)
                     {
+                        ulong memTmp = 0;
                         //Int16 ram_Str = manObj["ProtocolSupported"] as Int16; manObj["AdapterRAM"] as string
-                        UInt64.TryParse(SafeGetProperty(manObj, "AdapterRAM"), out ulong memTmp);
+                        UInt64.TryParse(SafeGetProperty(manObj, "AdapterRAM"), out memTmp);
                         var vidController = new VideoControllerData()
                         {
                             Name = SafeGetProperty(manObj, "Name"),
@@ -547,13 +547,14 @@ namespace zPoolMiner.Devices
                         if (NVAPI.IsAvailable)
                         {
                             NvPhysicalGpuHandle[] handles = new NvPhysicalGpuHandle[NVAPI.MAX_PHYSICAL_GPUS];
+                            int count;
                             if (NVAPI.NvAPI_EnumPhysicalGPUs == null)
                             {
                                 Helpers.ConsolePrint("NVAPI", "NvAPI_EnumPhysicalGPUs unavailable");
                             }
                             else
                             {
-                                var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out int count);
+                                var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out count);
                                 if (status != NvStatus.OK)
                                 {
                                     Helpers.ConsolePrint("NVAPI", "Enum physical GPUs failed with status: " + status);
@@ -630,7 +631,8 @@ namespace zPoolMiner.Devices
                                         group = DeviceGroupType.NVIDIA_6_x;
                                         break;
                                 }
-                                idHandles.TryGetValue(cudaDev.pciBusID, out NvPhysicalGpuHandle handle);
+                                NvPhysicalGpuHandle handle;
+                                idHandles.TryGetValue(cudaDev.pciBusID, out handle);
                                 Avaliable.AllAvaliableDevices.Add(
                                     new CudaComputeDevice(cudaDev, group, ++GPUCount, handle)
                                 );
@@ -850,7 +852,7 @@ namespace zPoolMiner.Devices
                     #endregion AMD driver check, ADL returns 0
 
                     // get platform version
-                    ShowMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query"));
+                    showMessageAndStep(International.GetText("Compute_Device_Query_Manager_AMD_Query"));
                     List<OpenCLDevice> amdOCLDevices = new List<OpenCLDevice>();
                     string AMDOpenCLPlatformStringKey = "";
                     if (IsOpenCLQuerrySuccess)
@@ -933,7 +935,10 @@ namespace zPoolMiner.Devices
                                         ADLRet = ADL.ADL_Main_Control_Create(ADL.ADL_Main_Memory_Alloc, 1);
                                     if (ADL.ADL_SUCCESS == ADLRet)
                                     {
-                                        ADL.ADL_Adapter_NumberOfAdapters_Get?.Invoke(ref NumberOfAdapters);
+                                        if (null != ADL.ADL_Adapter_NumberOfAdapters_Get)
+                                        {
+                                            ADL.ADL_Adapter_NumberOfAdapters_Get(ref NumberOfAdapters);
+                                        }
                                         Helpers.ConsolePrint(TAG, "Number Of Adapters: " + NumberOfAdapters.ToString());
 
                                         if (0 < NumberOfAdapters)
@@ -1074,12 +1079,10 @@ namespace zPoolMiner.Devices
                                         if (busID != -1 && _busIdsInfo.ContainsKey(busID))
                                         {
                                             var deviceName = _busIdsInfo[busID].Item1;
-                                            var newAmdDev = new AmdGpuDevice(AMD_Devices[i_id], deviceDriverOld[deviceName], _busIdsInfo[busID].Item3, deviceDriverNO_neoscrypt_lyra2re[deviceName])
-                                            {
-                                                DeviceName = deviceName,
-                                                UUID = _busIdsInfo[busID].Item2,
-                                                AdapterIndex = _busIdsInfo[busID].Item4
-                                            };
+                                            var newAmdDev = new AmdGpuDevice(AMD_Devices[i_id], deviceDriverOld[deviceName], _busIdsInfo[busID].Item3, deviceDriverNO_neoscrypt_lyra2re[deviceName]);
+                                            newAmdDev.DeviceName = deviceName;
+                                            newAmdDev.UUID = _busIdsInfo[busID].Item2;
+                                            newAmdDev.AdapterIndex = _busIdsInfo[busID].Item4;
                                             bool isDisabledGroup = ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD;
                                             string skipOrAdd = isDisabledGroup ? "SKIPED" : "ADDED";
                                             string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";
@@ -1137,11 +1140,9 @@ namespace zPoolMiner.Devices
 
                                         var deviceName = AMDVideoControllers[i].Name;
                                         if (AMDVideoControllers[i].InfSection == null) AMDVideoControllers[i].InfSection = "";
-                                        var newAmdDev = new AmdGpuDevice(AMD_Devices[i], deviceDriverOld[deviceName], AMDVideoControllers[i].InfSection, deviceDriverNO_neoscrypt_lyra2re[deviceName])
-                                        {
-                                            DeviceName = deviceName,
-                                            UUID = "UNUSED"
-                                        };
+                                        var newAmdDev = new AmdGpuDevice(AMD_Devices[i], deviceDriverOld[deviceName], AMDVideoControllers[i].InfSection, deviceDriverNO_neoscrypt_lyra2re[deviceName]);
+                                        newAmdDev.DeviceName = deviceName;
+                                        newAmdDev.UUID = "UNUSED";
                                         bool isDisabledGroup = ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionAMD;
                                         string skipOrAdd = isDisabledGroup ? "SKIPED" : "ADDED";
                                         string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";

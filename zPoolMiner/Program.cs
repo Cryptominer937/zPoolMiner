@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
-using zPoolMiner.Utils;
+using System.Threading;
+using System.Windows.Forms;
 using zPoolMiner.Configs;
 using zPoolMiner.Forms;
-using zPoolMiner.Enums;
-using Newtonsoft.Json;
-using System.Globalization;
-using System.Threading;
-using System.Diagnostics;
-using System.Linq;
+using zPoolMiner.Utils;
 
 namespace zPoolMiner
 {
@@ -81,7 +78,7 @@ namespace zPoolMiner
                 bool tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
                 if (!tosChecked || !ConfigManager.GeneralConfigIsFileExist() && !commandLineArgs.IsLang)
                 {
-                    Helpers.ConsolePrint("NICEHASH", "No config file found. Running zPool Miner for the first time. Choosing a default language.");
+                    Helpers.ConsolePrint("NICEHASH", "No config file found. Running NiceHash Miner Legacy for the first time. Choosing a default language.");
                     Application.Run(new Form_ChooseLanguage());
                 }
 
@@ -94,8 +91,7 @@ namespace zPoolMiner
                     International.Initialize(commandLineArgs.LangValue);
                     ConfigManager.GeneralConfig.Language = commandLineArgs.LangValue;
                 }
-                if (argv.Any(a => a == "--disable-donation"))
-                    Miner.DonationStart = DateTime.MaxValue;
+
                 // check WMI
                 if (Helpers.IsWMIEnabled())
                 {

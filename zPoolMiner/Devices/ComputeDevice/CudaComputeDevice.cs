@@ -14,11 +14,9 @@ namespace zPoolMiner.Devices
             get
             {
                 int load = 0;
-                var pStates = new NvPStates
-                {
-                    Version = NVAPI.GPU_PSTATES_VER,
-                    PStates = new NvPState[NVAPI.MAX_PSTATES_PER_GPU]
-                };
+                var pStates = new NvPStates();
+                pStates.Version = NVAPI.GPU_PSTATES_VER;
+                pStates.PStates = new NvPState[NVAPI.MAX_PSTATES_PER_GPU];
                 if (NVAPI.NvAPI_GPU_GetPStates != null)
                 {
                     var result = NVAPI.NvAPI_GPU_GetPStates(nvHandle, ref pStates);
@@ -42,12 +40,10 @@ namespace zPoolMiner.Devices
                 uint temp = 0;
                 if (NVAPI.NvAPI_GPU_GetThermalSettings != null)
                 {
-                    var settings = new NvGPUThermalSettings
-                    {
-                        Version = NVAPI.GPU_THERMAL_SETTINGS_VER,
-                        Count = NVAPI.MAX_THERMAL_SENSORS_PER_GPU,
-                        Sensor = new NvSensor[NVAPI.MAX_THERMAL_SENSORS_PER_GPU]
-                    };
+                    var settings = new NvGPUThermalSettings();
+                    settings.Version = NVAPI.GPU_THERMAL_SETTINGS_VER;
+                    settings.Count = NVAPI.MAX_THERMAL_SENSORS_PER_GPU;
+                    settings.Sensor = new NvSensor[NVAPI.MAX_THERMAL_SENSORS_PER_GPU];
                     var result = NVAPI.NvAPI_GPU_GetThermalSettings(nvHandle, (int)NvThermalTarget.ALL, ref settings);
                     if (result != NvStatus.OK)
                     {

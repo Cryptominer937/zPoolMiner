@@ -1,4 +1,8 @@
-﻿namespace zPoolMiner.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace zPoolMiner.Interfaces
 {
     /// <summary>
     /// IMessageNotifier interface is for message setting.
@@ -6,7 +10,6 @@
     public interface IMessageNotifier
     {
         void SetMessage(string infoMsg);
-
         void SetMessageAndIncrementStep(string infoMsg);
     }
 }

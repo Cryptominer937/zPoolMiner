@@ -54,7 +54,6 @@ namespace zPoolMiner.Devices
                             int NeoScrypt_Index = glgAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.NeoScrypt);
                             int CryptoNight_Index = glgAlgos.FindIndex((el) => el.NiceHashID == AlgorithmType.CryptoNight);
 
-
                             // Check for optimized version
                             if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
                             {
@@ -90,11 +89,11 @@ namespace zPoolMiner.Devices
                                     glgAlgos[CryptoNight_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + " --rawintensity 1850 -w 8 -g 2";
                                 }
                             }
-                            }
-                            // Ellesmere, Polaris
-                            // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
-                             if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
-                            {
+                        }
+                        // Ellesmere, Polaris
+                        // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
+                        if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
+                        {
                             foreach (var algosInMiner in algoSettings)
                             {
                                 foreach (var algo in algosInMiner.Value)
@@ -162,7 +161,7 @@ namespace zPoolMiner.Devices
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
                         }
-                        
+
                         /*if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
                         {
                             var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
@@ -326,7 +325,7 @@ namespace zPoolMiner.Devices
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 19 -w 128 -g 2" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Keccak, "keccak") { ExtraLaunchParameters = DefaultParam + "--intensity 15" },
-                            //Cryptominer937 Additions                            
+                            //Cryptominer937 Additions
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Skein, "skeincoin") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 256 --intensity d" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
@@ -336,7 +335,6 @@ namespace zPoolMiner.Devices
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Veltor, "veltor") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Tribus, "tribus") { ExtraLaunchParameters = DefaultParam + "--shaders 1792 --lookup-gap 4 --intensity 19" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Xevan, "xevan") { ExtraLaunchParameters = DefaultParam + "--intensity 19" }
-
                         }
                     },
 
@@ -372,11 +370,11 @@ namespace zPoolMiner.Devices
                             //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Sia)
                         }
                     },
-                    //{ MinerBaseType.Claymore_old,
-                    //    new List<Algorithm> {
-                    //        new Algorithm(MinerBaseType.Claymore_old, AlgorithmType.CryptoNight, "old")
-                    //    }
-                    //},
+                    { MinerBaseType.Claymore_old,
+                        new List<Algorithm> {
+                            //new Algorithm(MinerBaseType.Claymore_old, AlgorithmType.CryptoNight, "old")
+                        }
+                    },
                     { MinerBaseType.OptiminerAMD,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.OptiminerAMD, AlgorithmType.Equihash, "equihash")
@@ -474,11 +472,11 @@ namespace zPoolMiner.Devices
                          }
                      },
 
-                    //{ MinerBaseType.ethminer,
-                    //    new List<Algorithm>() {
-                    //        new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto")
-                    //    }
-                    //},
+                    { MinerBaseType.ethminer,
+                        new List<Algorithm>() {
+                            //new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto")
+                        }
+                    },
                     { MinerBaseType.nheqminer,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.nheqminer, AlgorithmType.Equihash, "equihash")
@@ -500,15 +498,15 @@ namespace zPoolMiner.Devices
                             new Algorithm(MinerBaseType.DSTM, AlgorithmType.Equihash, "")
                         }
                     },
-                    //{ MinerBaseType.Claymore,
-                    //    new List<Algorithm>() {
-                    //        new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, ""),
-                    //        new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Decred),
-                    //        new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Lbry),
-                    //        new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Pascal),
-                    //        new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Sia)
-                    //    }
-                    //}
+                    { MinerBaseType.Claymore,
+                        new List<Algorithm>() {
+                            //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, ""),
+                            //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Decred),
+                            //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Lbry),
+                            //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Pascal),
+                            //new Algorithm(MinerBaseType.Claymore, AlgorithmType.DaggerHashimoto, "", AlgorithmType.Sia)
+                        }
+                    },
                 };
 
                 if (DeviceGroupType.NVIDIA_6_x == deviceGroupType || DeviceGroupType.NVIDIA_5_x == deviceGroupType)
@@ -535,9 +533,9 @@ namespace zPoolMiner.Devices
                 if (DeviceGroupType.NVIDIA_2_1 == deviceGroupType)
                 {
                     ToRemoveAlgoTypes.AddRange(new AlgorithmType[] {
-                        AlgorithmType.DaggerHashimoto,
+                        //AlgorithmType.DaggerHashimoto,
                         AlgorithmType.CryptoNight,
-                        AlgorithmType.Pascal,
+                        //AlgorithmType.Pascal,
                         AlgorithmType.X11Gost
                     });
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {

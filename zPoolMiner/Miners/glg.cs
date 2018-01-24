@@ -1,20 +1,13 @@
 ﻿using System;
- using System.IO;
- using System.Collections.Generic;
- using System.Text;
- using System.Diagnostics;
- using System.Globalization;
- using System.Net;
- using System.Net.Sockets;
- using System.Windows.Forms;
- using System.Management;
- using zPoolMiner.Configs;
- using zPoolMiner.Devices;
- using zPoolMiner.Enums;
- using zPoolMiner.Miners.Grouping;
- using zPoolMiner.Miners.Parsing;
- using System.Threading;
- using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
+using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
@@ -138,38 +131,54 @@ namespace zPoolMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
-            //  Helpers.ConsolePrint("BENCHMARK", out);
-            string hashSpeed = "";
-            int kspeed = 1;
-            if (outdata.Contains("Terminating execution as planned"))
+            if (outdata.Contains("Average hashrate:") && outdata.Contains("/s") && BenchmarkAlgorithm.NiceHashID != AlgorithmType.DaggerHashimoto)
             {
+                int i = outdata.IndexOf(": ");
+                int k = outdata.IndexOf("/s");
+
+                // save speed
+                string hashSpeed = outdata.Substring(i + 2, k - i + 2);
+                Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + hashSpeed);
+
+                hashSpeed = hashSpeed.Substring(0, hashSpeed.IndexOf(" "));
+                double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+
+                if (outdata.Contains("Kilohash"))
+                    speed *= 1000;
+                else if (outdata.Contains("Megahash"))
+                    speed *= 1000000;
+
+                BenchmarkAlgorithm.BenchmarkSpeed = speed;
                 return true;
             }
-            if (outdata.Contains("(avg)") && outdata.Contains("h/s") && BenchmarkAlgorithm.NiceHashID != AlgorithmType.DaggerHashimoto)
+            else if (outdata.Contains(String.Format("GPU{0}", MiningSetup.MiningPairs[0].Device.ID)) && outdata.Contains("s):") && BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto)
             {
-                int i = outdata.IndexOf("(avg):");
-                int k = outdata.IndexOf("h/s");
+                int i = outdata.IndexOf("s):");
+                int k = outdata.IndexOf("(avg)");
 
-                if (outdata.Contains("h/s"))
-                {
-                    hashSpeed = outdata.Substring(i + 6, k - i - 6);
-                    kspeed = 1;
-                }
-                if (outdata.Contains("Kh/s"))
-                {
-                    hashSpeed = outdata.Substring(i + 6, k - i - 7);
-                    kspeed = 1000;
-                }
-                if (outdata.Contains("Mh/s"))
-                {
-                    hashSpeed = outdata.Substring(i + 6, k - i - 7);
-                    kspeed = 1000000;
-                }
-
-                double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                // save speed
+                string hashSpeed = outdata.Substring(i + 3, k - i + 3).Trim();
+                hashSpeed = hashSpeed.Replace("(avg):", "");
                 Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + hashSpeed);
-                BenchmarkAlgorithm.BenchmarkSpeed = speed * kspeed;
-                return false;
+
+                double mult = 1;
+                if (hashSpeed.Contains("K"))
+                {
+                    hashSpeed = hashSpeed.Replace("K", " ");
+                    mult = 1000;
+                }
+                else if (hashSpeed.Contains("M"))
+                {
+                    hashSpeed = hashSpeed.Replace("M", " ");
+                    mult = 1000000;
+                }
+
+                hashSpeed = hashSpeed.Substring(0, hashSpeed.IndexOf(" "));
+                double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture) * mult;
+
+                BenchmarkAlgorithm.BenchmarkSpeed = speed;
+
+                return true;
             }
             return false;
         }

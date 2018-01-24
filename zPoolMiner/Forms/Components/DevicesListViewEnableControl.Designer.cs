@@ -1,5 +1,7 @@
-﻿namespace zPoolMiner.Forms.Components {
-    partial class DevicesListViewEnableControl {
+﻿namespace zPoolMiner.Forms.Components
+{
+    partial class DevicesListViewEnableControl
+    {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,7 +26,8 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             this.listViewDevices = new System.Windows.Forms.ListView();
             this.columnHeader0 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,7 +51,7 @@
             this.listViewDevices.TabIndex = 5;
             this.listViewDevices.UseCompatibleStateImageBehavior = false;
             this.listViewDevices.View = System.Windows.Forms.View.Details;
-            this.listViewDevices.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListViewDevices_MouseClick);
+            this.listViewDevices.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewDevices_MouseClick);
             // 
             // columnHeader0
             // 

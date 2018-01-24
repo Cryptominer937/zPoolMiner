@@ -1,5 +1,7 @@
-﻿namespace zPoolMiner.Forms.Components {
-    partial class BenchmarkLimitControl {
+﻿namespace zPoolMiner.Forms.Components
+{
+    partial class BenchmarkLimitControl
+    {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,7 +26,8 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -79,7 +84,7 @@
             this.textBoxQuick.Name = "textBoxQuick";
             this.textBoxQuick.Size = new System.Drawing.Size(100, 20);
             this.textBoxQuick.TabIndex = 383;
-            this.textBoxQuick.TextChanged += new System.EventHandler(this.TextBoxQuick_TextChanged);
+            this.textBoxQuick.TextChanged += new System.EventHandler(this.textBoxQuick_TextChanged);
             // 
             // labelQuick
             // 
@@ -106,7 +111,7 @@
             this.textBoxStandard.Name = "textBoxStandard";
             this.textBoxStandard.Size = new System.Drawing.Size(100, 20);
             this.textBoxStandard.TabIndex = 383;
-            this.textBoxStandard.TextChanged += new System.EventHandler(this.TextBoxStandard_TextChanged);
+            this.textBoxStandard.TextChanged += new System.EventHandler(this.textBoxStandard_TextChanged);
             // 
             // labelStandard
             // 
@@ -133,7 +138,7 @@
             this.textBoxPrecise.Name = "textBoxPrecise";
             this.textBoxPrecise.Size = new System.Drawing.Size(100, 20);
             this.textBoxPrecise.TabIndex = 383;
-            this.textBoxPrecise.TextChanged += new System.EventHandler(this.TextBoxPrecise_TextChanged);
+            this.textBoxPrecise.TextChanged += new System.EventHandler(this.textBoxPrecise_TextChanged);
             // 
             // labelPrecise
             // 

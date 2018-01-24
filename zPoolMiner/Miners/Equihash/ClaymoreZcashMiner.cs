@@ -27,7 +27,7 @@
         {
             benchmarkTimeWait = time / 3; // 3 times faster than sgminer
 
-            string ret = " -mport 127.0.0.1:" + APIPort + " -benchmark 1 " + GetDevicesCommandString();
+            string ret = $" -mport 127.0.0.1:{APIPort} -benchmark 1 -logfile {GetLogFileName()} {GetDevicesCommandString()}";
             return ret;
         }
     }

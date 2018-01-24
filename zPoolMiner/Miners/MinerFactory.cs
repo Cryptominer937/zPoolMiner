@@ -100,9 +100,6 @@ namespace zPoolMiner.Miners
                 case MinerBaseType.excavator:
                     return new Excavator();
 
-                case MinerBaseType.XmrStackCPU:
-                    return new XmrStackCPUMiner();
-
                 case MinerBaseType.ccminer_alexis:
                     return new Ccminer();
 
@@ -121,17 +118,14 @@ namespace zPoolMiner.Miners
                 case MinerBaseType.Xmrig:
                     return new Xmrig();
 
-                case MinerBaseType.XmrStakAMD:
-                    return new XmrStakAMD();
-
                 case MinerBaseType.Claymore_old:
                     return new ClaymoreCryptoNightMiner(true);
 
                 case MinerBaseType.hsrneoscrypt:
                     return new Hsrneoscrypt();
 
-                //case MinerBaseType.mkxminer:
-                   // return new Mkxminer();
+                    //case MinerBaseType.mkxminer:
+                    // return new Mkxminer();
             }
             return null;
         }

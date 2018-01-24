@@ -20,7 +20,8 @@ namespace zPoolMiner.Forms.Components
 
             public void LviSetColor(ListViewItem lvi)
             {
-                if (lvi.Tag is ComputeDevice cdvo)
+                var cdvo = lvi.Tag as ComputeDevice;
+                if (cdvo != null)
                 {
                     if (cdvo.Enabled)
                     {
@@ -99,7 +100,7 @@ namespace zPoolMiner.Forms.Components
 
             SaveToGeneralConfig = false;
             // intialize ListView callbacks
-            listViewDevices.ItemChecked += new ItemCheckedEventHandler(ListViewDevicesItemChecked);
+            listViewDevices.ItemChecked += new ItemCheckedEventHandler(listViewDevicesItemChecked);
             //listViewDevices.CheckBoxes = false;
             IsMining = false;
             BenchmarkCalculation = null;
@@ -136,13 +137,11 @@ namespace zPoolMiner.Forms.Components
             // set devices
             foreach (var computeDevice in computeDevices)
             {
-                ListViewItem lvi = new ListViewItem
-                {
-                    //lvi.SubItems.Add(computeDevice.Name);
-                    Checked = computeDevice.Enabled,
-                    Text = computeDevice.GetFullName(),
-                    Tag = computeDevice
-                };
+                ListViewItem lvi = new ListViewItem();
+                //lvi.SubItems.Add(computeDevice.Name);
+                lvi.Checked = computeDevice.Enabled;
+                lvi.Text = computeDevice.GetFullName();
+                lvi.Tag = computeDevice;
                 listViewDevices.Items.Add(lvi);
                 _listItemCheckColorSetter.LviSetColor(lvi);
             }
@@ -163,7 +162,7 @@ namespace zPoolMiner.Forms.Components
             //listViewDevices.Columns[DEVICE].Text = International.GetText("ListView_Device");
         }
 
-        private void ListViewDevicesItemChecked(object sender, ItemCheckedEventArgs e)
+        private void listViewDevicesItemChecked(object sender, ItemCheckedEventArgs e)
         {
             var CDevice = e.Item.Tag as ComputeDevice;
             CDevice.Enabled = e.Item.Checked;
@@ -172,7 +171,8 @@ namespace zPoolMiner.Forms.Components
             {
                 ConfigManager.GeneralConfigFileCommit();
             }
-            if (e.Item is ListViewItem lvi) _listItemCheckColorSetter.LviSetColor(lvi);
+            var lvi = e.Item as ListViewItem;
+            if (lvi != null) _listItemCheckColorSetter.LviSetColor(lvi);
             if (_algorithmsListView != null) _algorithmsListView.RepaintStatus(CDevice.Enabled, CDevice.UUID);
             if (BenchmarkCalculation != null) BenchmarkCalculation.CalcBenchmarkDevicesAlgorithmQueue();
         }
@@ -182,7 +182,7 @@ namespace zPoolMiner.Forms.Components
             listViewDevices.ItemSelectionChanged += callback;
         }
 
-        private void ListViewDevices_MouseClick(object sender, MouseEventArgs e)
+        private void listViewDevices_MouseClick(object sender, MouseEventArgs e)
         {
             if (IsInBenchmark) return;
             if (IsMining) return;
@@ -198,6 +198,7 @@ namespace zPoolMiner.Forms.Components
                         if (sameDevTypes.Count > 0)
                         {
                             var copyBenchItem = new ToolStripMenuItem();
+                            var copyTuningItem = new ToolStripMenuItem();
                             //copyBenchItem.DropDownItems
                             foreach (var cDev in sameDevTypes)
                             {
@@ -206,15 +207,26 @@ namespace zPoolMiner.Forms.Components
                                     var copyBenchDropDownItem = new ToolStripMenuItem
                                     {
                                         Text = cDev.Name,
-                                        Checked = cDev.UUID == CDevice.BenchmarkCopyUUID
+                                        //Checked = cDev.UUID == CDevice.BenchmarkCopyUUID
                                     };
-                                    copyBenchDropDownItem.Click += ToolStripMenuItemCopySettings_Click;
+                                    copyBenchDropDownItem.Click += toolStripMenuItemCopySettings_Click;
                                     copyBenchDropDownItem.Tag = cDev.UUID;
                                     copyBenchItem.DropDownItems.Add(copyBenchDropDownItem);
+
+                                    var copyTuningDropDownItem = new ToolStripMenuItem
+                                    {
+                                        Text = cDev.Name,
+                                        //Checked = cDev.UUID == CDevice.TuningCopyUUID
+                                    };
+                                    copyTuningDropDownItem.Click += toolStripMenuItemCopyTuning_Click;
+                                    copyTuningDropDownItem.Tag = cDev.UUID;
+                                    copyTuningItem.DropDownItems.Add(copyTuningDropDownItem);
                                 }
                             }
                             copyBenchItem.Text = International.GetText("DeviceListView_ContextMenu_CopySettings");
+                            copyTuningItem.Text = International.GetText("DeviceListView_ContectMenu_CopyTuning");
                             contextMenuStrip1.Items.Add(copyBenchItem);
+                            contextMenuStrip1.Items.Add(copyTuningItem);
                         }
                     }
                     contextMenuStrip1.Show(Cursor.Position);
@@ -222,29 +234,44 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void ToolStripMenuItemCopySettings_Click(object sender, EventArgs e)
+        private void toolStripMenuItem_Click(object sender, bool justTuning)
         {
-            var CDevice = listViewDevices.FocusedItem.Tag as ComputeDevice;
-            if (sender is ToolStripMenuItem item)
+            if (sender is ToolStripMenuItem item && item.Tag is string uuid
+                && listViewDevices.FocusedItem.Tag is ComputeDevice CDevice)
             {
-                if (item.Tag is string uuid)
-                {
-                    var copyBenchCDev = ComputeDeviceManager.Avaliable.GetDeviceWithUUID(uuid);
-                    CDevice.BenchmarkCopyUUID = uuid;
+                var copyBenchCDev = ComputeDeviceManager.Avaliable.GetDeviceWithUUID(uuid);
 
-                    var result = MessageBox.Show(
-                        String.Format(
-                        International.GetText("DeviceListView_ContextMenu_CopySettings_Confirm_Dialog_Msg"), copyBenchCDev.GetFullName(), CDevice.GetFullName()),
-                                International.GetText("DeviceListView_ContextMenu_CopySettings_Confirm_Dialog_Title"),
-                                MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
+                var result = MessageBox.Show(
+                    String.Format(
+                        International.GetText("DeviceListView_ContextMenu_CopySettings_Confirm_Dialog_Msg"),
+                        copyBenchCDev.GetFullName(), CDevice.GetFullName()),
+                    International.GetText("DeviceListView_ContextMenu_CopySettings_Confirm_Dialog_Title"),
+                    MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    if (justTuning)
                     {
-                        // just copy
-                        CDevice.CopyBenchmarkSettingsFrom(copyBenchCDev);
-                        if (_algorithmsListView != null) _algorithmsListView.RepaintStatus(CDevice.Enabled, CDevice.UUID);
+                        CDevice.TuningCopyUUID = uuid;
+                        CDevice.CopyTuningSettingsFrom(copyBenchCDev);
                     }
+                    else
+                    {
+                        CDevice.BenchmarkCopyUUID = uuid;
+                        CDevice.CopyBenchmarkSettingsFrom(copyBenchCDev);
+                    }
+                    _algorithmsListView?.RepaintStatus(CDevice.Enabled, CDevice.UUID);
                 }
             }
+        }
+
+        private void toolStripMenuItemCopySettings_Click(object sender, EventArgs e)
+        {
+            toolStripMenuItem_Click(sender, false);
+        }
+
+        private void toolStripMenuItemCopyTuning_Click(object sender, EventArgs e)
+        {
+            toolStripMenuItem_Click(sender, true);
         }
 
         private void DevicesListViewEnableControl_Resize(object sender, EventArgs e)

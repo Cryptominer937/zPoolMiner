@@ -51,7 +51,7 @@ namespace zPoolMiner.Miners.Grouping
                     {
                         Miner.InitMiningSetup(new MiningSetup(miningPairs));
                         AlgorithmType = mPair.Algorithm.NiceHashID;
-                        DualAlgorithmType = mPair.Algorithm.DualNiceHashID();
+                        DualAlgorithmType = mPair.Algorithm.DualNiceHashID;
                     }
                 }
             }

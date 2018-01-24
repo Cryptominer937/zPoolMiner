@@ -58,7 +58,13 @@ namespace zPoolMiner.Miners
             }
 
             LastCommandLine = algo +
-                                  " --url=" + url + " --userpass=" + username + ":" + worker + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup,DeviceType.NVIDIA) + " --devices ";
+                                  " --url=" + url +
+                                  " --userpass=" + username + ":" + worker + " " +
+                                  apiBind + " " +
+                                  ExtraLaunchParametersParser.ParseForMiningSetup(
+                                      MiningSetup,
+                                      DeviceType.NVIDIA) +
+                                      " --devices ";
 
             LastCommandLine += GetDevicesCommandString();
 

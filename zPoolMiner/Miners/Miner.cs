@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -98,7 +99,7 @@ namespace zPoolMiner
         // mining algorithm stuff
         protected bool IsInit { get; private set; }
 
-        protected MiningSetup MiningSetup { get; set; }
+        public MiningSetup MiningSetup { get; set; }
 
         // sgminer/zcash claymore workaround
         protected bool IsKillAllUsedMinerProcs { get; set; }
@@ -136,6 +137,8 @@ namespace zPoolMiner
 
         private string benchmarkLogPath = "";
         protected List<string> bench_lines;
+
+        protected bool TimeoutStandard;
 
         // TODO maybe set for individual miner cooldown/retries logic variables
         // this replaces MinerAPIGraceSeconds(AMD)
@@ -316,8 +319,9 @@ namespace zPoolMiner
         {
             if (IS_DONATING) return Globals.DemoUser;
             if (worker.Length > 0)
+            {
                 return btcAdress;// + "." + worker;
-
+            }
             return btcAdress;
         }
 
@@ -381,6 +385,7 @@ namespace zPoolMiner
 
         public int BenchmarkTimeoutInSeconds(int timeInSeconds)
         {
+            if (TimeoutStandard) return timeInSeconds;
             if (BenchmarkAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto)
             {
                 return 5 * 60 + 120; // 5 minutes plus two minutes
@@ -468,11 +473,9 @@ namespace zPoolMiner
 
             if (!BenchmarkHandle.Start()) return null;
 
-            _currentPidData = new MinerPID_Data
-            {
-                minerBinPath = BenchmarkHandle.StartInfo.FileName,
-                PID = BenchmarkHandle.Id
-            };
+            _currentPidData = new MinerPID_Data();
+            _currentPidData.minerBinPath = BenchmarkHandle.StartInfo.FileName;
+            _currentPidData.PID = BenchmarkHandle.Id;
             _allPidData.Add(_currentPidData);
 
             return BenchmarkHandle;
@@ -508,8 +511,13 @@ namespace zPoolMiner
                 || BenchmarkSignalTimedout
                 || BenchmarkException != null)
             {
+                FinishUpBenchmark();
                 EndBenchmarkProcces();
             }
+        }
+
+        protected virtual void FinishUpBenchmark()
+        {
         }
 
         protected abstract void BenchmarkOutputErrorDataReceivedImpl(string outdata);
@@ -534,6 +542,9 @@ namespace zPoolMiner
             // Ethminer
             if (outdata.Contains("No GPU device with sufficient memory was found"))
                 BenchmarkException = new Exception("[daggerhashimoto] No GPU device with sufficient memory was found.");
+            // xmr-stak
+            if (outdata.Contains("Press any key to exit"))
+                BenchmarkException = new Exception("Xmr-Stak erred, check its logs");
 
             // lastly parse data
             if (BenchmarkParseLine(outdata))
@@ -561,9 +572,10 @@ namespace zPoolMiner
                 int b = hashspeed.IndexOf(" ");
                 if (b < 0)
                 {
+                    int stub;
                     for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
                     {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out int stub))
+                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub))
                         {
                             b = _i;
                             break;
@@ -587,7 +599,6 @@ namespace zPoolMiner
             return 0.0d;
         }
 
-        //add hsrminer palgin
         protected double BenchmarkParseLine_cpu_hsrneoscrypt_extra(string outdata)
         {
             // parse line
@@ -602,9 +613,10 @@ namespace zPoolMiner
                 int b = hashspeed.IndexOf(" ");
                 if (b < 0)
                 {
+                    int stub;
                     for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
                     {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out int stub))
+                        if (Int32.TryParse(hashspeed[_i].ToString(), out stub))
                         {
                             b = _i;
                             break;
@@ -627,46 +639,6 @@ namespace zPoolMiner
             }
             return 0.0d;
         }
-        /*//add mkxminer palgin
-        protected double BenchmarkParseLine_cpu_mkxminer_extra(string outdata)
-        {
-            // parse line
-            if (outdata.Contains(">") && outdata.Contains("/s"))
-            {
-                int i = outdata.IndexOf("> ");
-                int k = outdata.IndexOf("/s");
-                string hashspeed = outdata.Substring(i + 8, k - i - 6);
-                Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + hashspeed);
-
-                // save speed
-                int b = hashspeed.IndexOf(" ");
-                if (b < 0)
-                {
-                    for (int _i = hashspeed.Length - 1; _i >= 0; --_i)
-                    {
-                        if (Int32.TryParse(hashspeed[_i].ToString(), out int stub))
-                        {
-                            b = _i;
-                            break;
-                        }
-                    }
-                }
-                if (b >= 0)
-                {
-                    string speedStr = hashspeed.Substring(0, b);
-                    double spd = Helpers.ParseDouble(speedStr);
-                    if (hashspeed.Contains("kH/s"))
-                        spd *= 1000;
-                    else if (hashspeed.Contains("MH/s"))
-                        spd *= 1000000;
-                    else if (hashspeed.Contains("GH/s"))
-                        spd *= 1000000000;
-
-                    return spd;
-                }
-            }
-            return 0.0d;
-        }*/
 
         // killing proccesses can take time
         virtual public void EndBenchmarkProcces()
@@ -718,20 +690,38 @@ namespace zPoolMiner
         {
             BenchmarkProcessStatus status = BenchmarkProcessStatus.Finished;
 
-            if (BenchmarkAlgorithm.BenchmarkSpeed > 0)
+            if (!BenchmarkAlgorithm.BenchmarkNeeded)
             {
                 status = BenchmarkProcessStatus.Success;
             }
 
-            using (StreamWriter sw = File.AppendText(benchmarkLogPath))
+            try
             {
-                foreach (var line in bench_lines)
+                using (StreamWriter sw = File.AppendText(benchmarkLogPath))
                 {
-                    sw.WriteLine(line);
+                    foreach (var line in bench_lines)
+                    {
+                        sw.WriteLine(line);
+                    }
                 }
             }
+            catch { }
             BenchmarkProcessStatus = status;
-            Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + Helpers.FormatDualSpeedOutput(BenchmarkAlgorithm.NiceHashID, BenchmarkAlgorithm.BenchmarkSpeed, BenchmarkAlgorithm.SecondaryBenchmarkSpeed));
+            if (BenchmarkAlgorithm is DualAlgorithm dualAlg)
+            {
+                if (!dualAlg.TuningEnabled)
+                {  // Tuning will report speed
+                    Helpers.ConsolePrint("BENCHMARK",
+                        "Final Speed: " + Helpers.FormatDualSpeedOutput(dualAlg.BenchmarkSpeed,
+                            dualAlg.SecondaryBenchmarkSpeed, dualAlg.DualNiceHashID));
+                }
+            }
+            else
+            {
+                Helpers.ConsolePrint("BENCHMARK",
+                    "Final Speed: " + Helpers.FormatDualSpeedOutput(BenchmarkAlgorithm.BenchmarkSpeed, 0,
+                        BenchmarkAlgorithm.NiceHashID));
+            }
             Helpers.ConsolePrint("BENCHMARK", "Benchmark ends");
             if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled)
             {
@@ -763,7 +753,7 @@ namespace zPoolMiner
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
                 BenchmarkHandle.WaitForExit();
-                if (BenchmarkSignalTimedout)
+                if (BenchmarkSignalTimedout && !TimeoutStandard)
                 {
                     throw new Exception("Benchmark timedout");
                 }
@@ -801,7 +791,7 @@ namespace zPoolMiner
         /// <param name="benchmarkTimeWait"></param>
         protected void BenchmarkThreadRoutineAlternate(object commandLine, int benchmarkTimeWait)
         {
-            CleanAllOldLogs();
+            CleanOldLogs();
 
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
@@ -877,7 +867,7 @@ namespace zPoolMiner
                 // find latest log file
                 string latestLogFile = "";
                 var dirInfo = new DirectoryInfo(this.WorkingDirectory);
-                foreach (var file in dirInfo.GetFiles("*_log.txt"))
+                foreach (var file in dirInfo.GetFiles(GetLogFileName()))
                 {
                     latestLogFile = file.Name;
                     break;
@@ -894,13 +884,13 @@ namespace zPoolMiner
             }
         }
 
-        protected void CleanAllOldLogs()
+        protected void CleanOldLogs()
         {
             // clean old logs
             try
             {
                 var dirInfo = new DirectoryInfo(this.WorkingDirectory);
-                var deleteContains = "_log.txt";
+                var deleteContains = GetLogFileName();
                 if (dirInfo != null && dirInfo.Exists)
                 {
                     foreach (FileInfo file in dirInfo.GetFiles())
@@ -913,6 +903,12 @@ namespace zPoolMiner
                 }
             }
             catch { }
+        }
+
+        protected virtual string GetLogFileName()
+        {
+            var ids = MiningSetup.MiningPairs.Select(x => x.Device.Index);
+            return $"{string.Join(",", ids)}_log.txt";
         }
 
         protected virtual void ProcessBenchLinesAlternate(string[] lines)
@@ -987,25 +983,18 @@ namespace zPoolMiner
                 {
                     IsRunning = true;
 
-                    _currentPidData = new MinerPID_Data
-                    {
-                        minerBinPath = P.StartInfo.FileName,
-                        PID = P.Id
-                    };
+                    _currentPidData = new MinerPID_Data();
+                    _currentPidData.minerBinPath = P.StartInfo.FileName;
+                    _currentPidData.PID = P.Id;
                     _allPidData.Add(_currentPidData);
 
                     Helpers.ConsolePrint(MinerTAG(), "Starting miner " + ProcessTag() + " " + LastCommandLine);
-                    //add hsrminer palgin
-                    //StartCoolDownTimerChecker();
+
+                    StartCoolDownTimerChecker();
                     if (!ProcessTag().Contains("hsrminer_neoscrypt")) //temporary disable hsrminer checker
                     {
                         StartCoolDownTimerChecker();
                     }
-                   /* if (!ProcessTag().Contains("mkxminer_lyra2rev2")) //temporary disable mkxminer checker
-                    {
-                        StartCoolDownTimerChecker();
-                    }*/
-
                     return P;
                 }
                 else
@@ -1202,95 +1191,6 @@ namespace zPoolMiner
             return ad;
         }
 
-        //add hsrminer palgin
-        protected async Task<APIData> GetSummaryCPU_hsrneoscryptAsync()
-        {
-            string resp;
-            // TODO aname
-            string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
-
-            string DataToSend = GetHttpRequestNHMAgentStrin("summary");
-
-            resp = await GetAPIDataAsync(APIPort, DataToSend);
-            if (resp == null)
-            {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-                return null;
-            }
-
-            try
-            {
-                string[] resps = resp.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < resps.Length; i++)
-                {
-                    string[] optval = resps[i].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (optval.Length != 2) continue;
-                    if (optval[0] == "ALGO")
-                        aname = optval[1];
-                    else if (optval[0] == "KHS")
-                        ad.Speed = double.Parse(optval[1], CultureInfo.InvariantCulture) * 1000; // HPS
-                }
-            }
-            catch
-            {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-                return null;
-            }
-
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
-            // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
-
-            return ad;
-        }
-        /*//add mkxminer
-        protected async Task<APIData> GetSummaryCPU_mkxminerAsync()
-        {
-            string resp;
-            // TODO aname
-            string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
-
-            string DataToSend = GetHttpRequestNHMAgentStrin("summary");
-
-            resp = await GetAPIDataAsync(APIPort, DataToSend);
-            if (resp == null)
-            {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-                return null;
-            }
-
-            try
-            {
-                string[] resps = resp.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < resps.Length; i++)
-                {
-                    string[] optval = resps[i].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (optval.Length != 2) continue;
-                    if (optval[0] == "ALGO")
-                        aname = optval[1];
-                    else if (optval[0] == "KHS")
-                        ad.Speed = double.Parse(optval[1], CultureInfo.InvariantCulture) * 1000; // HPS
-                }
-            }
-            catch
-            {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-                return null;
-            }
-
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
-            // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
-
-            return ad;
-        }*/
-
         protected string GetHttpRequestNHMAgentStrin(string cmd)
         {
             return "GET /" + cmd + " HTTP/1.1\r\n" +
@@ -1344,6 +1244,50 @@ namespace zPoolMiner
         }
 
         #region Cooldown/retry logic
+
+        protected async Task<APIData> GetSummaryCPU_hsrneoscryptAsync()
+        {
+            string resp;
+            // TODO aname
+            string aname = null;
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+
+            string DataToSend = GetHttpRequestNHMAgentStrin("summary");
+
+            resp = await GetAPIDataAsync(APIPort, DataToSend);
+            if (resp == null)
+            {
+                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
+                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                return null;
+            }
+
+            try
+            {
+                string[] resps = resp.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < resps.Length; i++)
+                {
+                    string[] optval = resps[i].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (optval.Length != 2) continue;
+                    if (optval[0] == "ALGO")
+                        aname = optval[1];
+                    else if (optval[0] == "KHS")
+                        ad.Speed = double.Parse(optval[1], CultureInfo.InvariantCulture) * 1000; // HPS
+                }
+            }
+            catch
+            {
+                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
+                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                return null;
+            }
+
+            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            // check if speed zero
+            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+
+            return ad;
+        }
 
         /// <summary>
         /// decrement time for half current half time, if less then min ammend

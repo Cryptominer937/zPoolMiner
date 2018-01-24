@@ -296,7 +296,7 @@ namespace zPoolMiner.Miners
             return shouldMine;
         }
 
-        public async Task SwichMostProfitableGroupUpMethod(Dictionary<AlgorithmType, NiceHashSMA> NiceHashData, bool log = true)
+        public async Task SwichMostProfitableGroupUpMethod(Dictionary<AlgorithmType, zPoolMinerSMA> NiceHashData, bool log = true)
         {
 #if (SWITCH_TESTING)
             MiningDevice.SetNextTest();
@@ -328,10 +328,19 @@ namespace zPoolMiner.Miners
                     stringBuilderDevice.AppendLine(String.Format("\tProfits for {0} ({1}):", device.Device.UUID, device.Device.GetFullName()));
                     foreach (var algo in device.Algorithms)
                     {
+                        var speed = algo.AvaragedSpeed.ToString(DOUBLE_FORMAT);
+                        var paying = algo.CurNhmSMADataVal.ToString(DOUBLE_FORMAT);
+                        if (algo is DualAlgorithm dualAlgo)
+                        {
+                            speed += "/" + dualAlgo.SecondaryAveragedSpeed.ToString(DOUBLE_FORMAT);
+                            if (dualAlgo.TuningEnabled)
+                                speed += " dcri:" + dualAlgo.MostProfitableIntensity;
+                            paying += "/" + dualAlgo.SecondaryCurNhmSMADataVal;
+                        }
                         stringBuilderDevice.AppendLine(String.Format("\t\tPROFIT = {0}\t(SPEED = {1}\t\t| NHSMA = {2})\t[{3}]",
                              algo.CurrentProfit.ToString(DOUBLE_FORMAT), // Profit
-                             algo.AvaragedSpeed + (algo.IsDual() ? "/" + algo.SecondaryAveragedSpeed : ""), // Speed
-                             algo.CurNhmSMADataVal + (algo.IsDual() ? "/" + algo.SecondaryCurNhmSMADataVal : ""), // NiceHashData
+                             speed, // Speed
+                             paying, // NiceHashData
                              algo.AlgorithmStringID // Name
                          ));
                     }
@@ -441,7 +450,6 @@ namespace zPoolMiner.Miners
                     {
                         toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];
 
-                        Helpers.ConsolePrint(TAG, String.Format("STARTING", " DEV_FEE", " Mining Dev-Fee for 12 Minutes."));
                         var miningPairs = newGroupedMiningPairs[runningGroupKey];
                         var newAlgoType = GetMinerPairAlgorithmType(miningPairs);
                         GroupMiner newGroupMiner = null;
@@ -466,7 +474,7 @@ namespace zPoolMiner.Miners
                     else if (Miner.IS_DONATING && Miner.SHOULD_STOP_DONATING)
                     {
                         toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];
-                        Helpers.ConsolePrint(TAG, String.Format("STOPPING", " DEV_FEE", " Next Dev-Fee Mining will start in 12 Hours."));
+
                         var miningPairs = newGroupedMiningPairs[runningGroupKey];
                         var newAlgoType = GetMinerPairAlgorithmType(miningPairs);
                         GroupMiner newGroupMiner = null;
@@ -497,8 +505,20 @@ namespace zPoolMiner.Miners
                         var newAlgoType = GetMinerPairAlgorithmType(miningPairs);
                         if (newAlgoType != AlgorithmType.NONE && newAlgoType != AlgorithmType.INVALID)
                         {
+                            // Check if dcri optimal value has changed
+                            var dcriChanged = false;
+                            foreach (var mPair in _runningGroupMiners[runningGroupKey].Miner.MiningSetup.MiningPairs)
+                            {
+                                if (mPair.Algorithm is DualAlgorithm algo
+                                    && algo.TuningEnabled
+                                    && algo.MostProfitableIntensity != algo.CurrentIntensity)
+                                {
+                                    dcriChanged = true;
+                                    break;
+                                }
+                            }
                             // if algoType valid and different from currently running update
-                            if (newAlgoType != _runningGroupMiners[runningGroupKey].DualAlgorithmType)
+                            if (newAlgoType != _runningGroupMiners[runningGroupKey].DualAlgorithmType || dcriChanged)
                             {
                                 // remove current one and schedule to stop mining
                                 toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];
@@ -599,12 +619,12 @@ namespace zPoolMiner.Miners
         {
             if (miningPairs.Count > 0)
             {
-                return miningPairs[0].Algorithm.DualNiceHashID();
+                return miningPairs[0].Algorithm.DualNiceHashID;
             }
             return AlgorithmType.NONE;
         }
 
-        public async Task MinerStatsCheck(Dictionary<AlgorithmType, NiceHashSMA> NiceHashData)
+        public async Task MinerStatsCheck(Dictionary<AlgorithmType, zPoolMinerSMA> NiceHashData)
         {
             double CurrentProfit = 0.0d;
             _mainFormRatesComunication.ClearRates(_runningGroupMiners.Count);

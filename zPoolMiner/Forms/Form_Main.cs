@@ -41,7 +41,7 @@ namespace zPoolMiner
         private int flowLayoutPanelVisibleCount = 0;
         private int flowLayoutPanelRatesIndex = 0;
 
-        private const string _betaAlphaPostfixString = "";
+        private const string _betaAlphaPostfixString = "-Pre2";
 
         private bool _isDeviceDetectionInitialized = false;
 
@@ -122,7 +122,7 @@ namespace zPoolMiner
 
             toolStripStatusLabelGlobalRateText.Text = International.GetText("Form_Main_global_rate") + ":";
             toolStripStatusLabelBTCDayText.Text = "BTC/" + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
 
             devicesListViewEnableControl1.InitLocale();
 
@@ -177,7 +177,7 @@ namespace zPoolMiner
             }
 
             toolStripStatusLabelBalanceDollarValue.Text = "(" + ExchangeRateAPI.ActiveDisplayCurrency + ")";
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
             BalanceCallback(null, null); // update currency changes
 
             if (_isDeviceDetectionInitialized)
@@ -476,10 +476,8 @@ namespace zPoolMiner
                 // less GPUs than before, ACT!
                 try
                 {
-                    ProcessStartInfo onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat")
-                    {
-                        WindowStyle = ProcessWindowStyle.Minimized
-                    };
+                    ProcessStartInfo onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat");
+                    onGPUsLost.WindowStyle = ProcessWindowStyle.Minimized;
                     System.Diagnostics.Process.Start(onGPUsLost);
                 }
                 catch (Exception ex)
@@ -497,10 +495,8 @@ namespace zPoolMiner
             {
                 if (cdev.Enabled)
                 {
-                    var newGroupProfitControl = new GroupProfitControl
-                    {
-                        Visible = false
-                    };
+                    var newGroupProfitControl = new GroupProfitControl();
+                    newGroupProfitControl.Visible = false;
                     flowLayoutPanelRates.Controls.Add(newGroupProfitControl);
                 }
             }
@@ -546,7 +542,8 @@ namespace zPoolMiner
         {
             string ApiGetExceptionString = isApiGetException ? "**" : "";
 
-            string speedString = Helpers.FormatDualSpeedOutput(iAPIData.AlgorithmID, iAPIData.Speed, iAPIData.SecondarySpeed) + iAPIData.AlgorithmName + ApiGetExceptionString;
+            string speedString = Helpers.FormatDualSpeedOutput(iAPIData.Speed, iAPIData.SecondarySpeed, iAPIData.AlgorithmID) + iAPIData.AlgorithmName + ApiGetExceptionString;
+
             string rateBTCString = FormatPayingOutput(paying);
             string rateCurrencyString = ExchangeRateAPI.ConvertToActiveCurrency(paying * Globals.BitcoinUSDRate * factorTimeUnit).ToString("F2", CultureInfo.InvariantCulture)
                 + String.Format(" {0}/", ExchangeRateAPI.ActiveDisplayCurrency) + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
@@ -608,7 +605,7 @@ namespace zPoolMiner
             }
 
             toolStripStatusLabelBTCDayValue.Text = ExchangeRateAPI.ConvertToActiveCurrency((TotalRate * factorTimeUnit * Globals.BitcoinUSDRate)).ToString("F2", CultureInfo.InvariantCulture);
-            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
+            toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString()) + "     " + International.GetText("Form_Main_balance") + ":";
         }
 
         private void BalanceCallback(object sender, EventArgs e)
@@ -755,19 +752,19 @@ namespace zPoolMiner
             return true;
         }
 
-        private void LinkLabelCheckStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelCheckStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (!VerifyMiningAddress(true)) return;
 
             System.Diagnostics.Process.Start(Links.CheckStats + textBoxBTCAddress.Text.Trim());
         }
 
-        private void LinkLabelChooseBTCWallet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelChooseBTCWallet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_BTC_Wallet_Faq);
         }
 
-        private void LinkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(VisitURLNew);
         }
@@ -779,7 +776,7 @@ namespace zPoolMiner
             MessageBoxManager.Unregister();
         }
 
-        private void ButtonBenchmark_Click(object sender, EventArgs e)
+        private void buttonBenchmark_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.ServiceLocation = comboBoxLocation.SelectedIndex;
 
@@ -792,11 +789,11 @@ namespace zPoolMiner
             InitMainConfigGUIData();
             if (startMining)
             {
-                ButtonStartMining_Click(null, null);
+                buttonStartMining_Click(null, null);
             }
         }
 
-        private void ButtonSettings_Click(object sender, EventArgs e)
+        private void buttonSettings_Click(object sender, EventArgs e)
         {
             Form_Settings Settings = new Form_Settings();
             SetChildFormCenter(Settings);
@@ -820,7 +817,7 @@ namespace zPoolMiner
             }
         }
 
-        private void ButtonStartMining_Click(object sender, EventArgs e)
+        private void buttonStartMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = true;
             if (StartMining(true) == StartMiningReturnType.ShowNoMining)
@@ -833,7 +830,7 @@ namespace zPoolMiner
             }
         }
 
-        private void ButtonStopMining_Click(object sender, EventArgs e)
+        private void buttonStopMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = false;
             StopMining();
@@ -851,32 +848,32 @@ namespace zPoolMiner
             return ret;
         }
 
-        private void ButtonLogo_Click(object sender, EventArgs e)
+        private void buttonLogo_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.VisitURL);
         }
 
-        private void ButtonHelp_Click(object sender, EventArgs e)
+        private void buttonHelp_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Help);
         }
 
-        private void ToolStripStatusLabel10_Click(object sender, EventArgs e)
+        private void toolStripStatusLabel10_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Paying_Faq);
         }
 
-        private void ToolStripStatusLabel10_MouseHover(object sender, EventArgs e)
+        private void toolStripStatusLabel10_MouseHover(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Hand;
         }
 
-        private void ToolStripStatusLabel10_MouseLeave(object sender, EventArgs e)
+        private void toolStripStatusLabel10_MouseLeave(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Default;
         }
 
-        private void TextBoxCheckBoxMain_Leave(object sender, EventArgs e)
+        private void textBoxCheckBoxMain_Leave(object sender, EventArgs e)
         {
             if (VerifyMiningAddress(false))
             {
@@ -908,7 +905,7 @@ namespace zPoolMiner
         }
 
         // Restore zPoolMiner from the system tray
-        private void NotifyIcon1_DoubleClick(object sender, EventArgs e)
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
@@ -1100,7 +1097,5 @@ namespace zPoolMiner
 
             UpdateGlobalRate();
         }
-
-        
     }
 }

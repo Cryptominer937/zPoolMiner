@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using zPoolMiner.Devices;
@@ -11,8 +12,9 @@ namespace zPoolMiner.Forms.Components
         private const int ENABLED = 0;
         private const int ALGORITHM = 1;
         private const int SPEED = 2;
-        private const int RATIO = 3;
-        private const int RATE = 4;
+        private const int SECSPEED = 3;
+        private const int RATIO = 4;
+        private const int RATE = 5;
 
         public interface IAlgorithmsListView
         {
@@ -37,13 +39,14 @@ namespace zPoolMiner.Forms.Components
 
             public void LviSetColor(ListViewItem lvi)
             {
-                if (lvi.Tag is Algorithm algorithm)
+                Algorithm algorithm = lvi.Tag as Algorithm;
+                if (algorithm != null)
                 {
                     if (algorithm.Enabled == false && !algorithm.IsBenchmarkPending)
                     {
                         lvi.BackColor = DISABLED_COLOR;
                     }
-                    else if (algorithm.BenchmarkSpeed > 0 && !algorithm.IsBenchmarkPending)
+                    else if (!algorithm.BenchmarkNeeded && !algorithm.IsBenchmarkPending)
                     {
                         lvi.BackColor = BENCHMARKED_COLOR;
                     }
@@ -83,8 +86,8 @@ namespace zPoolMiner.Forms.Components
         {
             InitializeComponent();
             // callback initializations
-            listViewAlgorithms.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(ListViewAlgorithms_ItemSelectionChanged);
-            listViewAlgorithms.ItemChecked += (ItemCheckedEventHandler)ListViewAlgorithms_ItemChecked;
+            listViewAlgorithms.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(listViewAlgorithms_ItemSelectionChanged);
+            listViewAlgorithms.ItemChecked += (ItemCheckedEventHandler)listViewAlgorithms_ItemChecked;
             IsInBenchmark = false;
         }
 
@@ -93,6 +96,7 @@ namespace zPoolMiner.Forms.Components
             listViewAlgorithms.Columns[ENABLED].Text = International.GetText("AlgorithmsListView_Enabled");
             listViewAlgorithms.Columns[ALGORITHM].Text = International.GetText("AlgorithmsListView_Algorithm");
             listViewAlgorithms.Columns[SPEED].Text = International.GetText("AlgorithmsListView_Speed");
+            listViewAlgorithms.Columns[SECSPEED].Text = International.GetText("Form_DcriValues_SecondarySpeed");
             listViewAlgorithms.Columns[RATIO].Text = International.GetText("AlgorithmsListView_Ratio");
             listViewAlgorithms.Columns[RATE].Text = International.GetText("AlgorithmsListView_Rate");
         }
@@ -105,18 +109,35 @@ namespace zPoolMiner.Forms.Components
             foreach (var alg in computeDevice.GetAlgorithmSettings())
             {
                 ListViewItem lvi = new ListViewItem();
-                ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
+
+                var name = "";
+                var secondarySpeed = "";
+                var payingRatio = "";
+                if (alg is DualAlgorithm dualAlg)
+                {
+                    name = "  + " + dualAlg.SecondaryAlgorithmName;
+                    secondarySpeed = dualAlg.SecondaryBenchmarkSpeedString();
+                    payingRatio = dualAlg.SecondaryCurPayingRatio;
+                }
+                else
+                {
+                    name = String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName);
+                    payingRatio = alg.CurPayingRatio;
+                }
+
+                ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(name);
 
                 //sub.Tag = alg.Value;
                 lvi.SubItems.Add(alg.BenchmarkSpeedString());
-                lvi.SubItems.Add(alg.CurPayingRatio);
+                lvi.SubItems.Add(secondarySpeed);
+                lvi.SubItems.Add(payingRatio);
                 lvi.SubItems.Add(alg.CurPayingRate);
                 lvi.Tag = alg;
                 lvi.Checked = alg.Enabled;
                 listViewAlgorithms.Items.Add(lvi);
             }
             listViewAlgorithms.EndUpdate();
-            Enabled = isEnabled;
+            this.Enabled = isEnabled;
         }
 
         public void RepaintStatus(bool isEnabled, string uuid)
@@ -127,15 +148,17 @@ namespace zPoolMiner.Forms.Components
                 {
                     Algorithm algo = lvi.Tag as Algorithm;
                     lvi.SubItems[SPEED].Text = algo.BenchmarkSpeedString();
+                    if (algo is DualAlgorithm dualAlg)
+                        lvi.SubItems[SECSPEED].Text = dualAlg.SecondaryBenchmarkSpeedString();
                     _listItemCheckColorSetter.LviSetColor(lvi);
                 }
-                Enabled = isEnabled;
+                this.Enabled = isEnabled;
             }
         }
 
         #region Callbacks Events
 
-        private void ListViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void listViewAlgorithms_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (ComunicationInterface != null)
             {
@@ -143,14 +166,15 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void ListViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void listViewAlgorithms_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             if (IsInBenchmark)
             {
                 e.Item.Checked = !e.Item.Checked;
                 return;
             }
-            if (e.Item.Tag is Algorithm algo)
+            var algo = e.Item.Tag as Algorithm;
+            if (algo != null)
             {
                 algo.Enabled = e.Item.Checked;
             }
@@ -188,12 +212,15 @@ namespace zPoolMiner.Forms.Components
                 {
                     foreach (ListViewItem lvi in listViewAlgorithms.Items)
                     {
-                        if (lvi.Tag is Algorithm algo && algo.AlgorithmStringID == algorithm.AlgorithmStringID)
+                        Algorithm algo = lvi.Tag as Algorithm;
+                        if (algo != null && algo.AlgorithmStringID == algorithm.AlgorithmStringID)
                         {
                             // TODO handle numbers
                             lvi.SubItems[SPEED].Text = algorithm.BenchmarkSpeedString();
                             lvi.SubItems[RATE].Text = algorithm.CurPayingRate;
                             lvi.SubItems[RATIO].Text = algorithm.CurPayingRatio;
+                            if (algorithm is DualAlgorithm dualAlg)
+                                lvi.SubItems[SECSPEED].Text = dualAlg.SecondaryBenchmarkSpeedString();
                             _listItemCheckColorSetter.LviSetColor(lvi);
                             break;
                         }
@@ -202,7 +229,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void ListViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
+        private void listViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
         {
             if (IsInBenchmark) return;
             if (e.Button == MouseButtons.Right)
@@ -210,36 +237,65 @@ namespace zPoolMiner.Forms.Components
                 contextMenuStrip1.Items.Clear();
                 // disable all
                 {
-                    var disableAllItems = new ToolStripMenuItem
-                    {
-                        Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll")
-                    };
-                    disableAllItems.Click += ToolStripMenuItemDisableAll_Click;
+                    var disableAllItems = new ToolStripMenuItem();
+                    disableAllItems.Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll");
+                    disableAllItems.Click += toolStripMenuItemDisableAll_Click;
                     contextMenuStrip1.Items.Add(disableAllItems);
                 }
                 // enable all
                 {
-                    var enableAllItems = new ToolStripMenuItem
-                    {
-                        Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll")
-                    };
-                    enableAllItems.Click += ToolStripMenuItemEnableAll_Click;
+                    var enableAllItems = new ToolStripMenuItem();
+                    enableAllItems.Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll");
+                    enableAllItems.Click += toolStripMenuItemEnableAll_Click;
                     contextMenuStrip1.Items.Add(enableAllItems);
                 }
                 // clear item
                 {
-                    var clearItem = new ToolStripMenuItem
-                    {
-                        Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem")
-                    };
-                    clearItem.Click += ToolStripMenuItemClear_Click;
+                    var clearItem = new ToolStripMenuItem();
+                    clearItem.Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem");
+                    clearItem.Click += toolStripMenuItemClear_Click;
                     contextMenuStrip1.Items.Add(clearItem);
+                }
+                // open dcri
+                {
+                    var dcriMenu = new ToolStripMenuItem
+                    {
+                        Text = International.GetText("Form_DcriValues_Title")
+                    };
+
+                    if (listViewAlgorithms.SelectedItems.Count > 0
+                        && listViewAlgorithms.SelectedItems[0].Tag is DualAlgorithm dualAlg)
+                    {
+                        dcriMenu.Enabled = true;
+
+                        var openDcri = new ToolStripMenuItem
+                        {
+                            Text = International.GetText("AlgorithmsListView_ContextMenu_OpenDcri")
+                        };
+                        openDcri.Click += toolStripMenuItemOpenDcri_Click;
+                        dcriMenu.DropDownItems.Add(openDcri);
+
+                        var tuningEnabled = new ToolStripMenuItem
+                        {
+                            Text = International.GetText("Form_DcriValues_TuningEnabled"),
+                            CheckOnClick = true,
+                            Checked = dualAlg.TuningEnabled
+                        };
+                        tuningEnabled.CheckedChanged += toolStripMenuItemTuningEnabled_Checked;
+                        dcriMenu.DropDownItems.Add(tuningEnabled);
+                    }
+                    else
+                    {
+                        dcriMenu.Enabled = false;
+                    }
+
+                    contextMenuStrip1.Items.Add(dcriMenu);
                 }
                 contextMenuStrip1.Show(Cursor.Position);
             }
         }
 
-        private void ToolStripMenuItemEnableAll_Click(object sender, EventArgs e)
+        private void toolStripMenuItemEnableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
             {
@@ -247,7 +303,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void ToolStripMenuItemDisableAll_Click(object sender, EventArgs e)
+        private void toolStripMenuItemDisableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
             {
@@ -255,7 +311,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void ToolStripMenuItemClear_Click(object sender, EventArgs e)
+        private void toolStripMenuItemClear_Click(object sender, EventArgs e)
         {
             if (_computeDevice != null)
             {
@@ -264,13 +320,48 @@ namespace zPoolMiner.Forms.Components
                     if (lvi.Tag is Algorithm algorithm)
                     {
                         algorithm.BenchmarkSpeed = 0;
-                        algorithm.SecondaryBenchmarkSpeed = 0;
+                        if (algorithm is DualAlgorithm dualAlgo)
+                        {
+                            dualAlgo.SecondaryBenchmarkSpeed = 0;
+                            dualAlgo.IntensitySpeeds = new Dictionary<int, double>();
+                            dualAlgo.SecondaryIntensitySpeeds = new Dictionary<int, double>();
+                            dualAlgo.IntensityUpToDate = false;
+                        }
                         RepaintStatus(_computeDevice.Enabled, _computeDevice.UUID);
                         // update benchmark status data
-                        if (BenchmarkCalculation != null) BenchmarkCalculation.CalcBenchmarkDevicesAlgorithmQueue();
+                        BenchmarkCalculation?.CalcBenchmarkDevicesAlgorithmQueue();
                         // update settings
-                        if (ComunicationInterface != null) ComunicationInterface.ChangeSpeed(lvi);
+                        ComunicationInterface?.ChangeSpeed(lvi);
                     }
+                }
+            }
+        }
+
+        private void toolStripMenuItemOpenDcri_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listViewAlgorithms.SelectedItems)
+            {
+                if (lvi.Tag is DualAlgorithm algo)
+                {
+                    var dcriValues = new Form_DcriValues(algo);
+                    dcriValues.ShowDialog();
+                    RepaintStatus(_computeDevice.Enabled, _computeDevice.UUID);
+                    // update benchmark status data
+                    BenchmarkCalculation?.CalcBenchmarkDevicesAlgorithmQueue();
+                    // update settings
+                    ComunicationInterface?.ChangeSpeed(lvi);
+                }
+            }
+        }
+
+        private void toolStripMenuItemTuningEnabled_Checked(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listViewAlgorithms.SelectedItems)
+            {
+                if (lvi.Tag is DualAlgorithm algo)
+                {
+                    algo.TuningEnabled = ((ToolStripMenuItem)sender).Checked;
+                    RepaintStatus(_computeDevice.Enabled, _computeDevice.UUID);
                 }
             }
         }

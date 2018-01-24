@@ -57,7 +57,7 @@
     "Form_Main_loadtext_AMD": "Querying AMD OpenCL devices...",
     "Form_Main_loadtext_SaveConfig": "Saving config...",
     "Form_Main_loadtext_CheckLatestVersion": "Checking for latest version...",
-    "Form_Main_loadtext_GetNiceHashSMA": "Getting 3rd Party SMA information...",
+    "Form_Main_loadtext_GetzPoolMinerSMA": "Getting 3rd Party SMA information...",
     "Form_Main_loadtext_GetBTCRate": "Getting Bitcoin exchange rate...",
     "Form_Main_loadtext_GetNiceHashBalance": "Getting balance...",
     "Form_Main_loadtext_SetEnvironmentVariable": "Setting environment variables...",

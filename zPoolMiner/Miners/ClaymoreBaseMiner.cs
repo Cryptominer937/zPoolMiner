@@ -29,10 +29,13 @@ namespace zPoolMiner.Miners
         protected double api_read_mult = 1;
         protected AlgorithmType SecondaryAlgorithmType = AlgorithmType.NONE;
 
+        // CD intensity tuning
+        protected const int defaultIntensity = 30;
+
         public ClaymoreBaseMiner(string minerDeviceName, string look_FOR_START)
             : base(minerDeviceName)
         {
-            ConectionType = NHMConectionType.STRATUM_TCP;
+            ConectionType = NHMConectionType.STRATUM_SSL;
             LOOK_FOR_START = look_FOR_START.ToLower();
             IsKillAllUsedMinerProcs = true;
         }
@@ -57,9 +60,9 @@ namespace zPoolMiner.Miners
 
         private class JsonApiResponse
         {
-            public List<string> Result { get; set; }
-            public int Id { get; set; }
-            public object Error { get; set; }
+            public List<string> result { get; set; }
+            public int id { get; set; }
+            public object error { get; set; }
         }
 
         public override async Task<APIData> GetSummaryAsync()
@@ -87,14 +90,14 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(this.MinerTAG(), "GetSummary exception: " + ex.Message);
             }
 
-            if (resp != null && resp.Error == null)
+            if (resp != null && resp.error == null)
             {
                 //Helpers.ConsolePrint("ClaymoreZcashMiner API back:", "resp != null && resp.error == null");
-                if (resp.Result != null && resp.Result.Count > 4)
+                if (resp.result != null && resp.result.Count > 4)
                 {
                     //Helpers.ConsolePrint("ClaymoreZcashMiner API back:", "resp.result != null && resp.result.Count > 4");
-                    var speeds = resp.Result[3].Split(';');
-                    var secondarySpeeds = (IsDual()) ? resp.Result[5].Split(';') : new string[0];
+                    var speeds = resp.result[3].Split(';');
+                    var secondarySpeeds = (IsDual()) ? resp.result[5].Split(';') : new string[0];
                     ad.Speed = 0;
                     ad.SecondarySpeed = 0;
                     foreach (var speed in speeds)
@@ -153,8 +156,6 @@ namespace zPoolMiner.Miners
             return " -di ";
         }
 
-        // This method now overridden in ClaymoreCryptoNightMiner
-        // Following logic for ClaymoreDual and ClaymoreZcash
         protected override string GetDevicesCommandString()
         {
             // First by device type (AMD then NV), then by bus ID index
@@ -165,9 +166,10 @@ namespace zPoolMiner.Miners
             string extraParams = ExtraLaunchParametersParser.ParseForMiningPairs(sortedMinerPairs, DeviceType.AMD);
 
             List<string> ids = new List<string>();
+            var intensities = new List<string>();
 
             int amdDeviceCount = ComputeDeviceManager.Query.AMD_Devices.Count;
-            Helpers.ConsolePrint("ClaymoreIndexing", String.Format("Found {0} AMD devices", amdDeviceCount));
+            Helpers.ConsolePrint("ClaymoreIndexing", $"Found {amdDeviceCount} AMD devices");
 
             foreach (var mPair in sortedMinerPairs)
             {
@@ -175,19 +177,19 @@ namespace zPoolMiner.Miners
                 if (id < 0)
                 {
                     // should never happen
-                    Helpers.ConsolePrint("ClaymoreIndexing", "ID by Bus too low: " + id.ToString() + " skipping device");
+                    Helpers.ConsolePrint("ClaymoreIndexing", "ID by Bus too low: " + id + " skipping device");
                     continue;
                 }
                 if (mPair.Device.DeviceType == DeviceType.NVIDIA)
                 {
-                    Helpers.ConsolePrint("ClaymoreIndexing", "NVIDIA device increasing index by " + amdDeviceCount.ToString());
+                    Helpers.ConsolePrint("ClaymoreIndexing", "NVIDIA device increasing index by " + amdDeviceCount);
                     id += amdDeviceCount;
                 }
                 if (id > 9)
                 {  // New >10 GPU support in CD9.8
                     if (id < 36)
-                    {  // CD supports 0-9 and a-z indexes, so 36 GPUs
-                        char idchar = (char)(id + 87);  // 10 = 97(a), 11 - 98(b), etc
+                    {  // CD supports 0-9 and a-z indices, so 36 GPUs
+                        char idchar = (char)(id + 87);  // 10 = 97(a), 11 = 98(b), etc
                         ids.Add(idchar.ToString());
                     }
                     else
@@ -199,16 +201,32 @@ namespace zPoolMiner.Miners
                 {
                     ids.Add(id.ToString());
                 }
+                if (mPair.Algorithm is DualAlgorithm algo && algo.TuningEnabled)
+                {
+                    intensities.Add(algo.CurrentIntensity.ToString());
+                }
             }
-            var deviceStringCommand = DeviceCommand(amdDeviceCount) + String.Join("", ids);
+            var deviceStringCommand = DeviceCommand() + String.Join("", ids);
+            string intensityStringCommand = "";
+            if (intensities.Count > 0)
+            {
+                intensityStringCommand = " -dcri " + String.Join(",", intensities);
+            }
 
-            return deviceStringCommand + extraParams;
+            return deviceStringCommand + intensityStringCommand + extraParams;
         }
 
         // benchmark stuff
 
         protected override void BenchmarkThreadRoutine(object CommandLine)
         {
+            if (BenchmarkAlgorithm is DualAlgorithm dualBenchAlgo && dualBenchAlgo.TuningEnabled)
+            {
+                var stepsLeft = (int)Math.Ceiling((double)(dualBenchAlgo.TuningEnd - dualBenchAlgo.CurrentIntensity) / (dualBenchAlgo.TuningInterval)) + 1;
+                Helpers.ConsolePrint("CDTUING", "{0} tuning steps remain, should complete in {1} seconds", stepsLeft, stepsLeft * benchmarkTimeWait);
+                Helpers.ConsolePrint("CDTUNING",
+                    $"Starting benchmark for intensity {dualBenchAlgo.CurrentIntensity} out of {dualBenchAlgo.TuningEnd}");
+            }
             BenchmarkThreadRoutineAlternate(CommandLine, benchmarkTimeWait);
         }
 
@@ -224,7 +242,7 @@ namespace zPoolMiner.Miners
                     {
                         if (ignoreZero)
                         {
-                            double got = GetNumber(lineLowered);
+                            double got = getNumber(lineLowered);
                             if (got != 0)
                             {
                                 benchmark_sum += got;
@@ -233,7 +251,7 @@ namespace zPoolMiner.Miners
                         }
                         else
                         {
-                            benchmark_sum += GetNumber(lineLowered);
+                            benchmark_sum += getNumber(lineLowered);
                             ++benchmark_read_count;
                         }
                     }
@@ -241,7 +259,7 @@ namespace zPoolMiner.Miners
                     {
                         if (ignoreZero)
                         {
-                            double got = GetNumber(lineLowered, SecondaryLookForStart(), LOOK_FOR_END);
+                            double got = getNumber(lineLowered, SecondaryLookForStart(), LOOK_FOR_END);
                             if (got != 0)
                             {
                                 secondary_benchmark_sum += got;
@@ -250,7 +268,7 @@ namespace zPoolMiner.Miners
                         }
                         else
                         {
-                            secondary_benchmark_sum += GetNumber(lineLowered);
+                            secondary_benchmark_sum += getNumber(lineLowered);
                             ++secondary_benchmark_read_count;
                         }
                     }
@@ -258,8 +276,20 @@ namespace zPoolMiner.Miners
             }
             if (benchmark_read_count > 0)
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = benchmark_sum / benchmark_read_count;
-                BenchmarkAlgorithm.SecondaryBenchmarkSpeed = secondary_benchmark_sum / secondary_benchmark_read_count;
+                var speed = benchmark_sum / benchmark_read_count;
+                var secondarySpeed = secondary_benchmark_sum / secondary_benchmark_read_count;
+                BenchmarkAlgorithm.BenchmarkSpeed = speed;
+                if (BenchmarkAlgorithm is DualAlgorithm dualBenchAlgo)
+                {
+                    if (dualBenchAlgo.TuningEnabled)
+                    {
+                        dualBenchAlgo.SetIntensitySpeedsForCurrent(speed, secondarySpeed);
+                    }
+                    else
+                    {
+                        dualBenchAlgo.SecondaryBenchmarkSpeed = secondarySpeed;
+                    }
+                }
             }
         }
 
@@ -275,12 +305,12 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-        protected double GetNumber(string outdata)
+        protected double getNumber(string outdata)
         {
-            return GetNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
+            return getNumber(outdata, LOOK_FOR_START, LOOK_FOR_END);
         }
 
-        protected double GetNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
+        protected double getNumber(string outdata, string LOOK_FOR_START, string LOOK_FOR_END)
         {
             try
             {

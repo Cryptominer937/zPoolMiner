@@ -104,13 +104,22 @@
     <Compile Include="3rdParty\ADL.cs" />
     <Compile Include="3rdParty\NVAPI.cs" />
     <Compile Include="3rdParty\PInvokeDelegateFactory.cs" />
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Algorithm\Algorithm.cs" />
+    <Compile Include="Algorithm\DualAlgorithm.cs" />
+    <Compile Include="Configs\Data\DualAlgorithmConfig.cs" />
     <Compile Include="Devices\ComputeDevice\AmdComputeDevice.cs" />
     <Compile Include="Devices\ComputeDevice\CPUComputeDevice.cs" />
     <Compile Include="Devices\ComputeDevice\CudaComputeDevice.cs" />
     <Compile Include="Enums\TimeUnitType.cs" />
+    <Compile Include="Forms\Form_DcriValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Form_DcriValues.Designer.cs">
+      <DependentUpon>Form_DcriValues.cs</DependentUpon>
+    </Compile>
     <Compile Include="IFTTT.cs" />
     <Compile Include="ExchangeRateAPI.cs" />
+    <Compile Include="Interfaces\IBenchmarkForm.cs" />
     <Compile Include="Miners\ClaymoreDual.cs" />
     <Compile Include="Miners\dstm.cs" />
     <Compile Include="Miners\EWBF.cs" />
@@ -118,7 +127,6 @@
     <Compile Include="Miners\hsrneoscrypt.cs" />
     <Compile Include="Miners\prospector.cs" />
     <Compile Include="Miners\XmrStak\XmrStak.cs" />
-    <Compile Include="Miners\XmrStak\XmrStakAMD.cs" />
     <Compile Include="Miners\XmrStak\XmrStakConfig.cs" />
     <Compile Include="Miners\Xmrig.cs" />
     <Compile Include="CryptoStats.cs" />
@@ -202,9 +210,7 @@
     <Compile Include="Forms\Components\GroupProfitControl.Designer.cs">
       <DependentUpon>GroupProfitControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Form_Benchmark.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\Form_Benchmark.cs" />
     <Compile Include="Forms\Form_Benchmark.Designer.cs">
       <DependentUpon>Form_Benchmark.cs</DependentUpon>
     </Compile>
@@ -264,7 +270,6 @@
     <Compile Include="Miners\Equihash\nheqminer.cs" />
     <Compile Include="Miners\MiningSession.cs" />
     <Compile Include="Miners\Parsing\MinerOptionPackage.cs" />
-    <Compile Include="Miners\XmrStak\XmrStackCPUMiner.cs" />
     <Compile Include="PInvoke\NiceHashProcess.cs" />
     <Compile Include="Utils\BitcoinAddress.cs" />
     <Compile Include="Miners\ccminer.cs" />
@@ -299,7 +304,7 @@
       <DependentUpon>MinerFileNotFoundDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="PInvoke\PInvokeHelpers.cs" />
-    <Compile Include="Utils\NiceHashSMA.cs" />
+    <Compile Include="Utils\zPoolMinerSMA.cs" />
     <Compile Include="Utils\ProfitabilityCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

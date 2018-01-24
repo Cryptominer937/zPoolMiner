@@ -1,22 +1,25 @@
 ﻿/*
   Adapted from OpenHardwareMonitor https://github.com/openhardwaremonitor/openhardwaremonitor
-
+ 
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
+ 
   Copyright (C) 2009-2012 Michael M�ller <mmoeller@openhardwaremonitor.org>
-
+	
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using zPoolMiner;
 
 namespace NVIDIA.NVAPI
 {
     #region Enumms
-
     internal enum NvStatus
     {
         OK = 0,
@@ -71,7 +74,6 @@ namespace NVIDIA.NVAPI
         D3D10_1_LIBRARY_NOT_FOUND = -135,
         FUNCTION_NOT_FOUND = -136
     }
-
     internal enum NvThermalController
     {
         NONE = 0,
@@ -88,7 +90,6 @@ namespace NVIDIA.NVAPI
         OS,
         UNKNOWN = -1,
     }
-
     internal enum NvThermalTarget
     {
         NONE = 0,
@@ -100,40 +101,34 @@ namespace NVIDIA.NVAPI
         UNKNOWN = -1
     };
 
-    #endregion Enumms
+    #endregion
 
     #region Structs
-
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvPhysicalGpuHandle
     {
         private readonly IntPtr ptr;
     }
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvPState
     {
         public bool Present;
         public int Percentage;
     }
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvPStates
     {
         public uint Version;
         public uint Flags;
-
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NVAPI.MAX_PSTATES_PER_GPU)]
         public NvPState[] PStates;
     }
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvLevel
     {
         public int Level;
         public int Policy;
     }
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvSensor
     {
@@ -143,18 +138,16 @@ namespace NVIDIA.NVAPI
         public uint CurrentTemp;
         public NvThermalTarget Target;
     }
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvGPUThermalSettings
     {
         public uint Version;
         public uint Count;
-
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NVAPI.MAX_THERMAL_SENSORS_PER_GPU)]
         public NvSensor[] Sensor;
     }
 
-    #endregion Structs
+    #endregion
 
     internal class NVAPI
     {
@@ -167,19 +160,13 @@ namespace NVIDIA.NVAPI
         public static readonly uint GPU_THERMAL_SETTINGS_VER = (uint)Marshal.SizeOf(typeof(NvGPUThermalSettings)) | 0x10000;
 
         #region Delegates
-
         private delegate IntPtr nvapi_QueryInterfaceDelegate(uint id);
-
         private delegate NvStatus NvAPI_InitializeDelegate();
 
         internal delegate NvStatus NvAPI_EnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] gpuHandles, out int gpuCount);
-
         internal delegate NvStatus NvAPI_GPU_GetBusIdDelegate(NvPhysicalGpuHandle gpuHandle, out int busID);
-
         internal delegate NvStatus NvAPI_GPU_GetTachReadingDelegate(NvPhysicalGpuHandle gpuHandle, out int value);
-
         internal delegate NvStatus NvAPI_GPU_GetPStatesDelegate(NvPhysicalGpuHandle gpuHandle, ref NvPStates nvPStates);
-
         internal delegate NvStatus NvAPI_GPU_GetThermalSettingsDelegate(NvPhysicalGpuHandle gpuHandle, int sensorIndex, ref NvGPUThermalSettings nvGPUThermalSettings);
 
         private static readonly nvapi_QueryInterfaceDelegate nvapi_QueryInterface;
@@ -192,7 +179,7 @@ namespace NVIDIA.NVAPI
         internal static readonly NvAPI_GPU_GetPStatesDelegate NvAPI_GPU_GetPStates;
         internal static readonly NvAPI_GPU_GetThermalSettingsDelegate NvAPI_GPU_GetThermalSettings;
 
-        #endregion Delegates
+        #endregion
 
         private static void GetDelegate<T>(uint id, out T newDelegate)
             where T : class
@@ -210,12 +197,10 @@ namespace NVIDIA.NVAPI
 
         static NVAPI()
         {
-            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll")
-            {
-                CallingConvention = CallingConvention.Cdecl,
-                PreserveSig = true,
-                EntryPoint = "nvapi_QueryInterface"
-            };
+            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll");
+            attribute.CallingConvention = CallingConvention.Cdecl;
+            attribute.PreserveSig = true;
+            attribute.EntryPoint = "nvapi_QueryInterface";
             PInvokeDelegateFactory.CreateDelegate(attribute, out nvapi_QueryInterface);
 
             try

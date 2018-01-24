@@ -22,7 +22,8 @@ namespace zPoolMiner
             {
                 using (Process p = Process.GetCurrentProcess())
                 {
-                    if (!IsWow64Process(p.Handle, out bool retVal))
+                    bool retVal;
+                    if (!IsWow64Process(p.Handle, out retVal))
                     {
                         return false;
                     }
@@ -42,7 +43,7 @@ namespace zPoolMiner
             Debug.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
 #endif
 #if !DEBUG
-            Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
+            Console.WriteLine("[" +DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
 #endif
 
             if (ConfigManager.GeneralConfig.LogToFile && Logger.IsInit)
@@ -142,7 +143,7 @@ namespace zPoolMiner
             return ret;
         }
 
-        public static string FormatDualSpeedOutput(AlgorithmType algorithmID, double primarySpeed, double secondarySpeed = 0)
+        public static string FormatDualSpeedOutput(double primarySpeed, double secondarySpeed = 0, AlgorithmType algo = AlgorithmType.NONE)
         {
             string ret;
             if (secondarySpeed > 0)
@@ -153,11 +154,8 @@ namespace zPoolMiner
             {
                 ret = FormatSpeedOutput(primarySpeed);
             }
-
-            if (algorithmID == AlgorithmType.Equihash)
-                return ret + "Sols/s ";
-            else
-                return ret + "H/s ";
+            var unit = (algo == AlgorithmType.Equihash) ? "Sol/s " : "H/s ";
+            return ret + unit;
         }
 
         public static string GetMotherboardID()
@@ -258,7 +256,8 @@ namespace zPoolMiner
             bool returnValue = false;
             try
             {
-                returnValue = InternetGetConnectedState(out int Desc, 0);
+                int Desc;
+                returnValue = InternetGetConnectedState(out Desc, 0);
             }
             catch
             {
@@ -270,7 +269,8 @@ namespace zPoolMiner
         // parsing helpers
         public static int ParseInt(string text)
         {
-            if (Int32.TryParse(text, out int tmpVal))
+            int tmpVal = 0;
+            if (Int32.TryParse(text, out tmpVal))
             {
                 return tmpVal;
             }
@@ -279,7 +279,8 @@ namespace zPoolMiner
 
         public static long ParseLong(string text)
         {
-            if (Int64.TryParse(text, out long tmpVal))
+            long tmpVal = 0;
+            if (Int64.TryParse(text, out tmpVal))
             {
                 return tmpVal;
             }
@@ -366,13 +367,11 @@ namespace zPoolMiner
         {
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo
-                {
-                    FileName = "nvidiasetp0state.exe",
-                    Verb = "runas",
-                    UseShellExecute = true,
-                    CreateNoWindow = true
-                };
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = "nvidiasetp0state.exe";
+                psi.Verb = "runas";
+                psi.UseShellExecute = true;
+                psi.CreateNoWindow = true;
                 Process p = Process.Start(psi);
                 p.WaitForExit();
                 if (p.ExitCode != 0)

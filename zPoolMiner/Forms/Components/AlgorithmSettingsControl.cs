@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using zPoolMiner.Devices;
-using zPoolMiner.Enums;
 
 namespace zPoolMiner.Forms.Components
 {
@@ -22,9 +21,9 @@ namespace zPoolMiner.Forms.Components
             field_LessThreads.SetInputModeIntOnly();
 
             field_LessThreads.SetOnTextLeave(LessThreads_Leave);
-            fieldBoxBenchmarkSpeed.SetOnTextChanged(TextChangedBenchmarkSpeed);
-            secondaryFieldBoxBenchmarkSpeed.SetOnTextChanged(SecondaryTextChangedBenchmarkSpeed);
-            richTextBoxExtraLaunchParameters.TextChanged += TextChangedExtraLaunchParameters;
+            fieldBoxBenchmarkSpeed.SetOnTextChanged(textChangedBenchmarkSpeed);
+            secondaryFieldBoxBenchmarkSpeed.SetOnTextChanged(secondaryTextChangedBenchmarkSpeed);
+            richTextBoxExtraLaunchParameters.TextChanged += textChangedExtraLaunchParameters;
         }
 
         public void Deselect()
@@ -57,7 +56,7 @@ namespace zPoolMiner.Forms.Components
 
         private string ParseStringDefault(string value)
         {
-            return value ?? "";
+            return value == null ? "" : value;
         }
 
         private string ParseDoubleDefault(double value)
@@ -71,7 +70,8 @@ namespace zPoolMiner.Forms.Components
             if (lvi == null) return;
 
             _computeDevice = computeDevice;
-            if (lvi.Tag is Algorithm algorithm)
+            var algorithm = lvi.Tag as Algorithm;
+            if (algorithm != null)
             {
                 _selected = true;
                 _currentlySelectedAlgorithm = algorithm;
@@ -81,7 +81,7 @@ namespace zPoolMiner.Forms.Components
                 groupBoxSelectedAlgorithmSettings.Text = String.Format(International.GetText("AlgorithmsListView_GroupBox"),
                 String.Format("{0} ({1})", algorithm.AlgorithmName, algorithm.MinerBaseTypeName)); ;
 
-                field_LessThreads.Enabled = _computeDevice.DeviceGroupType == DeviceGroupType.CPU && algorithm.MinerBaseType == MinerBaseType.XmrStackCPU;
+                field_LessThreads.Enabled = false; //_computeDevice.DeviceGroupType == DeviceGroupType.CPU && algorithm.MinerBaseType == MinerBaseType.XmrStak;
                 if (field_LessThreads.Enabled)
                 {
                     field_LessThreads.EntryText = algorithm.LessThreads.ToString();
@@ -92,8 +92,15 @@ namespace zPoolMiner.Forms.Components
                 }
                 fieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.BenchmarkSpeed);
                 richTextBoxExtraLaunchParameters.Text = ParseStringDefault(algorithm.ExtraLaunchParameters);
-                secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.SecondaryBenchmarkSpeed);
-                secondaryFieldBoxBenchmarkSpeed.Enabled = _currentlySelectedAlgorithm.SecondaryNiceHashID != AlgorithmType.NONE;
+                if (algorithm is DualAlgorithm dualAlgo)
+                {
+                    secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(dualAlgo.SecondaryBenchmarkSpeed);
+                    secondaryFieldBoxBenchmarkSpeed.Enabled = true;
+                }
+                else
+                {
+                    secondaryFieldBoxBenchmarkSpeed.Enabled = false;
+                }
                 this.Update();
             }
             else
@@ -114,10 +121,18 @@ namespace zPoolMiner.Forms.Components
         {
             if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
             {
-                if (lvi.Tag is Algorithm algorithm)
+                var algorithm = lvi.Tag as Algorithm;
+                if (algorithm != null)
                 {
                     fieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.BenchmarkSpeed);
-                    secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.SecondaryBenchmarkSpeed);
+                    if (algorithm is DualAlgorithm dualAlgo)
+                    {
+                        secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(dualAlgo.SecondaryBenchmarkSpeed);
+                    }
+                    else
+                    {
+                        secondaryFieldBoxBenchmarkSpeed.EntryText = "0";
+                    }
                 }
             }
         }
@@ -129,28 +144,32 @@ namespace zPoolMiner.Forms.Components
 
         #region Callbacks Events
 
-        private void TextChangedBenchmarkSpeed(object sender, EventArgs e)
+        private void textChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
-            if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out double value))
+            double value;
+            if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out value))
             {
                 _currentlySelectedAlgorithm.BenchmarkSpeed = value;
             }
-            UpdateSpeedText();
+            updateSpeedText();
         }
 
-        private void SecondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
+        private void secondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
-            if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
+            double secondaryValue;
+            if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out secondaryValue)
+                && _currentlySelectedAlgorithm is DualAlgorithm dualAlgo)
             {
-                _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed = secondaryValue;
+                dualAlgo.SecondaryBenchmarkSpeed = secondaryValue;
             }
-            UpdateSpeedText();
+            updateSpeedText();
         }
 
-        private void UpdateSpeedText()
+        private void updateSpeedText()
         {
-            var speedString = Helpers.FormatDualSpeedOutput(_currentlySelectedAlgorithm.NiceHashID, _currentlySelectedAlgorithm.BenchmarkSpeed, _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed);
+            double secondarySpeed = (_currentlySelectedAlgorithm is DualAlgorithm dualAlgo) ? dualAlgo.SecondaryBenchmarkSpeed : 0;
+            var speedString = Helpers.FormatDualSpeedOutput(_currentlySelectedAlgorithm.BenchmarkSpeed, secondarySpeed, _currentlySelectedAlgorithm.NiceHashID);
             // update lvi speed
             if (_currentlySelectedLvi != null)
             {
@@ -161,7 +180,8 @@ namespace zPoolMiner.Forms.Components
         private void LessThreads_Leave(object sender, EventArgs e)
         {
             TextBox txtbox = (TextBox)sender;
-            if (Int32.TryParse(txtbox.Text, out int val))
+            int val;
+            if (Int32.TryParse(txtbox.Text, out val))
             {
                 if (Globals.ThreadsPerCPU - val < 1)
                 {
@@ -185,17 +205,12 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        private void TextChangedExtraLaunchParameters(object sender, EventArgs e)
+        private void textChangedExtraLaunchParameters(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
             var ExtraLaunchParams = richTextBoxExtraLaunchParameters.Text.Replace("\r\n", " ");
             ExtraLaunchParams = ExtraLaunchParams.Replace("\n", " ");
             _currentlySelectedAlgorithm.ExtraLaunchParameters = ExtraLaunchParams;
-        }
-
-        private void fieldBoxBenchmarkSpeed_Load(object sender, EventArgs e)
-        {
-
         }
 
         #endregion Callbacks Events

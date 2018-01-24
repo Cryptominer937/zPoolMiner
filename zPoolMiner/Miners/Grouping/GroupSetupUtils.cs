@@ -15,7 +15,7 @@ namespace zPoolMiner.Miners.Grouping
             return algo != null && algo.Enabled && algo.BenchmarkSpeed > 0;
         }
 
-        public static Tuple<ComputeDevice, DeviceMiningStatus> GetDeviceMiningStatus(ComputeDevice device)
+        public static Tuple<ComputeDevice, DeviceMiningStatus> getDeviceMiningStatus(ComputeDevice device)
         {
             DeviceMiningStatus status = DeviceMiningStatus.CanMine;
             if (device == null)
@@ -47,7 +47,7 @@ namespace zPoolMiner.Miners.Grouping
             List<MiningDevice> miningDevices = new List<MiningDevice>();
             foreach (var dev in devices)
             {
-                var devStatus = GetDeviceMiningStatus(dev);
+                var devStatus = getDeviceMiningStatus(dev);
                 if (devStatus.Item2 == DeviceMiningStatus.CanMine)
                 {
                     miningDevices.Add(new MiningDevice(dev));
@@ -165,7 +165,10 @@ namespace zPoolMiner.Miners.Grouping
                             if (index > -1)
                             {
                                 miningDevs[minerDevIndex].Algorithms[index].AvaragedSpeed = avaragedSpeed;
-                                miningDevs[minerDevIndex].Algorithms[index].SecondaryAveragedSpeed = double.IsNaN(secondaryAveragedSpeed) ? 0 : secondaryAveragedSpeed;
+                                if (miningDevs[minerDevIndex].Algorithms[index] is DualAlgorithm dualAlgo)
+                                {
+                                    dualAlgo.SecondaryAveragedSpeed = secondaryAveragedSpeed;
+                                }
                             }
                         }
                     }
@@ -224,21 +227,22 @@ namespace zPoolMiner.Miners.Grouping
             foreach (var algo in algos)
             {
                 var algo_id = algo.AlgorithmStringID;
+                double secondarySpeed = 0;
+                if (algo is DualAlgorithm dualAlgo)
+                    secondarySpeed = dualAlgo.SecondaryBenchmarkSpeed;
                 if (BenchmarkSums.ContainsKey(algo_id) == false)
                 {
-                    var ssc = new SpeedSumCount
-                    {
-                        count = 1,
-                        speed = algo.BenchmarkSpeed,
-                        secondarySpeed = algo.SecondaryBenchmarkSpeed
-                    };
+                    var ssc = new SpeedSumCount();
+                    ssc.count = 1;
+                    ssc.speed = algo.BenchmarkSpeed;
+                    ssc.secondarySpeed = secondarySpeed;
                     BenchmarkSums[algo_id] = ssc;
                 }
                 else
                 {
                     BenchmarkSums[algo_id].count++;
                     BenchmarkSums[algo_id].speed += algo.BenchmarkSpeed;
-                    BenchmarkSums[algo_id].secondarySpeed += algo.SecondaryBenchmarkSpeed;
+                    BenchmarkSums[algo_id].secondarySpeed += secondarySpeed;
                 }
             }
         }

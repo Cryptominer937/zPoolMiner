@@ -82,12 +82,12 @@ namespace zPoolMiner.Miners.Grouping
 
         private int GetMostProfitableIndex()
         {
-            return Algorithms.FindIndex((a) => a.DualNiceHashID() == MostProfitableAlgorithmType && a.MinerBaseType == MostProfitableMinerBaseType);
+            return Algorithms.FindIndex((a) => a.DualNiceHashID == MostProfitableAlgorithmType && a.MinerBaseType == MostProfitableMinerBaseType);
         }
 
         private int GetPrevProfitableIndex()
         {
-            return Algorithms.FindIndex((a) => a.DualNiceHashID() == PrevProfitableAlgorithmType && a.MinerBaseType == PrevProfitableMinerBaseType);
+            return Algorithms.FindIndex((a) => a.DualNiceHashID == PrevProfitableAlgorithmType && a.MinerBaseType == PrevProfitableMinerBaseType);
         }
 
         public double GetCurrentMostProfitValue
@@ -142,7 +142,7 @@ namespace zPoolMiner.Miners.Grouping
             MostProfitableMinerBaseType = MinerBaseType.NONE;
         }
 
-        public void CalculateProfits(Dictionary<AlgorithmType, NiceHashSMA> NiceHashData)
+        public void CalculateProfits(Dictionary<AlgorithmType, zPoolMinerSMA> NiceHashData)
         {
             // save last state
             PrevProfitableAlgorithmType = MostProfitableAlgorithmType;
@@ -154,15 +154,27 @@ namespace zPoolMiner.Miners.Grouping
             foreach (var algo in Algorithms)
             {
                 AlgorithmType key = algo.NiceHashID;
-                AlgorithmType secondaryKey = algo.SecondaryNiceHashID;
+                const double mult = 0.000000001;
                 if (NiceHashData.ContainsKey(key))
                 {
                     algo.CurNhmSMADataVal = NiceHashData[key].paying;
-                    algo.CurrentProfit = algo.CurNhmSMADataVal * algo.AvaragedSpeed * 0.000000001;
-                    if (NiceHashData.ContainsKey(secondaryKey))
+                    if (algo is DualAlgorithm dualAlgo)
                     {
-                        algo.SecondaryCurNhmSMADataVal = NiceHashData[secondaryKey].paying;
-                        algo.CurrentProfit += algo.SecondaryCurNhmSMADataVal * algo.SecondaryAveragedSpeed * 0.000000001;
+                        dualAlgo.IntensityUpToDate = false;
+                        // Bypass averager for dual algos
+                        dualAlgo.CurrentProfit = dualAlgo.CurNhmSMADataVal * dualAlgo.BenchmarkSpeed * mult;
+
+                        var secondaryKey = dualAlgo.SecondaryNiceHashID;
+                        if (NiceHashData.ContainsKey(secondaryKey))
+                        {
+                            dualAlgo.SecondaryCurNhmSMADataVal = NiceHashData[secondaryKey].paying;
+                            dualAlgo.CurrentProfit +=
+                                dualAlgo.SecondaryCurNhmSMADataVal * dualAlgo.SecondaryBenchmarkSpeed * mult;
+                        }
+                    }
+                    else
+                    {
+                        algo.CurrentProfit = algo.CurNhmSMADataVal * algo.AvaragedSpeed * mult;
                     }
                 }
                 else
@@ -177,7 +189,7 @@ namespace zPoolMiner.Miners.Grouping
                 if (maxProfit < algo.CurrentProfit)
                 {
                     maxProfit = algo.CurrentProfit;
-                    MostProfitableAlgorithmType = algo.DualNiceHashID();
+                    MostProfitableAlgorithmType = algo.DualNiceHashID;
                     MostProfitableMinerBaseType = algo.MinerBaseType;
                 }
             }

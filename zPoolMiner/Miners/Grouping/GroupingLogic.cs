@@ -12,7 +12,8 @@ namespace zPoolMiner.Miners.Grouping
             {
                 // Allow group if prospector
                 if ((IsNotCpuGroups(a, b) && IsSameDeviceType(a, b))
-                    || (a.Algorithm.MinerBaseType == MinerBaseType.Prospector && b.Algorithm.MinerBaseType == MinerBaseType.Prospector))
+                    || (a.Algorithm.MinerBaseType == MinerBaseType.Prospector && b.Algorithm.MinerBaseType == MinerBaseType.Prospector)
+                    )
                     return true;
             }
             return false;
@@ -30,7 +31,7 @@ namespace zPoolMiner.Miners.Grouping
 
         private static bool IsSameAlgorithmType(MiningPair a, MiningPair b)
         {
-            return a.Algorithm.DualNiceHashID() == b.Algorithm.DualNiceHashID();
+            return a.Algorithm.DualNiceHashID == b.Algorithm.DualNiceHashID;
         }
 
         private static bool IsSameDeviceType(MiningPair a, MiningPair b)
@@ -40,8 +41,7 @@ namespace zPoolMiner.Miners.Grouping
 
         private static bool IsGroupableMinerBaseType(MiningPair a)
         {
-            return a.Algorithm.MinerBaseType != MinerBaseType.cpuminer
-                && a.Algorithm.MinerBaseType != MinerBaseType.XmrStackCPU;
+            return a.Algorithm.MinerBaseType != MinerBaseType.cpuminer;
         }
     }
 }

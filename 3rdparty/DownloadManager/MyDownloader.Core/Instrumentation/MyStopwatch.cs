@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace MyDownloader.Core.Instrumentation
 {
@@ -9,8 +10,8 @@ namespace MyDownloader.Core.Instrumentation
     {
         #region Fields
 
-        //private Stopwatch internalStopwatch;
-        //private string name;
+        private Stopwatch internalStopwatch;
+        private string name;
 
         #endregion Fields
 

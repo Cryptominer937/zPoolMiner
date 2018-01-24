@@ -1,14 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace zPoolMiner.Configs.ConfigJsonFile
 {
     public abstract class ConfigFile<T> where T : class
     {
         // statics/consts
-        private const string TAG_FORMAT = "ConfigFile<{0}>";
-
+        const string TAG_FORMAT = "ConfigFile<{0}>";
         private readonly string CONF_FOLDER; // = @"configs\";
         private readonly string TAG;
 
@@ -26,7 +27,6 @@ namespace zPoolMiner.Configs.ConfigJsonFile
 
         // member stuff
         protected string _filePath = "";
-
         protected string _filePathOld = "";
 
         public ConfigFile(string iCONF_FOLDER, string fileName, string fileNameOld)

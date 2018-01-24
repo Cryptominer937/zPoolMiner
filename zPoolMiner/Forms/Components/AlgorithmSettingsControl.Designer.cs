@@ -70,7 +70,7 @@
             this.fieldBoxBenchmarkSpeed.Name = "fieldBoxBenchmarkSpeed";
             this.fieldBoxBenchmarkSpeed.Size = new System.Drawing.Size(220, 47);
             this.fieldBoxBenchmarkSpeed.TabIndex = 1;
-            this.fieldBoxBenchmarkSpeed.Load += new System.EventHandler(this.fieldBoxBenchmarkSpeed_Load);
+            //this.fieldBoxBenchmarkSpeed.Load += new System.EventHandler(this.fieldBoxBenchmarkSpeed_Load);
             // 
             // groupBoxExtraLaunchParameters
             // 

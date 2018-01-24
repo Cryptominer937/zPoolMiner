@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Text;
 using System.Windows.Forms;
 using zPoolMiner.Enums;
 
@@ -6,6 +11,7 @@ namespace zPoolMiner.Forms.Components
 {
     public partial class BenchmarkLimitControl : UserControl
     {
+
         public string GroupName
         {
             get
@@ -20,7 +26,6 @@ namespace zPoolMiner.Forms.Components
 
         // int array reference property
         private int[] _timeLimits;
-
         public int[] TimeLimits
         {
             get { return _timeLimits; }
@@ -36,16 +41,15 @@ namespace zPoolMiner.Forms.Components
                 }
             }
         }
-
         // texbox references
         private TextBox[] _textBoxes;
 
         public BenchmarkLimitControl()
         {
             InitializeComponent();
-            textBoxQuick.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-            textBoxStandard.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-            textBoxPrecise.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+            //textBoxQuick.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
+            //textBoxStandard.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
+            //textBoxPrecise.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
             _textBoxes = new TextBox[] { textBoxQuick, textBoxStandard, textBoxPrecise };
             //InitLocale();
         }
@@ -66,33 +70,32 @@ namespace zPoolMiner.Forms.Components
         }
 
         // TODO replace  TextChanged Events with TextBox exit events
-
         #region Events
-
-        private void TextBoxQuick_TextChanged(object sender, EventArgs e)
+        private void textBoxQuick_TextChanged(object sender, EventArgs e)
         {
-            SetTimeLimit(BenchmarkPerformanceType.Quick, textBoxQuick.Text);
+            setTimeLimit(BenchmarkPerformanceType.Quick, textBoxQuick.Text);
         }
 
-        private void TextBoxStandard_TextChanged(object sender, EventArgs e)
+        private void textBoxStandard_TextChanged(object sender, EventArgs e)
         {
-            SetTimeLimit(BenchmarkPerformanceType.Standard, textBoxStandard.Text);
+            setTimeLimit(BenchmarkPerformanceType.Standard, textBoxStandard.Text);
         }
 
-        private void TextBoxPrecise_TextChanged(object sender, EventArgs e)
+        private void textBoxPrecise_TextChanged(object sender, EventArgs e)
         {
-            SetTimeLimit(BenchmarkPerformanceType.Precise, textBoxPrecise.Text);
+            setTimeLimit(BenchmarkPerformanceType.Precise, textBoxPrecise.Text);
         }
+        #endregion // Events
 
-        #endregion Events
-
-        private void SetTimeLimit(BenchmarkPerformanceType type, string numString)
+        private void setTimeLimit(BenchmarkPerformanceType type, string numString)
         {
             if (_timeLimits == null) return;
-            if (Int32.TryParse(numString, out int value))
+            int value;
+            if (Int32.TryParse(numString, out value))
             {
                 _timeLimits[(int)type] = value;
             }
         }
+
     }
 }

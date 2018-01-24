@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using zPoolMiner.Configs;
@@ -58,6 +59,8 @@ namespace zPoolMiner.Devices
         protected List<Algorithm> AlgorithmSettings;
 
         public string BenchmarkCopyUUID { get; set; }
+
+        public string TuningCopyUUID { get; set; }
 
         public virtual float Load { get { return 0; } }
 
@@ -171,9 +174,16 @@ namespace zPoolMiner.Devices
             return String.Format(International.GetText("ComputeDevice_Full_Device_Name"), NameCount, Name);
         }
 
+        public Algorithm GetAlgorithm(Algorithm modelAlgo)
+        {
+            return GetAlgorithm(modelAlgo.MinerBaseType, modelAlgo.NiceHashID, modelAlgo.SecondaryNiceHashID);
+        }
+
         public Algorithm GetAlgorithm(MinerBaseType MinerBaseType, AlgorithmType AlgorithmType, AlgorithmType SecondaryAlgorithmType)
         {
-            int toSetIndex = this.AlgorithmSettings.FindIndex((a) => a.NiceHashID == AlgorithmType && a.MinerBaseType == MinerBaseType && a.SecondaryNiceHashID == SecondaryAlgorithmType);
+            int toSetIndex = this.AlgorithmSettings.FindIndex((a) => a.NiceHashID == AlgorithmType
+            && a.MinerBaseType == MinerBaseType
+            && a.SecondaryNiceHashID == SecondaryAlgorithmType);
             if (toSetIndex > -1)
             {
                 return this.AlgorithmSettings[toSetIndex];
@@ -193,13 +203,33 @@ namespace zPoolMiner.Devices
         {
             foreach (var copyFromAlgo in copyBenchCDev.AlgorithmSettings)
             {
-                var setAlgo = GetAlgorithm(copyFromAlgo.MinerBaseType, copyFromAlgo.NiceHashID, copyFromAlgo.SecondaryNiceHashID);
+                var setAlgo = GetAlgorithm(copyFromAlgo);
                 if (setAlgo != null)
                 {
                     setAlgo.BenchmarkSpeed = copyFromAlgo.BenchmarkSpeed;
-                    setAlgo.SecondaryBenchmarkSpeed = copyFromAlgo.SecondaryBenchmarkSpeed;
                     setAlgo.ExtraLaunchParameters = copyFromAlgo.ExtraLaunchParameters;
                     setAlgo.LessThreads = copyFromAlgo.LessThreads;
+                    if (setAlgo is DualAlgorithm dualSA && copyFromAlgo is DualAlgorithm dualCFA)
+                    {
+                        dualSA.SecondaryBenchmarkSpeed = dualCFA.SecondaryBenchmarkSpeed;
+                    }
+                }
+            }
+        }
+
+        public void CopyTuningSettingsFrom(ComputeDevice copyTuningCDev)
+        {
+            foreach (var copyFromAlgo in copyTuningCDev.AlgorithmSettings.OfType<DualAlgorithm>())
+            {
+                if (GetAlgorithm(copyFromAlgo) is DualAlgorithm setAlgo)
+                {
+                    setAlgo.IntensitySpeeds = copyFromAlgo.IntensitySpeeds;
+                    setAlgo.SecondaryIntensitySpeeds = copyFromAlgo.SecondaryIntensitySpeeds;
+                    setAlgo.TuningStart = copyFromAlgo.TuningStart;
+                    setAlgo.TuningEnd = copyFromAlgo.TuningEnd;
+                    setAlgo.TuningInterval = copyFromAlgo.TuningInterval;
+                    setAlgo.TuningEnabled = copyFromAlgo.TuningEnabled;
+                    setAlgo.IntensityUpToDate = false;
                 }
             }
         }
@@ -227,10 +257,27 @@ namespace zPoolMiner.Devices
                     if (setAlgo != null)
                     {
                         setAlgo.BenchmarkSpeed = conf.BenchmarkSpeed;
-                        setAlgo.SecondaryBenchmarkSpeed = conf.SecondaryBenchmarkSpeed;
                         setAlgo.ExtraLaunchParameters = conf.ExtraLaunchParameters;
                         setAlgo.Enabled = conf.Enabled;
                         setAlgo.LessThreads = conf.LessThreads;
+                        if (setAlgo is DualAlgorithm dualSA)
+                        {
+                            dualSA.SecondaryBenchmarkSpeed = conf.SecondaryBenchmarkSpeed;
+                            if (config.DualAlgorithmSettings != null)
+                            {
+                                var dualConf = config.DualAlgorithmSettings.Find(a => a.SecondaryNiceHashID == dualSA.SecondaryNiceHashID);
+                                if (dualConf != null)
+                                {
+                                    dualConf.FixSettingsBounds();
+                                    dualSA.IntensitySpeeds = dualConf.IntensitySpeeds;
+                                    dualSA.SecondaryIntensitySpeeds = dualConf.SecondaryIntensitySpeeds;
+                                    dualSA.TuningEnabled = dualConf.TuningEnabled;
+                                    dualSA.TuningStart = dualConf.TuningStart;
+                                    dualSA.TuningEnd = dualConf.TuningEnd;
+                                    dualSA.TuningInterval = dualConf.TuningInterval;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -239,41 +286,50 @@ namespace zPoolMiner.Devices
         // getters
         public ComputeDeviceConfig GetComputeDeviceConfig()
         {
-            ComputeDeviceConfig ret = new ComputeDeviceConfig
-            {
-                Enabled = this.Enabled,
-                Name = this.Name,
-                UUID = this.UUID
-            };
+            ComputeDeviceConfig ret = new ComputeDeviceConfig();
+            ret.Enabled = this.Enabled;
+            ret.Name = this.Name;
+            ret.UUID = this.UUID;
             return ret;
         }
 
         public DeviceBenchmarkConfig GetAlgorithmDeviceConfig()
         {
-            DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig
-            {
-                DeviceName = this.Name,
-                DeviceUUID = this.UUID
-            };
+            DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig();
+            ret.DeviceName = this.Name;
+            ret.DeviceUUID = this.UUID;
             // init algo settings
             foreach (var algo in this.AlgorithmSettings)
             {
                 // create/setup
-                AlgorithmConfig conf = new AlgorithmConfig
-                {
-                    Name = algo.AlgorithmStringID,
-                    NiceHashID = algo.NiceHashID,
-                    SecondaryNiceHashID = algo.SecondaryNiceHashID,
-                    MinerBaseType = algo.MinerBaseType,
-                    MinerName = algo.MinerName, // TODO probably not needed
-                    BenchmarkSpeed = algo.BenchmarkSpeed,
-                    SecondaryBenchmarkSpeed = algo.SecondaryBenchmarkSpeed,
-                    ExtraLaunchParameters = algo.ExtraLaunchParameters,
-                    Enabled = algo.Enabled,
-                    LessThreads = algo.LessThreads
-                };
+                AlgorithmConfig conf = new AlgorithmConfig();
+                conf.Name = algo.AlgorithmStringID;
+                conf.NiceHashID = algo.NiceHashID;
+                conf.MinerBaseType = algo.MinerBaseType;
+                conf.MinerName = algo.MinerName; // TODO probably not needed
+                conf.BenchmarkSpeed = algo.BenchmarkSpeed;
+                conf.ExtraLaunchParameters = algo.ExtraLaunchParameters;
+                conf.Enabled = algo.Enabled;
+                conf.LessThreads = algo.LessThreads;
                 // insert
                 ret.AlgorithmSettings.Add(conf);
+                if (algo is DualAlgorithm dualAlgo)
+                {
+                    conf.SecondaryNiceHashID = dualAlgo.SecondaryNiceHashID;
+                    conf.SecondaryBenchmarkSpeed = dualAlgo.SecondaryBenchmarkSpeed;
+
+                    DualAlgorithmConfig dualConf = new DualAlgorithmConfig();
+                    dualConf.Name = algo.AlgorithmStringID;
+                    dualConf.SecondaryNiceHashID = dualAlgo.SecondaryNiceHashID;
+                    dualConf.IntensitySpeeds = dualAlgo.IntensitySpeeds;
+                    dualConf.SecondaryIntensitySpeeds = dualAlgo.SecondaryIntensitySpeeds;
+                    dualConf.TuningEnabled = dualAlgo.TuningEnabled;
+                    dualConf.TuningStart = dualAlgo.TuningStart;
+                    dualConf.TuningEnd = dualAlgo.TuningEnd;
+                    dualConf.TuningInterval = dualAlgo.TuningInterval;
+
+                    ret.DualAlgorithmSettings.Add(dualConf);
+                }
             }
             return ret;
         }
@@ -298,7 +354,9 @@ namespace zPoolMiner.Devices
             }
 
             // sort by algo
-            retAlgos.Sort((a_1, a_2) => (a_1.NiceHashID - a_2.NiceHashID) != 0 ? (a_1.NiceHashID - a_2.NiceHashID) : (a_1.MinerBaseType - a_2.MinerBaseType));
+            retAlgos.Sort((a_1, a_2) => (a_1.NiceHashID - a_2.NiceHashID) != 0 ?
+                (a_1.NiceHashID - a_2.NiceHashID) : ((a_1.MinerBaseType - a_2.MinerBaseType) != 0 ?
+                (a_1.MinerBaseType - a_2.MinerBaseType) : (a_1.SecondaryNiceHashID - a_2.SecondaryNiceHashID)));
 
             return retAlgos;
         }
