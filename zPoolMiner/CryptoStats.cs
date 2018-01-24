@@ -1,104 +1,237 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using WebSocketSharp;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners;
-
-namespace zPoolMiner
+﻿namespace zPoolMiner
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using WebSocketSharp;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Miners;
+
+    /// <summary>
+    /// Defines the <see cref="SocketEventArgs" />
+    /// </summary>
     public class SocketEventArgs : EventArgs
     {
+        /// <summary>
+        /// Defines the Message
+        /// </summary>
         public string Message = "";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SocketEventArgs"/> class.
+        /// </summary>
+        /// <param name="message">The <see cref="string"/></param>
         public SocketEventArgs(string message)
         {
             Message = message;
         }
     }
 
+    /// <summary>
+    /// Defines the <see cref="CryptoStats" />
+    /// </summary>
     internal class CryptoStats
     {
 #pragma warning disable 649
-
-        #region JSON Models
-
+        /// <summary>
+        /// Defines the <see cref="Nicehash_login" />
+        /// </summary>
         private class Nicehash_login
         {
+            /// <summary>
+            /// Defines the method
+            /// </summary>
             public string method = "login";
+
+            /// <summary>
+            /// Defines the version
+            /// </summary>
             public string version;
+
+            /// <summary>
+            /// Defines the protocol
+            /// </summary>
             public int protocol = 1;
         }
 
+        /// <summary>
+        /// Defines the <see cref="Nicehash_credentials" />
+        /// </summary>
         private class Nicehash_credentials
         {
+            /// <summary>
+            /// Defines the method
+            /// </summary>
             public string method = "credentials.set";
+
+            /// <summary>
+            /// Defines the btc
+            /// </summary>
             public string btc;
+
+            /// <summary>
+            /// Defines the worker
+            /// </summary>
             public string worker;
         }
 
+        /// <summary>
+        /// Defines the <see cref="Nicehash_device_status" />
+        /// </summary>
         private class Nicehash_device_status
         {
+            /// <summary>
+            /// Defines the method
+            /// </summary>
             public string method = "devices.status";
+
+            /// <summary>
+            /// Defines the devices
+            /// </summary>
             public List<JArray> devices;
         }
 
-        #endregion JSON Models
-
 #pragma warning restore 649
-
+#pragma warning restore 649        /// <summary>
+        /// Defines the deviceUpdateLaunchDelay
+        /// </summary>
         private const int deviceUpdateLaunchDelay = 20 * 1000;
+
+        /// <summary>
+        /// Defines the deviceUpdateInterval
+        /// </summary>
         private const int deviceUpdateInterval = 60 * 1000;
 
+        /// <summary>
+        /// Gets or sets the AlgorithmRates
+        /// </summary>
         public static Dictionary<AlgorithmType, NiceHashSMA> AlgorithmRates { get; private set; }
+
+        /// <summary>
+        /// Defines the niceHashData
+        /// </summary>
         private static NiceHashData niceHashData;
+
+        /// <summary>
+        /// Gets or sets the Balance
+        /// </summary>
         public static double Balance { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Version
+        /// </summary>
         public static string Version { get; private set; }
-        public static bool IsAlive { get { return NiceHashConnection.IsAlive; } }
+
+        /// <summary>
+        /// Gets a value indicating whether IsAlive
+        /// </summary>
+        public static bool IsAlive
+        {
+            get { return NiceHashConnection.IsAlive; }
+        }
 
         // Event handlers for socket
+        /// <summary>
+        /// Defines the OnBalanceUpdate
+        /// </summary>
         public static event EventHandler OnBalanceUpdate = delegate { };
 
+        /// <summary>
+        /// Defines the OnSMAUpdate
+        /// </summary>
         public static event EventHandler OnSMAUpdate = delegate { };
 
+        /// <summary>
+        /// Defines the OnVersionUpdate
+        /// </summary>
         public static event EventHandler OnVersionUpdate = delegate { };
 
+        /// <summary>
+        /// Defines the OnConnectionLost
+        /// </summary>
         public static event EventHandler OnConnectionLost = delegate { };
 
+        /// <summary>
+        /// Defines the OnConnectionEstablished
+        /// </summary>
         public static event EventHandler OnConnectionEstablished = delegate { };
 
+        /// <summary>
+        /// Defines the OnVersionBurn
+        /// </summary>
         public static event EventHandler<SocketEventArgs> OnVersionBurn = delegate { };
 
+        /// <summary>
+        /// Defines the random
+        /// </summary>
         private static readonly Random random = new Random();
 
+        /// <summary>
+        /// Defines the deviceUpdateTimer
+        /// </summary>
         private static System.Threading.Timer deviceUpdateTimer;
+
+        /// <summary>
+        /// Defines the algoRatesUpdateTimer
+        /// </summary>
         private static System.Threading.Timer algoRatesUpdateTimer;
 
-        #region Socket
-
+        /// <summary>
+        /// Defines the <see cref="NiceHashConnection" />
+        /// </summary>
         private class NiceHashConnection
         {
+            /// <summary>
+            /// Defines the webSocket
+            /// </summary>
             private static WebSocket webSocket;
-            public static bool IsAlive { get { return webSocket.IsAlive; } }
+
+            /// <summary>
+            /// Gets a value indicating whether IsAlive
+            /// </summary>
+            public static bool IsAlive
+            {
+                get { return webSocket.IsAlive; }
+            }
+
+            /// <summary>
+            /// Defines the attemptingReconnect
+            /// </summary>
             private static bool attemptingReconnect = false;
+
+            /// <summary>
+            /// Defines the connectionAttempted
+            /// </summary>
             private static bool connectionAttempted = false;
+
+            /// <summary>
+            /// Defines the connectionEstablished
+            /// </summary>
             private static bool connectionEstablished = false;
 
+            /// <summary>
+            /// The StartConnection
+            /// </summary>
+            /// <param name="address">The <see cref="string"/></param>
             public static void StartConnection(string address)
             {
                 UpdateAlgoRates(null);
                 algoRatesUpdateTimer = new System.Threading.Timer(UpdateAlgoRates, null, deviceUpdateInterval, deviceUpdateInterval);
             }
 
+            /// <summary>
+            /// The UpdateAlgoRates
+            /// </summary>
+            /// <param name="state">The <see cref="object"/></param>
             private static void UpdateAlgoRates(object state)
             {
                 try
@@ -124,7 +257,11 @@ namespace zPoolMiner
                 }
             }
 
-
+            /// <summary>
+            /// The ConnectCallback
+            /// </summary>
+            /// <param name="sender">The <see cref="object"/></param>
+            /// <param name="e">The <see cref="EventArgs"/></param>
             private static void ConnectCallback(object sender, EventArgs e)
             {
                 try
@@ -153,6 +290,11 @@ namespace zPoolMiner
                 }
             }
 
+            /// <summary>
+            /// The ReceiveCallback
+            /// </summary>
+            /// <param name="sender">The <see cref="object"/></param>
+            /// <param name="e">The <see cref="MessageEventArgs"/></param>
             private static void ReceiveCallback(object sender, MessageEventArgs e)
             {
                 try
@@ -185,11 +327,21 @@ namespace zPoolMiner
                 }
             }
 
+            /// <summary>
+            /// The ErrorCallback
+            /// </summary>
+            /// <param name="sender">The <see cref="object"/></param>
+            /// <param name="e">The <see cref="WebSocketSharp.ErrorEventArgs"/></param>
             private static void ErrorCallback(object sender, WebSocketSharp.ErrorEventArgs e)
             {
                 Helpers.ConsolePrint("SOCKET", e.ToString());
             }
 
+            /// <summary>
+            /// The CloseCallback
+            /// </summary>
+            /// <param name="sender">The <see cref="object"/></param>
+            /// <param name="e">The <see cref="CloseEventArgs"/></param>
             private static void CloseCallback(object sender, CloseEventArgs e)
             {
                 Helpers.ConsolePrint("SOCKET", $"Connection closed code {e.Code}: {e.Reason}");
@@ -197,6 +349,12 @@ namespace zPoolMiner
             }
 
             // Don't call SendData on UI threads, since it will block the thread for a bit if a reconnect is needed
+            /// <summary>
+            /// The SendData
+            /// </summary>
+            /// <param name="data">The <see cref="string"/></param>
+            /// <param name="recurs">The <see cref="bool"/></param>
+            /// <returns>The <see cref="bool"/></returns>
             public static bool SendData(string data, bool recurs = false)
             {
                 try
@@ -243,6 +401,10 @@ namespace zPoolMiner
                 return false;
             }
 
+            /// <summary>
+            /// The AttemptReconnect
+            /// </summary>
+            /// <returns>The <see cref="bool"/></returns>
             private static bool AttemptReconnect()
             {
                 if (attemptingReconnect)
@@ -284,16 +446,20 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The StartConnection
+        /// </summary>
+        /// <param name="address">The <see cref="string"/></param>
         public static void StartConnection(string address)
         {
             NiceHashConnection.StartConnection(address);
             deviceUpdateTimer = new System.Threading.Timer(DeviceStatus_Tick, null, deviceUpdateInterval, deviceUpdateInterval);
         }
 
-        #endregion Socket
-
-        #region Incoming socket calls
-
+        /// <summary>
+        /// The SetAlgorithmRates
+        /// </summary>
+        /// <param name="data">The <see cref="JArray"/></param>
         private static void SetAlgorithmRates(JArray data)
         {
             try
@@ -312,6 +478,10 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ZSetAlgorithmRates
+        /// </summary>
+        /// <param name="data">The <see cref="ZPoolAlgo[]"/></param>
         private static void ZSetAlgorithmRates(ZPoolAlgo[] data)
         {
             try
@@ -330,6 +500,10 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The SetBalance
+        /// </summary>
+        /// <param name="balance">The <see cref="string"/></param>
         private static void SetBalance(string balance)
         {
             try
@@ -344,16 +518,21 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The SetVersion
+        /// </summary>
+        /// <param name="version">The <see cref="string"/></param>
         private static void SetVersion(string version)
         {
             Version = version;
             OnVersionUpdate.Emit(null, EventArgs.Empty);
         }
 
-        #endregion Incoming socket calls
-
-        #region Outgoing socket calls
-
+        /// <summary>
+        /// The SetCredentials
+        /// </summary>
+        /// <param name="btc">The <see cref="string"/></param>
+        /// <param name="worker">The <see cref="string"/></param>
         public static void SetCredentials(string btc, string worker)
         {
             var data = new Nicehash_credentials
@@ -370,6 +549,10 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The DeviceStatus_Tick
+        /// </summary>
+        /// <param name="state">The <see cref="object"/></param>
         public static void DeviceStatus_Tick(object state)
         {
             var devices = ComputeDeviceManager.Avaliable.AllAvaliableDevices;
@@ -399,13 +582,14 @@ namespace zPoolMiner
                 devices = deviceList
             };
             var sendData = JsonConvert.SerializeObject(data);
-            // This function is run every minute and sends data every run which has two auxiliary effects
-            // Keeps connection alive and attempts reconnection if internet was dropped
-            //NiceHashConnection.SendData(sendData);
         }
 
-        #endregion Outgoing socket calls
-
+        /// <summary>
+        /// The GetCryptominerAPIData
+        /// </summary>
+        /// <param name="URL">The <see cref="string"/></param>
+        /// <param name="worker">The <see cref="string"/></param>
+        /// <returns>The <see cref="string"/></returns>
         public static string GetCryptominerAPIData(string URL, string worker)
         {
             string ResponseFromServer;
@@ -439,27 +623,73 @@ namespace zPoolMiner
         }
     }
 
+    /// <summary>
+    /// Defines the <see cref="ZPoolAlgo" />
+    /// </summary>
     public class ZPoolAlgo
     {
+        /// <summary>
+        /// Gets or sets the Name
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Port
+        /// </summary>
         public int Port { get; set; }
 
         //public decimal coins { get; set; }
         //public decimal fees { get; set; }
         //public decimal hashrate { get; set; }
         //public int workers { get; set; }
+
+        //public decimal coins { get; set; }
+        //public decimal fees { get; set; }
+        //public decimal hashrate { get; set; }
+        //public int workers { get; set; }
+        /// <summary>
+        /// Gets or sets the Estimate_current
+        /// </summary>
         public decimal Estimate_current { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Estimate_last24h
+        /// </summary>
         public decimal Estimate_last24h { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Actual_last24h
+        /// </summary>
         public decimal Actual_last24h { get; set; }
 
+        /// <summary>
+        /// Gets the NormalizedEstimate
+        /// </summary>
         public decimal NormalizedEstimate => MagnitudeFactor(Name) * Estimate_current;
+
+        /// <summary>
+        /// Gets the Normalized24HrEstimate
+        /// </summary>
         public decimal Normalized24HrEstimate => MagnitudeFactor(Name) * Estimate_last24h;
+
+        /// <summary>
+        /// Gets the Normalized24HrActual
+        /// </summary>
         public decimal Normalized24HrActual => MagnitudeFactor(Name) * Actual_last24h * 0.001m;
+
+        /// <summary>
+        /// Gets the MidPoint24HrEstimate
+        /// </summary>
         public decimal MidPoint24HrEstimate => (Normalized24HrEstimate + Normalized24HrActual) / 2m;
 
         // if the normalized estimate (now) is 20% less than the midpoint, we want to return the
         // normalized estimate
+
+        // if the normalized estimate (now) is 20% less than the midpoint, we want to return the
+        // normalized estimate
+        /// <summary>
+        /// Gets the Safe24HrEstimate
+        /// </summary>
         public decimal Safe24HrEstimate => NormalizedEstimate * 1.2m < MidPoint24HrEstimate
             ? NormalizedEstimate
             : MidPoint24HrEstimate;
@@ -467,8 +697,18 @@ namespace zPoolMiner
         //public decimal hashrate_last24h { get; set; }
         //public decimal rental_current { get; set; }
 
+        //public decimal hashrate_last24h { get; set; }
+        //public decimal rental_current { get; set; }
+        /// <summary>
+        /// Gets the Algorithm
+        /// </summary>
         public ZAlgorithm Algorithm => ToAlgorithm(Name);
 
+        /// <summary>
+        /// The ToAlgorithm
+        /// </summary>
+        /// <param name="s">The <see cref="string"/></param>
+        /// <returns>The <see cref="ZAlgorithm"/></returns>
         private ZAlgorithm ToAlgorithm(string s)
         {
             switch (s.ToLower())
@@ -512,6 +752,10 @@ namespace zPoolMiner
             return ZAlgorithm.unknown;
         }
 
+        /// <summary>
+        /// The NiceHashAlgoId
+        /// </summary>
+        /// <returns>The <see cref="int"/></returns>
         public int NiceHashAlgoId()
         {
             switch (Name)
@@ -553,6 +797,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The MagnitudeFactor
+        /// </summary>
+        /// <param name="s">The <see cref="string"/></param>
+        /// <returns>The <see cref="decimal"/></returns>
         private decimal MagnitudeFactor(string s)
         {
             switch (s)
@@ -575,6 +824,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The Min
+        /// </summary>
+        /// <param name="values">The <see cref="decimal[]"/></param>
+        /// <returns>The <see cref="decimal"/></returns>
         private decimal Min(params decimal[] values) =>
             values.Length == 1
                 ? values[0]
@@ -582,6 +836,11 @@ namespace zPoolMiner
                     ? Math.Min(values[0], values[1])
                     : Min(values[0], Min(values.Skip(1).ToArray()));
 
+        /// <summary>
+        /// The Max
+        /// </summary>
+        /// <param name="values">The <see cref="decimal[]"/></param>
+        /// <returns>The <see cref="decimal"/></returns>
         private decimal Max(params decimal[] values) =>
             values.Length == 1
                 ? values[0]
@@ -590,42 +849,175 @@ namespace zPoolMiner
                     : Max(values[0], Min(values.Skip(1).ToArray()));
     }
 
+    /// <summary>
+    /// Defines the ZAlgorithm
+    /// </summary>
     public enum ZAlgorithm
     {
+        /// <summary>
+        /// Defines the bitcore
+        /// </summary>
         bitcore,
+
+        /// <summary>
+        /// Defines the blake2s
+        /// </summary>
         blake2s,
+
+        /// <summary>
+        /// Defines the blake256r8
+        /// </summary>
         blake256r8,
+
+        /// <summary>
+        /// Defines the c11
+        /// </summary>
         c11,
+
+        /// <summary>
+        /// Defines the equihash
+        /// </summary>
         equihash,
+
+        /// <summary>
+        /// Defines the groestl
+        /// </summary>
         groestl,
+
+        /// <summary>
+        /// Defines the hsr
+        /// </summary>
         hsr,
+
+        /// <summary>
+        /// Defines the keccak
+        /// </summary>
         keccak,
+
+        /// <summary>
+        /// Defines the lbry
+        /// </summary>
         lbry,
+
+        /// <summary>
+        /// Defines the lyra2v2
+        /// </summary>
         lyra2v2,
+
+        /// <summary>
+        /// Defines the myriad_groestl
+        /// </summary>
         myriad_groestl,
+
+        /// <summary>
+        /// Defines the neoscrypt
+        /// </summary>
         neoscrypt,
+
+        /// <summary>
+        /// Defines the nist5
+        /// </summary>
         nist5,
+
+        /// <summary>
+        /// Defines the phi
+        /// </summary>
         phi,
+
+        /// <summary>
+        /// Defines the polytimos
+        /// </summary>
         polytimos,
+
+        /// <summary>
+        /// Defines the quark
+        /// </summary>
         quark,
+
+        /// <summary>
+        /// Defines the qubit
+        /// </summary>
         qubit,
+
+        /// <summary>
+        /// Defines the scrypt
+        /// </summary>
         scrypt,
+
+        /// <summary>
+        /// Defines the sha256
+        /// </summary>
         sha256,
+
+        /// <summary>
+        /// Defines the sib
+        /// </summary>
         sib,
+
+        /// <summary>
+        /// Defines the skein
+        /// </summary>
         skein,
+
+        /// <summary>
+        /// Defines the skunk
+        /// </summary>
         skunk,
+
+        /// <summary>
+        /// Defines the timetravel
+        /// </summary>
         timetravel,
+
+        /// <summary>
+        /// Defines the tribus
+        /// </summary>
         tribus,
+
+        /// <summary>
+        /// Defines the veltor
+        /// </summary>
         veltor,
+
+        /// <summary>
+        /// Defines the x11
+        /// </summary>
         x11,
+
+        /// <summary>
+        /// Defines the x11evo
+        /// </summary>
         x11evo,
+
+        /// <summary>
+        /// Defines the x13
+        /// </summary>
         x13,
+
+        /// <summary>
+        /// Defines the x14
+        /// </summary>
         x14,
+
+        /// <summary>
+        /// Defines the x17
+        /// </summary>
         x17,
+
+        /// <summary>
+        /// Defines the xevan
+        /// </summary>
         xevan,
+
+        /// <summary>
+        /// Defines the unknown
+        /// </summary>
         unknown,
-        yescrypt
-        //hmq1725,
+
+        /// <summary>
+        /// Defines the yescrypt
+        /// </summary>
+        yescrypt        //hmq1725,
         //m7m
     }
 }

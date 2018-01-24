@@ -1,8 +1,10 @@
 ﻿namespace zPoolMiner
 {
-    partial class Form_Main
+    /// <summary>
+    /// Defines the <see cref="Form_Main" />
+    /// </summary>
+    public partial class Form_Main
     {
-
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -20,8 +22,6 @@
             }
             base.Dispose(disposing);
         }
-
-        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -356,8 +356,8 @@
             // 
             // flowLayoutPanelRates
             // 
-            this.flowLayoutPanelRates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.flowLayoutPanelRates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelRates.AutoScroll = true;
             this.flowLayoutPanelRates.Controls.Add(this.panel2);
@@ -547,54 +547,211 @@
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
+        /// <summary>
+        /// Defines the buttonStartMining
+        /// </summary>
         private System.Windows.Forms.Button buttonStartMining;
+
+        /// <summary>
+        /// Defines the labelServiceLocation
+        /// </summary>
         private System.Windows.Forms.Label labelServiceLocation;
+
+        /// <summary>
+        /// Defines the labelBitcoinAddress
+        /// </summary>
         private System.Windows.Forms.Label labelBitcoinAddress;
+
+        /// <summary>
+        /// Defines the statusStrip1
+        /// </summary>
         private System.Windows.Forms.StatusStrip statusStrip1;
+
+        /// <summary>
+        /// Defines the linkLabelCheckStats
+        /// </summary>
         private System.Windows.Forms.LinkLabel linkLabelCheckStats;
+
+        /// <summary>
+        /// Defines the labelWorkerName
+        /// </summary>
         private System.Windows.Forms.Label labelWorkerName;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelGlobalRateValue
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelGlobalRateValue;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBalanceText
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBalanceText;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBalanceBTCValue
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBalanceBTCValue;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBalanceBTCCode
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBalanceBTCCode;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelGlobalRateText
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelGlobalRateText;
+
+        /// <summary>
+        /// Defines the buttonStopMining
+        /// </summary>
         private System.Windows.Forms.Button buttonStopMining;
+
+        /// <summary>
+        /// Defines the buttonBenchmark
+        /// </summary>
         private System.Windows.Forms.Button buttonBenchmark;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBTCDayText
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBTCDayText;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBTCDayValue
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBTCDayValue;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBalanceDollarText
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBalanceDollarText;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabelBalanceDollarValue
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelBalanceDollarValue;
+
+        /// <summary>
+        /// Defines the buttonSettings
+        /// </summary>
         private System.Windows.Forms.Button buttonSettings;
+
+        /// <summary>
+        /// Defines the buttonLogo
+        /// </summary>
         private System.Windows.Forms.Button buttonLogo;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabel10
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel10;
+
+        /// <summary>
+        /// Defines the notifyIcon1
+        /// </summary>
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+
+        /// <summary>
+        /// Defines the textBoxBTCAddress
+        /// </summary>
         private System.Windows.Forms.TextBox textBoxBTCAddress;
+
+        /// <summary>
+        /// Defines the comboBoxLocation
+        /// </summary>
         private System.Windows.Forms.ComboBox comboBoxLocation;
+
+        /// <summary>
+        /// Defines the textBoxWorkerName
+        /// </summary>
         private System.Windows.Forms.TextBox textBoxWorkerName;
+
+        /// <summary>
+        /// Defines the linkLabelChooseBTCWallet
+        /// </summary>
         private System.Windows.Forms.LinkLabel linkLabelChooseBTCWallet;
+
+        /// <summary>
+        /// Defines the labelDemoMode
+        /// </summary>
         private System.Windows.Forms.Label labelDemoMode;
+
+        /// <summary>
+        /// Defines the flowLayoutPanelRates
+        /// </summary>
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelRates;
+
+        /// <summary>
+        /// Defines the groupBox1
+        /// </summary>
         private System.Windows.Forms.GroupBox groupBox1;
+
+        /// <summary>
+        /// Defines the label_NotProfitable
+        /// </summary>
         private System.Windows.Forms.Label label_NotProfitable;
+
+        /// <summary>
+        /// Defines the devicesListViewEnableControl1
+        /// </summary>
         private Forms.Components.DevicesListViewEnableControl devicesListViewEnableControl1;
+
+        /// <summary>
+        /// Defines the buttonHelp
+        /// </summary>
         private System.Windows.Forms.Button buttonHelp;
+
+        /// <summary>
+        /// Defines the linkLabelNewVersion
+        /// </summary>
         private System.Windows.Forms.LinkLabel linkLabelNewVersion;
+
+        /// <summary>
+        /// Defines the toolTip1
+        /// </summary>
         private System.Windows.Forms.ToolTip toolTip1;
+
+        /// <summary>
+        /// Defines the toolStripStatusLabel1
+        /// </summary>
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+
+        /// <summary>
+        /// Defines the panel1
+        /// </summary>
         private System.Windows.Forms.Panel panel1;
+
+        /// <summary>
+        /// Defines the panel2
+        /// </summary>
         private System.Windows.Forms.Panel panel2;
+
+        /// <summary>
+        /// Defines the panel3
+        /// </summary>
         private System.Windows.Forms.Panel panel3;
+
+        /// <summary>
+        /// Defines the panel4
+        /// </summary>
         private System.Windows.Forms.Panel panel4;
+
+        /// <summary>
+        /// Defines the panel6
+        /// </summary>
         private System.Windows.Forms.Panel panel6;
+
+        /// <summary>
+        /// Defines the richTextBox1
+        /// </summary>
         private System.Windows.Forms.RichTextBox richTextBox1;
+
+        /// <summary>
+        /// Defines the richTextBox2
+        /// </summary>
         private System.Windows.Forms.RichTextBox richTextBox2;
     }
 }
-
-
-

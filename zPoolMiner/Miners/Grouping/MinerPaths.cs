@@ -352,8 +352,7 @@ namespace zPoolMiner.Miners.Grouping
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType
-                    || AlgorithmType.C11 == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -363,7 +362,8 @@ namespace zPoolMiner.Miners.Grouping
                 }
                 if (AlgorithmType.Hsr == algorithmType
                     || AlgorithmType.Blake256r8 == algorithmType
-                    || AlgorithmType.X11Gost == algorithmType)
+                    || AlgorithmType.X11Gost == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_alexis78;
                 }
@@ -427,8 +427,7 @@ namespace zPoolMiner.Miners.Grouping
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType
-                    || AlgorithmType.C11 == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -438,7 +437,8 @@ namespace zPoolMiner.Miners.Grouping
                 }
                 if (AlgorithmType.Hsr == algorithmType
                     || AlgorithmType.Blake256r8 == algorithmType
-                    || AlgorithmType.X11Gost == algorithmType)
+                    || AlgorithmType.X11Gost == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_alexis78;
                 }

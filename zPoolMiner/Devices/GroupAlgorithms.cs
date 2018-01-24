@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
-using zPoolMiner.Enums;
-
-namespace zPoolMiner.Devices
+﻿namespace zPoolMiner.Devices
 {
+    using System.Collections.Generic;
+    using zPoolMiner.Enums;
+
     /// <summary>
     /// GroupAlgorithms creates defaults supported algorithms. Currently based in Miner implementation
     /// </summary>
     public static class GroupAlgorithms
     {
+        /// <summary>
+        /// The CreateForDevice
+        /// </summary>
+        /// <param name="device">The <see cref="ComputeDevice"/></param>
+        /// <returns>The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></returns>
         private static Dictionary<MinerBaseType, List<Algorithm>> CreateForDevice(ComputeDevice device)
         {
             if (device != null)
@@ -90,11 +95,11 @@ namespace zPoolMiner.Devices
                                     glgAlgos[CryptoNight_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + " --rawintensity 1850 -w 8 -g 2";
                                 }
                             }
-                            }
-                            // Ellesmere, Polaris
-                            // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
-                             if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
-                            {
+                        }
+                        // Ellesmere, Polaris
+                        // Ellesmere sgminer workaround, keep this until sgminer is fixed to work with Ellesmere
+                        if ((device.Codename.Contains("Ellesmere") || device.InfSection.ToLower().Contains("polaris")))
+                        {
                             foreach (var algosInMiner in algoSettings)
                             {
                                 foreach (var algo in algosInMiner.Value)
@@ -162,7 +167,7 @@ namespace zPoolMiner.Devices
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
                             //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
                         }
-                        
+
                         /*if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
                         {
                             var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
@@ -277,6 +282,11 @@ namespace zPoolMiner.Devices
             return null;
         }
 
+        /// <summary>
+        /// The CreateForDeviceList
+        /// </summary>
+        /// <param name="device">The <see cref="ComputeDevice"/></param>
+        /// <returns>The <see cref="List{Algorithm}"/></returns>
         public static List<Algorithm> CreateForDeviceList(ComputeDevice device)
         {
             List<Algorithm> ret = new List<Algorithm>();
@@ -291,6 +301,11 @@ namespace zPoolMiner.Devices
             return ret;
         }
 
+        /// <summary>
+        /// The CreateDefaultsForGroup
+        /// </summary>
+        /// <param name="deviceGroupType">The <see cref="DeviceGroupType"/></param>
+        /// <returns>The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></returns>
         public static Dictionary<MinerBaseType, List<Algorithm>> CreateDefaultsForGroup(DeviceGroupType deviceGroupType)
         {
             if (DeviceGroupType.CPU == deviceGroupType)
@@ -560,6 +575,12 @@ namespace zPoolMiner.Devices
             return null;
         }
 
+        /// <summary>
+        /// The FilterMinerBaseTypes
+        /// </summary>
+        /// <param name="minerAlgos">The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></param>
+        /// <param name="toRemove">The <see cref="List{MinerBaseType}"/></param>
+        /// <returns>The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></returns>
         private static Dictionary<MinerBaseType, List<Algorithm>> FilterMinerBaseTypes(Dictionary<MinerBaseType, List<Algorithm>> minerAlgos, List<MinerBaseType> toRemove)
         {
             var finalRet = new Dictionary<MinerBaseType, List<Algorithm>>();
@@ -573,6 +594,13 @@ namespace zPoolMiner.Devices
             return finalRet;
         }
 
+        /// <summary>
+        /// The FilterMinerAlgos
+        /// </summary>
+        /// <param name="minerAlgos">The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></param>
+        /// <param name="toRemove">The <see cref="List{AlgorithmType}"/></param>
+        /// <param name="toRemoveBase">The <see cref="List{MinerBaseType}"/></param>
+        /// <returns>The <see cref="Dictionary{MinerBaseType, List{Algorithm}}"/></returns>
         private static Dictionary<MinerBaseType, List<Algorithm>> FilterMinerAlgos(Dictionary<MinerBaseType, List<Algorithm>> minerAlgos, List<AlgorithmType> toRemove, List<MinerBaseType> toRemoveBase = null)
         {
             var finalRet = new Dictionary<MinerBaseType, List<Algorithm>>();
@@ -608,18 +636,5 @@ namespace zPoolMiner.Devices
             }
             return finalRet;
         }
-
-        //static List<AlgorithmType> GetKeysForMinerAlgosGroup(Dictionary<MinerBaseType, List<Algorithm>> minerAlgos) {
-        //    List<AlgorithmType> ret = new List<AlgorithmType>();
-        //    foreach (var kvp in minerAlgos) {
-        //        var currentKeys = kvp.Value.ConvertAll((a) => a.NiceHashID);
-        //        foreach (var key in currentKeys) {
-        //            if (ret.Contains(key) == false) {
-        //                ret.Add(key);
-        //            }
-        //        }
-        //    }
-        //    return ret;
-        //}
     }
 }

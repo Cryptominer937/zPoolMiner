@@ -1,60 +1,141 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.Management;
-using System.Windows.Forms;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Forms;
-using zPoolMiner.Forms.Components;
-using zPoolMiner.Interfaces;
-using zPoolMiner.Miners;
-using zPoolMiner.Utils;
-using SystemTimer = System.Timers.Timer;
-using Timer = System.Windows.Forms.Timer;
-
-namespace zPoolMiner
+﻿namespace zPoolMiner
 {
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.Globalization;
     using System.IO;
+    using System.Management;
+    using System.Windows.Forms;
+    using zPoolMiner.Configs;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Forms;
+    using zPoolMiner.Forms.Components;
+    using zPoolMiner.Interfaces;
+    using zPoolMiner.Miners;
+    using zPoolMiner.Utils;
+    using SystemTimer = System.Timers.Timer;
+    using Timer = System.Windows.Forms.Timer;
 
+    /// <summary>
+    /// Defines the <see cref="Form_Main" />
+    /// </summary>
     public partial class Form_Main : Form, Form_Loading.IAfterInitializationCaller, IMainFormRatesComunication
     {
+        /// <summary>
+        /// Defines the VisitURLNew
+        /// </summary>
         private String VisitURLNew = Links.VisitURLNew;
 
+        /// <summary>
+        /// Defines the MinerStatsCheck
+        /// </summary>
         private Timer MinerStatsCheck;
+
+        /// <summary>
+        /// Defines the SMAMinerCheck
+        /// </summary>
         private Timer SMAMinerCheck;
+
+        /// <summary>
+        /// Defines the BitcoinExchangeCheck
+        /// </summary>
         private Timer BitcoinExchangeCheck;
+
+        /// <summary>
+        /// Defines the StartupTimer
+        /// </summary>
         private Timer StartupTimer;
+
+        /// <summary>
+        /// Defines the IdleCheck
+        /// </summary>
         private Timer IdleCheck;
+
+        /// <summary>
+        /// Defines the ComputeDevicesCheckTimer
+        /// </summary>
         private SystemTimer ComputeDevicesCheckTimer;
 
+        /// <summary>
+        /// Defines the ShowWarningNiceHashData
+        /// </summary>
         private bool ShowWarningNiceHashData;
+
+        /// <summary>
+        /// Defines the DemoMode
+        /// </summary>
         private bool DemoMode;
 
+        /// <summary>
+        /// Defines the R
+        /// </summary>
         private Random R;
 
+        /// <summary>
+        /// Defines the LoadingScreen
+        /// </summary>
         private Form_Loading LoadingScreen;
+
+        /// <summary>
+        /// Defines the BenchmarkForm
+        /// </summary>
         private Form_Benchmark BenchmarkForm;
 
+        /// <summary>
+        /// Defines the flowLayoutPanelVisibleCount
+        /// </summary>
         private int flowLayoutPanelVisibleCount = 0;
+
+        /// <summary>
+        /// Defines the flowLayoutPanelRatesIndex
+        /// </summary>
         private int flowLayoutPanelRatesIndex = 0;
 
+        /// <summary>
+        /// Defines the _betaAlphaPostfixString
+        /// </summary>
         private const string _betaAlphaPostfixString = "";
 
+        /// <summary>
+        /// Defines the _isDeviceDetectionInitialized
+        /// </summary>
         private bool _isDeviceDetectionInitialized = false;
 
+        /// <summary>
+        /// Defines the IsManuallyStarted
+        /// </summary>
         private bool IsManuallyStarted = false;
+
+        /// <summary>
+        /// Defines the IsNotProfitable
+        /// </summary>
         private bool IsNotProfitable = false;
 
+        /// <summary>
+        /// Defines the isSMAUpdated
+        /// </summary>
         private bool isSMAUpdated = false;
 
+        /// <summary>
+        /// Defines the factorTimeUnit
+        /// </summary>
         private double factorTimeUnit = 1.0;
 
+        /// <summary>
+        /// Defines the MainFormHeight
+        /// </summary>
         private int MainFormHeight = 0;
+
+        /// <summary>
+        /// Defines the EmtpyGroupPanelHeight
+        /// </summary>
         private int EmtpyGroupPanelHeight = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form_Main"/> class.
+        /// </summary>
         public Form_Main()
         {
             InitializeComponent();
@@ -98,6 +179,9 @@ namespace zPoolMiner
             ClearRatesALL();
         }
 
+        /// <summary>
+        /// The InitLocalization
+        /// </summary>
         private void InitLocalization()
         {
             MessageBoxManager.Unregister();
@@ -136,6 +220,9 @@ namespace zPoolMiner
             groupBox1.Text = International.GetText("Form_Main_Group_Device_Rates");
         }
 
+        /// <summary>
+        /// The InitMainConfigGUIData
+        /// </summary>
         private void InitMainConfigGUIData()
         {
             if (ConfigManager.GeneralConfig.ServiceLocation >= 0 && ConfigManager.GeneralConfig.ServiceLocation < Globals.MiningLocation.Length)
@@ -186,6 +273,9 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The AfterLoadComplete
+        /// </summary>
         public void AfterLoadComplete()
         {
             LoadingScreen = null;
@@ -197,6 +287,11 @@ namespace zPoolMiner
             IdleCheck.Start();
         }
 
+        /// <summary>
+        /// The IdleCheck_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void IdleCheck_Tick(object sender, EventArgs e)
         {
             if (!ConfigManager.GeneralConfig.StartMiningWhenIdle || IsManuallyStarted) return;
@@ -225,6 +320,11 @@ namespace zPoolMiner
         }
 
         // This is a single shot _benchmarkTimer
+        /// <summary>
+        /// The StartupTimer_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void StartupTimer_Tick(object sender, EventArgs e)
         {
             StartupTimer.Stop();
@@ -424,12 +524,21 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The SetChildFormCenter
+        /// </summary>
+        /// <param name="form">The <see cref="Form"/></param>
         private void SetChildFormCenter(Form form)
         {
             form.StartPosition = FormStartPosition.Manual;
             form.Location = new Point(this.Location.X + (this.Width - form.Width) / 2, this.Location.Y + (this.Height - form.Height) / 2);
         }
 
+        /// <summary>
+        /// The Form_Main_Shown
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void Form_Main_Shown(object sender, EventArgs e)
         {
             // general loading indicator
@@ -446,6 +555,11 @@ namespace zPoolMiner
             StartupTimer.Start();
         }
 
+        /// <summary>
+        /// The SMAMinerCheck_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private async void SMAMinerCheck_Tick(object sender, EventArgs e)
         {
             SMAMinerCheck.Interval = ConfigManager.GeneralConfig.SwitchMinSecondsFixed * 1000 + R.Next(ConfigManager.GeneralConfig.SwitchMinSecondsDynamic * 1000);
@@ -464,11 +578,21 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The MinerStatsCheck_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         async private void MinerStatsCheck_Tick(object sender, EventArgs e)
         {
             await MinersManager.MinerStatsCheck(Globals.NiceHashData);
         }
 
+        /// <summary>
+        /// The ComputeDevicesCheckTimer_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ComputeDevicesCheckTimer_Tick(object sender, EventArgs e)
         {
             if (ComputeDeviceManager.Query.CheckVideoControllersCountMismath())
@@ -489,6 +613,9 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The InitFlowPanelStart
+        /// </summary>
         private void InitFlowPanelStart()
         {
             flowLayoutPanelRates.Controls.Clear();
@@ -506,12 +633,19 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ClearRatesALL
+        /// </summary>
         public void ClearRatesALL()
         {
             HideNotProfitable();
             ClearRates(-1);
         }
 
+        /// <summary>
+        /// The ClearRates
+        /// </summary>
+        /// <param name="groupCount">The <see cref="int"/></param>
         public void ClearRates(int groupCount)
         {
             if (flowLayoutPanelVisibleCount != groupCount)
@@ -542,6 +676,14 @@ namespace zPoolMiner
             this.Size = new Size(this.Size.Width, MainFormHeight + groupBox1Height);
         }
 
+        /// <summary>
+        /// The AddRateInfo
+        /// </summary>
+        /// <param name="groupName">The <see cref="string"/></param>
+        /// <param name="deviceStringInfo">The <see cref="string"/></param>
+        /// <param name="iAPIData">The <see cref="APIData"/></param>
+        /// <param name="paying">The <see cref="double"/></param>
+        /// <param name="isApiGetException">The <see cref="bool"/></param>
         public void AddRateInfo(string groupName, string deviceStringInfo, APIData iAPIData, double paying, bool isApiGetException)
         {
             string ApiGetExceptionString = isApiGetException ? "**" : "";
@@ -561,6 +703,10 @@ namespace zPoolMiner
             UpdateGlobalRate();
         }
 
+        /// <summary>
+        /// The ShowNotProfitable
+        /// </summary>
+        /// <param name="msg">The <see cref="string"/></param>
         public void ShowNotProfitable(string msg)
         {
             if (ConfigManager.GeneralConfig.UseIFTTT)
@@ -577,6 +723,9 @@ namespace zPoolMiner
             label_NotProfitable.Invalidate();
         }
 
+        /// <summary>
+        /// The HideNotProfitable
+        /// </summary>
         public void HideNotProfitable()
         {
             if (ConfigManager.GeneralConfig.UseIFTTT)
@@ -592,6 +741,9 @@ namespace zPoolMiner
             label_NotProfitable.Invalidate();
         }
 
+        /// <summary>
+        /// The UpdateGlobalRate
+        /// </summary>
         private void UpdateGlobalRate()
         {
             double TotalRate = MinersManager.GetTotalRate();
@@ -611,6 +763,11 @@ namespace zPoolMiner
             toolStripStatusLabelBalanceText.Text = (ExchangeRateAPI.ActiveDisplayCurrency + "/") + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
         }
 
+        /// <summary>
+        /// The BalanceCallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BalanceCallback(object sender, EventArgs e)
         {
             Helpers.ConsolePrint("NICEHASH", "Balance update");
@@ -636,6 +793,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The BitcoinExchangeCheck_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BitcoinExchangeCheck_Tick(object sender, EventArgs e)
         {
             Helpers.ConsolePrint("NICEHASH", "Bitcoin rate get");
@@ -653,6 +815,11 @@ namespace zPoolMiner
             Helpers.ConsolePrint("NICEHASH", "Current Bitcoin rate: " + Globals.BitcoinUSDRate.ToString("F2", CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// The SMACallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void SMACallback(object sender, EventArgs e)
         {
             Helpers.ConsolePrint("NICEHASH", "SMA Update");
@@ -663,6 +830,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The VersionBurnCallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="SocketEventArgs"/></param>
         private void VersionBurnCallback(object sender, SocketEventArgs e)
         {
             BeginInvoke((Action)(() =>
@@ -675,6 +847,11 @@ namespace zPoolMiner
             }));
         }
 
+        /// <summary>
+        /// The ConnectionLostCallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ConnectionLostCallback(object sender, EventArgs e)
         {
             if (Globals.NiceHashData == null && ConfigManager.GeneralConfig.ShowInternetConnectionWarning && ShowWarningNiceHashData)
@@ -691,12 +868,22 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ConnectionEstablishedCallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ConnectionEstablishedCallback(object sender, EventArgs e)
         {
             // send credentials
             CryptoStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
         }
 
+        /// <summary>
+        /// The VersionUpdateCallback
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void VersionUpdateCallback(object sender, EventArgs e)
         {
             var ver = CryptoStats.Version;
@@ -713,8 +900,16 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The SetVersionLabelCallback
+        /// </summary>
+        /// <param name="text">The <see cref="string"/></param>
         private delegate void SetVersionLabelCallback(string text);
 
+        /// <summary>
+        /// The SetVersionLabel
+        /// </summary>
+        /// <param name="text">The <see cref="string"/></param>
         private void SetVersionLabel(string text)
         {
             if (linkLabelNewVersion.InvokeRequired)
@@ -728,6 +923,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The VerifyMiningAddress
+        /// </summary>
+        /// <param name="ShowError">The <see cref="bool"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private bool VerifyMiningAddress(bool ShowError)
         {
             if (!BitcoinAddress.ValidateBitcoinAddress(textBoxBTCAddress.Text.Trim()) && ShowError)
@@ -755,6 +955,11 @@ namespace zPoolMiner
             return true;
         }
 
+        /// <summary>
+        /// The LinkLabelCheckStats_LinkClicked
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/></param>
         private void LinkLabelCheckStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (!VerifyMiningAddress(true)) return;
@@ -762,16 +967,31 @@ namespace zPoolMiner
             System.Diagnostics.Process.Start(Links.CheckStats + textBoxBTCAddress.Text.Trim());
         }
 
+        /// <summary>
+        /// The LinkLabelChooseBTCWallet_LinkClicked
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/></param>
         private void LinkLabelChooseBTCWallet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_BTC_Wallet_Faq);
         }
 
+        /// <summary>
+        /// The LinkLabelNewVersion_LinkClicked
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/></param>
         private void LinkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(VisitURLNew);
         }
 
+        /// <summary>
+        /// The Form1_FormClosing
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             MinersManager.StopAllMiners();
@@ -779,6 +999,11 @@ namespace zPoolMiner
             MessageBoxManager.Unregister();
         }
 
+        /// <summary>
+        /// The ButtonBenchmark_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonBenchmark_Click(object sender, EventArgs e)
         {
             ConfigManager.GeneralConfig.ServiceLocation = comboBoxLocation.SelectedIndex;
@@ -796,6 +1021,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ButtonSettings_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
             Form_Settings Settings = new Form_Settings();
@@ -820,6 +1050,11 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ButtonStartMining_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonStartMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = true;
@@ -833,12 +1068,22 @@ namespace zPoolMiner
             }
         }
 
+        /// <summary>
+        /// The ButtonStopMining_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonStopMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = false;
             StopMining();
         }
 
+        /// <summary>
+        /// The FormatPayingOutput
+        /// </summary>
+        /// <param name="paying">The <see cref="double"/></param>
+        /// <returns>The <see cref="string"/></returns>
         private string FormatPayingOutput(double paying)
         {
             string ret = "";
@@ -851,31 +1096,61 @@ namespace zPoolMiner
             return ret;
         }
 
+        /// <summary>
+        /// The ButtonLogo_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonLogo_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.VisitURL);
         }
 
+        /// <summary>
+        /// The ButtonHelp_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonHelp_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Help);
         }
 
+        /// <summary>
+        /// The ToolStripStatusLabel10_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ToolStripStatusLabel10_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Links.NHM_Paying_Faq);
         }
 
+        /// <summary>
+        /// The ToolStripStatusLabel10_MouseHover
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ToolStripStatusLabel10_MouseHover(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Hand;
         }
 
+        /// <summary>
+        /// The ToolStripStatusLabel10_MouseLeave
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ToolStripStatusLabel10_MouseLeave(object sender, EventArgs e)
         {
             statusStrip1.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// The TextBoxCheckBoxMain_Leave
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void TextBoxCheckBoxMain_Leave(object sender, EventArgs e)
         {
             if (VerifyMiningAddress(false))
@@ -895,6 +1170,11 @@ namespace zPoolMiner
         }
 
         // Minimize to system tray if MinimizeToTray is set to true
+        /// <summary>
+        /// The Form1_Resize
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void Form1_Resize(object sender, EventArgs e)
         {
             notifyIcon1.Icon = Properties.Resources.logo;
@@ -908,6 +1188,11 @@ namespace zPoolMiner
         }
 
         // Restore zPoolMiner from the system tray
+        /// <summary>
+        /// The NotifyIcon1_DoubleClick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void NotifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             this.Show();
@@ -917,13 +1202,32 @@ namespace zPoolMiner
 
         ///////////////////////////////////////
         // Miner control functions
+        /// <summary>
+        /// Defines the StartMiningReturnType
+        /// </summary>
         private enum StartMiningReturnType
         {
+            /// <summary>
+            /// Defines the StartMining
+            /// </summary>
             StartMining,
+
+            /// <summary>
+            /// Defines the ShowNoMining
+            /// </summary>
             ShowNoMining,
+
+            /// <summary>
+            /// Defines the IgnoreMsg
+            /// </summary>
             IgnoreMsg
         }
 
+        /// <summary>
+        /// The StartMining
+        /// </summary>
+        /// <param name="showWarnings">The <see cref="bool"/></param>
+        /// <returns>The <see cref="StartMiningReturnType"/></returns>
         private StartMiningReturnType StartMining(bool showWarnings)
         {
             if (textBoxBTCAddress.Text.Equals(""))
@@ -1071,6 +1375,9 @@ namespace zPoolMiner
             return isMining ? StartMiningReturnType.StartMining : StartMiningReturnType.ShowNoMining;
         }
 
+        /// <summary>
+        /// The StopMining
+        /// </summary>
         private void StopMining()
         {
             MinerStatsCheck.Stop();
@@ -1100,7 +1407,5 @@ namespace zPoolMiner
 
             UpdateGlobalRate();
         }
-
-        
     }
 }
