@@ -124,6 +124,7 @@ namespace zPoolMiner.Miners.Grouping
             public const string EWBF = _bin_3rdparty + @"\ewbf\miner.exe";
             public const string DSTM = _bin_3rdparty + @"\dstm\zm.exe";
             public const string hsrneoscrypt = _bin_3rdparty + @"\hsrminer_neoscrypt\hsrminer_neoscrypt.exe";
+            public const string hsrneoscrypt_hsr = _bin_3rdparty + @"\hsrminer_neoscrypt\hsrminer_hsr.exe";
             public const string prospector = _bin_3rdparty + @"\prospector\prospector.exe";
             public const string mkxminer = _bin_3rdparty + @"\mkxminer\mkxminer.exe";
         }
@@ -237,7 +238,9 @@ namespace zPoolMiner.Miners.Grouping
 
                 case MinerBaseType.hsrneoscrypt:
                     return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
-
+                    
+                case MinerBaseType.hsrneoscrypt_hsr:
+                    return NVIDIA_GROUPS.hsrneoscrypt_hsr_path(algoType, devGroupType);
                 //case MinerBaseType.mkxminer:
                     //return Data.mkxminer;
             }
@@ -325,7 +328,7 @@ namespace zPoolMiner.Miners.Grouping
                 if (AlgorithmType.X17 == algorithmType
                      || AlgorithmType.Blake256r8 == algorithmType
                      || AlgorithmType.X11evo == algorithmType
-                    || AlgorithmType.X11Gost == algorithmType)
+                     || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_palgin;
                 }
@@ -340,14 +343,17 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_tpruvot2;
                 }
-                if (AlgorithmType.Veltor == algorithmType
+                if (AlgorithmType.X17 == algorithmType
+                    //zpool removed veltor
+                    //|| AlgorithmType.Veltor == algorithmType
                     || AlgorithmType.Lbry == algorithmType
                     || AlgorithmType.Lyra2REv2 == algorithmType
                     || AlgorithmType.Blake2s == algorithmType
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -355,7 +361,9 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.C11 == algorithmType)
+                if (AlgorithmType.Hsr == algorithmType
+                    || AlgorithmType.Blake256r8 == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_alexis78;
                 }
@@ -410,14 +418,17 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_tpruvot2;
                 }
-                if (AlgorithmType.Veltor == algorithmType
+                if (AlgorithmType.X17 == algorithmType
+                    //zpool removed veltor
+                    //|| AlgorithmType.Veltor == algorithmType
                     || AlgorithmType.Lbry == algorithmType
                     || AlgorithmType.Lyra2REv2 == algorithmType
                     || AlgorithmType.Blake2s == algorithmType
                     || AlgorithmType.Nist5 == algorithmType
                     || AlgorithmType.Skein == algorithmType
                     || AlgorithmType.Keccak == algorithmType
-                    || AlgorithmType.Polytimos == algorithmType)
+                    || AlgorithmType.Polytimos == algorithmType
+                    || AlgorithmType.C11 == algorithmType)
                 {
                     return Data.ccminer_polytimos;
                 }
@@ -425,7 +436,9 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.C11 == algorithmType)
+                if (AlgorithmType.Hsr == algorithmType
+                    || AlgorithmType.Blake256r8 == algorithmType
+                    || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_alexis78;
                 }
@@ -457,7 +470,27 @@ namespace zPoolMiner.Miners.Grouping
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+            
+            public static string hsrneoscrypt_hsr_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            {
+                // sm21 and sm3x have same settings                
+                // CN exception
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
+                {
+                    return Data.NONE;
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
+                {
+                    return Data.NONE;
+                }
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                {
+                    return Data.hsrneoscrypt_hsr;
+                }
 
+                // TODO wrong case?
+                return Data.NONE; // should not happen
+            }
             public static string Ccminer_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -483,14 +516,17 @@ namespace zPoolMiner.Miners.Grouping
                 return Data.NONE; // should not happen
             }
 
+                // untested might not need anymore
             public static string Ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType || AlgorithmType.X17 == algorithmType || AlgorithmType.Nist5 == algorithmType)
-                    {
-                        return Data.ccminer_x11gost;
+
+                   if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType || AlgorithmType.X17 == algorithmType || AlgorithmType.Nist5 == algorithmType)
+ 
+                   {
+                     return Data.ccminer_x11gost;
                     }
                 }
                 // TODO wrong case?
