@@ -69,7 +69,6 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.devicesListViewEnableControl1 = new zPoolMiner.Forms.Components.DevicesListViewEnableControl();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
@@ -80,7 +79,6 @@
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStartMining
@@ -201,35 +199,33 @@
             // 
             // toolStripStatusLabelBalanceBTCValue
             // 
-            this.toolStripStatusLabelBalanceBTCValue.Enabled = false;
             this.toolStripStatusLabelBalanceBTCValue.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripStatusLabelBalanceBTCValue.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabelBalanceBTCValue.Name = "toolStripStatusLabelBalanceBTCValue";
-            this.toolStripStatusLabelBalanceBTCValue.Size = new System.Drawing.Size(73, 20);
+            this.toolStripStatusLabelBalanceBTCValue.Size = new System.Drawing.Size(73, 17);
             this.toolStripStatusLabelBalanceBTCValue.Text = "0.00000000";
-            this.toolStripStatusLabelBalanceBTCValue.Visible = false;
             // 
             // toolStripStatusLabelBalanceBTCCode
             // 
-            this.toolStripStatusLabelBalanceBTCCode.Enabled = false;
+            this.toolStripStatusLabelBalanceBTCCode.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabelBalanceBTCCode.Name = "toolStripStatusLabelBalanceBTCCode";
-            this.toolStripStatusLabelBalanceBTCCode.Size = new System.Drawing.Size(27, 20);
+            this.toolStripStatusLabelBalanceBTCCode.Size = new System.Drawing.Size(27, 17);
             this.toolStripStatusLabelBalanceBTCCode.Text = "BTC";
-            this.toolStripStatusLabelBalanceBTCCode.Visible = false;
             // 
             // toolStripStatusLabelBalanceDollarText
             // 
             this.toolStripStatusLabelBalanceDollarText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripStatusLabelBalanceDollarText.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabelBalanceDollarText.Name = "toolStripStatusLabelBalanceDollarText";
-            this.toolStripStatusLabelBalanceDollarText.Size = new System.Drawing.Size(31, 20);
+            this.toolStripStatusLabelBalanceDollarText.Size = new System.Drawing.Size(31, 17);
             this.toolStripStatusLabelBalanceDollarText.Text = "0.00";
-            this.toolStripStatusLabelBalanceDollarText.Visible = false;
             // 
             // toolStripStatusLabelBalanceDollarValue
             // 
+            this.toolStripStatusLabelBalanceDollarValue.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabelBalanceDollarValue.Name = "toolStripStatusLabelBalanceDollarValue";
-            this.toolStripStatusLabelBalanceDollarValue.Size = new System.Drawing.Size(16, 20);
+            this.toolStripStatusLabelBalanceDollarValue.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabelBalanceDollarValue.Text = "$ ";
-            this.toolStripStatusLabelBalanceDollarValue.Visible = false;
             // 
             // toolStripStatusLabel10
             // 
@@ -347,18 +343,15 @@
             // notifyIcon1
             // 
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
-            // 
-            // labelDemoMode
-            // 
             this.labelDemoMode.AutoSize = true;
             this.labelDemoMode.BackColor = System.Drawing.Color.Transparent;
-            this.labelDemoMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDemoMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDemoMode.ForeColor = System.Drawing.Color.Red;
-            this.labelDemoMode.Location = new System.Drawing.Point(19, 124);
+            this.labelDemoMode.Location = new System.Drawing.Point(6, 39);
             this.labelDemoMode.Name = "labelDemoMode";
-            this.labelDemoMode.Size = new System.Drawing.Size(294, 20);
+            this.labelDemoMode.Size = new System.Drawing.Size(498, 25);
             this.labelDemoMode.TabIndex = 100;
-            this.labelDemoMode.Text = "ZpoolMiner is running in DEMO mode!";
+            this.labelDemoMode.Text = "NiceHash Miner Legacy is running in DEMO mode!";
             this.labelDemoMode.Visible = false;
             // 
             // flowLayoutPanelRates
@@ -371,7 +364,7 @@
             this.flowLayoutPanelRates.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelRates.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanelRates.Name = "flowLayoutPanelRates";
-            this.flowLayoutPanelRates.Size = new System.Drawing.Size(543, 79);
+            this.flowLayoutPanelRates.Size = new System.Drawing.Size(543, 32);
             this.flowLayoutPanelRates.TabIndex = 107;
             this.flowLayoutPanelRates.WrapContents = false;
             // 
@@ -384,13 +377,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.label_NotProfitable);
             this.groupBox1.AutoSize = true;
             this.groupBox1.Controls.Add(this.flowLayoutPanelRates);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.Control;
             this.groupBox1.Location = new System.Drawing.Point(12, 311);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(567, 116);
+            this.groupBox1.Size = new System.Drawing.Size(567, 69);
             this.groupBox1.TabIndex = 108;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Group/Device Rates:";
@@ -398,11 +391,11 @@
             // label_NotProfitable
             // 
             this.label_NotProfitable.AutoSize = true;
-            this.label_NotProfitable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_NotProfitable.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label_NotProfitable.ForeColor = System.Drawing.Color.Red;
-            this.label_NotProfitable.Location = new System.Drawing.Point(9, 37);
+            this.label_NotProfitable.Location = new System.Drawing.Point(6, 0);
             this.label_NotProfitable.Name = "label_NotProfitable";
-            this.label_NotProfitable.Size = new System.Drawing.Size(313, 20);
+            this.label_NotProfitable.Size = new System.Drawing.Size(366, 24);
             this.label_NotProfitable.TabIndex = 110;
             this.label_NotProfitable.Text = "CURRENTLY MINING NOT PROFITABLE.";
             // 
@@ -430,8 +423,6 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.panel6);
@@ -479,45 +470,23 @@
             this.panel3.Size = new System.Drawing.Size(578, 62);
             this.panel3.TabIndex = 112;
             // 
-            // panel5
-            // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel5.AutoSize = true;
-            this.panel5.BackColor = System.Drawing.Color.Black;
-            this.panel5.Controls.Add(this.label_NotProfitable);
-            this.panel5.Controls.Add(this.labelDemoMode);
-            this.panel5.Controls.Add(this.devicesListViewEnableControl1);
-            this.panel5.Location = new System.Drawing.Point(223, 72);
-            this.panel5.Margin = new System.Windows.Forms.Padding(5);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(4);
-            this.panel5.Size = new System.Drawing.Size(356, 231);
-            this.panel5.TabIndex = 113;
-            // 
             // devicesListViewEnableControl1
             // 
-            this.devicesListViewEnableControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.devicesListViewEnableControl1.AutoSize = true;
             this.devicesListViewEnableControl1.BenchmarkCalculation = null;
             this.devicesListViewEnableControl1.FirstColumnText = "Enabled";
             this.devicesListViewEnableControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.devicesListViewEnableControl1.IsInBenchmark = false;
             this.devicesListViewEnableControl1.IsMining = false;
-            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(4, 5);
+            this.devicesListViewEnableControl1.Location = new System.Drawing.Point(224, 70);
             this.devicesListViewEnableControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicesListViewEnableControl1.Name = "devicesListViewEnableControl1";
             this.devicesListViewEnableControl1.SaveToGeneralConfig = false;
-            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(354, 225);
+            this.devicesListViewEnableControl1.Size = new System.Drawing.Size(354, 230);
             this.devicesListViewEnableControl1.TabIndex = 109;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.richTextBox1.Font = new System.Drawing.Font("Franklin Gothic Medium", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
@@ -548,11 +517,12 @@
             this.ClientSize = new System.Drawing.Size(762, 444);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.devicesListViewEnableControl1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.linkLabelNewVersion);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.labelDemoMode);
             this.Controls.Add(this.linkLabelChooseBTCWallet);
             this.Controls.Add(this.statusStrip1);
             this.Enabled = false;
@@ -575,8 +545,6 @@
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -622,7 +590,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox richTextBox2;
