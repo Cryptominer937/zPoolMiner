@@ -441,6 +441,7 @@ namespace zPoolMiner.Miners.Grouping
                     || AlgorithmType.X11Gost == algorithmType)
                 {
                     return Data.ccminer_alexis78;
+                }
                 if (AlgorithmType.Timetravel == algorithmType)
                 {
                     return Data.ccminer_skunkkrnlx;
