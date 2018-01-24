@@ -922,5 +922,25 @@ namespace zPoolMiner.Forms
         private void ButtonSelectedProfit_Click_1(object sender, EventArgs e)
         {
         }
+
+        private void label_MinerAPIQueryInterval_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_CPU0_ForceCPUExtension_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_SwitchMinSecondsDynamic_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void algorithmSettingsControl1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

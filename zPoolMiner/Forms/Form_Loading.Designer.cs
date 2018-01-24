@@ -35,10 +35,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.ForeColor = System.Drawing.Color.Blue;
+            this.progressBar1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.progressBar1.Location = new System.Drawing.Point(12, 25);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(286, 23);
+            this.progressBar1.Size = new System.Drawing.Size(421, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 1;
             // 
@@ -46,6 +46,7 @@
             // 
             this.LoadText.AutoSize = true;
             this.LoadText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LoadText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.LoadText.Location = new System.Drawing.Point(9, 51);
             this.LoadText.Name = "LoadText";
             this.LoadText.Size = new System.Drawing.Size(283, 13);
@@ -57,8 +58,8 @@
             // 
             this.label_LoadingText.AutoSize = true;
             this.label_LoadingText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_LoadingText.ForeColor = System.Drawing.Color.Black;
-            this.label_LoadingText.Location = new System.Drawing.Point(84, 9);
+            this.label_LoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label_LoadingText.Location = new System.Drawing.Point(156, 9);
             this.label_LoadingText.Name = "label_LoadingText";
             this.label_LoadingText.Size = new System.Drawing.Size(136, 13);
             this.label_LoadingText.TabIndex = 0;
@@ -68,8 +69,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(310, 76);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            this.ClientSize = new System.Drawing.Size(445, 85);
             this.ControlBox = false;
             this.Controls.Add(this.LoadText);
             this.Controls.Add(this.progressBar1);

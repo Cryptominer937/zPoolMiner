@@ -57,18 +57,18 @@
             // columnHeader0
             // 
             this.columnHeader0.Text = "Enabled";
-            this.columnHeader0.Width = 63;
+            this.columnHeader0.Width = 53;
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Algorithm";
-            this.columnHeader1.Width = 117;
+            this.columnHeader1.Width = 169;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Speed";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader2.Width = 120;
+            this.columnHeader2.Width = 89;
             // 
             // columnHeader3
             // 

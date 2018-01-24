@@ -3,18 +3,18 @@
 /*******************************************************************************
  Copyright(c) 2008 - 2009 Advanced Micro Devices, Inc. All Rights Reserved.
  Copyright (c) 2002 - 2006  ATI Technologies Inc. All Rights Reserved.
-
+ 
  THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
  ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDED BUT NOT LIMITED TO
- THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A 
  PARTICULAR PURPOSE.
-
+ 
  File:        ADL.cs
-
- Purpose:     Implements ADL interface
-
+ 
+ Purpose:     Implements ADL interface 
+ 
  Description: Implements some of the methods defined in ADL interface.
-
+              
  ********************************************************************************/
 
 #endregion Copyright
@@ -22,9 +22,12 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Threading;
 using FARPROC = System.IntPtr;
-
 using HMODULE = System.IntPtr;
 
 #endregion Using
@@ -34,7 +37,6 @@ using HMODULE = System.IntPtr;
 namespace ATI.ADL
 {
     #region Export Delegates
-
     /// <summary> ADL Memory allocation function allows ADL to callback for memory allocation</summary>
     /// <param name="size">input size</param>
     /// <returns> retrun ADL Error Code</returns>
@@ -62,10 +64,10 @@ namespace ATI.ADL
     internal delegate int ADL_Adapter_AdapterInfo_Get(IntPtr info, int inputSize);
 
     /// <summary> Function to determine if the adapter is active or not.</summary>
-    /// <remarks>The function is used to check if the adapter associated with iAdapterIndex is active</remarks>
+    /// <remarks>The function is used to check if the adapter associated with iAdapterIndex is active</remarks>  
     /// <param name="adapterIndex"> Adapter Index.</param>
     /// <param name="status"> Status of the adapter. True: Active; False: Dsiabled</param>
-    /// <returns>Non zero is successfull</returns>
+    /// <returns>Non zero is successfull</returns> 
     internal delegate int ADL_Adapter_Active_Get(int adapterIndex, ref int status);
 
     /// <summary>Get display information based on adapter index</summary>
@@ -87,62 +89,48 @@ namespace ATI.ADL
     #region Export Struct
 
     #region ADLAdapterInfo
-
     /// <summary> ADLAdapterInfo Structure</summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLAdapterInfo
     {
         /// <summary>The size of the structure</summary>
-        private int Size;
-
+        int Size;
         /// <summary> Adapter Index</summary>
         internal int AdapterIndex;
-
         /// <summary> Adapter UDID</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string UDID;
-
         /// <summary> Adapter Bus Number</summary>
         internal int BusNumber;
-
         /// <summary> Adapter Driver Number</summary>
         internal int DriverNumber;
-
         /// <summary> Adapter Function Number</summary>
         internal int FunctionNumber;
-
         /// <summary> Adapter Vendor ID</summary>
         internal int VendorID;
-
         /// <summary> Adapter Adapter name</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string AdapterName;
-
         /// <summary> Adapter Display name</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string DisplayName;
-
         /// <summary> Adapter Present status</summary>
         internal int Present;
-
         /// <summary> Adapter Exist status</summary>
         internal int Exist;
-
         /// <summary> Adapter Driver Path</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string DriverPath;
-
         /// <summary> Adapter Driver Ext Path</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string DriverPathExt;
-
         /// <summary> Adapter PNP String</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string PNPString;
-
         /// <summary> OS Display Index</summary>
         internal int OSDisplayIndex;
     }
+
 
     /// <summary> ADLAdapterInfo Array</summary>
     [StructLayout(LayoutKind.Sequential)]
@@ -152,24 +140,20 @@ namespace ATI.ADL
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)ADL.ADL_MAX_ADAPTERS)]
         internal ADLAdapterInfo[] ADLAdapterInfo;
     }
-
     #endregion ADLAdapterInfo
 
-    #region ADLDisplayInfo
 
+    #region ADLDisplayInfo
     /// <summary> ADLDisplayID Structure</summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLDisplayID
     {
         /// <summary> Display Logical Index </summary>
         internal int DisplayLogicalIndex;
-
         /// <summary> Display Physical Index </summary>
         internal int DisplayPhysicalIndex;
-
         /// <summary> Adapter Logical Index </summary>
         internal int DisplayLogicalAdapterIndex;
-
         /// <summary> Adapter Physical Index </summary>
         internal int DisplayPhysicalAdapterIndex;
     }
@@ -180,34 +164,25 @@ namespace ATI.ADL
     {
         /// <summary> Display Index </summary>
         internal ADLDisplayID DisplayID;
-
         /// <summary> Display Controller Index </summary>
         internal int DisplayControllerIndex;
-
         /// <summary> Display Name </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string DisplayName;
-
         /// <summary> Display Manufacturer Name </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)ADL.ADL_MAX_PATH)]
         internal string DisplayManufacturerName;
-
         /// <summary> Display Type : < The Display type. CRT, TV,CV,DFP are some of display types,</summary>
         internal int DisplayType;
-
         /// <summary> Display output type </summary>
         internal int DisplayOutputType;
-
         /// <summary> Connector type</summary>
         internal int DisplayConnector;
-
         ///<summary> Indicating the display info bits' mask.<summary>
         internal int DisplayInfoMask;
-
         ///<summary> Indicating the display info value.<summary>
         internal int DisplayInfoValue;
     }
-
     #endregion ADLDisplayInfo
 
     [StructLayout(LayoutKind.Sequential)]
@@ -217,12 +192,10 @@ namespace ATI.ADL
         public int EngineClock;
         public int MemoryClock;
         public int Vddc;
-
         /// <summary>
         /// GPU Utilization
         /// </summary>
         public int ActivityPercent;
-
         public int CurrentPerformanceLevel;
         public int CurrentBusSpeed;
         public int CurrentBusLanes;
@@ -234,7 +207,6 @@ namespace ATI.ADL
     internal struct ADLTemperature
     {
         public int Size;
-
         /// <summary>
         /// Temperature in millidegrees Celsius
         /// </summary>
@@ -253,64 +225,47 @@ namespace ATI.ADL
     #endregion Export Struct
 
     #region ADL Class
-
     /// <summary> ADL Class</summary>
     internal static class ADL
     {
         #region Internal Constant
-
         /// <summary> Define the maximum path</summary>
         internal const int ADL_MAX_PATH = 256;
-
         /// <summary> Define the maximum adapters</summary>
         internal const int ADL_MAX_ADAPTERS = 40 /* 150 */;
-
         /// <summary> Define the maximum displays</summary>
         internal const int ADL_MAX_DISPLAYS = 40 /* 150 */;
-
         /// <summary> Define the maximum device name length</summary>
         internal const int ADL_MAX_DEVICENAME = 32;
-
         /// <summary> Define the successful</summary>
         internal const int ADL_SUCCESS = 0;
-
         /// <summary> Define the failure</summary>
         internal const int ADL_FAIL = -1;
-
         /// <summary> Define the driver ok</summary>
         internal const int ADL_DRIVER_OK = 0;
-
         /// <summary> Maximum number of GL-Sync ports on the GL-Sync module </summary>
         internal const int ADL_MAX_GLSYNC_PORTS = 8;
-
         /// <summary> Maximum number of GL-Sync ports on the GL-Sync module </summary>
         internal const int ADL_MAX_GLSYNC_PORT_LEDS = 8;
-
         /// <summary> Maximum number of ADLMOdes for the adapter </summary>
         internal const int ADL_MAX_NUM_DISPLAYMODES = 1024;
 
         internal const int ADL_DL_FANCTRL_SPEED_TYPE_PERCENT = 1;
         internal const int ADL_DL_FANCTRL_SPEED_TYPE_RPM = 2;
-
         #endregion Internal Constant
 
         #region Class ADLImport
-
         /// <summary> ADLImport class</summary>
         private static class ADLImport
         {
             #region Internal Constant
-
             /// <summary> Atiadlxx_FileName </summary>
             internal const string Atiadlxx_FileName = "atiadlxx.dll";
-
             /// <summary> Kernel32_FileName </summary>
             internal const string Kernel32_FileName = "kernel32.dll";
-
             #endregion Internal Constant
 
             #region DLLImport
-
             [DllImport(Kernel32_FileName, CallingConvention = CallingConvention.StdCall)]
             internal static extern HMODULE GetModuleHandle(string moduleName);
 
@@ -349,29 +304,22 @@ namespace ATI.ADL
 
             #endregion DLLImport
         }
-
         #endregion Class ADLImport
 
         #region Class ADLCheckLibrary
-
         /// <summary> ADLCheckLibrary class</summary>
         private class ADLCheckLibrary
         {
             #region Private Members
-
             private HMODULE ADLLibrary = System.IntPtr.Zero;
-
             #endregion Private Members
 
             #region Static Members
-
             /// <summary> new a private instance</summary>
             private static ADLCheckLibrary ADLCheckLibrary_ = new ADLCheckLibrary();
-
             #endregion Static Members
 
             #region Constructor
-
             /// <summary> Constructor</summary>
             private ADLCheckLibrary()
             {
@@ -386,11 +334,9 @@ namespace ATI.ADL
                 catch (EntryPointNotFoundException) { }
                 catch (Exception) { }
             }
-
             #endregion Constructor
 
             #region Destructor
-
             /// <summary> Destructor to force calling ADL Destroy function before free up the ADL library</summary>
             ~ADLCheckLibrary()
             {
@@ -399,11 +345,9 @@ namespace ATI.ADL
                     ADLImport.ADL_Main_Control_Destroy();
                 }
             }
-
             #endregion Destructor
 
             #region Static IsFunctionValid
-
             /// <summary> Check the import function to see it exists or not</summary>
             /// <param name="functionName"> function name</param>
             /// <returns>return true, if function exists</returns>
@@ -419,11 +363,9 @@ namespace ATI.ADL
                 }
                 return result;
             }
-
             #endregion Static IsFunctionValid
 
             #region Static GetProcAddress
-
             /// <summary> Get the unmanaged function pointer </summary>
             /// <param name="functionName"> function name</param>
             /// <returns>return function pointer, if function exists</returns>
@@ -436,19 +378,15 @@ namespace ATI.ADL
                 }
                 return result;
             }
-
             #endregion Static GetProcAddress
         }
-
         #endregion Class ADLCheckLibrary
 
         #region Export Functions
 
         #region ADL_Main_Memory_Alloc
-
         /// <summary> Build in memory allocation function</summary>
         internal static ADL_Main_Memory_Alloc ADL_Main_Memory_Alloc = ADL_Main_Memory_Alloc_;
-
         /// <summary> Build in memory allocation function</summary>
         /// <param name="size">input size</param>
         /// <returns>return the memory buffer</returns>
@@ -457,11 +395,9 @@ namespace ATI.ADL
             IntPtr result = Marshal.AllocCoTaskMem(size);
             return result;
         }
-
         #endregion ADL_Main_Memory_Alloc
 
         #region ADL_Main_Memory_Free
-
         /// <summary> Build in memory free function</summary>
         /// <param name="buffer">input buffer</param>
         internal static void ADL_Main_Memory_Free(IntPtr buffer)
@@ -471,11 +407,9 @@ namespace ATI.ADL
                 Marshal.FreeCoTaskMem(buffer);
             }
         }
-
         #endregion ADL_Main_Memory_Free
 
         #region ADL_Main_Control_Create
-
         /// <summary> ADL_Main_Control_Create Delegates</summary>
         internal static ADL_Main_Control_Create ADL_Main_Control_Create
         {
@@ -492,17 +426,13 @@ namespace ATI.ADL
                 return ADL_Main_Control_Create_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Main_Control_Create ADL_Main_Control_Create_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Main_Control_Create_Check = false;
-
         #endregion ADL_Main_Control_Create
 
         #region ADL_Main_Control_Destroy
-
         /// <summary> ADL_Main_Control_Destroy Delegates</summary>
         internal static ADL_Main_Control_Destroy ADL_Main_Control_Destroy
         {
@@ -519,17 +449,13 @@ namespace ATI.ADL
                 return ADL_Main_Control_Destroy_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Main_Control_Destroy ADL_Main_Control_Destroy_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Main_Control_Destroy_Check = false;
-
         #endregion ADL_Main_Control_Destroy
 
         #region ADL_Adapter_NumberOfAdapters_Get
-
         /// <summary> ADL_Adapter_NumberOfAdapters_Get Delegates</summary>
         internal static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get
         {
@@ -546,17 +472,13 @@ namespace ATI.ADL
                 return ADL_Adapter_NumberOfAdapters_Get_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Adapter_NumberOfAdapters_Get_Check = false;
-
         #endregion ADL_Adapter_NumberOfAdapters_Get
 
         #region ADL_Adapter_AdapterInfo_Get
-
         /// <summary> ADL_Adapter_AdapterInfo_Get Delegates</summary>
         internal static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get
         {
@@ -573,17 +495,13 @@ namespace ATI.ADL
                 return ADL_Adapter_AdapterInfo_Get_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Adapter_AdapterInfo_Get_Check = false;
-
         #endregion ADL_Adapter_AdapterInfo_Get
 
         #region ADL_Adapter_Active_Get
-
         /// <summary> ADL_Adapter_Active_Get Delegates</summary>
         internal static ADL_Adapter_Active_Get ADL_Adapter_Active_Get
         {
@@ -600,17 +518,13 @@ namespace ATI.ADL
                 return ADL_Adapter_Active_Get_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Adapter_Active_Get ADL_Adapter_Active_Get_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Adapter_Active_Get_Check = false;
-
         #endregion ADL_Adapter_Active_Get
 
         #region ADL_Display_DisplayInfo_Get
-
         /// <summary> ADL_Display_DisplayInfo_Get Delegates</summary>
         internal static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get
         {
@@ -627,13 +541,10 @@ namespace ATI.ADL
                 return ADL_Display_DisplayInfo_Get_;
             }
         }
-
         /// <summary> Private Delegate</summary>
         private static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get_ = null;
-
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Display_DisplayInfo_Get_Check = false;
-
         #endregion ADL_Display_DisplayInfo_Get
 
         internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get
@@ -651,7 +562,6 @@ namespace ATI.ADL
                 return ADL_Overdrive5_CurrentActivity_Get_;
             }
         }
-
         private static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get_ = null;
         private static bool ADL_Overdrive5_CurrentActivity_Get_Check = false;
 
@@ -670,7 +580,6 @@ namespace ATI.ADL
                 return ADL_Overdrive5_Temperature_Get_;
             }
         }
-
         private static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get_ = null;
         private static bool ADL_Overdrive5_Temperature_Get_Check = false;
 
@@ -689,13 +598,11 @@ namespace ATI.ADL
                 return ADL_Overdrive5_FanSpeed_Get_;
             }
         }
-
         private static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get_ = null;
         private static bool ADL_Overdrive5_FanSpeed_Get_Check = false;
 
         #endregion Export Functions
     }
-
     #endregion ADL Class
 }
 

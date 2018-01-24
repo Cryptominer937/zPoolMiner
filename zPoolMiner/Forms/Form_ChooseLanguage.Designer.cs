@@ -34,26 +34,28 @@
             // label_Instruction
             // 
             this.label_Instruction.AutoSize = true;
-            this.label_Instruction.Location = new System.Drawing.Point(10, 367);
+            this.label_Instruction.ForeColor = System.Drawing.SystemColors.Control;
+            this.label_Instruction.Location = new System.Drawing.Point(249, 282);
             this.label_Instruction.Name = "label_Instruction";
-            this.label_Instruction.Size = new System.Drawing.Size(248, 13);
+            this.label_Instruction.Size = new System.Drawing.Size(195, 13);
             this.label_Instruction.TabIndex = 0;
             this.label_Instruction.Text = "Choose a default language zPool Miner:";
+            this.label_Instruction.Click += new System.EventHandler(this.label_Instruction_Click);
             // 
             // comboBox_Languages
             // 
             this.comboBox_Languages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Languages.Enabled = false;
             this.comboBox_Languages.FormattingEnabled = true;
-            this.comboBox_Languages.Location = new System.Drawing.Point(15, 384);
+            this.comboBox_Languages.Location = new System.Drawing.Point(250, 298);
             this.comboBox_Languages.Name = "comboBox_Languages";
-            this.comboBox_Languages.Size = new System.Drawing.Size(195, 21);
+            this.comboBox_Languages.Size = new System.Drawing.Size(193, 21);
             this.comboBox_Languages.TabIndex = 1;
             // 
             // button_OK
             // 
             this.button_OK.Enabled = false;
-            this.button_OK.Location = new System.Drawing.Point(216, 382);
+            this.button_OK.Location = new System.Drawing.Point(289, 348);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(106, 23);
             this.button_OK.TabIndex = 2;
@@ -64,7 +66,8 @@
             // checkBox_TOS
             // 
             this.checkBox_TOS.AutoSize = true;
-            this.checkBox_TOS.Location = new System.Drawing.Point(292, 359);
+            this.checkBox_TOS.ForeColor = System.Drawing.SystemColors.Control;
+            this.checkBox_TOS.Location = new System.Drawing.Point(272, 325);
             this.checkBox_TOS.Name = "checkBox_TOS";
             this.checkBox_TOS.Size = new System.Drawing.Size(151, 17);
             this.checkBox_TOS.TabIndex = 3;
@@ -74,20 +77,24 @@
             // 
             // textBox_TOS
             // 
+            this.textBox_TOS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.textBox_TOS.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_TOS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.textBox_TOS.Location = new System.Drawing.Point(13, 13);
             this.textBox_TOS.Multiline = true;
             this.textBox_TOS.Name = "textBox_TOS";
             this.textBox_TOS.ReadOnly = true;
-            this.textBox_TOS.Size = new System.Drawing.Size(430, 340);
+            this.textBox_TOS.Size = new System.Drawing.Size(430, 266);
             this.textBox_TOS.TabIndex = 4;
             this.textBox_TOS.TabStop = false;
             this.textBox_TOS.Text = resources.GetString("textBox_TOS.Text");
+            this.textBox_TOS.TextChanged += new System.EventHandler(this.textBox_TOS_TextChanged);
             // 
             // Form_ChooseLanguage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(455, 427);
             this.Controls.Add(this.textBox_TOS);
             this.Controls.Add(this.checkBox_TOS);

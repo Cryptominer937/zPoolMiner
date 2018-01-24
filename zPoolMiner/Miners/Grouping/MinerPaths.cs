@@ -522,10 +522,11 @@ namespace zPoolMiner.Miners.Grouping
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    
-                    if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType)
-                    {
-                        return Data.ccminer_x11gost;
+
+                   if (AlgorithmType.X11Gost == algorithmType || AlgorithmType.Nist5 == algorithmType || AlgorithmType.X17 == algorithmType || AlgorithmType.Nist5 == algorithmType)
+ 
+                   {
+                     return Data.ccminer_x11gost;
                     }
                 }
                 // TODO wrong case?

@@ -45,11 +45,11 @@
             // radioButton_PreciseBenchmark
             // 
             this.radioButton_PreciseBenchmark.AutoSize = true;
-            this.radioButton_PreciseBenchmark.Location = new System.Drawing.Point(6, 77);
+            this.radioButton_PreciseBenchmark.Location = new System.Drawing.Point(6, 55);
             this.radioButton_PreciseBenchmark.Name = "radioButton_PreciseBenchmark";
-            this.radioButton_PreciseBenchmark.Size = new System.Drawing.Size(139, 17);
+            this.radioButton_PreciseBenchmark.Size = new System.Drawing.Size(133, 17);
             this.radioButton_PreciseBenchmark.TabIndex = 14;
-            this.radioButton_PreciseBenchmark.Text = "&Precise (will take longer)";
+            this.radioButton_PreciseBenchmark.Text = "&Precise (AMD + Mixed)";
             this.radioButton_PreciseBenchmark.UseVisualStyleBackColor = true;
             this.radioButton_PreciseBenchmark.CheckedChanged += new System.EventHandler(this.RadioButton_PreciseBenchmark_CheckedChanged);
             // 
@@ -57,24 +57,25 @@
             // 
             this.radioButton_StandardBenchmark.AutoSize = true;
             this.radioButton_StandardBenchmark.Checked = true;
-            this.radioButton_StandardBenchmark.Location = new System.Drawing.Point(6, 48);
+            this.radioButton_StandardBenchmark.Location = new System.Drawing.Point(6, 32);
             this.radioButton_StandardBenchmark.Name = "radioButton_StandardBenchmark";
-            this.radioButton_StandardBenchmark.Size = new System.Drawing.Size(68, 17);
+            this.radioButton_StandardBenchmark.Size = new System.Drawing.Size(107, 17);
             this.radioButton_StandardBenchmark.TabIndex = 13;
             this.radioButton_StandardBenchmark.TabStop = true;
-            this.radioButton_StandardBenchmark.Text = "&Standard";
+            this.radioButton_StandardBenchmark.Text = "&Standard (Nvidia)";
             this.radioButton_StandardBenchmark.UseVisualStyleBackColor = true;
             this.radioButton_StandardBenchmark.CheckedChanged += new System.EventHandler(this.RadioButton_StandardBenchmark_CheckedChanged);
             // 
             // radioButton_QuickBenchmark
             // 
             this.radioButton_QuickBenchmark.AutoSize = true;
-            this.radioButton_QuickBenchmark.Location = new System.Drawing.Point(6, 19);
+            this.radioButton_QuickBenchmark.Location = new System.Drawing.Point(68, 80);
             this.radioButton_QuickBenchmark.Name = "radioButton_QuickBenchmark";
-            this.radioButton_QuickBenchmark.Size = new System.Drawing.Size(148, 17);
+            this.radioButton_QuickBenchmark.Size = new System.Drawing.Size(124, 17);
             this.radioButton_QuickBenchmark.TabIndex = 12;
-            this.radioButton_QuickBenchmark.Text = "&Quick (can be inaccurate)";
+            this.radioButton_QuickBenchmark.Text = "&Quick (Not For AMD)";
             this.radioButton_QuickBenchmark.UseVisualStyleBackColor = true;
+            this.radioButton_QuickBenchmark.Visible = false;
             this.radioButton_QuickBenchmark.CheckedChanged += new System.EventHandler(this.RadioButton_QuickBenchmark_CheckedChanged);
             // 
             // BenchmarkOptions
