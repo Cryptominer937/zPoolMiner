@@ -55,8 +55,8 @@ namespace zPoolMiner.Miners
                 case MinerBaseType.ccminer_22:
                     return new Ccminer();
 
-                case MinerBaseType.ccminer_alexis_hsr:
-                    return new Ccminer();
+                /*case MinerBaseType.ccminer_alexis_hsr:
+                    return new Ccminer();*/
 
                 case MinerBaseType.ccminer_alexis78:
                     return new Ccminer();
@@ -130,8 +130,8 @@ namespace zPoolMiner.Miners
                 case MinerBaseType.hsrneoscrypt:
                     return new Hsrneoscrypt();
                     
-                case MinerBaseType.hsrneoscrypt_hsr:
-                    return new Hsrneoscrypt_hsr();
+                /*case MinerBaseType.hsrneoscrypt_hsr:
+                    return new Hsrneoscrypt_hsr();*/
                 //case MinerBaseType.mkxminer:
                    // return new Mkxminer();
             }

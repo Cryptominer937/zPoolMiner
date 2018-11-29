@@ -53,7 +53,7 @@ namespace zPoolMiner
             SecondaryBenchmarkSpeed = 0.0d;
             ExtraLaunchParameters = "";
             LessThreads = 0;
-            Enabled = !(NiceHashID == AlgorithmType.Nist5 || NiceHashID == AlgorithmType.Skein || NiceHashID == AlgorithmType.Blake2s || NiceHashID == AlgorithmType.Xevan || NiceHashID == AlgorithmType.Tribus || NiceHashID == AlgorithmType.Veltor || NiceHashID == AlgorithmType.Phi || NiceHashID == AlgorithmType.Hsr || NiceHashID == AlgorithmType.Bitcore) && minerBaseType == MinerBaseType.sgminer;
+            Enabled = !(NiceHashID == AlgorithmType.Nist5 || NiceHashID == AlgorithmType.Skein || NiceHashID == AlgorithmType.Blake2s || NiceHashID == AlgorithmType.Xevan || NiceHashID == AlgorithmType.Tribus ||  NiceHashID == AlgorithmType.Phi || NiceHashID == AlgorithmType.Bitcore) && minerBaseType == MinerBaseType.sgminer;
             Enabled = !(NiceHashID == AlgorithmType.CryptoNight) || (NiceHashID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
             //Enabled = !(NiceHashID == AlgorithmType.Lyra2REv2) && minerBaseType == MinerBaseType.mkxminer;
             BenchmarkStatus = "";

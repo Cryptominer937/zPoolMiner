@@ -19,7 +19,7 @@
         XmrStackCPU,
         ccminer_alexis,
         ccminer_alexis78,//
-        ccminer_alexis_hsr,//
+        //ccminer_alexis_hsr,//
         ccminer_22,//
         ccminer_klaust,
         ccminer_klaust818,
@@ -39,7 +39,7 @@
         XmrStakAMD,
         Claymore_old,
         hsrneoscrypt,
-        hsrneoscrypt_hsr,
+        //hsrneoscrypt_hsr,
         //mkxminer,
         END
     }

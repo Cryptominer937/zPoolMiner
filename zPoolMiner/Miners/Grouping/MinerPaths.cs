@@ -164,8 +164,8 @@ namespace zPoolMiner.Miners.Grouping
                 case MinerBaseType.ccminer_22:
                     return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
 
-                case MinerBaseType.ccminer_alexis_hsr:
-                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
+                /*case MinerBaseType.ccminer_alexis_hsr:
+                    return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);*/
 
                 case MinerBaseType.ccminer_alexis78:
                     return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
@@ -239,8 +239,8 @@ namespace zPoolMiner.Miners.Grouping
                 case MinerBaseType.hsrneoscrypt:
                     return NVIDIA_GROUPS.Hsrneoscrypt_path(algoType, devGroupType);
                     
-                case MinerBaseType.hsrneoscrypt_hsr:
-                    return NVIDIA_GROUPS.hsrneoscrypt_hsr_path(algoType, devGroupType);
+                /*case MinerBaseType.hsrneoscrypt_hsr:
+                    return NVIDIA_GROUPS.hsrneoscrypt_hsr_path(algoType, devGroupType);*/
                 //case MinerBaseType.mkxminer:
                     //return Data.mkxminer;
             }
@@ -332,10 +332,10 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_palgin;
                 }
-                if (AlgorithmType.Hsr == algorithmType)
+                /*if (AlgorithmType.Hsr == algorithmType)
                 {
                     return Data.ccminer_alexis_hsr;
-                }
+                }*/
                 if (AlgorithmType.Phi == algorithmType
                     || AlgorithmType.NeoScrypt == algorithmType
                     || AlgorithmType.Tribus == algorithmType
@@ -360,8 +360,7 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.Hsr == algorithmType
-                    || AlgorithmType.Blake256r8 == algorithmType
+                if (AlgorithmType.Blake256r8 == algorithmType
                     || AlgorithmType.X11Gost == algorithmType
                     || AlgorithmType.C11 == algorithmType)
                 {
@@ -407,10 +406,10 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_palgin;
                 }
-                if (AlgorithmType.Hsr == algorithmType)
+                /*if (AlgorithmType.Hsr == algorithmType)
                 {
                     return Data.ccminer_alexis_hsr;
-                }
+                }*/
                 if (AlgorithmType.Phi == algorithmType
                     || AlgorithmType.NeoScrypt == algorithmType
                     || AlgorithmType.Tribus == algorithmType
@@ -435,8 +434,7 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.ccminer_22;
                 }
-                if (AlgorithmType.Hsr == algorithmType
-                    || AlgorithmType.Blake256r8 == algorithmType
+                if (AlgorithmType.Blake256r8 == algorithmType
                     || AlgorithmType.X11Gost == algorithmType
                     || AlgorithmType.C11 == algorithmType)
                 {
@@ -550,15 +548,15 @@ namespace zPoolMiner.Miners.Grouping
                 {
                     return Data.sgminer_Bitcore;
                 }
-                if (AlgorithmType.Hsr == type)
+                /*if (AlgorithmType.Hsr == type)
                 {
                     return Data.sgminer_HSR;
-                }
+                }*/
                 if (AlgorithmType.Phi == type)
                 {
                     return Data.sgminer_Phi;
                 }
-                if (AlgorithmType.Tribus == type || AlgorithmType.Veltor == type)
+                if (AlgorithmType.Tribus == type )
                 {
                     return Data.sgminer_Tribus;
                 }

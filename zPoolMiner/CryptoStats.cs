@@ -237,7 +237,13 @@
                 try
                 {
                     // We get the algo payment info here - http://www.zpool.ca/api/status
-                    var WR = (HttpWebRequest)WebRequest.Create("http://www.zpool.ca/api/status");
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                           | SecurityProtocolType.Tls11
+                           | SecurityProtocolType.Tls12
+                           | SecurityProtocolType.Ssl3;
+                    var WR = (HttpWebRequest)WebRequest.Create("https://www.zpool.ca/api/status");
                     var Response = WR.GetResponse();
                     var SS = Response.GetResponseStream();
                     SS.ReadTimeout = 20 * 1000;
@@ -719,7 +725,7 @@
                 case "c11": return ZAlgorithm.c11;
                 case "equihash": return ZAlgorithm.equihash;
                 case "groestl": return ZAlgorithm.groestl;
-                case "hsr": return ZAlgorithm.hsr;
+                //case "hsr": return ZAlgorithm.hsr;
                 case "keccak": return ZAlgorithm.keccak;
                 case "lbry": return ZAlgorithm.lbry;
                 case "lyra2v2": return ZAlgorithm.lyra2v2;
@@ -737,11 +743,11 @@
                 case "skunk": return ZAlgorithm.skunk;
                 case "timetravel": return ZAlgorithm.timetravel;
                 case "tribus": return ZAlgorithm.tribus;
-                case "veltor": return ZAlgorithm.veltor;
+                //case "veltor": return ZAlgorithm.veltor;
                 case "x11": return ZAlgorithm.x11;
                 case "x11evo": return ZAlgorithm.x11evo;
                 case "x13": return ZAlgorithm.x13;
-                case "x14": return ZAlgorithm.x14;
+                //case "x14": return ZAlgorithm.x14;
                 case "x17": return ZAlgorithm.x17;
                 case "xevan": return ZAlgorithm.xevan;
                 case "yescrypt": return ZAlgorithm.yescrypt;
@@ -766,7 +772,7 @@
                 case "c11": return 3;
                 case "equihash": return 4;
                 case "groestl": return 5;
-                case "hsr": return 6;
+                //case "hsr": return 6;
                 case "keccak": return 7;
                 case "lbry": return 8;
                 case "lyra2v2": return 9;
@@ -784,11 +790,11 @@
                 case "skunk": return 21;
                 case "timetravel": return 22;
                 case "tribus": return 23;
-                case "veltor": return 24;
+                //case "veltor": return 24;
                 case "x11": return 25;
                 case "x11evo": return 26;
                 case "x13": return 27;
-                case "x14": return 28;
+                //case "x14": return 28;
                 case "x17": return 29;
                 case "xevan": return 30;
                 case "yescrypt": return 31;
@@ -887,7 +893,7 @@
         /// <summary>
         /// Defines the hsr
         /// </summary>
-        hsr,
+        //hsr,
 
         /// <summary>
         /// Defines the keccak
@@ -977,7 +983,7 @@
         /// <summary>
         /// Defines the veltor
         /// </summary>
-        veltor,
+        //veltor,
 
         /// <summary>
         /// Defines the x11
@@ -997,7 +1003,7 @@
         /// <summary>
         /// Defines the x14
         /// </summary>
-        x14,
+        //x14,
 
         /// <summary>
         /// Defines the x17

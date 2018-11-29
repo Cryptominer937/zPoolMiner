@@ -15,7 +15,7 @@ namespace zPoolMiner
                 || (AlgorithmType.X17 <= type && type <= AlgorithmType.X17)
                 || (AlgorithmType.Tribus <= type && type <= AlgorithmType.Tribus)
                 || (AlgorithmType.Timetravel <= type && type <= AlgorithmType.Timetravel)
-                || (AlgorithmType.Veltor <= type && type <= AlgorithmType.Veltor)
+                //|| (AlgorithmType.Veltor <= type && type <= AlgorithmType.Veltor)
                 || (AlgorithmType.Xevan <= type && type <= AlgorithmType.Xevan)
 
                 )

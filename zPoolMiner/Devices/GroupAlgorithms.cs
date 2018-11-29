@@ -346,9 +346,9 @@
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Blake2s, "sia") { ExtraLaunchParameters = DefaultParam + "--intensity d" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Phi, "phi") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Veltor, "veltor") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Veltor, "veltor") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Tribus, "tribus") { ExtraLaunchParameters = DefaultParam + "--shaders 1792 --lookup-gap 4 --intensity 19" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Xevan, "xevan") { ExtraLaunchParameters = DefaultParam + "--intensity 19" }
 
@@ -429,11 +429,11 @@
                             new Algorithm(MinerBaseType.ccminer_22, AlgorithmType.Bitcore, "bitcore")
                         }
                     },
-                    { MinerBaseType.ccminer_alexis_hsr,
+                    /*{ MinerBaseType.ccminer_alexis_hsr,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_alexis_hsr, AlgorithmType.Hsr, "hsr")
                         }
-                    },
+                    },*/
                     { MinerBaseType.ccminer_alexis78,
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.ccminer_alexis78, AlgorithmType.C11, "c11")
@@ -441,7 +441,7 @@
                     },
                     { MinerBaseType.ccminer_polytimos,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Veltor, "veltor"),
+                            //new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Veltor, "veltor"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Lbry, "lbry"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Keccak, "keccak"),
                             new Algorithm(MinerBaseType.ccminer_polytimos, AlgorithmType.Skein, "skein"),
@@ -489,11 +489,11 @@
                              new Algorithm(MinerBaseType.hsrneoscrypt, AlgorithmType.NeoScrypt, "Neoscrypt"),
                          }
                      },
-                    { MinerBaseType.hsrneoscrypt_hsr,
+                    /*{ MinerBaseType.hsrneoscrypt_hsr,
                          new List<Algorithm>() {
                              new Algorithm(MinerBaseType.hsrneoscrypt_hsr, AlgorithmType.Hsr, "hsr")
                          }
-                     },
+                     },*/
                     //{ MinerBaseType.ethminer,
                     //    new List<Algorithm>() {
                     //        new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto")

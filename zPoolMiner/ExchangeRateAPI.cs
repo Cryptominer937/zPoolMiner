@@ -75,6 +75,12 @@ namespace zPoolMiner
 
         public static void UpdateAPI(string worker)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                   | SecurityProtocolType.Tls11
+                   | SecurityProtocolType.Tls12
+                   | SecurityProtocolType.Ssl3;
             var WR = (HttpWebRequest)WebRequest.Create("https://blockchain.info/ticker");
             var Response = WR.GetResponse();
             var SS = Response.GetResponseStream();

@@ -163,12 +163,12 @@ namespace zPoolMiner.Miners
                 var totalSpeed = 0.0d;
                 foreach (var miningPair in MiningSetup.MiningPairs)
                 {
-                    var algo = miningPair.Device.GetAlgorithm(MinerBaseType.hsrneoscrypt_hsr, AlgorithmType.Hsr, AlgorithmType.NONE);
+                   /*var algo = miningPair.Device.GetAlgorithm(MinerBaseType.hsrneoscrypt_hsr, AlgorithmType.Hsr, AlgorithmType.NONE);
                     if (algo != null)
                     {
                         totalSpeed += algo.BenchmarkSpeed;
                         Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer. Used benchmark hashrate");
-                    }
+                    }*/
                 }
 
                 hsrData.Speed = totalSpeed;
