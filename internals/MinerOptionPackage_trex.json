@@ -1,0 +1,15 @@
+{
+  "Name": "trex",
+  "Type": 33,
+  "GeneralOptions": [
+    {
+      "Type": "Intensity",
+      "ShortName": "-i",
+      "LongName": "--intensity ",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": []
+}

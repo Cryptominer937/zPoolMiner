@@ -1,0 +1,47 @@
+{
+  "Name": "OptiminerZcash",
+  "Type": 16,
+  "GeneralOptions": [
+    {
+      "Type": "ForceGenericKernel",
+      "ShortName": "--force-generic-kernel",
+      "LongName": "--force-generic-kernel",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "ExperimentalKernel",
+      "ShortName": "--experimental-kernel",
+      "LongName": "--experimental-kernel",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "nodevfee",
+      "ShortName": "--nodevfee",
+      "LongName": "--nodevfee",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "Intensity",
+      "ShortName": "-i",
+      "LongName": "--intensity",
+      "Default": "0",
+      "FlagType": 3,
+      "Separator": ""
+    },
+    {
+      "Type": "PciMode",
+      "ShortName": "--pci-mode",
+      "LongName": "--pci-mode",
+      "Default": "",
+      "FlagType": 1,
+      "Separator": ""
+    }
+  ],
+  "TemperatureOptions": []
+}

@@ -1,0 +1,128 @@
+{
+  "Name": "Claymorecryptonight",
+  "Type": 14,
+  "GeneralOptions": [
+    {
+      "Type": "Claymorecryptonight_a",
+      "ShortName": "-a",
+      "LongName": "-a",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ""
+    },
+    {
+      "Type": "Claymorecryptonight_wd",
+      "ShortName": "-wd",
+      "LongName": "-wd",
+      "Default": "1",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_nofee",
+      "ShortName": "-nofee",
+      "LongName": "-nofee",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_li",
+      "ShortName": "-li",
+      "LongName": "-li",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_h",
+      "ShortName": "-h",
+      "LongName": "-h",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_allpools",
+      "ShortName": "-allpools",
+      "LongName": "-allpools",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "Claymorecryptonight_cclock",
+      "ShortName": "-cclock",
+      "LongName": "-cclock",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_mclock",
+      "ShortName": "-mclock",
+      "LongName": "-mclock",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_powlim",
+      "ShortName": "-powlim",
+      "LongName": "-powlim",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_cvddc",
+      "ShortName": "-cvddc",
+      "LongName": "-cvddc",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_mvddc",
+      "ShortName": "-mvddc",
+      "LongName": "-mvddc",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": [
+    {
+      "Type": "Claymorecryptonight_tt",
+      "ShortName": "-tt",
+      "LongName": "-tt",
+      "Default": "1",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_tstop",
+      "ShortName": "-tstop",
+      "LongName": "-tstop",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_fanmax",
+      "ShortName": "-fanmax",
+      "LongName": "-fanmax",
+      "Default": "100",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Claymorecryptonight_fanmin",
+      "ShortName": "-fanmin",
+      "LongName": "-fanmin",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ]
+}

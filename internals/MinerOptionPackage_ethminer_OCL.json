@@ -1,0 +1,23 @@
+{
+  "Name": "ethminer_OCL",
+  "Type": 3,
+  "GeneralOptions": [
+    {
+      "Type": "LocalWork",
+      "ShortName": "",
+      "LongName": "--cl-local-work",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "GlobalWork",
+      "ShortName": "",
+      "LongName": "--cl-global-work",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": []
+}

@@ -1,0 +1,144 @@
+{
+  "Name": "sgminer",
+  "Type": 5,
+  "GeneralOptions": [
+    {
+      "Type": "KeccakUnroll",
+      "ShortName": "",
+      "LongName": "--keccak-unroll",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "HamsiExpandBig",
+      "ShortName": "",
+      "LongName": "--hamsi-expand-big",
+      "Default": "4",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "Nfactor",
+      "ShortName": "",
+      "LongName": "--nfactor",
+      "Default": "10",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "Intensity",
+      "ShortName": "-I",
+      "LongName": "--intensity",
+      "Default": "d",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Xintensity",
+      "ShortName": "-X",
+      "LongName": "--xintensity",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Rawintensity",
+      "ShortName": "",
+      "LongName": "--rawintensity",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ThreadConcurrency",
+      "ShortName": "",
+      "LongName": "--thread-concurrency",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "Worksize",
+      "ShortName": "-w",
+      "LongName": "--worksize",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "GpuThreads",
+      "ShortName": "-g",
+      "LongName": "--gpu-threads",
+      "Default": "1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "LookupGap",
+      "ShortName": "",
+      "LongName": "--lookup-gap",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "RemoveDisabled",
+      "ShortName": "--remove-disabled",
+      "LongName": "--remove-disabled",
+      "Default": "",
+      "FlagType": 0,
+      "Separator": ""
+    }
+  ],
+  "TemperatureOptions": [
+    {
+      "Type": "GpuFan",
+      "ShortName": "",
+      "LongName": "--gpu-fan",
+      "Default": "30-60",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "TempCutoff",
+      "ShortName": "",
+      "LongName": "--temp-cutoff",
+      "Default": "95",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "TempOverheat",
+      "ShortName": "",
+      "LongName": "--temp-overheat",
+      "Default": "85",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "TempTarget",
+      "ShortName": "",
+      "LongName": "--temp-target",
+      "Default": "75",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "AutoFan",
+      "ShortName": "",
+      "LongName": "--auto-fan",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "AutoGpu",
+      "ShortName": "",
+      "LongName": "--auto-gpu",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+CudaDeviceDetection
+pause

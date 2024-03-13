@@ -1,0 +1,79 @@
+{
+  "Name": "Xmrig",
+  "Type": 21,
+  "GeneralOptions": [
+    {
+      "Type": "Xmrig_fee",
+      "ShortName": "--donate-level=",
+      "LongName": "--donate-level=",
+      "Default": "1",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "Threads",
+      "ShortName": "-t",
+      "LongName": "--threads=",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "Xmrig_av",
+      "ShortName": "-v",
+      "LongName": "--av=",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "CpuAffinity",
+      "ShortName": "--cpu-affinity",
+      "LongName": "--cpu-affinity",
+      "Default": "-1",
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "Xmrig_priority",
+      "ShortName": "--cpu-priority",
+      "LongName": "--cpu-priority",
+      "Default": null,
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "Xmrig_nohugepages",
+      "ShortName": "--no-huge-pages",
+      "LongName": "--no-huge-pages",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "Xmrig_nocolor",
+      "ShortName": "--no-color",
+      "LongName": "--no-color",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    },
+    {
+      "Type": "Xmrig_maxusage",
+      "ShortName": "--max-cpu-usage=",
+      "LongName": "--max-cpu-usage=",
+      "Default": "75",
+      "FlagType": 1,
+      "Separator": ""
+    },
+    {
+      "Type": "Xmrig_safe",
+      "ShortName": "--safe",
+      "LongName": "--safe",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": ""
+    }
+  ],
+  "TemperatureOptions": []
+}

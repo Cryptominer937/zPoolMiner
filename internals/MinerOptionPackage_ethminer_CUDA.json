@@ -1,0 +1,23 @@
+{
+  "Name": "ethminer_CUDA",
+  "Type": 4,
+  "GeneralOptions": [
+    {
+      "Type": "CudaBlockSize",
+      "ShortName": "",
+      "LongName": "--cuda-block-size",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "CudaGridSize",
+      "ShortName": "",
+      "LongName": "--cuda-grid-size",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": []
+}

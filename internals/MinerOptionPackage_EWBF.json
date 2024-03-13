@@ -1,0 +1,63 @@
+{
+  "Name": "EWBF",
+  "Type": 19,
+  "GeneralOptions": [
+    {
+      "Type": "EWBF_fee",
+      "ShortName": "--fee",
+      "LongName": "--fee",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_templimit",
+      "ShortName": "--templimit",
+      "LongName": "--templimit",
+      "Default": "90",
+      "FlagType": 1,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_tempunits",
+      "ShortName": "--tempunits",
+      "LongName": "--tempunits",
+      "Default": "C",
+      "FlagType": 1,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_eexit",
+      "ShortName": "--eexit",
+      "LongName": "--eexit",
+      "Default": null,
+      "FlagType": 1,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_solver",
+      "ShortName": "--solver",
+      "LongName": "--solver",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_intensity",
+      "ShortName": "--intensity",
+      "LongName": "--intensity",
+      "Default": "64",
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "EWBF_powercalc",
+      "ShortName": "--pec",
+      "LongName": "--pec",
+      "Default": null,
+      "FlagType": 0,
+      "Separator": " "
+    }
+  ],
+  "TemperatureOptions": []
+}

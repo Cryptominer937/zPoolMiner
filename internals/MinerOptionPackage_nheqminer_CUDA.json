@@ -1,0 +1,31 @@
+{
+  "Name": "nheqminer_CUDA",
+  "Type": 9,
+  "GeneralOptions": [
+    {
+      "Type": "Solver_Version",
+      "ShortName": "-cv",
+      "LongName": "-cv",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": " "
+    },
+    {
+      "Type": "Solver_Block",
+      "ShortName": "-cb",
+      "LongName": "-cb",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": " "
+    },
+    {
+      "Type": "Solver_Thread",
+      "ShortName": "-ct",
+      "LongName": "-ct",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": " "
+    }
+  ],
+  "TemperatureOptions": []
+}

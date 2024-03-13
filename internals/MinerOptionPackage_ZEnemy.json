@@ -1,0 +1,15 @@
+{
+  "Name": "ZEnemy",
+  "Type": 34,
+  "GeneralOptions": [
+    {
+      "Type": "Intensity",
+      "ShortName": "-i",
+      "LongName": "--intensity=",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": []
+}

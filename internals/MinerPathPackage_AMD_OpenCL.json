@@ -1,0 +1,57 @@
+{
+  "Name": "AMD_OpenCL",
+  "DeviceType": 1,
+  "MinerTypes": [
+    {
+      "Name": "sgminer",
+      "Type": 3,
+      "Algorithms": [
+        {
+          "Name": "Lbry",
+          "Algorithm": 8,
+          "Path": "AMD_Miners\\sgminer-5-6-0-general\\sgminer.exe"
+        },
+        {
+          "Name": "X11Gost",
+          "Algorithm": 19,
+          "Path": "AMD_Miners\\sgminer-5-6-0-general\\sgminer.exe"
+        },
+        {
+          "Name": "Keccak",
+          "Algorithm": 7,
+          "Path": "AMD_Miners\\sgminer-5-6-0-general\\sgminer.exe"
+        },
+        {
+          "Name": "Skein",
+          "Algorithm": 20,
+          "Path": "AMD_Miners\\sgminer-Skein\\sgminer.exe"
+        },
+        {
+          "Name": "Bitcore",
+          "Algorithm": 0,
+          "Path": "AMD_Miners\\sgminer-Bitcore\\sgminer.exe"
+        },
+        {
+          "Name": "Blake2s",
+          "Algorithm": 1,
+          "Path": "AMD_Miners\\sgminer-5-6-0-general\\sgminer.exe"
+        },
+        {
+          "Name": "Hsr",
+          "Algorithm": 6,
+          "Path": "AMD_Miners\\sgminer-HSR\\sgminer.exe"
+        },
+        {
+          "Name": "Tribus",
+          "Algorithm": 23,
+          "Path": "AMD_Miners\\sgminer-Tribus\\sgminer.exe"
+        },
+        {
+          "Name": "Xevan",
+          "Algorithm": 30,
+          "Path": "AMD_Miners\\sgminer-Xevan\\sgminer.exe"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "Name": "ClaymoreNeoScrypt",
+  "Type": 15,
+  "GeneralOptions": [
+    {
+      "Type": "ClaymoreNeoscrypt_a",
+      "ShortName": "-a",
+      "LongName": "-a",
+      "Default": "1",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_wd",
+      "ShortName": "-wd",
+      "LongName": "-wd",
+      "Default": "1",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_nofee",
+      "ShortName": "-nofee",
+      "LongName": "-nofee",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_li",
+      "ShortName": "-li",
+      "LongName": "-li",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_cclock",
+      "ShortName": "-cclock",
+      "LongName": "-cclock",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_mclock",
+      "ShortName": "-mclock",
+      "LongName": "-mclock",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_powlim",
+      "ShortName": "-powlim",
+      "LongName": "-powlim",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_cvddc",
+      "ShortName": "-cvddc",
+      "LongName": "-cvddc",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_mvddc",
+      "ShortName": "-mvddc",
+      "LongName": "-mvddc",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_colors",
+      "ShortName": "-colors",
+      "LongName": "-colors",
+      "Default": "1",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ],
+  "TemperatureOptions": [
+    {
+      "Type": "ClaymoreNeoscrypt_tt",
+      "ShortName": "-tt",
+      "LongName": "-tt",
+      "Default": "1",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_ttli",
+      "ShortName": "-ttli",
+      "LongName": "-ttli",
+      "Default": "70",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_tstop",
+      "ShortName": "-tstop",
+      "LongName": "-tstop",
+      "Default": "0",
+      "FlagType": 1,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_fanmax",
+      "ShortName": "-fanmax",
+      "LongName": "-fanmax",
+      "Default": "100",
+      "FlagType": 2,
+      "Separator": ","
+    },
+    {
+      "Type": "ClaymoreNeoscrypt_fanmin",
+      "ShortName": "-fanmin",
+      "LongName": "-fanmin",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": ","
+    }
+  ]
+}

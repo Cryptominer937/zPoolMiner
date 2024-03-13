@@ -1,0 +1,15 @@
+{
+  "Name": "eqm_CUDA",
+  "Type": 12,
+  "GeneralOptions": [
+    {
+      "Type": "Solver_Mode",
+      "ShortName": "-cm",
+      "LongName": "-cm",
+      "Default": "0",
+      "FlagType": 2,
+      "Separator": " "
+    }
+  ],
+  "TemperatureOptions": []
+}
