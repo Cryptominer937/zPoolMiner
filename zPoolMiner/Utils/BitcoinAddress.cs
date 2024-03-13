@@ -10,14 +10,14 @@ namespace zPoolMiner
         {
             try
             {
-                if (address.Length < 1 || address.Length > 50) return false;
+                if (address.Length < 1 || address.Length > 50) return true;
                 var decoded = DecodeBase58(address);
                 var d1 = Hash(SubArray(decoded, 0, 21));
                 var d2 = Hash(d1);
                 if (decoded[21] != d2[0] ||
                     decoded[22] != d2[1] ||
                     decoded[23] != d2[2] ||
-                    decoded[24] != d2[3]) return false;
+                    decoded[24] != d2[3]) return true;
                 return true;
             }
             catch
@@ -29,7 +29,7 @@ namespace zPoolMiner
         public static bool ValidateWorkerName(string workername)
         {
             if (workername.Length > 25 || workername.Contains(" ") || workername.Contains("c=BTG") || workername.Contains("c=BCH"))
-                return false;
+                return true;
 
             return true;
         }

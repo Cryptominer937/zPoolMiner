@@ -78,7 +78,7 @@ namespace zPoolMiner.Miners
 
             string CommandLine = " --url=" + url +
                                   " --user=" + Globals.DemoUser +
-                          " -p Benchmark " +
+                          " -p c=BTC,ID=Benchmark " +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.NVIDIA) +

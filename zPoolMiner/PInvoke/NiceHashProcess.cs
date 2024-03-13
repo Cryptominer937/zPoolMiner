@@ -1,60 +1,210 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
-
-namespace zPoolMiner
+﻿namespace zPoolMiner
 {
-    public class NiceHashProcess
+    using System;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+    using System.Threading;
+
+    /// <summary>
+    /// Defines the <see cref="HashKingsProcess" />
+    /// </summary>
+    public class HashKingsProcess
     {
+        /// <summary>
+        /// Defines the CREATE_NEW_CONSOLE
+        /// </summary>
         private const uint CREATE_NEW_CONSOLE = 0x00000010;
+
+        /// <summary>
+        /// Defines the NORMAL_PRIORITY_CLASS
+        /// </summary>
         private const uint NORMAL_PRIORITY_CLASS = 0x0020;
+
+        /// <summary>
+        /// Defines the CREATE_NO_WINDOW
+        /// </summary>
         private const uint CREATE_NO_WINDOW = 0x08000000;
+
+        /// <summary>
+        /// Defines the STARTF_USESHOWWINDOW
+        /// </summary>
         private const int STARTF_USESHOWWINDOW = 0x00000001;
+
+        /// <summary>
+        /// Defines the SW_SHOWMINNOACTIVE
+        /// </summary>
         private const short SW_SHOWMINNOACTIVE = 7;
+
+        /// <summary>
+        /// Defines the INFINITE
+        /// </summary>
         private const uint INFINITE = 0xFFFFFFFF;
+
+        /// <summary>
+        /// Defines the STILL_ACTIVE
+        /// </summary>
         private const uint STILL_ACTIVE = 259;
 
+        /// <summary>
+        /// Defines the <see cref="PROCESS_INFORMATION" />
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct PROCESS_INFORMATION
         {
+            /// <summary>
+            /// Defines the hProcess
+            /// </summary>
             public IntPtr hProcess;
+
+            /// <summary>
+            /// Defines the hThread
+            /// </summary>
             public IntPtr hThread;
+
+            /// <summary>
+            /// Defines the ProcessId
+            /// </summary>
             public Int32 ProcessId;
+
+            /// <summary>
+            /// Defines the ThreadId
+            /// </summary>
             public Int32 ThreadId;
         }
 
+        /// <summary>
+        /// Defines the <see cref="SECURITY_ATTRIBUTES" />
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct SECURITY_ATTRIBUTES
         {
+            /// <summary>
+            /// Defines the nLength
+            /// </summary>
             public int nLength;
+
+            /// <summary>
+            /// Defines the lpSecurityDescriptor
+            /// </summary>
             public IntPtr lpSecurityDescriptor;
+
+            /// <summary>
+            /// Defines the bInheritHandle
+            /// </summary>
             public int bInheritHandle;
         }
 
+        /// <summary>
+        /// Defines the <see cref="STARTUPINFO" />
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct STARTUPINFO
         {
+            /// <summary>
+            /// Defines the cb
+            /// </summary>
             public Int32 cb;
+
+            /// <summary>
+            /// Defines the lpReserved
+            /// </summary>
             public string lpReserved;
+
+            /// <summary>
+            /// Defines the lpDesktop
+            /// </summary>
             public string lpDesktop;
+
+            /// <summary>
+            /// Defines the lpTitle
+            /// </summary>
             public string lpTitle;
+
+            /// <summary>
+            /// Defines the dwX
+            /// </summary>
             public Int32 dwX;
+
+            /// <summary>
+            /// Defines the dwY
+            /// </summary>
             public Int32 dwY;
+
+            /// <summary>
+            /// Defines the dwXSize
+            /// </summary>
             public Int32 dwXSize;
+
+            /// <summary>
+            /// Defines the dwYSize
+            /// </summary>
             public Int32 dwYSize;
+
+            /// <summary>
+            /// Defines the dwXCountChars
+            /// </summary>
             public Int32 dwXCountChars;
+
+            /// <summary>
+            /// Defines the dwYCountChars
+            /// </summary>
             public Int32 dwYCountChars;
+
+            /// <summary>
+            /// Defines the dwFillAttribute
+            /// </summary>
             public Int32 dwFillAttribute;
+
+            /// <summary>
+            /// Defines the dwFlags
+            /// </summary>
             public Int32 dwFlags;
+
+            /// <summary>
+            /// Defines the wShowWindow
+            /// </summary>
             public Int16 wShowWindow;
+
+            /// <summary>
+            /// Defines the cbReserved2
+            /// </summary>
             public Int16 cbReserved2;
+
+            /// <summary>
+            /// Defines the lpReserved2
+            /// </summary>
             public IntPtr lpReserved2;
+
+            /// <summary>
+            /// Defines the hStdInput
+            /// </summary>
             public IntPtr hStdInput;
+
+            /// <summary>
+            /// Defines the hStdOutput
+            /// </summary>
             public IntPtr hStdOutput;
+
+            /// <summary>
+            /// Defines the hStdError
+            /// </summary>
             public IntPtr hStdError;
         }
 
+        /// <summary>
+        /// The CreateProcess
+        /// </summary>
+        /// <param name="lpApplicationName">The <see cref="string"/></param>
+        /// <param name="lpCommandLine">The <see cref="string"/></param>
+        /// <param name="lpProcessAttributes">The <see cref="SECURITY_ATTRIBUTES"/></param>
+        /// <param name="lpThreadAttributes">The <see cref="SECURITY_ATTRIBUTES"/></param>
+        /// <param name="bInheritHandles">The <see cref="bool"/></param>
+        /// <param name="dwCreationFlags">The <see cref="uint"/></param>
+        /// <param name="lpEnvironment">The <see cref="IntPtr"/></param>
+        /// <param name="lpCurrentDirectory">The <see cref="string"/></param>
+        /// <param name="lpStartupInfo">The <see cref="STARTUPINFO"/></param>
+        /// <param name="lpProcessInformation">The <see cref="PROCESS_INFORMATION"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool CreateProcess(
             string lpApplicationName,
@@ -68,77 +218,206 @@ namespace zPoolMiner
             [In] ref STARTUPINFO lpStartupInfo,
             out PROCESS_INFORMATION lpProcessInformation);
 
+        /// <summary>
+        /// The TerminateProcess
+        /// </summary>
+        /// <param name="hProcess">The <see cref="IntPtr"/></param>
+        /// <param name="uExitCode">The <see cref="uint"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool TerminateProcess(IntPtr hProcess, uint uExitCode);
 
+        /// <summary>
+        /// The CloseHandle
+        /// </summary>
+        /// <param name="hObject">The <see cref="IntPtr"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CloseHandle(IntPtr hObject);
 
+        /// <summary>
+        /// The GetExitCodeProcess
+        /// </summary>
+        /// <param name="hProcess">The <see cref="IntPtr"/></param>
+        /// <param name="lpExitCode">The <see cref="uint"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetExitCodeProcess(IntPtr hProcess, out uint lpExitCode);
 
+        /// <summary>
+        /// The WaitForSingleObject
+        /// </summary>
+        /// <param name="hHandle">The <see cref="IntPtr"/></param>
+        /// <param name="dwMilliseconds">The <see cref="UInt32"/></param>
+        /// <returns>The <see cref="UInt32"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
 
+        /// <summary>
+        /// The GetStdHandle
+        /// </summary>
+        /// <param name="nStdHandle">The <see cref="int"/></param>
+        /// <returns>The <see cref="IntPtr"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr GetStdHandle(int nStdHandle);
 
+        /// <summary>
+        /// The CreatePipe
+        /// </summary>
+        /// <param name="hReadPipe">The <see cref="IntPtr"/></param>
+        /// <param name="hWritePipe">The <see cref="IntPtr"/></param>
+        /// <param name="lpPipeAttributes">The <see cref="SECURITY_ATTRIBUTES"/></param>
+        /// <param name="nSize">The <see cref="uint"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll")]
         private static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe,
            ref SECURITY_ATTRIBUTES lpPipeAttributes, uint nSize);
 
         // ctrl+c
+        /// <summary>
+        /// The AttachConsole
+        /// </summary>
+        /// <param name="dwProcessId">The <see cref="uint"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool AttachConsole(uint dwProcessId);
 
+        /// <summary>
+        /// The FreeConsole
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         private static extern bool FreeConsole();
 
+        /// <summary>
+        /// The GenerateConsoleCtrlEvent
+        /// </summary>
+        /// <param name="dwCtrlEvent">The <see cref="CtrlTypes"/></param>
+        /// <param name="dwProcessGroupId">The <see cref="uint"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool GenerateConsoleCtrlEvent(CtrlTypes dwCtrlEvent, uint dwProcessGroupId);
 
+        /// <summary>
+        /// The SetConsoleCtrlHandler
+        /// </summary>
+        /// <param name="handler">The <see cref="HandlerRoutine"/></param>
+        /// <param name="add">The <see cref="bool"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImport("Kernel32", SetLastError = true)]
         private static extern bool SetConsoleCtrlHandler(HandlerRoutine handler, bool add);
 
+        /// <summary>
+        /// The AllocConsole
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         [DllImportAttribute("kernel32.dll", EntryPoint = "AllocConsole")]
         [return: MarshalAsAttribute(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
 
+        /// <summary>
+        /// The GetLastError
+        /// </summary>
+        /// <returns>The <see cref="uint"/></returns>
         [DllImport("kernel32.dll")]
         private static extern uint GetLastError();
 
+        /// <summary>
+        /// Defines the CtrlTypes
+        /// </summary>
         private enum CtrlTypes
         {
+            /// <summary>
+            /// Defines the CTRL_C_EVENT
+            /// </summary>
             CTRL_C_EVENT = 0,
+
+            /// <summary>
+            /// Defines the CTRL_BREAK_EVENT
+            /// </summary>
             CTRL_BREAK_EVENT,
+
+            /// <summary>
+            /// Defines the CTRL_CLOSE_EVENT
+            /// </summary>
             CTRL_CLOSE_EVENT,
+
+            /// <summary>
+            /// Defines the CTRL_LOGOFF_EVENT
+            /// </summary>
             CTRL_LOGOFF_EVENT = 5,
+
+            /// <summary>
+            /// Defines the CTRL_SHUTDOWN_EVENT
+            /// </summary>
             CTRL_SHUTDOWN_EVENT
         }
 
         // A delegate type to be used as the handler routine
         // for SetConsoleCtrlHandler.
+        // A delegate type to be used as the handler routine
+        // for SetConsoleCtrlHandler.        /// <summary>
+        /// The HandlerRoutine
+        /// </summary>
+        /// <param name="CtrlType">The <see cref="CtrlTypes"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private delegate bool HandlerRoutine(CtrlTypes CtrlType);
 
+        /// <summary>
+        /// The ExitEventDelegate
+        /// </summary>
         public delegate void ExitEventDelegate();
 
+        /// <summary>
+        /// Defines the StartInfo
+        /// </summary>
         public ProcessStartInfo StartInfo;
+
+        /// <summary>
+        /// Defines the ExitEvent
+        /// </summary>
         public ExitEventDelegate ExitEvent;
+
+        /// <summary>
+        /// Defines the ExitCode
+        /// </summary>
         public uint ExitCode;
+
+        /// <summary>
+        /// Defines the Id
+        /// </summary>
         public int Id;
 
+        /// <summary>
+        /// Defines the tHandle
+        /// </summary>
         private Thread tHandle;
+
+        /// <summary>
+        /// Defines the bRunning
+        /// </summary>
         private bool bRunning;
+
+        /// <summary>
+        /// Defines the pHandle
+        /// </summary>
         private IntPtr pHandle;
 
-        public NiceHashProcess()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HashKingsProcess"/> class.
+        /// </summary>
+        public HashKingsProcess()
         {
             StartInfo = new ProcessStartInfo();
         }
 
+        /// <summary>
+        /// The Start
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         public bool Start()
         {
             PROCESS_INFORMATION pInfo = new PROCESS_INFORMATION();
@@ -204,6 +483,9 @@ namespace zPoolMiner
             return true;
         }
 
+        /// <summary>
+        /// The Kill
+        /// </summary>
         public void Kill()
         {
             if (pHandle == IntPtr.Zero) return;
@@ -219,6 +501,9 @@ namespace zPoolMiner
             pHandle = IntPtr.Zero;
         }
 
+        /// <summary>
+        /// The Close
+        /// </summary>
         public void Close()
         {
             if (pHandle == IntPtr.Zero) return;
@@ -233,6 +518,13 @@ namespace zPoolMiner
             pHandle = IntPtr.Zero;
         }
 
+        /// <summary>
+        /// The SignalCtrl
+        /// </summary>
+        /// <param name="thisConsoleId">The <see cref="uint"/></param>
+        /// <param name="dwProcessId">The <see cref="uint"/></param>
+        /// <param name="dwCtrlEvent">The <see cref="CtrlTypes"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private bool SignalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent)
         {
             bool success = false;
@@ -268,6 +560,10 @@ namespace zPoolMiner
             return success;
         }
 
+        /// <summary>
+        /// The SendCtrlC
+        /// </summary>
+        /// <param name="thisConsoleId">The <see cref="uint"/></param>
         public void SendCtrlC(uint thisConsoleId)
         {
             if (pHandle == IntPtr.Zero) return;
@@ -277,10 +573,13 @@ namespace zPoolMiner
                 bRunning = false;
                 tHandle.Join();
             }
-            SignalCtrl(thisConsoleId, (uint)this.Id, CtrlTypes.CTRL_C_EVENT);
+            SignalCtrl(thisConsoleId, (uint)Id, CtrlTypes.CTRL_C_EVENT);
             pHandle = IntPtr.Zero;
         }
 
+        /// <summary>
+        /// The CThread
+        /// </summary>
         private void CThread()
         {
             while (bRunning)

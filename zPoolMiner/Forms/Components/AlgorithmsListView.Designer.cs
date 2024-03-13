@@ -35,6 +35,7 @@
             // 
             // listViewAlgorithms
             // 
+            this.listViewAlgorithms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.listViewAlgorithms.CheckBoxes = true;
             this.listViewAlgorithms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader0,
@@ -43,6 +44,7 @@
             this.columnHeader3,
             this.columnHeader4});
             this.listViewAlgorithms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewAlgorithms.ForeColor = System.Drawing.Color.White;
             this.listViewAlgorithms.FullRowSelect = true;
             this.listViewAlgorithms.GridLines = true;
             this.listViewAlgorithms.Location = new System.Drawing.Point(0, 0);
@@ -62,7 +64,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Algorithm";
-            this.columnHeader1.Width = 169;
+            this.columnHeader1.Width = 199;
             // 
             // columnHeader2
             // 
@@ -78,7 +80,7 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "BTC/Day";
-            this.columnHeader4.Width = 134;
+            this.columnHeader4.Width = 97;
             // 
             // contextMenuStrip1
             // 

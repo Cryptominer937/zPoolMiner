@@ -32,6 +32,7 @@
             // labelFieldIndicator
             // 
             this.labelFieldIndicator.AutoSize = true;
+            this.labelFieldIndicator.ForeColor = System.Drawing.Color.Black;
             this.labelFieldIndicator.Location = new System.Drawing.Point(3, 6);
             this.labelFieldIndicator.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.labelFieldIndicator.Name = "labelFieldIndicator";

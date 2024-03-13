@@ -32,8 +32,8 @@ namespace zPoolMiner.Forms.Components
         private class DefaultAlgorithmColorSeter : IListItemCheckColorSetter
         {
             private static Color DISABLED_COLOR = Color.DarkGray;
-            private static Color BENCHMARKED_COLOR = Color.LightGreen;
-            private static Color UNBENCHMARKED_COLOR = Color.LightBlue;
+            private static Color BENCHMARKED_COLOR = Color.DarkGreen;
+            private static Color UNBENCHMARKED_COLOR = Color.DarkBlue;
 
             public void LviSetColor(ListViewItem lvi)
             {

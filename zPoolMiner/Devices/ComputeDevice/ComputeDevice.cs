@@ -1,71 +1,163 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using zPoolMiner.Configs;
-using zPoolMiner.Configs.Data;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Grouping;
-
-namespace zPoolMiner.Devices
+﻿namespace zPoolMiner.Devices
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Cryptography;
+    using System.Text;
+    using zPoolMiner.Configs;
+    using zPoolMiner.Configs.Data;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Miners.Grouping;
+
+    /// <summary>
+    /// Defines the <see cref="ComputeDevice" />
+    /// </summary>
     public class ComputeDevice
     {
+        /// <summary>
+        /// Defines the ID
+        /// </summary>
         readonly public int ID;
-        public int Index { get; protected set; }  // For socket control, unique
+
+        /// <summary>
+        /// Gets or sets the Index
+        /// </summary>
+        public int Index { get; protected set; }
 
         // to identify equality;
-        readonly public string Name; // { get; set; }
+        // to identify equality;        /// <summary>
+        /// Defines the Name
+        /// </summary>
+        readonly public string Name;// { get; set; }
 
         // name count is the short name for displaying in moning groups
+        // name count is the short name for displaying in moning groups        /// <summary>
+        /// Defines the NameCount
+        /// </summary>
         readonly public string NameCount;
 
+        /// <summary>
+        /// Defines the Enabled
+        /// </summary>
         public bool Enabled;
 
+        /// <summary>
+        /// Defines the DeviceGroupType
+        /// </summary>
         readonly public DeviceGroupType DeviceGroupType;
 
         // CPU, NVIDIA, AMD
+        // CPU, NVIDIA, AMD        /// <summary>
+        /// Defines the DeviceType
+        /// </summary>
         readonly public DeviceType DeviceType;
 
         // UUID now used for saving
+
+        // UUID now used for saving
+        /// <summary>
+        /// Gets or sets the UUID
+        /// </summary>
         public string UUID { get; protected set; }
 
         // used for Claymore indexing
-        public int BusID { get; protected set; } = -1;
 
+        // used for Claymore indexing
+        /// <summary>
+        /// Gets or sets the BusID
+        /// </summary>
+        public int BusID { get; protected set; } = -1;
+        // used for lolMiner indexing
+        public double lolMinerBusID { get; set; } = -1;
+
+        /// <summary>
+        /// Defines the IDByBus
+        /// </summary>
         public int IDByBus = -1;
 
         // CPU extras
+
+        // CPU extras
+        /// <summary>
+        /// Gets or sets the Threads
+        /// </summary>
         public int Threads { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the AffinityMask
+        /// </summary>
         public ulong AffinityMask { get; protected set; }
 
         // GPU extras
+        // GPU extras        /// <summary>
+        /// Defines the GpuRam
+        /// </summary>
         public readonly ulong GpuRam;
 
+        /// <summary>
+        /// Defines the IsEtherumCapale
+        /// </summary>
         public readonly bool IsEtherumCapale;
+
+        /// <summary>
+        /// Defines the MEMORY_3GB
+        /// </summary>
         public static readonly ulong MEMORY_3GB = 3221225472;
 
         // sgminer extra quickfix
         //public readonly bool IsOptimizedVersion;
+
+        // sgminer extra quickfix
+        //public readonly bool IsOptimizedVersion;
+        /// <summary>
+        /// Gets or sets the Codename
+        /// </summary>
         public string Codename { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the InfSection
+        /// </summary>
         public string InfSection { get; protected set; }
 
         // amd has some algos not working with new drivers
+
+        // amd has some algos not working with new drivers
+        /// <summary>
+        /// Gets or sets a value indicating whether DriverDisableAlgos
+        /// </summary>
         public bool DriverDisableAlgos { get; protected set; }
 
+        /// <summary>
+        /// Defines the AlgorithmSettings
+        /// </summary>
         protected List<Algorithm> AlgorithmSettings;
 
+        /// <summary>
+        /// Gets or sets the BenchmarkCopyUUID
+        /// </summary>
         public string BenchmarkCopyUUID { get; set; }
 
-        public virtual float Load { get { return 0; } }
+        /// <summary>
+        /// Gets the Load
+        /// </summary>
 
-        public virtual float Temp { get { return 0; } }
-
-        public virtual uint FanSpeed { get { return 0; } }
+        public virtual float Load => -1;
+        public virtual float Temp => -1;
+        public virtual int FanSpeed => -1;
+        public virtual double PowerUsage => -1;
 
         // Ambiguous constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputeDevice"/> class.
+        /// </summary>
+        /// <param name="id">The <see cref="int"/></param>
+        /// <param name="name">The <see cref="string"/></param>
+        /// <param name="enabled">The <see cref="bool"/></param>
+        /// <param name="group">The <see cref="DeviceGroupType"/></param>
+        /// <param name="ethereumCapable">The <see cref="bool"/></param>
+        /// <param name="type">The <see cref="DeviceType"/></param>
+        /// <param name="nameCount">The <see cref="string"/></param>
+        /// <param name="gpuRAM">The <see cref="ulong"/></param>
         protected ComputeDevice(int id, string name, bool enabled, DeviceGroupType group, bool ethereumCapable, DeviceType type, string nameCount, ulong gpuRAM)
         {
             ID = id;
@@ -79,6 +171,10 @@ namespace zPoolMiner.Devices
         }
 
         // Fake dev
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputeDevice"/> class.
+        /// </summary>
+        /// <param name="id">The <see cref="int"/></param>
         public ComputeDevice(int id)
         {
             ID = id;
@@ -95,6 +191,15 @@ namespace zPoolMiner.Devices
         }
 
         // CPU
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputeDevice"/> class.
+        /// </summary>
+        /// <param name="id">The <see cref="int"/></param>
+        /// <param name="group">The <see cref="string"/></param>
+        /// <param name="name">The <see cref="string"/></param>
+        /// <param name="threads">The <see cref="int"/></param>
+        /// <param name="affinityMask">The <see cref="ulong"/></param>
+        /// <param name="CPUCount">The <see cref="int"/></param>
         public ComputeDevice(int id, string group, string name, int threads, ulong affinityMask, int CPUCount)
         {
             ID = id;
@@ -112,10 +217,22 @@ namespace zPoolMiner.Devices
         }
 
         // GPU NVIDIA
+        // GPU NVIDIA        /// <summary>
+        /// Defines the _SM_major
+        /// </summary>
         protected int _SM_major = -1;
 
+        /// <summary>
+        /// Defines the _SM_minor
+        /// </summary>
         protected int _SM_minor = -1;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputeDevice"/> class.
+        /// </summary>
+        /// <param name="cudaDevice">The <see cref="CudaDevice"/></param>
+        /// <param name="group">The <see cref="DeviceGroupType"/></param>
+        /// <param name="GPUCount">The <see cref="int"/></param>
         public ComputeDevice(CudaDevice cudaDevice, DeviceGroupType group, int GPUCount)
         {
             _SM_major = cudaDevice.SM_major;
@@ -132,12 +249,22 @@ namespace zPoolMiner.Devices
             GpuRam = cudaDevice.DeviceGlobalMemory;
         }
 
+        /// <summary>
+        /// The IsSM50
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         public bool IsSM50()
         {
             return _SM_major == 5 && _SM_minor == 0;
         }
 
         // GPU AMD
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputeDevice"/> class.
+        /// </summary>
+        /// <param name="amdDevice">The <see cref="AmdGpuDevice"/></param>
+        /// <param name="GPUCount">The <see cref="int"/></param>
+        /// <param name="isDetectionFallback">The <see cref="bool"/></param>
         public ComputeDevice(AmdGpuDevice amdDevice, int GPUCount, bool isDetectionFallback)
         {
             ID = amdDevice.DeviceID;
@@ -166,17 +293,28 @@ namespace zPoolMiner.Devices
         }
 
         // combines long and short name
+        /// <summary>
+        /// The GetFullName
+        /// </summary>
+        /// <returns>The <see cref="string"/></returns>
         public string GetFullName()
         {
             return String.Format(International.GetText("ComputeDevice_Full_Device_Name"), NameCount, Name);
         }
 
+        /// <summary>
+        /// The GetAlgorithm
+        /// </summary>
+        /// <param name="MinerBaseType">The <see cref="MinerBaseType"/></param>
+        /// <param name="AlgorithmType">The <see cref="AlgorithmType"/></param>
+        /// <param name="SecondaryAlgorithmType">The <see cref="AlgorithmType"/></param>
+        /// <returns>The <see cref="Algorithm"/></returns>
         public Algorithm GetAlgorithm(MinerBaseType MinerBaseType, AlgorithmType AlgorithmType, AlgorithmType SecondaryAlgorithmType)
         {
-            int toSetIndex = this.AlgorithmSettings.FindIndex((a) => a.NiceHashID == AlgorithmType && a.MinerBaseType == MinerBaseType && a.SecondaryNiceHashID == SecondaryAlgorithmType);
+            int toSetIndex = AlgorithmSettings.FindIndex((a) => a.CryptoMiner937ID == AlgorithmType && a.MinerBaseType == MinerBaseType && a.SecondaryCryptoMiner937ID == SecondaryAlgorithmType);
             if (toSetIndex > -1)
             {
-                return this.AlgorithmSettings[toSetIndex];
+                return AlgorithmSettings[toSetIndex];
             }
             return null;
         }
@@ -188,12 +326,15 @@ namespace zPoolMiner.Devices
         //    }
         //    return null;
         //}
-
+        /// <summary>
+        /// The CopyBenchmarkSettingsFrom
+        /// </summary>
+        /// <param name="copyBenchCDev">The <see cref="ComputeDevice"/></param>
         public void CopyBenchmarkSettingsFrom(ComputeDevice copyBenchCDev)
         {
             foreach (var copyFromAlgo in copyBenchCDev.AlgorithmSettings)
             {
-                var setAlgo = GetAlgorithm(copyFromAlgo.MinerBaseType, copyFromAlgo.NiceHashID, copyFromAlgo.SecondaryNiceHashID);
+                var setAlgo = GetAlgorithm(copyFromAlgo.MinerBaseType, copyFromAlgo.CryptoMiner937ID, copyFromAlgo.SecondaryCryptoMiner937ID);
                 if (setAlgo != null)
                 {
                     setAlgo.BenchmarkSpeed = copyFromAlgo.BenchmarkSpeed;
@@ -204,26 +345,32 @@ namespace zPoolMiner.Devices
             }
         }
 
-        #region Config Setters/Getters
-
         // settings
         // setters
+        /// <summary>
+        /// The SetFromComputeDeviceConfig
+        /// </summary>
+        /// <param name="config">The <see cref="ComputeDeviceConfig"/></param>
         public void SetFromComputeDeviceConfig(ComputeDeviceConfig config)
         {
             if (config != null && config.UUID == UUID)
             {
-                this.Enabled = config.Enabled;
+                Enabled = config.Enabled;
             }
         }
 
+        /// <summary>
+        /// The SetAlgorithmDeviceConfig
+        /// </summary>
+        /// <param name="config">The <see cref="DeviceBenchmarkConfig"/></param>
         public void SetAlgorithmDeviceConfig(DeviceBenchmarkConfig config)
         {
             if (config != null && config.DeviceUUID == UUID && config.AlgorithmSettings != null)
             {
-                this.AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
+                AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
                 foreach (var conf in config.AlgorithmSettings)
                 {
-                    var setAlgo = GetAlgorithm(conf.MinerBaseType, conf.NiceHashID, conf.SecondaryNiceHashID);
+                    var setAlgo = GetAlgorithm(conf.MinerBaseType, conf.CryptoMiner937ID, conf.SecondaryCryptoMiner937ID);
                     if (setAlgo != null)
                     {
                         setAlgo.BenchmarkSpeed = conf.BenchmarkSpeed;
@@ -237,33 +384,41 @@ namespace zPoolMiner.Devices
         }
 
         // getters
+        /// <summary>
+        /// The GetComputeDeviceConfig
+        /// </summary>
+        /// <returns>The <see cref="ComputeDeviceConfig"/></returns>
         public ComputeDeviceConfig GetComputeDeviceConfig()
         {
             ComputeDeviceConfig ret = new ComputeDeviceConfig
             {
-                Enabled = this.Enabled,
-                Name = this.Name,
-                UUID = this.UUID
+                Enabled = Enabled,
+                Name = Name,
+                UUID = UUID
             };
             return ret;
         }
 
+        /// <summary>
+        /// The GetAlgorithmDeviceConfig
+        /// </summary>
+        /// <returns>The <see cref="DeviceBenchmarkConfig"/></returns>
         public DeviceBenchmarkConfig GetAlgorithmDeviceConfig()
         {
             DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig
             {
-                DeviceName = this.Name,
-                DeviceUUID = this.UUID
+                DeviceName = Name,
+                DeviceUUID = UUID
             };
             // init algo settings
-            foreach (var algo in this.AlgorithmSettings)
+            foreach (var algo in AlgorithmSettings)
             {
                 // create/setup
                 AlgorithmConfig conf = new AlgorithmConfig
                 {
                     Name = algo.AlgorithmStringID,
-                    NiceHashID = algo.NiceHashID,
-                    SecondaryNiceHashID = algo.SecondaryNiceHashID,
+                    CryptoMiner937ID = algo.CryptoMiner937ID,
+                    SecondaryCryptoMiner937ID = algo.SecondaryCryptoMiner937ID,
                     MinerBaseType = algo.MinerBaseType,
                     MinerName = algo.MinerName, // TODO probably not needed
                     BenchmarkSpeed = algo.BenchmarkSpeed,
@@ -278,8 +433,10 @@ namespace zPoolMiner.Devices
             return ret;
         }
 
-        #endregion Config Setters/Getters
-
+        /// <summary>
+        /// The GetAlgorithmSettings
+        /// </summary>
+        /// <returns>The <see cref="List{Algorithm}"/></returns>
         public List<Algorithm> GetAlgorithmSettings()
         {
             // hello state
@@ -288,21 +445,25 @@ namespace zPoolMiner.Devices
             var retAlgos = MinerPaths.GetAndInitAlgorithmsMinerPaths(algos, this); ;
 
             // NVIDIA
-            if (this.DeviceGroupType == DeviceGroupType.NVIDIA_5_x || this.DeviceGroupType == DeviceGroupType.NVIDIA_6_x)
+            if (DeviceGroupType == DeviceGroupType.NVIDIA_5_x || DeviceGroupType == DeviceGroupType.NVIDIA_6_x)
             {
-                retAlgos = retAlgos.FindAll((a) => a.MinerBaseType != MinerBaseType.nheqminer);
+                
             }
-            else if (this.DeviceType == DeviceType.NVIDIA)
+            else if (DeviceType == DeviceType.NVIDIA)
             {
-                retAlgos = retAlgos.FindAll((a) => a.MinerBaseType != MinerBaseType.eqm);
+                
             }
 
             // sort by algo
-            retAlgos.Sort((a_1, a_2) => (a_1.NiceHashID - a_2.NiceHashID) != 0 ? (a_1.NiceHashID - a_2.NiceHashID) : (a_1.MinerBaseType - a_2.MinerBaseType));
+            retAlgos.Sort((a_1, a_2) => (a_1.CryptoMiner937ID - a_2.CryptoMiner937ID) != 0 ? (a_1.CryptoMiner937ID - a_2.CryptoMiner937ID) : (a_1.MinerBaseType - a_2.MinerBaseType));
 
             return retAlgos;
         }
 
+        /// <summary>
+        /// The GetAlgorithmSettingsFastest
+        /// </summary>
+        /// <returns>The <see cref="List{Algorithm}"/></returns>
         public List<Algorithm> GetAlgorithmSettingsFastest()
         {
             // hello state
@@ -310,7 +471,7 @@ namespace zPoolMiner.Devices
             Dictionary<AlgorithmType, Algorithm> sortDict = new Dictionary<AlgorithmType, Algorithm>();
             foreach (var algo in algosTmp)
             {
-                var algoKey = algo.NiceHashID;
+                var algoKey = algo.CryptoMiner937ID;
                 if (sortDict.ContainsKey(algoKey))
                 {
                     if (sortDict[algoKey].BenchmarkSpeed < algo.BenchmarkSpeed)
@@ -332,19 +493,31 @@ namespace zPoolMiner.Devices
             return retAlgos;
         }
 
+        /// <summary>
+        /// The GetAlgorithmSettingsThirdParty
+        /// </summary>
+        /// <param name="use3rdParty">The <see cref="Use3rdPartyMiners"/></param>
+        /// <returns>The <see cref="List{Algorithm}"/></returns>
         private List<Algorithm> GetAlgorithmSettingsThirdParty(Use3rdPartyMiners use3rdParty)
         {
             if (use3rdParty == Use3rdPartyMiners.YES)
             {
-                return this.AlgorithmSettings;
+                return AlgorithmSettings;
             }
-            var third_party_miners = new List<MinerBaseType>() { MinerBaseType.Claymore, MinerBaseType.OptiminerAMD, MinerBaseType.EWBF, MinerBaseType.Prospector };
+            var third_party_miners = new List<MinerBaseType>() {  };
 
-            return this.AlgorithmSettings.FindAll((a) => third_party_miners.IndexOf(a.MinerBaseType) == -1);
+            return AlgorithmSettings.FindAll((a) => third_party_miners.IndexOf(a.MinerBaseType) == -1);
         }
 
         // static methods
-
+        /// <summary>
+        /// The GetUUID
+        /// </summary>
+        /// <param name="id">The <see cref="int"/></param>
+        /// <param name="group">The <see cref="string"/></param>
+        /// <param name="name">The <see cref="string"/></param>
+        /// <param name="deviceGroupType">The <see cref="DeviceGroupType"/></param>
+        /// <returns>The <see cref="string"/></returns>
         protected static string GetUUID(int id, string group, string name, DeviceGroupType deviceGroupType)
         {
             var SHA256 = new SHA256Managed();
@@ -359,9 +532,13 @@ namespace zPoolMiner.Devices
             return "GEN-" + hash.ToString();
         }
 
+        /// <summary>
+        /// The IsAlgorithmSettingsInitialized
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         internal bool IsAlgorithmSettingsInitialized()
         {
-            return this.AlgorithmSettings != null;
+            return AlgorithmSettings != null;
         }
     }
 }

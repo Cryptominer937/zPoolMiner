@@ -1,20 +1,62 @@
-﻿using System;
-using zPoolMiner.Enums;
-
-namespace zPoolMiner.Configs.Data
+﻿namespace zPoolMiner.Configs.Data
 {
+    using System;
+    using zPoolMiner.Enums;
+
+    /// <summary>
+    /// Defines the <see cref="AlgorithmConfig" />
+    /// </summary>
     [Serializable]
     public class AlgorithmConfig
     {
-        public string Name = ""; // Used as an indicator for easier user interaction
-        public AlgorithmType NiceHashID = AlgorithmType.NONE;
-        public AlgorithmType SecondaryNiceHashID = AlgorithmType.NONE;
+        /// <summary>
+        /// Defines the Name
+        /// </summary>
+        public string Name = "";// Used as an indicator for easier user interaction
+
+        /// <summary>
+        /// Defines the CryptoMiner937ID
+        /// </summary>
+        public AlgorithmType CryptoMiner937ID = AlgorithmType.NONE;
+
+        /// <summary>
+        /// Defines the SecondaryCryptoMiner937ID
+        /// </summary>
+        public AlgorithmType SecondaryCryptoMiner937ID = AlgorithmType.NONE;
+
+        /// <summary>
+        /// Defines the MinerBaseType
+        /// </summary>
         public MinerBaseType MinerBaseType = MinerBaseType.NONE;
-        public string MinerName = "";  // probably not needed
+
+        /// <summary>
+        /// Defines the MinerName
+        /// </summary>
+        public string MinerName = "";// probably not needed
+
+        /// <summary>
+        /// Defines the BenchmarkSpeed
+        /// </summary>
         public double BenchmarkSpeed = 0;
+
+        /// <summary>
+        /// Defines the SecondaryBenchmarkSpeed
+        /// </summary>
         public double SecondaryBenchmarkSpeed = 0;
+
+        /// <summary>
+        /// Defines the ExtraLaunchParameters
+        /// </summary>
         public string ExtraLaunchParameters = "";
+
+        /// <summary>
+        /// Defines the Enabled
+        /// </summary>
         public bool Enabled = true;
-        public int LessThreads = 0;
+
+        /// <summary>
+        /// Defines the LessThreads
+        /// </summary>
+        public int LessThreads = 2;
     }
 }

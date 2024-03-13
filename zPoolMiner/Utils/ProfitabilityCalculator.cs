@@ -1,17 +1,38 @@
-﻿using System.Collections.Generic;
-using zPoolMiner.Enums;
-
-namespace zPoolMiner
+﻿namespace zPoolMiner
 {
+    using System.Collections.Generic;
+    using zPoolMiner.Enums;
+
     // this class mirrors the web profitability, chech what https://www.nicehash.com/?p=calc is using for each algo
+    /// <summary>
+    /// Defines the <see cref="ProfitabilityCalculator" />
+    /// </summary>
     internal static class ProfitabilityCalculator
     {
+        /// <summary>
+        /// Defines the kHs
+        /// </summary>
         private const double kHs = 1000;
+
+        /// <summary>
+        /// Defines the MHs
+        /// </summary>
         private const double MHs = 1000000;
+
+        /// <summary>
+        /// Defines the GHs
+        /// </summary>
         private const double GHs = 1000000000;
+
+        /// <summary>
+        /// Defines the THs
+        /// </summary>
         private const double THs = 1000000000000;
 
         // divide factor to mirror web values
+        // divide factor to mirror web values        /// <summary>
+        /// Defines the _div
+        /// </summary>
         readonly static private Dictionary<AlgorithmType, double> _div = new Dictionary<AlgorithmType, double>()
         {
             { AlgorithmType.INVALID , 1 },
@@ -41,9 +62,9 @@ namespace zPoolMiner
             { AlgorithmType.Hodl ,                          kHs },
             { AlgorithmType.DaggerHashimoto ,               MHs },
             { AlgorithmType.Decred ,                        GHs },
-            { AlgorithmType.CryptoNight ,                   kHs },
+            { AlgorithmType.cryptonight ,                   kHs },
             { AlgorithmType.Lbry ,                          GHs },
-            { AlgorithmType.Equihash ,                      1 }, // Sols /s
+            { AlgorithmType.equihash ,                      1 }, // Sols /s
             { AlgorithmType.Pascal ,                        GHs },
             { AlgorithmType.X11Gost ,                       MHs },
             { AlgorithmType.Sia ,                           GHs },
@@ -51,6 +72,12 @@ namespace zPoolMiner
             { AlgorithmType.Skunk ,                         MHs }
         };
 
+        /// <summary>
+        /// The GetFormatedSpeed
+        /// </summary>
+        /// <param name="speed">The <see cref="double"/></param>
+        /// <param name="type">The <see cref="AlgorithmType"/></param>
+        /// <returns>The <see cref="double"/></returns>
         public static double GetFormatedSpeed(double speed, AlgorithmType type)
         {
             if (_div.ContainsKey(type))

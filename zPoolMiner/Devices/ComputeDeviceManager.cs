@@ -1,6 +1,7 @@
 ﻿using ATI.ADL;
 using Newtonsoft.Json;
 using NVIDIA.NVAPI;
+using zPoolMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ using System.Text;
 using System.Windows.Forms;
 using zPoolMiner.Configs;
 using zPoolMiner.Enums;
-using zPoolMiner.Interfaces;
+using ManagedCuda.Nvml;
 
 namespace zPoolMiner.Devices
 {
@@ -196,7 +197,7 @@ namespace zPoolMiner.Devices
                 // Order important CPU Query must be first
                 // #1 CPU
                 // We skip CPUs because zPool does not have cryptonight
-                //CPU.QueryCPUs();
+                CPU.QueryCPUs();
                 // #2 CUDA
                 if (NVIDIA.IsSkipNVIDIA())
                 {
@@ -226,44 +227,35 @@ namespace zPoolMiner.Devices
 
                 // TODO update this to report undetected hardware
                 // #6 check NVIDIA, AMD devices count
-                int NVIDIA_count = 0;
+                var nvidiaCount = 0;
                 {
-                    int AMD_count = 0;
+                    var amdCount = 0;
                     foreach (var vidCtrl in AvaliableVideoControllers)
                     {
                         if (vidCtrl.Name.ToLower().Contains("nvidia") && CUDA_Unsupported.IsSupported(vidCtrl.Name))
                         {
-                            NVIDIA_count += 1;
+                            nvidiaCount += 1;
                         }
                         else if (vidCtrl.Name.ToLower().Contains("nvidia"))
                         {
-                            Helpers.ConsolePrint(TAG, "Device not supported NVIDIA/CUDA device not supported " + vidCtrl.Name);
+                            Helpers.ConsolePrint(TAG,
+                                "Device not supported NVIDIA/CUDA device not supported " + vidCtrl.Name);
                         }
-                        AMD_count += (vidCtrl.Name.ToLower().Contains("amd")) ? 1 : 0;
+                        amdCount += (vidCtrl.Name.ToLower().Contains("amd")) ? 1 : 0;
                     }
-                    if (NVIDIA_count == CUDA_Devices.Count)
-                    {
-                        Helpers.ConsolePrint(TAG, "Cuda NVIDIA/CUDA device count GOOD");
-                    }
-                    else
-                    {
-                        Helpers.ConsolePrint(TAG, "Cuda NVIDIA/CUDA device count BAD!!!");
-                    }
-                    if (AMD_count == AMD_Devices.Count)
-                    {
-                        Helpers.ConsolePrint(TAG, "AMD GPU device count GOOD");
-                    }
-                    else
-                    {
-                        Helpers.ConsolePrint(TAG, "AMD GPU device count BAD!!!");
-                    }
+                    Helpers.ConsolePrint(TAG,
+                        nvidiaCount == CUDA_Devices.Count
+                            ? "Cuda NVIDIA/CUDA device count GOOD"
+                            : "Cuda NVIDIA/CUDA device count BAD!!!");
+                    Helpers.ConsolePrint(TAG,
+                        amdCount == AMD_Devices.Count ? "AMD GPU device count GOOD" : "AMD GPU device count BAD!!!");
                 }
                 // allerts
                 _currentNvidiaSMIDriver = GetNvidiaSMIDriver();
                 // if we have nvidia cards but no CUDA devices tell the user to upgrade driver
                 bool isNvidiaErrorShown = false; // to prevent showing twice
                 bool showWarning = ConfigManager.GeneralConfig.ShowDriverVersionWarning && WindowsDisplayAdapters.HasNvidiaVideoController();
-                if (showWarning && CUDA_Devices.Count != NVIDIA_count && _currentNvidiaSMIDriver.IsLesserVersionThan(NVIDIA_MIN_DETECTION_DRIVER))
+                if (showWarning && CUDA_Devices.Count != nvidiaCount && _currentNvidiaSMIDriver.IsLesserVersionThan(NVIDIA_MIN_DETECTION_DRIVER))
                 {
                     isNvidiaErrorShown = true;
                     var minDriver = NVIDIA_MIN_DETECTION_DRIVER.ToString();
@@ -580,7 +572,18 @@ namespace zPoolMiner.Devices
                                 }
                             }
                         }
-
+                        var nvmlInit = false;
+                        try
+                        {
+                            var ret = NvmlNativeMethods.nvmlInit();
+                            if (ret != nvmlReturn.Success)
+                                throw new Exception($"NVML init failed with code {ret}");
+                            nvmlInit = true;
+                        }
+                        catch (Exception e)
+                        {
+                            Helpers.ConsolePrint("NVML", e.ToString());
+                        }
                         foreach (var cudaDev in CUDA_Devices)
                         {
                             // check sm vesrions
@@ -630,9 +633,20 @@ namespace zPoolMiner.Devices
                                         group = DeviceGroupType.NVIDIA_6_x;
                                         break;
                                 }
-                                idHandles.TryGetValue(cudaDev.pciBusID, out NvPhysicalGpuHandle handle);
+
+                                var nvmlHandle = new ManagedCuda.Nvml.nvmlDevice();
+
+                                if (nvmlInit)
+                                {
+                                    var ret = NvmlNativeMethods.nvmlDeviceGetHandleByUUID(cudaDev.UUID, ref nvmlHandle);
+                                    stringBuilder.AppendLine(
+                                        "\t\tNVML HANDLE: " +
+                                        $"{(ret == nvmlReturn.Success ? nvmlHandle.Pointer.ToString() : $"Failed with code ret {ret}")}");
+                                }
+
+                                idHandles.TryGetValue(cudaDev.pciBusID, out var handle);
                                 Avaliable.AllAvaliableDevices.Add(
-                                    new CudaComputeDevice(cudaDev, group, ++GPUCount, handle)
+                                    new CudaComputeDevice(cudaDev, group, ++GPUCount, handle, nvmlHandle)
                                 );
                             }
                         }

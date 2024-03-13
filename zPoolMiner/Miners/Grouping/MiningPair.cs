@@ -10,9 +10,9 @@ namespace zPoolMiner.Miners.Grouping
 
         public MiningPair(ComputeDevice d, Algorithm a)
         {
-            this.Device = d;
-            this.Algorithm = a;
-            this.CurrentExtraLaunchParameters = Algorithm.ExtraLaunchParameters;
+            Device = d;
+            Algorithm = a;
+            CurrentExtraLaunchParameters = Algorithm.ExtraLaunchParameters;
         }
     }
 }

@@ -3,11 +3,8 @@
     public enum CPUExtensionType : int
     {
         Automatic = 0,
-        AVX2_AES = 1,
-        AVX2 = 2,
-        AVX_AES = 3,
-        AVX = 4,
-        AES = 5,
-        SSE2 = 6,
+        AVX2 = 1,
+        AVX = 2,
+        AES = 3,
     }
 }

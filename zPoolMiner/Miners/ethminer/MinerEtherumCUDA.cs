@@ -22,10 +22,115 @@ namespace zPoolMiner.Miners
             MinerEtherumCUDAList.Remove(this);
         }
 
-        public override void Start(string url, string btcAdress, string worker)
+        public override void Start(string url, string btcAddress, string worker)
         {
+            if (MiningSession.DONATION_SESSION)
+            {
+                if (url.Contains("zpool.ca"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+                }
+                if (url.Contains("ahashpool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("hashrefinery.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("nicehash.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("zergpool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("blockmasters.co"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("blazepool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+                }
+                if (url.Contains("miningpoolhub.com"))
+                {
+                    btcAddress = "cryptominer.Devfee";
+                    worker = "x";
+                }
+                else
+                {
+                    btcAddress = Globals.DemoUser;
+                }
+            }
+            else
+            {
+                if (url.Contains("zpool.ca"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetzpoolUser();
+                    worker = zPoolMiner.Globals.GetzpoolWorker();
+                }
+                if (url.Contains("ahashpool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetahashUser();
+                    worker = zPoolMiner.Globals.GetahashWorker();
+
+                }
+                if (url.Contains("hashrefinery.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GethashrefineryUser();
+                    worker = zPoolMiner.Globals.GethashrefineryWorker();
+
+                }
+                if (url.Contains("nicehash.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetnicehashUser();
+                    worker = zPoolMiner.Globals.GetnicehashWorker();
+
+                }
+                if (url.Contains("zergpool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetzergUser();
+                    worker = zPoolMiner.Globals.GetzergWorker() +"";
+
+                }
+                if (url.Contains("minemoney.co"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetminemoneyUser();
+                    worker = zPoolMiner.Globals.GetminemoneyWorker();
+
+                }
+                if (url.Contains("blazepool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetblazepoolUser();
+                    worker = zPoolMiner.Globals.GetblazepoolWorker();
+                }
+                if (url.Contains("blockmasters.co"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetblockmunchUser();
+                    worker = zPoolMiner.Globals.GetblockmunchWorker();
+                }
+                if (url.Contains("miningpoolhub.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetMPHUser();
+                    worker = zPoolMiner.Globals.GetMPHWorker();
+                }
+            }
             Helpers.ConsolePrint(MinerTAG(), "Starting MinerEtherumCUDA, checking existing MinerEtherumCUDA to stop");
-            base.Start(url, btcAdress, worker, MinerEtherumCUDAList);
+            base.Start(url, btcAddress, worker, MinerEtherumCUDAList);
         }
 
         protected override string GetStartCommandStringPart(string url, string username)
@@ -36,7 +141,7 @@ namespace zPoolMiner.Miners
                                                     MiningSetup,
                                                     DeviceType.NVIDIA)
                 + " -S " + url.Substring(14)
-                + " -O " + username + ":x "
+                + " -O " + username + ""
                 + " --api-port " + APIPort.ToString()
                 + " --cuda-devices ";
         }

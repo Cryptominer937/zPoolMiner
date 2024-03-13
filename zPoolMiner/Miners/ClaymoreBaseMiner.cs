@@ -80,11 +80,11 @@ namespace zPoolMiner.Miners
                 string respStr = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 resp = JsonConvert.DeserializeObject<JsonApiResponse>(respStr, Globals.JsonSettings);
                 client.Close();
-                //Helpers.ConsolePrint("ClaymoreZcashMiner API back:", respStr);
+               // Helpers.ConsolePrint("ClaymoreZcashMiner API back:", respStr);
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(this.MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null && resp.Error == null)
@@ -124,6 +124,13 @@ namespace zPoolMiner.Miners
                         }
                         ad.SecondarySpeed += tmpSpeed;
                     }
+                    
+                    if (MiningSetup.CurrentAlgorithmType == AlgorithmType.NeoScrypt)
+                    {
+                        api_read_mult = 1000;
+                    }
+                 //   Helpers.ConsolePrint("speed:", ad.Speed.ToString() + " "+api_read_mult.ToString());
+
                     ad.Speed *= api_read_mult;
                     ad.SecondarySpeed *= api_read_mult;
                     _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
@@ -135,8 +142,8 @@ namespace zPoolMiner.Miners
                 // some clayomre miners have this issue reporting negative speeds in that case restart miner
                 if (ad.Speed < 0)
                 {
-                    Helpers.ConsolePrint(this.MinerTAG(), "Reporting negative speeds will restart...");
-                    this.Restart();
+                    Helpers.ConsolePrint(MinerTAG(), "Reporting negative speeds will restart...");
+                    Restart();
                 }
             }
 
@@ -153,7 +160,7 @@ namespace zPoolMiner.Miners
             return " -di ";
         }
 
-        // This method now overridden in ClaymoreCryptoNightMiner
+        // This method now overridden in ClaymorecryptonightMiner
         // Following logic for ClaymoreDual and ClaymoreZcash
         protected override string GetDevicesCommandString()
         {
@@ -301,6 +308,7 @@ namespace zPoolMiner.Miners
                     speed = speed.Replace("m", "");
                 }
                 //Helpers.ConsolePrint("speed", speed);
+                //Helpers.ConsolePrint("speed:", speed.ToString() + " " + mult + MiningSetup.CurrentAlgorithmType.ToString());
                 speed = speed.Trim();
                 return (Double.Parse(speed, CultureInfo.InvariantCulture) * mult) * (1.0 - DevFee() * 0.01);
             }

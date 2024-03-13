@@ -1,16 +1,25 @@
-﻿using System.Collections.Generic;
-using zPoolMiner.Configs.ConfigJsonFile;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Grouping;
-using zPoolMiner.Miners.Parsing;
-
-namespace zPoolMiner.Miners
+﻿namespace zPoolMiner.Miners
 {
+    using System.Collections.Generic;
+    using zPoolMiner.Configs.ConfigJsonFile;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Miners.Grouping;
+    using zPoolMiner.Miners.Parsing;
+
+    /// <summary>
+    /// Defines the <see cref="MinersSettingsManager" />
+    /// </summary>
     public static class MinersSettingsManager
     {
+        /// <summary>
+        /// Defines the <see cref="MinerReservedPortsFile" />
+        /// </summary>
         private class MinerReservedPortsFile : ConfigFile<Dictionary<MinerBaseType, Dictionary<string, Dictionary<AlgorithmType, List<int>>>>>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="MinerReservedPortsFile"/> class.
+            /// </summary>
             public MinerReservedPortsFile()
                 : base(FOLDERS.CONFIG, "MinerReservedPorts.json", "MinerReservedPorts_old.json")
             {
@@ -18,22 +27,40 @@ namespace zPoolMiner.Miners
         }
 
         // {miner path : {envName : envValue} }
+        /// <summary>
+        /// Defines the <see cref="MinerSystemVariablesFile" />
+        /// </summary>
         private class MinerSystemVariablesFile : ConfigFile<Dictionary<string, Dictionary<string, string>>>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="MinerSystemVariablesFile"/> class.
+            /// </summary>
             public MinerSystemVariablesFile() : base(FOLDERS.CONFIG, "MinerSystemVariables.json", "MinerSystemVariables_old.json")
             {
             }
         }
 
+        /// <summary>
+        /// Defines the MinerReservedPorts
+        /// </summary>
         private static Dictionary<MinerBaseType,
             Dictionary<string,
                 Dictionary<AlgorithmType,
                     List<int>>>> MinerReservedPorts = new Dictionary<MinerBaseType, Dictionary<string, Dictionary<AlgorithmType, List<int>>>>();
 
+        /// <summary>
+        /// Defines the AllReservedPorts
+        /// </summary>
         public static List<int> AllReservedPorts = new List<int>();
 
+        /// <summary>
+        /// Defines the MinerSystemVariables
+        /// </summary>
         public static Dictionary<string, Dictionary<string, string>> MinerSystemVariables = new Dictionary<string, Dictionary<string, string>>();
 
+        /// <summary>
+        /// The Init
+        /// </summary>
         public static void Init()
         {
             ExtraLaunchParameters.InitializePackages();
@@ -42,6 +69,13 @@ namespace zPoolMiner.Miners
             InitMinerSystemVariablesFile();
         }
 
+        /// <summary>
+        /// The GetPortsListFor
+        /// </summary>
+        /// <param name="minerBaseType">The <see cref="MinerBaseType"/></param>
+        /// <param name="path">The <see cref="string"/></param>
+        /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
+        /// <returns>The <see cref="List{int}"/></returns>
         public static List<int> GetPortsListFor(MinerBaseType minerBaseType, string path, AlgorithmType algorithmType)
         {
             if (MinerReservedPorts != null && MinerReservedPorts.ContainsKey(minerBaseType))
@@ -61,6 +95,9 @@ namespace zPoolMiner.Miners
             return new List<int>();
         }
 
+        /// <summary>
+        /// The InitMinerReservedPortsFile
+        /// </summary>
         public static void InitMinerReservedPortsFile()
         {
             MinerReservedPortsFile file = new MinerReservedPortsFile();
@@ -95,8 +132,8 @@ namespace zPoolMiner.Miners
                                 var algos = mbaseKvp.Value;
                                 foreach (var algo in algos)
                                 {
-                                    var algoType = algo.NiceHashID;
-                                    var path = MinerPaths.GetPathFor(minerBaseType, algoType, devGroupType);
+                                    var algoType = algo.CryptoMiner937ID;
+                                    var path = MinerPaths.GetPathFor(minerBaseType, algoType, devGroupType, 0);
                                     var isPathValid = path != MinerPaths.Data.NONE;
                                     if (isPathValid && MinerReservedPorts[minerBaseType].ContainsKey(path) == false)
                                     {
@@ -132,6 +169,9 @@ namespace zPoolMiner.Miners
             }
         }
 
+        /// <summary>
+        /// The InitMinerSystemVariablesFile
+        /// </summary>
         public static void InitMinerSystemVariablesFile()
         {
             MinerSystemVariablesFile file = new MinerSystemVariablesFile();
@@ -159,10 +199,12 @@ namespace zPoolMiner.Miners
                         MinerPaths.Data.sgminer_Skein,
                         MinerPaths.Data.sgminer_Tribus,
                         MinerPaths.Data.sgminer_Xevan,
+                        MinerPaths.Data.sgminer_aceneun,
                         MinerPaths.Data.glg,
-                        MinerPaths.Data.ClaymoreCryptoNightMiner,
-                        MinerPaths.Data.ClaymoreZcashMiner,
-                        MinerPaths.Data.OptiminerZcashMiner
+                        //MinerPaths.Data.ClaymorecryptonightMiner,
+                        //MinerPaths.Data.ClaymoreZcashMiner,
+                        //MinerPaths.Data.ClaymoreNeoscryptMiner,
+                        //MinerPaths.Data.OptiminerZcashMiner
                     };
                     foreach (var minerPath in minerPaths)
                     {
@@ -171,12 +213,12 @@ namespace zPoolMiner.Miners
                             { "GPU_USE_SYNC_OBJECTS",       "1" },
                             { "GPU_SINGLE_ALLOC_PERCENT",   "100" },
                             { "GPU_MAX_HEAP_SIZE",          "100" },
-                            { "GPU_FORCE_64BIT_PTR",        "1" }
+                            { "GPU_FORCE_64BIT_PTR",        "0" }
                         };
                     }
                 }
                 // ClaymoreDual scope
-                {
+                /*{
                     MinerSystemVariables[MinerPaths.Data.ClaymoreDual] = new Dictionary<string, string>() {
                         { "GPU_MAX_ALLOC_PERCENT",      "100" },
                         { "GPU_USE_SYNC_OBJECTS",       "1" },
@@ -184,7 +226,7 @@ namespace zPoolMiner.Miners
                         { "GPU_MAX_HEAP_SIZE",          "100" },
                         { "GPU_FORCE_64BIT_PTR",        "0" }
                     };
-                }
+                }*/
                 // save defaults
                 file.Commit(MinerSystemVariables);
             }

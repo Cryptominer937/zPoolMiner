@@ -1,21 +1,35 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners;
-using zPoolMiner.Miners.Grouping;
-using zPoolMiner.Miners.Parsing;
-
-namespace zPoolMiner.Forms
+﻿namespace zPoolMiner.Forms
 {
+    using Microsoft.Win32;
+    using System;
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+    using zPoolMiner.Configs;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Miners;
+    using zPoolMiner.Miners.Grouping;
+    using zPoolMiner.Miners.Parsing;
+    using zPoolMiner.Forms;
+
+    /// <summary>
+    /// Defines the <see cref="Form_Settings" />
+    /// </summary>
     public partial class Form_Settings : Form
     {
+        /// <summary>
+        /// Defines the _isInitFinished
+        /// </summary>
         private bool _isInitFinished = false;
+
+        /// <summary>
+        /// Defines the _isChange
+        /// </summary>
         private bool _isChange = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether IsChange
+        /// </summary>
         public bool IsChange
         {
             get { return _isChange; }
@@ -32,22 +46,49 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// Defines the isCredChange
+        /// </summary>
         private bool isCredChange = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether IsChangeSaved
+        /// </summary>
         public bool IsChangeSaved { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether IsRestartNeeded
+        /// </summary>
         public bool IsRestartNeeded { get; private set; }
 
         // most likely we wil have settings only per unique devices
+        // most likely we wil have settings only per unique devices        /// <summary>
+        /// Defines the ShowUniqueDeviceList
+        /// </summary>
         private bool ShowUniqueDeviceList = true;
 
+        /// <summary>
+        /// Defines the _selectedComputeDevice
+        /// </summary>
         private ComputeDevice _selectedComputeDevice;
 
+        /// <summary>
+        /// Defines the rkStartup
+        /// </summary>
         private RegistryKey rkStartup = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+        /// <summary>
+        /// Defines the isStartupChanged
+        /// </summary>
         private bool isStartupChanged = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form_Settings"/> class.
+        /// </summary>
         public Form_Settings()
         {
             InitializeComponent();
-            this.Icon = zPoolMiner.Properties.Resources.logo;
+            Icon = zPoolMiner.Properties.Resources.logo;
 
             //ret = 1; // default
             IsChange = false;
@@ -84,132 +125,118 @@ namespace zPoolMiner.Forms
             _isInitFinished = true;
         }
 
-        #region Initializations
-
+        /// <summary>
+        /// The InitializeToolTip
+        /// </summary>
         private void InitializeToolTip()
         {
             // Setup Tooltips
-            toolTip1.SetToolTip(this.comboBox_Language, International.GetText("Form_Settings_ToolTip_Language"));
-            toolTip1.SetToolTip(this.label_Language, International.GetText("Form_Settings_ToolTip_Language"));
-            toolTip1.SetToolTip(this.pictureBox_Language, International.GetText("Form_Settings_ToolTip_Language"));
+            toolTip1.SetToolTip(comboBox_Language, International.GetText("Form_Settings_ToolTip_Language"));
+            toolTip1.SetToolTip(label_Language, International.GetText("Form_Settings_ToolTip_Language"));
+            toolTip1.SetToolTip(pictureBox_Language, International.GetText("Form_Settings_ToolTip_Language"));
 
-            toolTip1.SetToolTip(this.checkBox_DebugConsole, International.GetText("Form_Settings_ToolTip_checkBox_DebugConsole"));
-            toolTip1.SetToolTip(this.pictureBox_DebugConsole, International.GetText("Form_Settings_ToolTip_checkBox_DebugConsole"));
+            toolTip1.SetToolTip(checkBox_DebugConsole, International.GetText("Form_Settings_ToolTip_checkBox_DebugConsole"));
+            toolTip1.SetToolTip(pictureBox_DebugConsole, International.GetText("Form_Settings_ToolTip_checkBox_DebugConsole"));
 
-            toolTip1.SetToolTip(this.textBox_BitcoinAddress, International.GetText("Form_Settings_ToolTip_BitcoinAddress"));
-            toolTip1.SetToolTip(this.label_BitcoinAddress, International.GetText("Form_Settings_ToolTip_BitcoinAddress"));
-            toolTip1.SetToolTip(this.pictureBox_Info_BitcoinAddress, International.GetText("Form_Settings_ToolTip_BitcoinAddress"));
+            toolTip1.SetToolTip(comboBox_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
+            toolTip1.SetToolTip(label_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
+            toolTip1.SetToolTip(pictureBox_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
 
-            toolTip1.SetToolTip(this.textBox_WorkerName, International.GetText("Form_Settings_ToolTip_WorkerName"));
-            toolTip1.SetToolTip(this.label_WorkerName, International.GetText("Form_Settings_ToolTip_WorkerName"));
-            toolTip1.SetToolTip(this.pictureBox_WorkerName, International.GetText("Form_Settings_ToolTip_WorkerName"));
+            toolTip1.SetToolTip(checkBox_HideMiningWindows, International.GetText("Form_Settings_ToolTip_checkBox_HideMiningWindows"));
+            toolTip1.SetToolTip(pictureBox_HideMiningWindows, International.GetText("Form_Settings_ToolTip_checkBox_HideMiningWindows"));
 
-            toolTip1.SetToolTip(this.comboBox_ServiceLocation, International.GetText("Form_Settings_ToolTip_ServiceLocation"));
-            toolTip1.SetToolTip(this.label_ServiceLocation, International.GetText("Form_Settings_ToolTip_ServiceLocation"));
-            toolTip1.SetToolTip(this.pictureBox_ServiceLocation, International.GetText("Form_Settings_ToolTip_ServiceLocation"));
+            toolTip1.SetToolTip(checkBox_MinimizeToTray, International.GetText("Form_Settings_ToolTip_checkBox_MinimizeToTray"));
+            toolTip1.SetToolTip(pictureBox_MinimizeToTray, International.GetText("Form_Settings_ToolTip_checkBox_MinimizeToTray"));
 
-            toolTip1.SetToolTip(this.comboBox_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
-            toolTip1.SetToolTip(this.label_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
-            toolTip1.SetToolTip(this.pictureBox_TimeUnit, International.GetText("Form_Settings_ToolTip_TimeUnit"));
+            toolTip1.SetToolTip(checkBox_Use3rdPartyMiners, International.GetText("Form_Settings_General_3rdparty_ToolTip"));
+            toolTip1.SetToolTip(pictureBox_Use3rdPartyMiners, International.GetText("Form_Settings_General_3rdparty_ToolTip"));
 
-            toolTip1.SetToolTip(this.checkBox_HideMiningWindows, International.GetText("Form_Settings_ToolTip_checkBox_HideMiningWindows"));
-            toolTip1.SetToolTip(this.pictureBox_HideMiningWindows, International.GetText("Form_Settings_ToolTip_checkBox_HideMiningWindows"));
+            toolTip1.SetToolTip(checkBox_AllowMultipleInstances, International.GetText("Form_Settings_General_AllowMultipleInstances_ToolTip"));
+            toolTip1.SetToolTip(pictureBox_AllowMultipleInstances, International.GetText("Form_Settings_General_AllowMultipleInstances_ToolTip"));
 
-            toolTip1.SetToolTip(this.checkBox_MinimizeToTray, International.GetText("Form_Settings_ToolTip_checkBox_MinimizeToTray"));
-            toolTip1.SetToolTip(this.pictureBox_MinimizeToTray, International.GetText("Form_Settings_ToolTip_checkBox_MinimizeToTray"));
+            toolTip1.SetToolTip(textBox_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
+            toolTip1.SetToolTip(label_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
+            toolTip1.SetToolTip(pictureBox_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
 
-            toolTip1.SetToolTip(this.checkBox_Use3rdPartyMiners, International.GetText("Form_Settings_General_3rdparty_ToolTip"));
-            toolTip1.SetToolTip(this.pictureBox_Use3rdPartyMiners, International.GetText("Form_Settings_General_3rdparty_ToolTip"));
+            toolTip1.SetToolTip(label_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
+            toolTip1.SetToolTip(pictureBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
+            toolTip1.SetToolTip(textBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
 
-            toolTip1.SetToolTip(this.checkBox_AllowMultipleInstances, International.GetText("Form_Settings_General_AllowMultipleInstances_ToolTip"));
-            toolTip1.SetToolTip(this.pictureBox_AllowMultipleInstances, International.GetText("Form_Settings_General_AllowMultipleInstances_ToolTip"));
+            toolTip1.SetToolTip(textBox_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
+            toolTip1.SetToolTip(label_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
+            toolTip1.SetToolTip(pictureBox_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
 
-            toolTip1.SetToolTip(this.textBox_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
-            toolTip1.SetToolTip(this.label_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
-            toolTip1.SetToolTip(this.pictureBox_SwitchMinSecondsFixed, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsFixed"));
+            toolTip1.SetToolTip(textBox_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
+            toolTip1.SetToolTip(label_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
+            toolTip1.SetToolTip(pictureBox_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
 
-            toolTip1.SetToolTip(this.label_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
-            toolTip1.SetToolTip(this.pictureBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
-            toolTip1.SetToolTip(this.textBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
+            toolTip1.SetToolTip(textBox_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
+            toolTip1.SetToolTip(label_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
+            toolTip1.SetToolTip(pictureBox_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
 
-            toolTip1.SetToolTip(this.textBox_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
-            toolTip1.SetToolTip(this.label_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
-            toolTip1.SetToolTip(this.pictureBox_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
+            toolTip1.SetToolTip(textBox_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
+            toolTip1.SetToolTip(label_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
+            toolTip1.SetToolTip(pictureBox_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
 
-            toolTip1.SetToolTip(this.textBox_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
-            toolTip1.SetToolTip(this.label_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
-            toolTip1.SetToolTip(this.pictureBox_SwitchMinSecondsAMD, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsAMD"));
+            toolTip1.SetToolTip(textBox_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
+            toolTip1.SetToolTip(label_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
+            toolTip1.SetToolTip(pictureBox_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
 
-            toolTip1.SetToolTip(this.textBox_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
-            toolTip1.SetToolTip(this.label_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
-            toolTip1.SetToolTip(this.pictureBox_MinerAPIQueryInterval, International.GetText("Form_Settings_ToolTip_MinerAPIQueryInterval"));
+            toolTip1.SetToolTip(comboBox_DagLoadMode, International.GetText("Form_Settings_ToolTip_DagGeneration"));
+            toolTip1.SetToolTip(label_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
+            toolTip1.SetToolTip(pictureBox_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
 
-            toolTip1.SetToolTip(this.textBox_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
-            toolTip1.SetToolTip(this.label_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
-            toolTip1.SetToolTip(this.pictureBox_MinerRestartDelayMS, International.GetText("Form_Settings_ToolTip_MinerRestartDelayMS"));
 
-            toolTip1.SetToolTip(this.textBox_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
-            toolTip1.SetToolTip(this.label_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
-            toolTip1.SetToolTip(this.pictureBox_APIBindPortStart, International.GetText("Form_Settings_ToolTip_APIBindPortStart"));
+            toolTip1.SetToolTip(checkBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
+            toolTip1.SetToolTip(checkBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
+            toolTip1.SetToolTip(pictureBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
+            toolTip1.SetToolTip(pictureBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
 
-            toolTip1.SetToolTip(this.comboBox_DagLoadMode, International.GetText("Form_Settings_ToolTip_DagGeneration"));
-            toolTip1.SetToolTip(this.label_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
-            toolTip1.SetToolTip(this.pictureBox_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
+            toolTip1.SetToolTip(checkBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
+            toolTip1.SetToolTip(pictureBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
 
-            benchmarkLimitControlCPU.SetToolTip(ref toolTip1, "CPUs");
-            benchmarkLimitControlNVIDIA.SetToolTip(ref toolTip1, "NVIDIA GPUs");
-            benchmarkLimitControlAMD.SetToolTip(ref toolTip1, "AMD GPUs");
+            toolTip1.SetToolTip(checkBox_StartMiningWhenIdle, International.GetText("Form_Settings_ToolTip_checkBox_StartMiningWhenIdle"));
+            toolTip1.SetToolTip(pictureBox_StartMiningWhenIdle, International.GetText("Form_Settings_ToolTip_checkBox_StartMiningWhenIdle"));
 
-            toolTip1.SetToolTip(this.checkBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
-            toolTip1.SetToolTip(this.checkBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
-            toolTip1.SetToolTip(this.pictureBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
-            toolTip1.SetToolTip(this.pictureBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
+            toolTip1.SetToolTip(textBox_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
+            toolTip1.SetToolTip(label_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
+            toolTip1.SetToolTip(pictureBox_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
 
-            toolTip1.SetToolTip(this.checkBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
-            toolTip1.SetToolTip(this.pictureBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
+            toolTip1.SetToolTip(checkBox_LogToFile, International.GetText("Form_Settings_ToolTip_checkBox_LogToFile"));
+            toolTip1.SetToolTip(pictureBox_LogToFile, International.GetText("Form_Settings_ToolTip_checkBox_LogToFile"));
 
-            toolTip1.SetToolTip(this.checkBox_StartMiningWhenIdle, International.GetText("Form_Settings_ToolTip_checkBox_StartMiningWhenIdle"));
-            toolTip1.SetToolTip(this.pictureBox_StartMiningWhenIdle, International.GetText("Form_Settings_ToolTip_checkBox_StartMiningWhenIdle"));
+            toolTip1.SetToolTip(textBox_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
+            toolTip1.SetToolTip(label_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
+            toolTip1.SetToolTip(pictureBox_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
 
-            toolTip1.SetToolTip(this.textBox_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
-            toolTip1.SetToolTip(this.label_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
-            toolTip1.SetToolTip(this.pictureBox_MinIdleSeconds, International.GetText("Form_Settings_ToolTip_MinIdleSeconds"));
+            toolTip1.SetToolTip(checkBox_ShowDriverVersionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowDriverVersionWarning"));
+            toolTip1.SetToolTip(pictureBox_ShowDriverVersionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowDriverVersionWarning"));
 
-            toolTip1.SetToolTip(this.checkBox_LogToFile, International.GetText("Form_Settings_ToolTip_checkBox_LogToFile"));
-            toolTip1.SetToolTip(this.pictureBox_LogToFile, International.GetText("Form_Settings_ToolTip_checkBox_LogToFile"));
+            toolTip1.SetToolTip(checkBox_DisableWindowsErrorReporting, International.GetText("Form_Settings_ToolTip_checkBox_DisableWindowsErrorReporting"));
+            toolTip1.SetToolTip(pictureBox_DisableWindowsErrorReporting, International.GetText("Form_Settings_ToolTip_checkBox_DisableWindowsErrorReporting"));
 
-            toolTip1.SetToolTip(this.textBox_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
-            toolTip1.SetToolTip(this.label_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
-            toolTip1.SetToolTip(this.pictureBox_LogMaxFileSize, International.GetText("Form_Settings_ToolTip_LogMaxFileSize"));
+            toolTip1.SetToolTip(checkBox_ShowInternetConnectionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowInternetConnectionWarning"));
+            toolTip1.SetToolTip(pictureBox_ShowInternetConnectionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowInternetConnectionWarning"));
 
-            toolTip1.SetToolTip(this.checkBox_ShowDriverVersionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowDriverVersionWarning"));
-            toolTip1.SetToolTip(this.pictureBox_ShowDriverVersionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowDriverVersionWarning"));
+            toolTip1.SetToolTip(checkBox_NVIDIAP0State, International.GetText("Form_Settings_ToolTip_checkBox_NVIDIAP0State"));
+            toolTip1.SetToolTip(pictureBox_NVIDIAP0State, International.GetText("Form_Settings_ToolTip_checkBox_NVIDIAP0State"));
 
-            toolTip1.SetToolTip(this.checkBox_DisableWindowsErrorReporting, International.GetText("Form_Settings_ToolTip_checkBox_DisableWindowsErrorReporting"));
-            toolTip1.SetToolTip(this.pictureBox_DisableWindowsErrorReporting, International.GetText("Form_Settings_ToolTip_checkBox_DisableWindowsErrorReporting"));
+            toolTip1.SetToolTip(checkBox_RunScriptOnCUDA_GPU_Lost, International.GetText("Form_Settings_ToolTip_checkBox_RunScriptOnCUDA_GPU_Lost"));
+            toolTip1.SetToolTip(pictureBox_RunScriptOnCUDA_GPU_Lost, International.GetText("Form_Settings_ToolTip_checkBox_RunScriptOnCUDA_GPU_Lost"));
 
-            toolTip1.SetToolTip(this.checkBox_ShowInternetConnectionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowInternetConnectionWarning"));
-            toolTip1.SetToolTip(this.pictureBox_ShowInternetConnectionWarning, International.GetText("Form_Settings_ToolTip_checkBox_ShowInternetConnectionWarning"));
+            toolTip1.SetToolTip(checkBox_RunAtStartup, International.GetText("Form_Settings_ToolTip_checkBox_RunAtStartup"));
+            toolTip1.SetToolTip(pictureBox_RunAtStartup, International.GetText("Form_Settings_ToolTip_checkBox_RunAtStartup"));
 
-            toolTip1.SetToolTip(this.checkBox_NVIDIAP0State, International.GetText("Form_Settings_ToolTip_checkBox_NVIDIAP0State"));
-            toolTip1.SetToolTip(this.pictureBox_NVIDIAP0State, International.GetText("Form_Settings_ToolTip_checkBox_NVIDIAP0State"));
+            toolTip1.SetToolTip(checkBox_AutoStartMining, International.GetText("Form_Settings_ToolTip_checkBox_AutoStartMining"));
+            toolTip1.SetToolTip(pictureBox_AutoStartMining, International.GetText("Form_Settings_ToolTip_checkBox_AutoStartMining"));
 
-            toolTip1.SetToolTip(this.checkBox_RunScriptOnCUDA_GPU_Lost, International.GetText("Form_Settings_ToolTip_checkBox_RunScriptOnCUDA_GPU_Lost"));
-            toolTip1.SetToolTip(this.pictureBox_RunScriptOnCUDA_GPU_Lost, International.GetText("Form_Settings_ToolTip_checkBox_RunScriptOnCUDA_GPU_Lost"));
+            toolTip1.SetToolTip(textBox_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
+            toolTip1.SetToolTip(label_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
+            toolTip1.SetToolTip(pictureBox_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
 
-            toolTip1.SetToolTip(this.checkBox_RunAtStartup, International.GetText("Form_Settings_ToolTip_checkBox_RunAtStartup"));
-            toolTip1.SetToolTip(this.pictureBox_RunAtStartup, International.GetText("Form_Settings_ToolTip_checkBox_RunAtStartup"));
-
-            toolTip1.SetToolTip(this.checkBox_AutoStartMining, International.GetText("Form_Settings_ToolTip_checkBox_AutoStartMining"));
-            toolTip1.SetToolTip(this.pictureBox_AutoStartMining, International.GetText("Form_Settings_ToolTip_checkBox_AutoStartMining"));
-
-            toolTip1.SetToolTip(this.textBox_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
-            toolTip1.SetToolTip(this.label_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
-            toolTip1.SetToolTip(this.pictureBox_ethminerDefaultBlockHeight, International.GetText("Form_Settings_ToolTip_ethminerDefaultBlockHeight"));
-
-            toolTip1.SetToolTip(this.label_displayCurrency, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
-            toolTip1.SetToolTip(this.pictureBox_displayCurrency, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
-            toolTip1.SetToolTip(this.currencyConverterCombobox, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
+            toolTip1.SetToolTip(label_displayCurrency, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
+            toolTip1.SetToolTip(pictureBox_displayCurrency, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
+            toolTip1.SetToolTip(currencyConverterCombobox, International.GetText("Form_Settings_ToolTip_DisplayCurrency"));
 
             // Setup Tooltips CPU
             toolTip1.SetToolTip(comboBox_CPU0_ForceCPUExtension, International.GetText("Form_Settings_ToolTip_CPU_ForceCPUExtension"));
@@ -228,9 +255,6 @@ namespace zPoolMiner.Forms
             toolTip1.SetToolTip(checkBox_IdleWhenNoInternetAccess, International.GetText("Form_Settings_ToolTip_ContinueMiningIfNoInternetAccess"));
             toolTip1.SetToolTip(pictureBox_IdleWhenNoInternetAccess, International.GetText("Form_Settings_ToolTip_ContinueMiningIfNoInternetAccess"));
 
-            // IFTTT notification check
-            toolTip1.SetToolTip(checkBox_UseIFTTT, International.GetText("Form_Settings_ToolTip_UseIFTTT"));
-            toolTip1.SetToolTip(pictureBox_UseIFTTT, International.GetText("Form_Settings_ToolTip_UseIFTTT"));
 
             toolTip1.SetToolTip(pictureBox_SwitchProfitabilityThreshold, International.GetText("Form_Settings_ToolTip_SwitchProfitabilityThreshold"));
             toolTip1.SetToolTip(label_SwitchProfitabilityThreshold, International.GetText("Form_Settings_ToolTip_SwitchProfitabilityThreshold"));
@@ -238,13 +262,14 @@ namespace zPoolMiner.Forms
             toolTip1.SetToolTip(pictureBox_MinimizeMiningWindows, International.GetText("Form_Settings_ToolTip_MinimizeMiningWindows"));
             toolTip1.SetToolTip(checkBox_MinimizeMiningWindows, International.GetText("Form_Settings_ToolTip_MinimizeMiningWindows"));
 
-            this.Text = International.GetText("Form_Settings_Title");
+            Text = International.GetText("Form_Settings_Title");
 
             algorithmSettingsControl1.InitLocale(toolTip1);
         }
 
-        #region Form this
-
+        /// <summary>
+        /// The InitializeFormTranslations
+        /// </summary>
         private void InitializeFormTranslations()
         {
             buttonDefaults.Text = International.GetText("Form_Settings_buttonDefaultsText");
@@ -252,10 +277,9 @@ namespace zPoolMiner.Forms
             buttonCloseNoSave.Text = International.GetText("Form_Settings_buttonCloseNoSaveText");
         }
 
-        #endregion Form this
-
-        #region Tab General
-
+        /// <summary>
+        /// The InitializeGeneralTabTranslations
+        /// </summary>
         private void InitializeGeneralTabTranslations()
         {
             checkBox_DebugConsole.Text = International.GetText("Form_Settings_General_DebugConsole");
@@ -276,18 +300,10 @@ namespace zPoolMiner.Forms
             checkBox_AllowMultipleInstances.Text = International.GetText("Form_Settings_General_AllowMultipleInstances_Text");
             checkBox_RunAtStartup.Text = International.GetText("Form_Settings_General_RunAtStartup");
             checkBox_MinimizeMiningWindows.Text = International.GetText("Form_Settings_General_MinimizeMiningWindows");
-            checkBox_UseIFTTT.Text = International.GetText("Form_Settings_General_UseIFTTT");
             checkBox_RunScriptOnCUDA_GPU_Lost.Text = International.GetText("Form_Settings_General_RunScriptOnCUDA_GPU_Lost");
 
+            checkbox_Group_same_devices.Text = "Group Like Cards";
             label_Language.Text = International.GetText("Form_Settings_General_Language") + ":";
-            label_BitcoinAddress.Text = International.GetText("BitcoinAddress") + ":";
-            label_WorkerName.Text = International.GetText("WorkerName") + ":";
-            label_ServiceLocation.Text = International.GetText("Service_Location") + ":";
-            {
-                int i = 0;
-                foreach (string loc in Globals.MiningLocation)
-                    comboBox_ServiceLocation.Items[i++] = International.GetText("LocationName_" + loc);
-            }
             label_MinIdleSeconds.Text = International.GetText("Form_Settings_General_MinIdleSeconds") + ":";
             label_MinerRestartDelayMS.Text = International.GetText("Form_Settings_General_MinerRestartDelayMS") + ":";
             label_MinerAPIQueryInterval.Text = International.GetText("Form_Settings_General_MinerAPIQueryInterval") + ":";
@@ -305,18 +321,7 @@ namespace zPoolMiner.Forms
 
             label_displayCurrency.Text = International.GetText("Form_Settings_DisplayCurrency");
 
-            label_IFTTTAPIKey.Text = International.GetText("Form_Settings_IFTTTAPIKey");
 
-            // Benchmark time limits
-            // internationalization change
-            groupBoxBenchmarkTimeLimits.Text = International.GetText("Form_Settings_General_BenchmarkTimeLimits_Title") + ":";
-            benchmarkLimitControlCPU.GroupName = International.GetText("Form_Settings_General_BenchmarkTimeLimitsCPU_Group") + ":";
-            benchmarkLimitControlNVIDIA.GroupName = International.GetText("Form_Settings_General_BenchmarkTimeLimitsNVIDIA_Group") + ":";
-            benchmarkLimitControlAMD.GroupName = International.GetText("Form_Settings_General_BenchmarkTimeLimitsAMD_Group") + ":";
-            // moved from constructor because of editor
-            benchmarkLimitControlCPU.InitLocale();
-            benchmarkLimitControlNVIDIA.InitLocale();
-            benchmarkLimitControlAMD.InitLocale();
 
             // device enabled listview translation
             devicesListViewEnableControl1.InitLocale();
@@ -334,7 +339,6 @@ namespace zPoolMiner.Forms
             groupBox_Misc.Text = International.GetText("FormSettings_Tab_General_Group_Misc");
             // advanced
             groupBox_Miners.Text = International.GetText("FormSettings_Tab_Advanced_Group_Miners");
-            groupBoxBenchmarkTimeLimits.Text = International.GetText("FormSettings_Tab_Advanced_Group_BenchmarkTimeLimits");
 
             //buttonAllProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_ALLProfitability");
             //buttonSelectedProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_SingleProfitability");
@@ -345,63 +349,94 @@ namespace zPoolMiner.Forms
             label_SwitchProfitabilityThreshold.Text = International.GetText("Form_Settings_General_SwitchProfitabilityThreshold");
         }
 
+        /// <summary>
+        /// The InitializeGeneralTabCallbacks
+        /// </summary>
         private void InitializeGeneralTabCallbacks()
         {
             // Add EventHandler for all the general tab's checkboxes
             {
-                this.checkBox_AutoScaleBTCValues.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_DisableDetectionAMD.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_DisableDetectionNVIDIA.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_MinimizeToTray.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_HideMiningWindows.CheckedChanged += new System.EventHandler(this.CheckBox_HideMiningWindows_CheckChanged);
-                this.checkBox_DebugConsole.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_ShowDriverVersionWarning.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_DisableWindowsErrorReporting.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_ShowInternetConnectionWarning.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_StartMiningWhenIdle.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_NVIDIAP0State.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_LogToFile.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_AutoStartMining.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_AllowMultipleInstances.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_MinimizeMiningWindows.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
-                this.checkBox_UseIFTTT.CheckedChanged += new System.EventHandler(CheckBox_UseIFTTT_CheckChanged);
-                this.checkBox_RunScriptOnCUDA_GPU_Lost.CheckedChanged += new System.EventHandler(this.GeneralCheckBoxes_CheckedChanged);
+                checkBox_AutoScaleBTCValues.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_DisableDetectionAMD.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_DisableDetectionNVIDIA.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_MinimizeToTray.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_HideMiningWindows.CheckedChanged += new EventHandler(CheckBox_HideMiningWindows_CheckChanged);
+                checkBox_DebugConsole.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_ShowDriverVersionWarning.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_DisableWindowsErrorReporting.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_ShowInternetConnectionWarning.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_StartMiningWhenIdle.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_NVIDIAP0State.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_LogToFile.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                /*checkBox_HashRefinery.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_NiceHash.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_AhashPool.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_zpool.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);*/
+                checkBox_zerg.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);/*
+                checkBox_minemoney.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_MPH.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_devapi.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_starpool.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_blockmunch.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_blazepool.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);*/
+                checkBox_AutoStartMining.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_AllowMultipleInstances.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_MinimizeMiningWindows.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkBox_RunScriptOnCUDA_GPU_Lost.CheckedChanged += new EventHandler(GeneralCheckBoxes_CheckedChanged);
+                checkbox_Group_same_devices.CheckedChanged += GeneralCheckBoxes_CheckedChanged;
             }
             // Add EventHandler for all the general tab's textboxes
             {
-                this.textBox_BitcoinAddress.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_WorkerName.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_IFTTTKey.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
+                /*textBox_Zpool_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_Zpool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_AhashPool_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_AhashPool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_HashRefinery_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_hashrefinery_worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_NiceHash_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_NiceHash_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);*/
+                textBox_zerg_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_zerg_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);/*
+                textBox_minemoney_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_minemoney_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_starpool_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_starpool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_blockmunch_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_blockmunch_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_blazepool_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);*/
+                textBox_averaging.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                //textBox_blazepool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                //textBox_MPH_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                //textBox_MPH_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
                 // these are ints only
-                this.textBox_SwitchMinSecondsFixed.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_SwitchMinSecondsDynamic.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_SwitchMinSecondsAMD.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_MinerAPIQueryInterval.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_MinerRestartDelayMS.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_MinIdleSeconds.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_LogMaxFileSize.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_ethminerDefaultBlockHeight.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_APIBindPortStart.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
-                this.textBox_MinProfit.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
+                textBox_SwitchMinSecondsFixed.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_SwitchMinSecondsDynamic.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_SwitchMinSecondsAMD.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_MinerAPIQueryInterval.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_MinerRestartDelayMS.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_MinIdleSeconds.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_LogMaxFileSize.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_ethminerDefaultBlockHeight.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_APIBindPortStart.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                textBox_MinProfit.Leave += new EventHandler(GeneralTextBoxes_Leave);
                 // set int only keypress
-                this.textBox_SwitchMinSecondsFixed.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_SwitchMinSecondsDynamic.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_SwitchMinSecondsAMD.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_MinerAPIQueryInterval.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_MinerRestartDelayMS.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_MinIdleSeconds.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_LogMaxFileSize.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_ethminerDefaultBlockHeight.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
-                this.textBox_APIBindPortStart.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_SwitchMinSecondsFixed.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_SwitchMinSecondsDynamic.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_SwitchMinSecondsAMD.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_MinerAPIQueryInterval.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_MinerRestartDelayMS.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_MinIdleSeconds.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_LogMaxFileSize.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_ethminerDefaultBlockHeight.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
+                textBox_APIBindPortStart.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
                 // set double only keypress
-                this.textBox_MinProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxDoubleOnly_KeyPress);
+                textBox_MinProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxDoubleOnly_KeyPress);
             }
             // Add EventHandler for all the general tab's textboxes
             {
-                this.comboBox_Language.Leave += new System.EventHandler(this.GeneralComboBoxes_Leave);
-                this.comboBox_ServiceLocation.Leave += new System.EventHandler(this.GeneralComboBoxes_Leave);
-                this.comboBox_TimeUnit.Leave += new System.EventHandler(this.GeneralComboBoxes_Leave);
-                this.comboBox_DagLoadMode.Leave += new System.EventHandler(this.GeneralComboBoxes_Leave);
+                comboBox_Language.Leave += new EventHandler(GeneralComboBoxes_Leave);
+                comboBox_TimeUnit.Leave += new EventHandler(GeneralComboBoxes_Leave);
+                comboBox_DagLoadMode.Leave += new EventHandler(GeneralComboBoxes_Leave);
             }
 
             // CPU exceptions
@@ -417,12 +452,26 @@ namespace zPoolMiner.Forms
             comboBox_DagLoadMode.SelectedIndex = (int)ConfigManager.GeneralConfig.EthminerDagGenerationType;
         }
 
+        /// <summary>
+        /// The InitializeGeneralTabFieldValuesReferences
+        /// </summary>
         private void InitializeGeneralTabFieldValuesReferences()
         {
             // Checkboxes set checked value
             {
                 checkBox_DebugConsole.Checked = ConfigManager.GeneralConfig.DebugConsole;
                 checkBox_AutoStartMining.Checked = ConfigManager.GeneralConfig.AutoStartMining;
+                /*checkBox_zpool.Checked = ConfigManager.GeneralConfig.zpoolenabled;
+                checkBox_AhashPool.Checked = ConfigManager.GeneralConfig.ahashenabled;*/
+                checkBox_zerg.Checked = ConfigManager.GeneralConfig.zergenabled;/*
+                checkBox_minemoney.Checked = ConfigManager.GeneralConfig.minemoneyenabled;
+                checkBox_starpool.Checked = ConfigManager.GeneralConfig.starpoolenabled;
+                checkBox_blockmunch.Checked = ConfigManager.GeneralConfig.blockmunchenabled;
+                checkBox_blazepool.Checked = ConfigManager.GeneralConfig.blazepoolenabled;
+                checkBox_MPH.Checked = ConfigManager.GeneralConfig.MPHenabled;
+                checkBox_NiceHash.Checked = ConfigManager.GeneralConfig.nicehashenabled;
+                checkBox_HashRefinery.Checked = ConfigManager.GeneralConfig.hashrefineryenabled;
+                checkBox_devapi.Checked = ConfigManager.GeneralConfig.devapi;*/
                 checkBox_HideMiningWindows.Checked = ConfigManager.GeneralConfig.HideMiningWindows;
                 checkBox_MinimizeToTray.Checked = ConfigManager.GeneralConfig.MinimizeToTray;
                 checkBox_DisableDetectionNVIDIA.Checked = ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionNVIDIA;
@@ -437,21 +486,41 @@ namespace zPoolMiner.Forms
                 checkBox_AMD_DisableAMDTempControl.Checked = ConfigManager.GeneralConfig.DisableAMDTempControl;
                 checkBox_DisableDefaultOptimizations.Checked = ConfigManager.GeneralConfig.DisableDefaultOptimizations;
                 checkBox_IdleWhenNoInternetAccess.Checked = ConfigManager.GeneralConfig.IdleWhenNoInternetAccess;
-                this.checkBox_Use3rdPartyMiners.Checked = ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.YES;
-                this.checkBox_AllowMultipleInstances.Checked = ConfigManager.GeneralConfig.AllowMultipleInstances;
+                checkBox_Use3rdPartyMiners.Checked = ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.YES;
+                checkBox_AllowMultipleInstances.Checked = ConfigManager.GeneralConfig.AllowMultipleInstances;
                 checkBox_RunAtStartup.Checked = IsInStartupRegistry();
                 checkBox_MinimizeMiningWindows.Checked = ConfigManager.GeneralConfig.MinimizeMiningWindows;
                 checkBox_MinimizeMiningWindows.Enabled = !ConfigManager.GeneralConfig.HideMiningWindows;
-                checkBox_UseIFTTT.Checked = ConfigManager.GeneralConfig.UseIFTTT;
                 checkBox_RunScriptOnCUDA_GPU_Lost.Checked = ConfigManager.GeneralConfig.RunScriptOnCUDA_GPU_Lost;
+                checkbox_Group_same_devices.Checked = ConfigManager.GeneralConfig.Group_same_devices;
             }
 
             // Textboxes
             {
-                textBox_BitcoinAddress.Text = ConfigManager.GeneralConfig.BitcoinAddress;
-                textBox_WorkerName.Text = ConfigManager.GeneralConfig.WorkerName;
-                textBox_IFTTTKey.Text = ConfigManager.GeneralConfig.IFTTTKey;
-                textBox_IFTTTKey.Enabled = ConfigManager.GeneralConfig.UseIFTTT;
+                /*textBox_Zpool_Wallet.Text = ConfigManager.GeneralConfig.zpoolAddress;
+                textBox_Zpool_Worker.Text = ConfigManager.GeneralConfig.zpoolWorkerName;
+                textBox_AhashPool_Wallet.Text = ConfigManager.GeneralConfig.ahashAddress;
+                textBox_AhashPool_Worker.Text = ConfigManager.GeneralConfig.ahashWorkerName;
+                textBox_HashRefinery_Wallet.Text = ConfigManager.GeneralConfig.hashrefineryAddress;
+                textBox_hashrefinery_worker.Text = ConfigManager.GeneralConfig.hashrefineryWorkerName;
+                textBox_NiceHash_Wallet.Text = ConfigManager.GeneralConfig.nicehashAddress;
+                textBox_NiceHash_Worker.Text = ConfigManager.GeneralConfig.nicehashWorkerName;*/
+                textBox_zerg_Wallet.Text = ConfigManager.GeneralConfig.zergAddress;
+                textBox_zerg_Worker.Text = ConfigManager.GeneralConfig.zergWorkerName;
+                /*textBox_MPH_Wallet.Text = ConfigManager.GeneralConfig.MPHAddress;
+                textBox_MPH_Worker.Text = ConfigManager.GeneralConfig.MPHWorkerName;
+                textBox_minemoney_Wallet.Text = ConfigManager.GeneralConfig.minemoneyAddress;
+                textBox_minemoney_Worker.Text = ConfigManager.GeneralConfig.minemoneyWorkerName;
+                textBox_starpool_Wallet.Text = ConfigManager.GeneralConfig.starpoolAddress;
+                textBox_starpool_Worker.Text = ConfigManager.GeneralConfig.starpoolWorkerName;
+                textBox_blockmunch_Wallet.Text = ConfigManager.GeneralConfig.blockmunchAddress;
+                textBox_blockmunch_Worker.Text = ConfigManager.GeneralConfig.blockmunchWorkerName;
+                textBox_blazepool_Wallet.Text = ConfigManager.GeneralConfig.blazepoolAddress;
+                
+                textBox_blazepool_Worker.Text = ConfigManager.GeneralConfig.blazepoolWorkerName;
+                textBox_minemoney_Wallet.Text = ConfigManager.GeneralConfig.minemoneyAddress;
+                textBox_minemoney_Worker.Text = ConfigManager.GeneralConfig.minemoneyWorkerName;*/
+                textBox_averaging.Text = ConfigManager.GeneralConfig.Averaging;
                 textBox_SwitchMinSecondsFixed.Text = ConfigManager.GeneralConfig.SwitchMinSecondsFixed.ToString();
                 textBox_SwitchMinSecondsDynamic.Text = ConfigManager.GeneralConfig.SwitchMinSecondsDynamic.ToString();
                 textBox_SwitchMinSecondsAMD.Text = ConfigManager.GeneralConfig.SwitchMinSecondsAMD.ToString();
@@ -467,9 +536,7 @@ namespace zPoolMiner.Forms
 
             // set custom control referances
             {
-                benchmarkLimitControlCPU.TimeLimits = ConfigManager.GeneralConfig.BenchmarkTimeLimits.CPU;
-                benchmarkLimitControlNVIDIA.TimeLimits = ConfigManager.GeneralConfig.BenchmarkTimeLimits.NVIDIA;
-                benchmarkLimitControlAMD.TimeLimits = ConfigManager.GeneralConfig.BenchmarkTimeLimits.AMD;
+
 
                 // here we want all devices
                 devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
@@ -502,12 +569,14 @@ namespace zPoolMiner.Forms
             // ComboBox
             {
                 comboBox_Language.SelectedIndex = (int)ConfigManager.GeneralConfig.Language;
-                comboBox_ServiceLocation.SelectedIndex = ConfigManager.GeneralConfig.ServiceLocation;
                 comboBox_TimeUnit.SelectedItem = International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
                 currencyConverterCombobox.SelectedItem = ConfigManager.GeneralConfig.DisplayCurrency;
             }
         }
 
+        /// <summary>
+        /// The InitializeGeneralTab
+        /// </summary>
         private void InitializeGeneralTab()
         {
             InitializeGeneralTabTranslations();
@@ -515,28 +584,27 @@ namespace zPoolMiner.Forms
             InitializeGeneralTabFieldValuesReferences();
         }
 
-        #endregion Tab General
-
-        #region Tab Devices
-
+        /// <summary>
+        /// The InitializeDevicesTab
+        /// </summary>
         private void InitializeDevicesTab()
         {
             InitializeDevicesCallbacks();
         }
 
+        /// <summary>
+        /// The InitializeDevicesCallbacks
+        /// </summary>
         private void InitializeDevicesCallbacks()
         {
             devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(DevicesListView1_ItemSelectionChanged);
         }
 
-        #endregion Tab Devices
-
-        #endregion Initializations
-
-        #region Form Callbacks
-
-        #region Tab General
-
+        /// <summary>
+        /// The GeneralCheckBoxes_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void GeneralCheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
@@ -544,6 +612,17 @@ namespace zPoolMiner.Forms
             IsChange = true;
             ConfigManager.GeneralConfig.DebugConsole = checkBox_DebugConsole.Checked;
             ConfigManager.GeneralConfig.AutoStartMining = checkBox_AutoStartMining.Checked;
+            /*ConfigManager.GeneralConfig.zpoolenabled = checkBox_zpool.Checked;
+            ConfigManager.GeneralConfig.ahashenabled = checkBox_AhashPool.Checked;*/
+            ConfigManager.GeneralConfig.zergenabled = checkBox_zerg.Checked;/*
+            ConfigManager.GeneralConfig.MPHenabled = checkBox_MPH.Checked;
+            ConfigManager.GeneralConfig.minemoneyenabled = checkBox_minemoney.Checked;
+            ConfigManager.GeneralConfig.starpoolenabled = checkBox_starpool.Checked;
+            ConfigManager.GeneralConfig.blockmunchenabled = checkBox_blockmunch.Checked;
+            ConfigManager.GeneralConfig.blazepoolenabled = checkBox_blazepool.Checked;
+            ConfigManager.GeneralConfig.nicehashenabled = checkBox_NiceHash.Checked;
+            ConfigManager.GeneralConfig.hashrefineryenabled = checkBox_HashRefinery.Checked;
+            ConfigManager.GeneralConfig.devapi = checkBox_devapi.Checked;*/
             ConfigManager.GeneralConfig.HideMiningWindows = checkBox_HideMiningWindows.Checked;
             ConfigManager.GeneralConfig.MinimizeToTray = checkBox_MinimizeToTray.Checked;
             ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionNVIDIA = checkBox_DisableDetectionNVIDIA.Checked;
@@ -556,12 +635,17 @@ namespace zPoolMiner.Forms
             ConfigManager.GeneralConfig.NVIDIAP0State = checkBox_NVIDIAP0State.Checked;
             ConfigManager.GeneralConfig.LogToFile = checkBox_LogToFile.Checked;
             ConfigManager.GeneralConfig.IdleWhenNoInternetAccess = checkBox_IdleWhenNoInternetAccess.Checked;
-            ConfigManager.GeneralConfig.UseIFTTT = checkBox_UseIFTTT.Checked;
             ConfigManager.GeneralConfig.AllowMultipleInstances = checkBox_AllowMultipleInstances.Checked;
             ConfigManager.GeneralConfig.MinimizeMiningWindows = checkBox_MinimizeMiningWindows.Checked;
             ConfigManager.GeneralConfig.RunScriptOnCUDA_GPU_Lost = checkBox_RunScriptOnCUDA_GPU_Lost.Checked;
+            ConfigManager.GeneralConfig.Group_same_devices = checkbox_Group_same_devices.Checked;
         }
 
+        /// <summary>
+        /// The CheckBox_AMD_DisableAMDTempControl_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_AMD_DisableAMDTempControl_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
@@ -575,17 +659,22 @@ namespace zPoolMiner.Forms
                 {
                     foreach (var algorithm in cDev.GetAlgorithmSettings())
                     {
-                        if (algorithm.NiceHashID != AlgorithmType.DaggerHashimoto)
+                        if (algorithm.CryptoMiner937ID != AlgorithmType.DaggerHashimoto)
                         {
                             algorithm.ExtraLaunchParameters += AmdGpuDevice.TemperatureParam;
                             algorithm.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
-                                new MiningPair(cDev, algorithm), algorithm.NiceHashID, DeviceType.AMD, false);
+                                new MiningPair(cDev, algorithm), algorithm.CryptoMiner937ID, DeviceType.AMD, false);
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// The CheckBox_DisableDefaultOptimizations_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_DisableDefaultOptimizations_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
@@ -600,11 +689,11 @@ namespace zPoolMiner.Forms
                     foreach (var algorithm in cDev.GetAlgorithmSettings())
                     {
                         algorithm.ExtraLaunchParameters = "";
-                        if (cDev.DeviceType == DeviceType.AMD && algorithm.NiceHashID != AlgorithmType.DaggerHashimoto)
+                        if (cDev.DeviceType == DeviceType.AMD && algorithm.CryptoMiner937ID != AlgorithmType.DaggerHashimoto)
                         {
                             algorithm.ExtraLaunchParameters += AmdGpuDevice.TemperatureParam;
                             algorithm.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
-                                new MiningPair(cDev, algorithm), algorithm.NiceHashID, cDev.DeviceType, false);
+                                new MiningPair(cDev, algorithm), algorithm.CryptoMiner937ID, cDev.DeviceType, false);
                         }
                     }
                 }
@@ -617,23 +706,32 @@ namespace zPoolMiner.Forms
                     var deviceDefaultsAlgoSettings = GroupAlgorithms.CreateForDeviceList(cDev);
                     foreach (var defaultAlgoSettings in deviceDefaultsAlgoSettings)
                     {
-                        var toSetAlgo = cDev.GetAlgorithm(defaultAlgoSettings.MinerBaseType, defaultAlgoSettings.NiceHashID, defaultAlgoSettings.SecondaryNiceHashID);
+                        var toSetAlgo = cDev.GetAlgorithm(defaultAlgoSettings.MinerBaseType, defaultAlgoSettings.CryptoMiner937ID, defaultAlgoSettings.SecondaryCryptoMiner937ID);
                         if (toSetAlgo != null)
                         {
                             toSetAlgo.ExtraLaunchParameters = defaultAlgoSettings.ExtraLaunchParameters;
                             toSetAlgo.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
-                                new MiningPair(cDev, toSetAlgo), toSetAlgo.NiceHashID, cDev.DeviceType, false);
+                                new MiningPair(cDev, toSetAlgo), toSetAlgo.CryptoMiner937ID, cDev.DeviceType, false);
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// The CheckBox_RunAtStartup_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_RunAtStartup_CheckedChanged(object sender, EventArgs e)
         {
             isStartupChanged = true;
         }
 
+        /// <summary>
+        /// The IsInStartupRegistry
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         private bool IsInStartupRegistry()
         {
             // Value is stored in registry
@@ -649,14 +747,57 @@ namespace zPoolMiner.Forms
             return startVal == Application.ExecutablePath;
         }
 
+        /// <summary>
+        /// The GeneralTextBoxes_Leave
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void GeneralTextBoxes_Leave(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
             IsChange = true;
-            if (ConfigManager.GeneralConfig.BitcoinAddress != textBox_BitcoinAddress.Text.Trim()) isCredChange = true;
-            ConfigManager.GeneralConfig.BitcoinAddress = textBox_BitcoinAddress.Text.Trim();
-            if (ConfigManager.GeneralConfig.WorkerName != textBox_WorkerName.Text.Trim()) isCredChange = true;
-            ConfigManager.GeneralConfig.WorkerName = textBox_WorkerName.Text.Trim();
+            /*if (ConfigManager.GeneralConfig.zpoolAddress != textBox_Zpool_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.zpoolAddress = textBox_Zpool_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.ahashAddress != textBox_AhashPool_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.ahashAddress = textBox_AhashPool_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.hashrefineryAddress != textBox_HashRefinery_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.hashrefineryAddress = textBox_HashRefinery_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.nicehashAddress != textBox_NiceHash_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.nicehashAddress = textBox_NiceHash_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.zpoolWorkerName != textBox_Zpool_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.zpoolWorkerName = textBox_Zpool_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.ahashWorkerName != textBox_AhashPool_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.ahashWorkerName = textBox_AhashPool_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.hashrefineryWorkerName != textBox_hashrefinery_worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.hashrefineryWorkerName = textBox_hashrefinery_worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.nicehashWorkerName != textBox_NiceHash_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.nicehashWorkerName = textBox_NiceHash_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.minemoneyAddress != textBox_minemoney_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.minemoneyAddress = textBox_minemoney_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.minemoneyWorkerName != textBox_minemoney_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.minemoneyWorkerName = textBox_minemoney_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.starpoolAddress != textBox_starpool_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.starpoolAddress = textBox_starpool_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.starpoolWorkerName != textBox_starpool_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.starpoolWorkerName = textBox_starpool_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.blockmunchAddress != textBox_blockmunch_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.blockmunchAddress = textBox_blockmunch_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.blockmunchWorkerName != textBox_blockmunch_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.blockmunchWorkerName = textBox_blockmunch_Worker.Text.Trim();
+            if (ConfigManager.GeneralConfig.blazepoolAddress != textBox_blazepool_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.blazepoolAddress = textBox_blazepool_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.blazepoolWorkerName != textBox_blazepool_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.blazepoolWorkerName = textBox_blazepool_Worker.Text.Trim();*/
+            if (ConfigManager.GeneralConfig.zergAddress != textBox_zerg_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.zergAddress = textBox_zerg_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.zergWorkerName != textBox_zerg_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.zergWorkerName = textBox_zerg_Worker.Text.Trim();/*
+            if (ConfigManager.GeneralConfig.MPHAddress != textBox_MPH_Wallet.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.MPHAddress = textBox_MPH_Wallet.Text.Trim();
+            if (ConfigManager.GeneralConfig.MPHWorkerName != textBox_MPH_Worker.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.MPHWorkerName = textBox_MPH_Worker.Text.Trim();*/
+            if (ConfigManager.GeneralConfig.Averaging != textBox_averaging.Text.Trim()) isCredChange = true;
+            ConfigManager.GeneralConfig.Averaging = textBox_averaging.Text.Trim();
 
             ConfigManager.GeneralConfig.SwitchMinSecondsFixed = Helpers.ParseInt(textBox_SwitchMinSecondsFixed.Text);
             ConfigManager.GeneralConfig.SwitchMinSecondsDynamic = Helpers.ParseInt(textBox_SwitchMinSecondsDynamic.Text);
@@ -670,8 +811,6 @@ namespace zPoolMiner.Forms
             // min profit
             ConfigManager.GeneralConfig.MinimumProfit = Helpers.ParseDouble(textBox_MinProfit.Text);
             ConfigManager.GeneralConfig.SwitchProfitabilityThreshold = Helpers.ParseDouble(textBox_SwitchProfitabilityThreshold.Text);
-
-            ConfigManager.GeneralConfig.IFTTTKey = textBox_IFTTTKey.Text.Trim();
 
             // Fix bounds
             ConfigManager.GeneralConfig.FixSettingBounds();
@@ -689,26 +828,36 @@ namespace zPoolMiner.Forms
             textBox_APIBindPortStart.Text = ConfigManager.GeneralConfig.ApiBindPortPoolStart.ToString();
         }
 
+        /// <summary>
+        /// The GeneralComboBoxes_Leave
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void GeneralComboBoxes_Leave(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
             IsChange = true;
             ConfigManager.GeneralConfig.Language = (LanguageType)comboBox_Language.SelectedIndex;
-            ConfigManager.GeneralConfig.ServiceLocation = comboBox_ServiceLocation.SelectedIndex;
             ConfigManager.GeneralConfig.TimeUnit = (TimeUnitType)comboBox_TimeUnit.SelectedIndex;
             ConfigManager.GeneralConfig.EthminerDagGenerationType = (DagGenerationType)comboBox_DagLoadMode.SelectedIndex;
         }
 
+        /// <summary>
+        /// The ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmbbox = (ComboBox)sender;
             ConfigManager.GeneralConfig.ForceCPUExtension = (CPUExtensionType)cmbbox.SelectedIndex;
         }
 
-        #endregion Tab General
-
-        #region Tab Device
-
+        /// <summary>
+        /// The DevicesListView1_ItemSelectionChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="ListViewItemSelectionChangedEventArgs"/></param>
         private void DevicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             algorithmSettingsControl1.Deselect();
@@ -718,6 +867,11 @@ namespace zPoolMiner.Forms
             groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
         }
 
+        /// <summary>
+        /// The ButtonSelectedProfit_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonSelectedProfit_Click(object sender, EventArgs e)
         {
             if (_selectedComputeDevice == null)
@@ -730,14 +884,19 @@ namespace zPoolMiner.Forms
             var url = Links.NHM_Profit_Check + _selectedComputeDevice.Name;
             foreach (var algorithm in _selectedComputeDevice.GetAlgorithmSettingsFastest())
             {
-                var id = (int)algorithm.NiceHashID;
-                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.NiceHashID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+                var id = (int)algorithm.CryptoMiner937ID;
+                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.CryptoMiner937ID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             }
             url += "&nhmver=" + Application.ProductVersion.ToString();  // Add version info
             url += "&cost=1&power=1"; // Set default power and cost to 1
             System.Diagnostics.Process.Start(url);
         }
 
+        /// <summary>
+        /// The ButtonAllProfit_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonAllProfit_Click(object sender, EventArgs e)
         {
             var url = Links.NHM_Profit_Check + "CUSTOM";
@@ -746,13 +905,13 @@ namespace zPoolMiner.Forms
             {
                 foreach (var algorithm in curCDev.GetAlgorithmSettingsFastest())
                 {
-                    if (total.ContainsKey(algorithm.NiceHashID))
+                    if (total.ContainsKey(algorithm.CryptoMiner937ID))
                     {
-                        total[algorithm.NiceHashID] += algorithm.BenchmarkSpeed;
+                        total[algorithm.CryptoMiner937ID] += algorithm.BenchmarkSpeed;
                     }
                     else
                     {
-                        total[algorithm.NiceHashID] = algorithm.BenchmarkSpeed;
+                        total[algorithm.CryptoMiner937ID] = algorithm.BenchmarkSpeed;
                     }
                 }
             }
@@ -766,15 +925,21 @@ namespace zPoolMiner.Forms
             System.Diagnostics.Process.Start(url);
         }
 
-        #endregion Tab Device
-
+        /// <summary>
+        /// The ToolTip1_Popup
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="PopupEventArgs"/></param>
         private void ToolTip1_Popup(object sender, PopupEventArgs e)
         {
             toolTip1.ToolTipTitle = International.GetText("Form_Settings_ToolTip_Explaination");
         }
 
-        #region Form Buttons
-
+        /// <summary>
+        /// The ButtonDefaults_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonDefaults_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(International.GetText("Form_Settings_buttonDefaultsMsg"),
@@ -793,6 +958,11 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The ButtonSaveClose_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonSaveClose_Click(object sender, EventArgs e)
         {
             MessageBox.Show(International.GetText("Form_Settings_buttonSaveMsg"),
@@ -803,20 +973,39 @@ namespace zPoolMiner.Forms
 
             if (isCredChange)
             {
-                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.BitcoinAddress.Trim(), ConfigManager.GeneralConfig.WorkerName.Trim());
+                /*CryptoStats.SetCredentials(ConfigManager.GeneralConfig.BitcoinAddress.Trim(), ConfigManager.GeneralConfig.WorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.zpoolAddress.Trim(), ConfigManager.GeneralConfig.zpoolWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.ahashAddress.Trim(), ConfigManager.GeneralConfig.ahashWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.hashrefineryAddress.Trim(), ConfigManager.GeneralConfig.hashrefineryWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.nicehashAddress.Trim(), ConfigManager.GeneralConfig.nicehashWorkerName.Trim());*/
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.zergAddress.Trim(), ConfigManager.GeneralConfig.zergWorkerName.Trim());/*
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.minemoneyAddress.Trim(), ConfigManager.GeneralConfig.minemoneyWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.starpoolAddress.Trim(), ConfigManager.GeneralConfig.starpoolWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.blockmunchAddress.Trim(), ConfigManager.GeneralConfig.blockmunchWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.blazepoolAddress.Trim(), ConfigManager.GeneralConfig.blazepoolWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.MPHAddress.Trim(), ConfigManager.GeneralConfig.MPHWorkerName.Trim());
+                CryptoStats.SetCredentials(ConfigManager.GeneralConfig.Averaging.Trim(), ConfigManager.GeneralConfig.Averaging.Trim());*/
             }
 
-            this.Close();
+            Close();
         }
 
+        /// <summary>
+        /// The ButtonCloseNoSave_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonCloseNoSave_Click(object sender, EventArgs e)
         {
             IsChangeSaved = false;
-            this.Close();
+            Close();
         }
 
-        #endregion Form Buttons
-
+        /// <summary>
+        /// The FormSettings_FormClosing
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/></param>
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (IsChange && !IsChangeSaved)
@@ -868,14 +1057,22 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The CurrencyConverterCombobox_SelectedIndexChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CurrencyConverterCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var Selected = currencyConverterCombobox.SelectedItem.ToString();
             ConfigManager.GeneralConfig.DisplayCurrency = Selected;
         }
 
-        #endregion Form Callbacks
-
+        /// <summary>
+        /// The TabControlGeneral_Selected
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="TabControlEventArgs"/></param>
         private void TabControlGeneral_Selected(object sender, TabControlEventArgs e)
         {
             // set first device selected {
@@ -885,15 +1082,20 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The CheckBox_Use3rdPartyMiners_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_Use3rdPartyMiners_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
-            if (this.checkBox_Use3rdPartyMiners.Checked)
+            if (checkBox_Use3rdPartyMiners.Checked)
             {
                 // Show TOS
                 Form tos = new Form_3rdParty_TOS();
                 tos.ShowDialog(this);
-                this.checkBox_Use3rdPartyMiners.Checked = ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.YES;
+                checkBox_Use3rdPartyMiners.Checked = ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.YES;
             }
             else
             {
@@ -901,6 +1103,11 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The CheckBox_HideMiningWindows_CheckChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_HideMiningWindows_CheckChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
@@ -909,37 +1116,21 @@ namespace zPoolMiner.Forms
             checkBox_MinimizeMiningWindows.Enabled = !checkBox_HideMiningWindows.Checked;
         }
 
-        private void CheckBox_UseIFTTT_CheckChanged(object sender, EventArgs e)
+        private void textBox_averaging_TextChanged(object sender, EventArgs e)
         {
-            if (!_isInitFinished) return;
-            IsChange = true;
-
-            ConfigManager.GeneralConfig.UseIFTTT = checkBox_UseIFTTT.Checked;
-
-            textBox_IFTTTKey.Enabled = checkBox_UseIFTTT.Checked;
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox_averaging.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                textBox_averaging.Text = textBox_averaging.Text.Remove(textBox_averaging.Text.Length - 1);
+            }
         }
 
-        private void ButtonSelectedProfit_Click_1(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+
         {
-        }
+            Form1 frm = new Form1();
+            frm.ShowDialog();
 
-        private void label_MinerAPIQueryInterval_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_CPU0_ForceCPUExtension_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_SwitchMinSecondsDynamic_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void algorithmSettingsControl1_Load(object sender, EventArgs e)
-        {
 
         }
     }

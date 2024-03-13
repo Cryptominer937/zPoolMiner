@@ -268,9 +268,9 @@ namespace zPoolMiner.Miners.Parsing
 
         private static MinerType GetMinerType(DeviceType deviceType, MinerBaseType minerBaseType, AlgorithmType algorithmType)
         {
-            //if (MinerBaseType.cpuminer == minerBaseType) {
-            //    return MinerType.cpuminer_opt;
-            //}
+            if (MinerBaseType.cpuminer == minerBaseType) {
+                return MinerType.cpuminer_opt;
+            }
             if (MinerBaseType.OptiminerAMD == minerBaseType)
             {
                 return MinerType.OptiminerZcash;
@@ -287,92 +287,73 @@ namespace zPoolMiner.Miners.Parsing
             //{
             //    return MinerType.mkxminer;
             //}
-            if (MinerBaseType.ccminer == minerBaseType || MinerBaseType.ccminer_alexis == minerBaseType || MinerBaseType.ccminer_22 == minerBaseType  || MinerBaseType.ccminer_alexis78 == minerBaseType || MinerBaseType.ccminer_klaust818 == minerBaseType || MinerBaseType.ccminer_polytimos == minerBaseType || MinerBaseType.ccminer_xevan == minerBaseType || MinerBaseType.ccminer_palgin == minerBaseType || MinerBaseType.ccminer_skunkkrnlx == minerBaseType || MinerBaseType.ccminer_tpruvot2 == minerBaseType || MinerBaseType.experimental == minerBaseType)
+            if (MinerBaseType.ccminer == minerBaseType || MinerBaseType.ccminer_tpruvot2 == minerBaseType || MinerBaseType.experimental == minerBaseType)
             {
-                if (AlgorithmType.CryptoNight == algorithmType)
+                if (AlgorithmType.cryptonight == algorithmType)
                 {
-                    return MinerType.ccminer_CryptoNight;
+                    return MinerType.ccminer_cryptonight;
                 }
                 return MinerType.ccminer;
             }
-            if (MinerBaseType.hsrneoscrypt == minerBaseType)
+            /*if (MinerBaseType.Palgin_Neoscrypt == minerBaseType)
             {
-                return MinerType.hsrneoscrypt;
-            }
+                return MinerType.Palgin_Neoscrypt;
+            }*/
             if (MinerBaseType.Claymore == minerBaseType)
             {
-                if (AlgorithmType.CryptoNight == algorithmType)
+                if (AlgorithmType.cryptonight == algorithmType)
                 {
-                    return MinerType.ClaymoreCryptoNight;
+                    return MinerType.Claymorecryptonight;
                 }
-                if (AlgorithmType.Equihash == algorithmType)
+                if (AlgorithmType.equihash == algorithmType)
                 {
                     return MinerType.ClaymoreZcash;
+                }
+                if (AlgorithmType.NeoScrypt == algorithmType)
+                {
+                     return MinerType.ClaymoreNeoScrypt;
                 }
                 if (AlgorithmType.DaggerHashimoto == algorithmType)
                 {
                     return MinerType.ClaymoreDual;
                 }
             }
-            if (MinerBaseType.Claymore_old == minerBaseType)
+            
+            if (MinerBaseType.CPU_XMRig == minerBaseType)
             {
-                if (AlgorithmType.CryptoNight == algorithmType)
-                {
-                    return MinerType.ClaymoreCryptoNight;
-                }
+                return MinerType.CPU_XMRig;
             }
-            if (MinerBaseType.ethminer == minerBaseType)
+            if (MinerBaseType.CPU_XMRigUPX == minerBaseType)
             {
-                if (DeviceType.AMD == deviceType)
-                {
-                    return MinerType.ethminer_OCL;
-                }
-                if (DeviceType.NVIDIA == deviceType)
-                {
-                    return MinerType.ethminer_CUDA;
-                }
+                return MinerType.CPU_XMRigUPX;
             }
-            if (MinerBaseType.nheqminer == minerBaseType)
+            if (MinerBaseType.CPU_RKZ == minerBaseType)
             {
-                if (DeviceType.CPU == deviceType)
-                {
-                    return MinerType.nheqminer_CPU;
-                }
-                if (DeviceType.AMD == deviceType)
-                {
-                    return MinerType.nheqminer_AMD;
-                }
-                if (DeviceType.NVIDIA == deviceType)
-                {
-                    return MinerType.nheqminer_CUDA;
-                }
+                return MinerType.CPU_RKZ;
             }
-            if (MinerBaseType.eqm == minerBaseType)
+            if (MinerBaseType.CPU_rplant == minerBaseType)
             {
-                if (DeviceType.CPU == deviceType)
-                {
-                    return MinerType.eqm_CPU;
-                }
-                if (DeviceType.NVIDIA == deviceType)
-                {
-                    return MinerType.eqm_CUDA;
-                }
+                return MinerType.CPU_rplant;
             }
-            if (MinerBaseType.excavator == minerBaseType)
+            if (MinerBaseType.CPU_nosuch == minerBaseType)
             {
-                return MinerType.excavator;
+                return MinerType.CPU_nosuch;
             }
-            if (MinerBaseType.EWBF == minerBaseType)
+            if (MinerBaseType.trex == minerBaseType)
             {
-                return MinerType.EWBF;
+                return MinerType.trex;
             }
-            if (MinerBaseType.DSTM == minerBaseType)
+            if (MinerBaseType.ZEnemy == minerBaseType)
             {
-                return MinerType.DSTM;
+                return MinerType.ZEnemy;
             }
-            if (MinerBaseType.Xmrig == minerBaseType)
+            if (MinerBaseType.CryptoDredge == minerBaseType)
             {
-                return MinerType.Xmrig;
+                return MinerType.CryptoDredge;
+            }
+            if (MinerBaseType.CPU_verium == minerBaseType)
+            {
+                return MinerType.CPU_verium;
             }
 
             return MinerType.NONE;
@@ -389,7 +370,7 @@ namespace zPoolMiner.Miners.Parsing
                 var algo = MiningPairs[0].Algorithm;
                 if (algo != null)
                 {
-                    algorithmType = algo.NiceHashID;
+                    algorithmType = algo.CryptoMiner937ID;
                     minerBaseType = algo.MinerBaseType;
                 }
             }
@@ -401,31 +382,9 @@ namespace zPoolMiner.Miners.Parsing
             List<MiningPair> setMiningPairs = MiningPairs.ConvertAll((mp) => mp);
             // handle exceptions and package parsing
             // CPU exception
-            if (deviceType == DeviceType.CPU && minerType != MinerType.Xmrig)
+            if (deviceType == DeviceType.CPU)
             {
                 CheckAndSetCPUPairs(setMiningPairs);
-            }
-            // ethminer exception
-            if (MinerType.ethminer_OCL == minerType || MinerType.ethminer_CUDA == minerType)
-            {
-                // use if missing compute device for correct mapping
-                // init fakes workaround
-                var cdevs_mappings = new List<MiningPair>();
-                {
-                    int id = -1;
-                    var fakeAlgo = new Algorithm(MinerBaseType.ethminer, AlgorithmType.DaggerHashimoto, "daggerhashimoto");
-                    foreach (var pair in setMiningPairs)
-                    {
-                        while (++id != pair.Device.ID)
-                        {
-                            var fakeCdev = new ComputeDevice(id);
-                            cdevs_mappings.Add(new MiningPair(fakeCdev, fakeAlgo));
-                        }
-                        cdevs_mappings.Add(pair);
-                    }
-                }
-                // reset setMiningPairs
-                setMiningPairs = cdevs_mappings;
             }
             // sgminer exception handle intensity types
             if (MinerType.sgminer == minerType)

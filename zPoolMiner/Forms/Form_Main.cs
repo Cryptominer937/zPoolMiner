@@ -1,22 +1,31 @@
 ﻿namespace zPoolMiner
 {
     using System;
-    using System.Diagnostics;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
     using System.Drawing;
-    using System.Globalization;
-    using System.IO;
-    using System.Management;
+    using System.Text;
     using System.Windows.Forms;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Management;
     using zPoolMiner.Configs;
     using zPoolMiner.Devices;
     using zPoolMiner.Enums;
     using zPoolMiner.Forms;
-    using zPoolMiner.Forms.Components;
-    using zPoolMiner.Interfaces;
     using zPoolMiner.Miners;
+    using zPoolMiner.Interfaces;
+    using zPoolMiner.Forms.Components;
     using zPoolMiner.Utils;
+    using zPoolMiner.PInvoke;
+    using zPoolMiner.Miners.Grouping;
+    using zPoolMiner.Miners.Parsing;
+    using System.IO;
+
     using SystemTimer = System.Timers.Timer;
     using Timer = System.Windows.Forms.Timer;
+    using System.Timers;
 
     /// <summary>
     /// Defines the <see cref="Form_Main" />
@@ -32,6 +41,11 @@
         /// Defines the MinerStatsCheck
         /// </summary>
         private Timer MinerStatsCheck;
+
+        /// <summary>
+        /// Defines the DeviceStatsCheck
+        /// </summary>
+        private Timer DeviceStatsCheck;
 
         /// <summary>
         /// Defines the SMAMinerCheck
@@ -58,6 +72,7 @@
         /// </summary>
         private SystemTimer ComputeDevicesCheckTimer;
 
+        public static bool needRestart = false;
         /// <summary>
         /// Defines the ShowWarningNiceHashData
         /// </summary>
@@ -96,7 +111,7 @@
         /// <summary>
         /// Defines the _betaAlphaPostfixString
         /// </summary>
-        private const string _betaAlphaPostfixString = "";
+        private const string _betaAlphaPostfixString = " Alpha";
 
         /// <summary>
         /// Defines the _isDeviceDetectionInitialized
@@ -133,13 +148,18 @@
         /// </summary>
         private int EmtpyGroupPanelHeight = 0;
 
+        private String updateText = "";
+        internal static Color _backColor;
+        internal static Color _foreColor;
+        internal static Color _textColor;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Form_Main"/> class.
         /// </summary>
         public Form_Main()
         {
             InitializeComponent();
-            this.Icon = zPoolMiner.Properties.Resources.logo;
+            Icon = zPoolMiner.Properties.Resources.logo;
 
             InitLocalization();
 
@@ -166,10 +186,10 @@
             // for resizing
             InitFlowPanelStart();
 
-            if (groupBox1.Size.Height > 0 && this.Size.Height > 0)
+            if (groupBox1.Size.Height > 0 && Size.Height > 0)
             {
                 EmtpyGroupPanelHeight = groupBox1.Size.Height;
-                MainFormHeight = this.Size.Height - EmtpyGroupPanelHeight;
+                MainFormHeight = Size.Height - EmtpyGroupPanelHeight;
             }
             else
             {
@@ -177,6 +197,11 @@
                 MainFormHeight = 330 - EmtpyGroupPanelHeight;
             }
             ClearRatesALL();
+        }
+
+        public DevicesListViewEnableControl getDevicesListControl()
+        {
+            return devicesListViewEnableControl1;
         }
 
         /// <summary>
@@ -200,8 +225,7 @@
             }
             labelBitcoinAddress.Text = International.GetText("BitcoinAddress") + ":";
             labelWorkerName.Text = International.GetText("WorkerName") + ":";
-
-            linkLabelCheckStats.Text = International.GetText("Form_Main_check_stats");
+            
             linkLabelChooseBTCWallet.Text = International.GetText("Form_Main_choose_bitcoin_wallet");
 
             toolStripStatusLabelGlobalRateText.Text = International.GetText("Form_Main_global_rate") + ":";
@@ -210,14 +234,14 @@
 
             devicesListViewEnableControl1.InitLocale();
 
-            buttonBenchmark.Text = International.GetText("Form_Main_benchmark");
-            buttonSettings.Text = International.GetText("Form_Main_settings");
-            buttonStartMining.Text = International.GetText("Form_Main_start");
-            buttonStopMining.Text = International.GetText("Form_Main_stop");
-            buttonHelp.Text = International.GetText("Form_Main_help");
+            buttonBenchmark.Text = "";// International.GetText("Form_Main_benchmark");
+            buttonSettings.Text = ""; //International.GetText("Form_Main_settings");
+            buttonStartMining.Text = "";// International.GetText("Form_Main_start");
+            buttonStopMining.Text = ""; //International.GetText("Form_Main_stop");
+            buttonHelp.Text = ""; //International.GetText("Form_Main_help");
 
             label_NotProfitable.Text = International.GetText("Form_Main_MINING_NOT_PROFITABLE");
-            groupBox1.Text = International.GetText("Form_Main_Group_Device_Rates");
+            groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), International.GetText("Form_Main_SMA_Update_NEVER"));
         }
 
         /// <summary>
@@ -232,6 +256,10 @@
 
             textBoxBTCAddress.Text = ConfigManager.GeneralConfig.BitcoinAddress;
             textBoxWorkerName.Text = ConfigManager.GeneralConfig.WorkerName;
+
+            tempLower.Value = ConfigManager.GeneralConfig.tempLowThreshold;
+            tempUpper.Value = ConfigManager.GeneralConfig.tempHighThreshold;
+            beepToggle.Checked = ConfigManager.GeneralConfig.beep;
 
             ShowWarningNiceHashData = true;
             DemoMode = false;
@@ -279,7 +307,7 @@
         public void AfterLoadComplete()
         {
             LoadingScreen = null;
-            this.Enabled = true;
+            Enabled = true;
 
             IdleCheck = new Timer();
             IdleCheck.Tick += IdleCheck_Tick;
@@ -340,7 +368,7 @@
                                 International.GetText("Warning_with_Exclamation"),
                                 MessageBoxButtons.OK);
 
-                this.Close();
+                Close();
                 return;
             }
 
@@ -350,7 +378,7 @@
                                 International.GetText("Warning_with_Exclamation"),
                                 MessageBoxButtons.OK);
 
-                this.Close();
+                Close();
                 return;
             }
 
@@ -360,8 +388,8 @@
                 if (ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.NOT_SET)
                 {
                     // Show TOS
-                    Form tos = new Form_3rdParty_TOS();
-                    tos.ShowDialog(this);
+                    //Form tos = new Form_3rdParty_TOS();
+                    //tos.ShowDialog(this);
                 }
             }
 
@@ -384,6 +412,15 @@
             MinerStatsCheck = new Timer();
             MinerStatsCheck.Tick += MinerStatsCheck_Tick;
             MinerStatsCheck.Interval = ConfigManager.GeneralConfig.MinerAPIQueryInterval * 1000;
+
+
+            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            devicesListViewEnableControl1.SaveToGeneralConfig = false;
+            devicesListViewEnableControl1.IsMining = true;
+            DeviceStatsCheck = new Timer();
+            DeviceStatsCheck.Tick += DeviceStatsCheck_Tick;
+            DeviceStatsCheck.Interval = 1000;
+            DeviceStatsCheck.Start();
 
             SMAMinerCheck = new Timer();
             SMAMinerCheck.Tick += SMAMinerCheck_Tick;
@@ -411,7 +448,12 @@
                     --Globals.FirstNetworkCheckTimeoutTries;
                 }
             }
-
+            string ghv = CryptoStats.GetVersion("");
+            //Helpers.ConsolePrint("GITHUB", ghv);
+            if (ghv != null)
+            {
+                CryptoStats.SetVersion(ghv);
+            }
             LoadingScreen.IncreaseLoadCounterAndMessage(International.GetText("Form_Main_loadtext_GetBTCRate"));
 
             BitcoinExchangeCheck = new Timer();
@@ -435,6 +477,13 @@
             }
 
             LoadingScreen.FinishLoad();
+            // Use last saved rates if exist
+            if (Globals.CryptoMiner937Data == null && ConfigManager.ApiCache.CryptoMiner937Data != null)
+            {
+                Globals.CryptoMiner937Data = ConfigManager.ApiCache.CryptoMiner937Data;
+                groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
+            }
+
 
             bool runVCRed = !MinersExistanceChecker.IsMinersBinsInit() && !ConfigManager.GeneralConfig.DownloadInit;
             // standard miners check scope
@@ -524,6 +573,23 @@
             }
         }
 
+        private void DeviceStatsCheck_Tick(object sender, EventArgs e)
+        {
+            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            if (MiningSession.DONATION_SESSION)
+            {
+                labelDevfeeStatus.Text = "Mining For: Developer";
+                labelDevfeeStatus.ForeColor = Color.Salmon;
+            }
+            else
+            {
+                //labelDevfeeStatus.Text = "Mining For: User";
+                labelDevfeeStatus.Text = "Mining For: User";
+                labelDevfeeStatus.ForeColor = Color.LightGreen;
+                
+            }
+        }
+
         /// <summary>
         /// The SetChildFormCenter
         /// </summary>
@@ -531,7 +597,7 @@
         private void SetChildFormCenter(Form form)
         {
             form.StartPosition = FormStartPosition.Manual;
-            form.Location = new Point(this.Location.X + (this.Width - form.Width) / 2, this.Location.Y + (this.Height - form.Height) / 2);
+            form.Location = new Point(Location.X + (Width - form.Width) / 2, Location.Y + (Height - form.Height) / 2);
         }
 
         /// <summary>
@@ -574,8 +640,9 @@
             if (isSMAUpdated)
             {  // Don't bother checking for new profits unless SMA has changed
                 isSMAUpdated = false;
-                await MinersManager.SwichMostProfitableGroupUpMethod(Globals.NiceHashData);
+                await MinersManager.SwichMostProfitableGroupUpMethod(Globals.CryptoMiner937Data);
             }
+            groupBox1.Text = updateText;
         }
 
         /// <summary>
@@ -585,7 +652,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         async private void MinerStatsCheck_Tick(object sender, EventArgs e)
         {
-            await MinersManager.MinerStatsCheck(Globals.NiceHashData);
+            await MinersManager.MinerStatsCheck(Globals.CryptoMiner937Data);
         }
 
         /// <summary>
@@ -673,7 +740,7 @@
 
             groupBox1.Size = new Size(groupBox1.Size.Width, groupBox1Height);
             // set new height
-            this.Size = new Size(this.Size.Width, MainFormHeight + groupBox1Height);
+            Size = new Size(Size.Width, MainFormHeight + groupBox1Height);
         }
 
         /// <summary>
@@ -770,7 +837,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void BalanceCallback(object sender, EventArgs e)
         {
-            Helpers.ConsolePrint("NICEHASH", "Balance update");
+            Helpers.ConsolePrint("Hash-Kings", "Balance update");
             double Balance = CryptoStats.Balance;
             if (Balance > 0)
             {
@@ -800,7 +867,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void BitcoinExchangeCheck_Tick(object sender, EventArgs e)
         {
-            Helpers.ConsolePrint("NICEHASH", "Bitcoin rate get");
+            Helpers.ConsolePrint("Hash-Kings", "Bitcoin rate get");
             ExchangeRateAPI.UpdateAPI(textBoxWorkerName.Text.Trim());
             double BR = ExchangeRateAPI.GetUSDExchangeRate();
             var currencyRate = International.GetText("BenchmarkRatioRateN_A");
@@ -812,7 +879,7 @@
 
             toolTip1.SetToolTip(statusStrip1, $"1 BTC = {currencyRate} {ExchangeRateAPI.ActiveDisplayCurrency}");
 
-            Helpers.ConsolePrint("NICEHASH", "Current Bitcoin rate: " + Globals.BitcoinUSDRate.ToString("F2", CultureInfo.InvariantCulture));
+            Helpers.ConsolePrint("Hash-Kings", "Current Bitcoin rate: " + Globals.BitcoinUSDRate.ToString("F2", CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -822,11 +889,29 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void SMACallback(object sender, EventArgs e)
         {
-            Helpers.ConsolePrint("NICEHASH", "SMA Update");
+            Helpers.ConsolePrint("Hash-Kings", "API Update");
             isSMAUpdated = true;
             if (CryptoStats.AlgorithmRates != null)
+                            {
+                Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates; Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates;
+                // Save new rates to config
+                ConfigManager.ApiCache.CryptoMiner937Data = CryptoStats.AlgorithmRates;
+                ConfigManager.ApiCache.CryptoMiner937DataTimeStamp = DateTime.Now;
+                ConfigManager.ApiCacheFileCommit();
+                //Helpers.ConsolePrint("Hash-Kings", "API Update from Null Value");
+                //groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
+                updateText = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
+            }
+            else
             {
-                Globals.NiceHashData = CryptoStats.AlgorithmRates;
+                Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates; Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates;
+                // Save new rates to config
+                ConfigManager.ApiCache.CryptoMiner937Data = CryptoStats.AlgorithmRates;
+                ConfigManager.ApiCache.CryptoMiner937DataTimeStamp = DateTime.Now;
+                ConfigManager.ApiCacheFileCommit();
+                //Helpers.ConsolePrint("Hash-Kings", "API Update Existing Values");
+                //groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
+                updateText = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
             }
         }
 
@@ -854,7 +939,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ConnectionLostCallback(object sender, EventArgs e)
         {
-            if (Globals.NiceHashData == null && ConfigManager.GeneralConfig.ShowInternetConnectionWarning && ShowWarningNiceHashData)
+            if (Globals.CryptoMiner937Data == null && ConfigManager.GeneralConfig.ShowInternetConnectionWarning && ShowWarningNiceHashData)
             {
                 ShowWarningNiceHashData = false;
                 DialogResult dialogResult = MessageBox.Show(International.GetText("Form_Main_msgbox_NoInternetMsg"),
@@ -886,17 +971,31 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void VersionUpdateCallback(object sender, EventArgs e)
         {
-            var ver = CryptoStats.Version;
+            var ver = CryptoStats.Version.Replace(".", ",");
+            var ver2 = CryptoStats.Version;
             if (ver == null) return;
-
-            Version programVersion = new Version(Application.ProductVersion);
-            Version onlineVersion = new Version(ver);
-            int ret = programVersion.CompareTo(onlineVersion);
-
-            if (ret < 0 || (ret == 0 && _betaAlphaPostfixString != ""))
+            //var programVersion = "Fork_Fix_"+ConfigManager.GeneralConfig.ForkFixVersion.ToString().Replace(",",".");
+            var programVersion = ConfigManager.GeneralConfig.ConfigFileVersion.ToString().Replace(".", ",");
+            //Helpers.ConsolePrint("Program version: ", programVersion);
+            //var ret = programVersion.CompareTo(ver);
+            if (ver.Length < 1)
             {
-                SetVersionLabel(String.Format(International.GetText("Form_Main_new_version_released"), ver));
-                VisitURLNew = Links.VisitURLNew + ver;
+                return;
+            }
+            ver = ver.Replace("-Beta", "");
+            ver2 = ver2.Replace("-Beta", "");
+            //Helpers.ConsolePrint("Github version: ", ver);
+            double programVersionn = double.Parse(programVersion, CultureInfo.InvariantCulture);
+            //Helpers.ConsolePrint("Program version: ", programVersionn.ToString());
+            double vern = double.Parse(ver, CultureInfo.InvariantCulture);
+            //Helpers.ConsolePrint("Github version: ", vern.ToString());
+            //if (ret < 0 || (ret == 0 && BetaAlphaPostfixString != ""))
+            if (programVersionn < vern)
+            {
+                Helpers.ConsolePrint("Old version detected. Update needed.", "");
+                SetVersionLabel(string.Format(International.GetText("Form_Main_new_version_released").Replace("v{0}", "{0}"), "V " + ver2));
+                //_visitUrlNew = Links.VisitUrlNew + ver;
+                VisitURLNew = Links.VisitURLNew;
             }
         }
 
@@ -912,14 +1011,14 @@
         /// <param name="text">The <see cref="string"/></param>
         private void SetVersionLabel(string text)
         {
-            if (linkLabelNewVersion.InvokeRequired)
+            if (LinkLabelUpdate.InvokeRequired)
             {
                 SetVersionLabelCallback d = new SetVersionLabelCallback(SetVersionLabel);
                 Invoke(d, new object[] { text });
             }
             else
             {
-                linkLabelNewVersion.Text = text;
+                LinkLabelUpdate.Text = text;
             }
         }
 
@@ -978,11 +1077,11 @@
         }
 
         /// <summary>
-        /// The LinkLabelNewVersion_LinkClicked
+        /// The LinkLabelUpdate_LinkClicked
         /// </summary>
         /// <param name="sender">The <see cref="object"/></param>
         /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/></param>
-        private void LinkLabelNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(VisitURLNew);
         }
@@ -1103,7 +1202,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonLogo_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Links.VisitURL);
+            //System.Diagnostics.Process.Start(Links.VisitURL);
         }
 
         /// <summary>
@@ -1113,7 +1212,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Links.NHM_Help);
+            System.Diagnostics.Process.Start(Links.CheckStats + ConfigManager.GeneralConfig.zergAddress.Trim());
         }
 
         /// <summary>
@@ -1180,10 +1279,10 @@
             notifyIcon1.Icon = Properties.Resources.logo;
             notifyIcon1.Text = Application.ProductName + " v" + Application.ProductVersion + "\nDouble-click to restore..";
 
-            if (ConfigManager.GeneralConfig.MinimizeToTray && FormWindowState.Minimized == this.WindowState)
+            if (ConfigManager.GeneralConfig.MinimizeToTray && FormWindowState.Minimized == WindowState)
             {
                 notifyIcon1.Visible = true;
-                this.Hide();
+                Hide();
             }
         }
 
@@ -1195,8 +1294,8 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void NotifyIcon1_DoubleClick(object sender, EventArgs e)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            Show();
+            WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = false;
         }
 
@@ -1230,7 +1329,7 @@
         /// <returns>The <see cref="StartMiningReturnType"/></returns>
         private StartMiningReturnType StartMining(bool showWarnings)
         {
-            if (textBoxBTCAddress.Text.Equals(""))
+            if (textBoxBTCAddress.Text.Equals("1"))
             {
                 if (showWarnings)
                 {
@@ -1256,7 +1355,7 @@
             }
             else if (!VerifyMiningAddress(true)) return StartMiningReturnType.IgnoreMsg;
 
-            if (Globals.NiceHashData == null)
+            if (Globals.CryptoMiner937Data == null)
             {
                 if (showWarnings)
                 {
@@ -1353,8 +1452,8 @@
             InitFlowPanelStart();
             ClearRatesALL();
 
-            var btcAdress = DemoMode ? Globals.DemoUser : textBoxBTCAddress.Text.Trim();
-            var isMining = MinersManager.StartInitialize(this, Globals.MiningLocation[comboBoxLocation.SelectedIndex], textBoxWorkerName.Text.Trim(), btcAdress);
+            var btcAddress = DemoMode ? Globals.DemoUser : textBoxBTCAddress.Text.Trim();
+            var isMining = MinersManager.StartInitialize(this, Globals.MiningLocation[comboBoxLocation.SelectedIndex], textBoxWorkerName.Text.Trim(), btcAddress);
 
             if (!DemoMode) ConfigManager.GeneralConfigFileCommit();
 
@@ -1374,7 +1473,27 @@
 
             return isMining ? StartMiningReturnType.StartMining : StartMiningReturnType.ShowNoMining;
         }
-
+        private void restartProgram()
+        {
+            var pHandle = new Process
+            {
+                StartInfo =
+                    {
+                        FileName = Application.ExecutablePath
+                    }
+            };
+            // pHandle.Start();
+            // Close();
+        }
+        private void DeviceStatusTimer_Tick(object sender, EventArgs e)
+        {
+            if (needRestart)
+            {
+                needRestart = false;
+                restartProgram();
+            }
+            //devicesListViewEnableControl1.SetComputeDevicesStatus(ComputeDeviceManager.Available.Devices);
+        }
         /// <summary>
         /// The StopMining
         /// </summary>
@@ -1407,5 +1526,27 @@
 
             UpdateGlobalRate();
         }
+
+        private void beepToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            ConfigManager.GeneralConfig.beep = beepToggle.Checked;
+        }
+
+        private void tempLower_ValueChanged(object sender, EventArgs e)
+        {
+            ConfigManager.GeneralConfig.tempLowThreshold = Decimal.ToInt32(tempLower.Value);
+        }
+
+        private void tempUpper_ValueChanged(object sender, EventArgs e)
+        {
+            ConfigManager.GeneralConfig.tempHighThreshold = Decimal.ToInt32(tempUpper.Value);
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
+
+    
 }

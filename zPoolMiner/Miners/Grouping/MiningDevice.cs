@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-
-namespace zPoolMiner.Miners.Grouping
+﻿namespace zPoolMiner.Miners.Grouping
 {
+    using System;
+    using System.Collections.Generic;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+
+    /// <summary>
+    /// Defines the <see cref="MiningDevice" />
+    /// </summary>
     public class MiningDevice
     {
         // switch testing quick and dirty, runtime versions
@@ -26,15 +29,15 @@ namespace zPoolMiner.Miners.Grouping
             AlgorithmType.Hodl,
             //AlgorithmType.DaggerHashimoto,
             //AlgorithmType.Decred,
-            AlgorithmType.CryptoNight,
+            AlgorithmType.cryptonight,
             //AlgorithmType.Lbry,
-            AlgorithmType.Equihash
+            AlgorithmType.equihash
         };
         static int next = -1;
         public static void SetNextTest() {
             ++next;
             if (next >= testingAlgos.Count) next = 0;
-            var mostProfitKeyName = AlgorithmNiceHashNames.GetName(testingAlgos[next]);
+            var mostProfitKeyName = AlgorithmCryptoMiner937Names.GetName(testingAlgos[next]);
             Helpers.ConsolePrint("SWITCH_TESTING", String.Format("Setting most MostProfitKey to {0}", mostProfitKeyName));
         }
 
@@ -44,7 +47,10 @@ namespace zPoolMiner.Miners.Grouping
         public static int SMAMinerCheckInterval = seconds * 1000; // 30s
         public static bool ForcePerCardMiners = false;
 #endif
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MiningDevice"/> class.
+        /// </summary>
+        /// <param name="device">The <see cref="ComputeDevice"/></param>
         public MiningDevice(ComputeDevice device)
         {
             Device = device;
@@ -61,9 +67,20 @@ namespace zPoolMiner.Miners.Grouping
             MostProfitableMinerBaseType = MinerBaseType.NONE;
         }
 
+        /// <summary>
+        /// Gets or sets the Device
+        /// </summary>
         public ComputeDevice Device { get; private set; }
+
+        /// <summary>
+        /// Defines the Algorithms
+        /// </summary>
         public List<Algorithm> Algorithms = new List<Algorithm>();
 
+        /// <summary>
+        /// The GetMostProfitableString
+        /// </summary>
+        /// <returns>The <see cref="string"/></returns>
         public string GetMostProfitableString()
         {
             return
@@ -72,24 +89,50 @@ namespace zPoolMiner.Miners.Grouping
                 + Enum.GetName(typeof(AlgorithmType), MostProfitableAlgorithmType);
         }
 
+        /// <summary>
+        /// Gets or sets the MostProfitableAlgorithmType
+        /// </summary>
         public AlgorithmType MostProfitableAlgorithmType { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the MostProfitableMinerBaseType
+        /// </summary>
         public MinerBaseType MostProfitableMinerBaseType { get; private set; }
 
         // prev state
+
+        // prev state
+        /// <summary>
+        /// Gets or sets the PrevProfitableAlgorithmType
+        /// </summary>
         public AlgorithmType PrevProfitableAlgorithmType { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the PrevProfitableMinerBaseType
+        /// </summary>
         public MinerBaseType PrevProfitableMinerBaseType { get; private set; }
 
+        /// <summary>
+        /// The GetMostProfitableIndex
+        /// </summary>
+        /// <returns>The <see cref="int"/></returns>
         private int GetMostProfitableIndex()
         {
-            return Algorithms.FindIndex((a) => a.DualNiceHashID() == MostProfitableAlgorithmType && a.MinerBaseType == MostProfitableMinerBaseType);
+            return Algorithms.FindIndex((a) => a.DualCryptoMiner937ID() == MostProfitableAlgorithmType && a.MinerBaseType == MostProfitableMinerBaseType);
         }
 
+        /// <summary>
+        /// The GetPrevProfitableIndex
+        /// </summary>
+        /// <returns>The <see cref="int"/></returns>
         private int GetPrevProfitableIndex()
         {
-            return Algorithms.FindIndex((a) => a.DualNiceHashID() == PrevProfitableAlgorithmType && a.MinerBaseType == PrevProfitableMinerBaseType);
+            return Algorithms.FindIndex((a) => a.DualCryptoMiner937ID() == PrevProfitableAlgorithmType && a.MinerBaseType == PrevProfitableMinerBaseType);
         }
 
+        /// <summary>
+        /// Gets the GetCurrentMostProfitValue
+        /// </summary>
         public double GetCurrentMostProfitValue
         {
             get
@@ -103,6 +146,9 @@ namespace zPoolMiner.Miners.Grouping
             }
         }
 
+        /// <summary>
+        /// Gets the GetPrevMostProfitValue
+        /// </summary>
         public double GetPrevMostProfitValue
         {
             get
@@ -116,16 +162,27 @@ namespace zPoolMiner.Miners.Grouping
             }
         }
 
+        /// <summary>
+        /// The GetMostProfitablePair
+        /// </summary>
+        /// <returns>The <see cref="MiningPair"/></returns>
         public MiningPair GetMostProfitablePair()
         {
-            return new MiningPair(this.Device, Algorithms[GetMostProfitableIndex()]);
+            return new MiningPair(Device, Algorithms[GetMostProfitableIndex()]);
         }
 
+        /// <summary>
+        /// The HasProfitableAlgo
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         public bool HasProfitableAlgo()
         {
             return GetMostProfitableIndex() > -1;
         }
 
+        /// <summary>
+        /// The RestoreOldProfitsState
+        /// </summary>
         public void RestoreOldProfitsState()
         {
             // restore last state
@@ -133,6 +190,9 @@ namespace zPoolMiner.Miners.Grouping
             MostProfitableMinerBaseType = PrevProfitableMinerBaseType;
         }
 
+        /// <summary>
+        /// The SetNotMining
+        /// </summary>
         public void SetNotMining()
         {
             // device isn't mining (e.g. below profit threshold) so set state to none
@@ -142,7 +202,11 @@ namespace zPoolMiner.Miners.Grouping
             MostProfitableMinerBaseType = MinerBaseType.NONE;
         }
 
-        public void CalculateProfits(Dictionary<AlgorithmType, NiceHashSMA> NiceHashData)
+        /// <summary>
+        /// The CalculateProfits
+        /// </summary>
+        /// <param name="CryptoMiner937Data">The <see cref="Dictionary{AlgorithmType, CryptoMiner937API}"/></param>
+        public void CalculateProfits(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data)
         {
             // save last state
             PrevProfitableAlgorithmType = MostProfitableAlgorithmType;
@@ -153,15 +217,15 @@ namespace zPoolMiner.Miners.Grouping
             // calculate new profits
             foreach (var algo in Algorithms)
             {
-                AlgorithmType key = algo.NiceHashID;
-                AlgorithmType secondaryKey = algo.SecondaryNiceHashID;
-                if (NiceHashData.ContainsKey(key))
+                AlgorithmType key = algo.CryptoMiner937ID;
+                AlgorithmType secondaryKey = algo.SecondaryCryptoMiner937ID;
+                if (CryptoMiner937Data.ContainsKey(key))
                 {
-                    algo.CurNhmSMADataVal = NiceHashData[key].paying;
+                    algo.CurNhmSMADataVal = CryptoMiner937Data[key].paying;
                     algo.CurrentProfit = algo.CurNhmSMADataVal * algo.AvaragedSpeed * 0.000000001;
-                    if (NiceHashData.ContainsKey(secondaryKey))
+                    if (CryptoMiner937Data.ContainsKey(secondaryKey))
                     {
-                        algo.SecondaryCurNhmSMADataVal = NiceHashData[secondaryKey].paying;
+                        algo.SecondaryCurNhmSMADataVal = CryptoMiner937Data[secondaryKey].paying;
                         algo.CurrentProfit += algo.SecondaryCurNhmSMADataVal * algo.SecondaryAveragedSpeed * 0.000000001;
                     }
                 }
@@ -177,21 +241,10 @@ namespace zPoolMiner.Miners.Grouping
                 if (maxProfit < algo.CurrentProfit)
                 {
                     maxProfit = algo.CurrentProfit;
-                    MostProfitableAlgorithmType = algo.DualNiceHashID();
+                    MostProfitableAlgorithmType = algo.DualCryptoMiner937ID();
                     MostProfitableMinerBaseType = algo.MinerBaseType;
                 }
             }
-#if (SWITCH_TESTING)
-            var devName = Device.GetFullName();
-            // set new most profit
-            if (Algorithms.ContainsKey(testingAlgos[next])) {
-                MostProfitableKey = testingAlgos[next];
-            } else if(ForceNone) {
-                MostProfitableKey = AlgorithmType.NONE;
-            }
-            var mostProfitKeyName = AlgorithmNiceHashNames.GetName(MostProfitableKey);
-            Helpers.ConsolePrint("SWITCH_TESTING", String.Format("Setting device {0} to {1}", devName, mostProfitKeyName));
-#endif
         }
     }
 }

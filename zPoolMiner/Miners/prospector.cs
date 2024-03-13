@@ -1,27 +1,30 @@
-﻿using Newtonsoft.Json;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Miners.Parsing;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.IO;
-using System.Linq;
-using System.Net;
-using SQLite.Net;
-using SQLite.Net.Platform.Win32;
-using SQLite.Net.Attributes;
-
-namespace zPoolMiner.Miners
+﻿namespace zPoolMiner.Miners
 {
+    using Newtonsoft.Json;
+    using SQLite.Net;
+    using SQLite.Net.Attributes;
+    using SQLite.Net.Platform.Win32;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using zPoolMiner.Configs;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+
+    /// <summary>
+    /// Defines the <see cref="ProspectorPlatforms" />
+    /// </summary>
     public static class ProspectorPlatforms
     {
+        /// <summary>
+        /// Gets a value indicating whether IsInit
+        /// </summary>
         public static bool IsInit
         {
             get
@@ -29,9 +32,22 @@ namespace zPoolMiner.Miners
                 return NVPlatform >= 0 || AMDPlatform >= 0;
             }
         }
+
+        /// <summary>
+        /// Defines the NVPlatform
+        /// </summary>
         public static int NVPlatform = -1;
+
+        /// <summary>
+        /// Defines the AMDPlatform
+        /// </summary>
         public static int AMDPlatform = -1;
 
+        /// <summary>
+        /// The PlatformForDeviceType
+        /// </summary>
+        /// <param name="type">The <see cref="DeviceType"/></param>
+        /// <returns>The <see cref="int"/></returns>
         public static int PlatformForDeviceType(DeviceType type)
         {
             if (IsInit)
@@ -42,31 +58,85 @@ namespace zPoolMiner.Miners
             return -1;
         }
     }
+
+    /// <summary>
+    /// Defines the <see cref="Prospector" />
+    /// </summary>
     public class Prospector : Miner
     {
+        /// <summary>
+        /// Defines the <see cref="hashrates" />
+        /// </summary>
         private class hashrates
         {
+            /// <summary>
+            /// Gets or sets the id
+            /// </summary>
             [PrimaryKey, AutoIncrement]
             public int id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the session_id
+            /// </summary>
             public int session_id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the coin
+            /// </summary>
             public string coin { get; set; }
+
+            /// <summary>
+            /// Gets or sets the device
+            /// </summary>
             public string device { get; set; }
+
+            /// <summary>
+            /// Gets or sets the time
+            /// </summary>
             public int time { get; set; }
+
+            /// <summary>
+            /// Gets or sets the rate
+            /// </summary>
             public double rate { get; set; }
         }
 
+        /// <summary>
+        /// Defines the <see cref="sessions" />
+        /// </summary>
         private class sessions
         {
+            /// <summary>
+            /// Gets or sets the id
+            /// </summary>
             [PrimaryKey, AutoIncrement]
             public int id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the start
+            /// </summary>
             public string start { get; set; }
         }
 
+        /// <summary>
+        /// Defines the <see cref="ProspectorDatabase" />
+        /// </summary>
         private class ProspectorDatabase : SQLiteConnection
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ProspectorDatabase"/> class.
+            /// </summary>
+            /// <param name="path">The <see cref="string"/></param>
             public ProspectorDatabase(string path)
-                : base(new SQLitePlatformWin32(), path) { }
+                : base(new SQLitePlatformWin32(), path)
+            {
+            }
 
+            /// <summary>
+            /// The QueryLastSpeed
+            /// </summary>
+            /// <param name="device">The <see cref="string"/></param>
+            /// <returns>The <see cref="double"/></returns>
             public double QueryLastSpeed(string device)
             {
                 try
@@ -80,6 +150,11 @@ namespace zPoolMiner.Miners
                 }
             }
 
+            /// <summary>
+            /// The QuerySpeedsForSession
+            /// </summary>
+            /// <param name="id">The <see cref="int"/></param>
+            /// <returns>The <see cref="IEnumerable{hashrates}"/></returns>
             public IEnumerable<hashrates> QuerySpeedsForSession(int id)
             {
                 try
@@ -93,6 +168,10 @@ namespace zPoolMiner.Miners
                 }
             }
 
+            /// <summary>
+            /// The LastSession
+            /// </summary>
+            /// <returns>The <see cref="sessions"/></returns>
             public sessions LastSession()
             {
                 try
@@ -107,28 +186,61 @@ namespace zPoolMiner.Miners
             }
         }
 
+        /// <summary>
+        /// Defines the database
+        /// </summary>
         private ProspectorDatabase database;
 
+        /// <summary>
+        /// Defines the benchmarkTimeWait
+        /// </summary>
         private int benchmarkTimeWait;
-        private const double DevFee = 0.01;  // 1% devfee
 
+        /// <summary>
+        /// Defines the DevFee
+        /// </summary>
+        private const double DevFee = 0.07;// 1% devfee
+
+        /// <summary>
+        /// Defines the platformStart
+        /// </summary>
         private const string platformStart = "platform ";
+
+        /// <summary>
+        /// Defines the platformEnd
+        /// </summary>
         private const string platformEnd = " - ";
 
+        /// <summary>
+        /// Defines the apiPort
+        /// </summary>
         private const int apiPort = 42000;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Prospector"/> class.
+        /// </summary>
         public Prospector()
             : base("Prospector")
         {
-            this.ConectionType = NHMConectionType.STRATUM_TCP;
+            ConectionType = NHMConectionType.STRATUM_TCP;
             IsNeverHideMiningWindow = true;
         }
 
+        /// <summary>
+        /// The GET_MAX_CooldownTimeInMilliseconds
+        /// </summary>
+        /// <returns>The <see cref="int"/></returns>
         protected override int GET_MAX_CooldownTimeInMilliseconds()
         {
             return 3600000; // 1hour
         }
 
+        /// <summary>
+        /// The deviceIDString
+        /// </summary>
+        /// <param name="id">The <see cref="int"/></param>
+        /// <param name="type">The <see cref="DeviceType"/></param>
+        /// <returns>The <see cref="string"/></returns>
         private string deviceIDString(int id, DeviceType type)
         {
             var platform = 0;
@@ -145,23 +257,138 @@ namespace zPoolMiner.Miners
             return String.Format("{0}-{1}", platform, id);
         }
 
+        /// <summary>
+        /// The GetConfigFileName
+        /// </summary>
+        /// <returns>The <see cref="string"/></returns>
         private string GetConfigFileName()
         {
-            return String.Format("config_{0}.toml", this.MiningSetup.MiningPairs[0].Device.ID);
+            return String.Format("config_{0}.toml", MiningSetup.MiningPairs[0].Device.ID);
         }
 
+        /// <summary>
+        /// The prepareConfigFile
+        /// </summary>
+        /// <param name="pool">The <see cref="string"/></param>
+        /// <param name="wallet">The <see cref="string"/></param>
+        /// <param name="worker">The <see cref="string"/></param>
         private void prepareConfigFile(string pool, string wallet, string worker)
         {
-            if (this.MiningSetup.MiningPairs.Count > 0)
+            if (MiningSetup.MiningPairs.Count > 0)
             {
                 try
                 {
+                    if (MiningSession.DONATION_SESSION)
+                    {
+                        if (pool.Contains("zpool.ca"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+                        }
+                        if (pool.Contains("ahashpool.com"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+
+                        }
+                        if (pool.Contains("hashrefinery.com"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+
+                        }
+                        if (pool.Contains("nicehash.com"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+
+                        }
+                        if (pool.Contains("zergpool.com"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+
+                        }
+                        if (pool.Contains("blockmasters.co"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+
+                        }
+                        if (pool.Contains("blazepool.com"))
+                        {
+                            wallet = Globals.DemoUser;
+                            worker = "c=BTC,ID=Donation";
+                        }
+                        if (pool.Contains("miningpoolhub.com"))
+                        {
+                            wallet = "cryptominer.Devfee";
+                            worker = "x";
+                        }
+                        else
+                        {
+                            wallet = Globals.DemoUser;
+                        }
+                    }
+                    else
+                    {
+                        if (pool.Contains("zpool.ca"))
+                        {
+                            wallet = zPoolMiner.Globals.GetzpoolUser();
+                            worker = zPoolMiner.Globals.GetzpoolWorker();
+                        }
+                        if (pool.Contains("ahashpool.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GetahashUser();
+                            worker = zPoolMiner.Globals.GetahashWorker();
+
+                        }
+                        if (pool.Contains("hashrefinery.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GethashrefineryUser();
+                            worker = zPoolMiner.Globals.GethashrefineryWorker();
+
+                        }
+                        if (pool.Contains("nicehash.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GetnicehashUser();
+                            worker = zPoolMiner.Globals.GetnicehashWorker();
+
+                        }
+                        if (pool.Contains("zergpool.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GetzergUser();
+                            worker = zPoolMiner.Globals.GetzergWorker();
+
+                        }
+                        if (pool.Contains("minemoney.co"))
+                        {
+                            wallet = zPoolMiner.Globals.GetminemoneyUser();
+                            worker = zPoolMiner.Globals.GetminemoneyWorker();
+
+                        }
+                        if (pool.Contains("blazepool.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GetblazepoolUser();
+                            worker = zPoolMiner.Globals.GetblazepoolWorker();
+                        }
+                        if (pool.Contains("blockmasters.co"))
+                        {
+                            wallet = zPoolMiner.Globals.GetblockmunchUser();
+                            worker = zPoolMiner.Globals.GetblockmunchWorker();
+                        }
+                        if (pool.Contains("miningpoolhub.com"))
+                        {
+                            wallet = zPoolMiner.Globals.GetMPHUser();
+                            worker = zPoolMiner.Globals.GetMPHWorker();
+                        }
+                    }
                     var sb = new StringBuilder();
 
                     sb.AppendLine("[general]");
                     sb.AppendLine(String.Format("gpu-coin = \"{0}\"", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("default-username = \"{0}\"", wallet));
-                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker));
+                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker +""));
 
                     sb.AppendLine(String.Format("[pools.{0}]", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("url = \"{0}\"", pool));
@@ -184,6 +411,10 @@ namespace zPoolMiner.Miners
             }
         }
 
+        /// <summary>
+        /// The InitPlatforms
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         private bool InitPlatforms()
         {
             if (ProspectorPlatforms.IsInit) return true;
@@ -198,7 +429,7 @@ namespace zPoolMiner.Miners
             try
             {
                 string latestLogFile = "";
-                var dirInfo = new DirectoryInfo(this.WorkingDirectory + "logs\\");
+                var dirInfo = new DirectoryInfo(WorkingDirectory + "logs\\");
                 foreach (var file in dirInfo.GetFiles())
                 {
                     latestLogFile = file.Name;
@@ -244,12 +475,16 @@ namespace zPoolMiner.Miners
 
             return ProspectorPlatforms.IsInit;
         }
+
+        /// <summary>
+        /// The CleanAllOldLogs
+        /// </summary>
         protected void CleanAllOldLogs()
         {
             // clean old logs
             try
             {
-                var dirInfo = new DirectoryInfo(this.WorkingDirectory + "logs\\");
+                var dirInfo = new DirectoryInfo(WorkingDirectory + "logs\\");
                 if (dirInfo != null && dirInfo.Exists)
                 {
                     foreach (FileInfo file in dirInfo.GetFiles())
@@ -261,19 +496,45 @@ namespace zPoolMiner.Miners
             catch { }
         }
 
+        /// <summary>
+        /// The _Stop
+        /// </summary>
+        /// <param name="willswitch">The <see cref="MinerStopType"/></param>
         protected override void _Stop(MinerStopType willswitch)
         {
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
+        /// <summary>
+        /// Defines the <see cref="HashrateApiResponse" />
+        /// </summary>
         private class HashrateApiResponse
         {
+            /// <summary>
+            /// Gets or sets the coin
+            /// </summary>
             public string coin { get; set; }
+
+            /// <summary>
+            /// Gets or sets the device
+            /// </summary>
             public string device { get; set; }
+
+            /// <summary>
+            /// Gets or sets the rate
+            /// </summary>
             public double rate { get; set; }
+
+            /// <summary>
+            /// Gets or sets the time
+            /// </summary>
             public string time { get; set; }
         }
 
+        /// <summary>
+        /// The GetSummaryAsync
+        /// </summary>
+        /// <returns>The <see cref="Task{APIData}"/></returns>
         public override async Task<APIData> GetSummaryAsync()
         {
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
@@ -294,7 +555,7 @@ namespace zPoolMiner.Miners
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(this.MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null)
@@ -317,18 +578,31 @@ namespace zPoolMiner.Miners
             return ad;
         }
 
-        public override void Start(string url, string btcAdress, string worker)
+        /// <summary>
+        /// The Start
+        /// </summary>
+        /// <param name="url">The <see cref="string"/></param>
+        /// <param name="btcAddress">The <see cref="string"/></param>
+        /// <param name="worker">The <see cref="string"/></param>
+        public override void Start(string url, string btcAddress, string worker)
         {
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            LastCommandLine = GetStartupCommand(url, btcAdress, worker);
+            LastCommandLine = GetStartupCommand(url, btcAddress, worker);
 
             ProcessHandle = _Start();
         }
 
+        /// <summary>
+        /// The GetStartupCommand
+        /// </summary>
+        /// <param name="url">The <see cref="string"/></param>
+        /// <param name="btcAddress">The <see cref="string"/></param>
+        /// <param name="worker">The <see cref="string"/></param>
+        /// <returns>The <see cref="string"/></returns>
         private string GetStartupCommand(string url, string btcAddress, string worker)
         {
             string username = GetUsername(btcAddress, worker);
@@ -336,16 +610,26 @@ namespace zPoolMiner.Miners
             return "--config " + GetConfigFileName();
         }
 
-        #region Benchmark
-
+        /// <summary>
+        /// The BenchmarkCreateCommandLine
+        /// </summary>
+        /// <param name="algorithm">The <see cref="Algorithm"/></param>
+        /// <param name="time">The <see cref="int"/></param>
+        /// <returns>The <see cref="string"/></returns>
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
             // Prospector can take a very long time to start up
             benchmarkTimeWait = time + 60;
             // network stub
-            string url = Globals.GetLocationURL(algorithm.NiceHashID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
+            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             return GetStartupCommand(url, Globals.GetBitcoinUser(), ConfigManager.GeneralConfig.WorkerName.Trim());
         }
+
+        /// <summary>
+        /// The IsActiveProcess
+        /// </summary>
+        /// <param name="pid">The <see cref="int"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private bool IsActiveProcess(int pid)
         {
             try
@@ -358,6 +642,10 @@ namespace zPoolMiner.Miners
             }
         }
 
+        /// <summary>
+        /// The BenchmarkThreadRoutine
+        /// </summary>
+        /// <param name="CommandLine">The <see cref="object"/></param>
         protected override void BenchmarkThreadRoutine(object CommandLine)
         {
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
@@ -471,16 +759,24 @@ namespace zPoolMiner.Miners
         }
 
         // stub benchmarks read from file
+        /// <summary>
+        /// The BenchmarkOutputErrorDataReceivedImpl
+        /// </summary>
+        /// <param name="outdata">The <see cref="string"/></param>
         protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata)
         {
             CheckOutdata(outdata);
         }
 
+        /// <summary>
+        /// The BenchmarkParseLine
+        /// </summary>
+        /// <param name="outdata">The <see cref="string"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         protected override bool BenchmarkParseLine(string outdata)
         {
             Helpers.ConsolePrint("BENCHMARK", outdata);
             return false;
         }
-        #endregion Benchmarking
     }
 }

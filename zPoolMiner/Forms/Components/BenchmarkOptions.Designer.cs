@@ -32,9 +32,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.groupBox1.Controls.Add(this.radioButton_PreciseBenchmark);
             this.groupBox1.Controls.Add(this.radioButton_StandardBenchmark);
             this.groupBox1.Controls.Add(this.radioButton_QuickBenchmark);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(198, 103);

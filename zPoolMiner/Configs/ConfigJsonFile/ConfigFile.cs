@@ -34,19 +34,19 @@ namespace zPoolMiner.Configs.ConfigJsonFile
             CONF_FOLDER = iCONF_FOLDER;
             if (fileName.Contains(CONF_FOLDER))
             {
-                this._filePath = fileName;
+                _filePath = fileName;
             }
             else
             {
-                this._filePath = CONF_FOLDER + fileName;
+                _filePath = CONF_FOLDER + fileName;
             }
             if (fileNameOld.Contains(CONF_FOLDER))
             {
-                this._filePathOld = fileNameOld;
+                _filePathOld = fileNameOld;
             }
             else
             {
-                this._filePathOld = CONF_FOLDER + fileNameOld;
+                _filePathOld = CONF_FOLDER + fileNameOld;
             }
             TAG = String.Format(TAG_FORMAT, typeof(T).Name);
         }

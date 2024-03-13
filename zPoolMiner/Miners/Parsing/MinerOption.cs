@@ -8,12 +8,12 @@ namespace zPoolMiner.Miners.Parsing
         [JsonConstructor]
         public MinerOption(string iType, string iShortName, string iLongName, string iDefault, MinerOptionFlagType iFlagType, string iSeparator = "")
         {
-            this.Type = iType;
-            this.ShortName = iShortName;
-            this.LongName = iLongName;
-            this.Default = iDefault;
-            this.FlagType = iFlagType;
-            this.Separator = iSeparator;
+            Type = iType;
+            ShortName = iShortName;
+            LongName = iLongName;
+            Default = iDefault;
+            FlagType = iFlagType;
+            Separator = iSeparator;
         }
 
         // Constructor if no short name

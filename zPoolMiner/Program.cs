@@ -11,20 +11,28 @@ using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;
+using zPoolMiner.Miners;
 
 namespace zPoolMiner
 {
     internal static class Program
     {
+        public static readonly log4net.ILog log = log4net.LogManager.GetLogger("zPoolMiner");
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
+        [MTAThread]
         private static void Main(string[] argv)
         {
             // Set working directory to exe
-            Environment.CurrentDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-
+            var pathSet = false;
+            var path = Path.GetDirectoryName(Application.ExecutablePath);
+            if (path != null)
+            {
+                Environment.CurrentDirectory = path;
+                pathSet = true;
+            }
+ 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -62,6 +70,10 @@ namespace zPoolMiner
             if (startProgram)
             {
                 if (ConfigManager.GeneralConfig.LogToFile)
+                if (ConfigManager.GeneralConfig.DebugConsole)
+                {
+                    Helpers.AllocConsole();
+                }
                 {
                     Logger.ConfigureWithFile();
                 }
@@ -77,11 +89,15 @@ namespace zPoolMiner
                 // #2 then parse args
                 var commandLineArgs = new CommandLineParser(argv);
 
-                Helpers.ConsolePrint("NICEHASH", "Starting up zPoolMiner v" + Application.ProductVersion);
-                bool tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
+                log.Info("Starting up zPoolMiner v" + Application.ProductVersion);
+                if (!pathSet)
+                {
+                    Helpers.ConsolePrint("HashKings", "Path not set to executable");
+                }
+                var tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
                 if (!tosChecked || !ConfigManager.GeneralConfigIsFileExist() && !commandLineArgs.IsLang)
                 {
-                    Helpers.ConsolePrint("NICEHASH", "No config file found. Running zPool Miner for the first time. Choosing a default language.");
+                    log.Warn("No config file found. Running zPool Miner for the first time. Choosing a default language.");
                     Application.Run(new Form_ChooseLanguage());
                 }
 
@@ -90,18 +106,20 @@ namespace zPoolMiner
 
                 if (commandLineArgs.IsLang)
                 {
-                    Helpers.ConsolePrint("NICEHASH", "Language is overwritten by command line parameter (-lang).");
+                    log.Warn("Language is overwritten by command line parameter (-lang).");
                     International.Initialize(commandLineArgs.LangValue);
                     ConfigManager.GeneralConfig.Language = commandLineArgs.LangValue;
                 }
                 if (argv.Any(a => a == "--disable-donation"))
-                    Miner.DonationStart = DateTime.MaxValue;
+                    MiningSession.DonationStart = DateTime.MaxValue;
                 // check WMI
                 if (Helpers.IsWMIEnabled())
                 {
                     if (ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER)
                     {
                         Application.Run(new Form_Main());
+                        Console.WriteLine("Press to exit");
+                        Console.ReadLine();
                     }
                 }
                 else

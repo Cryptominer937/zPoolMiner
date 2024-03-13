@@ -8,20 +8,20 @@ namespace zPoolMiner.Devices
     {
         private int adapterIndex;  // For ADL
 
-        public override uint FanSpeed
+        public override int FanSpeed
         {
             get
             {
                 var adlf = new ADLFanSpeedValue
                 {
-                    SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_RPM
+                    SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
                 var result = ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf);
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    Helpers.ConsolePrint("ADL", "ADL fan getting failed with error code " + result);
+                    //Helpers.ConsolePrint("ADL", "ADL fan getting failed with error code " + result);
                 }
-                return (uint)adlf.FanSpeed;
+                return (int)adlf.FanSpeed;
             }
         }
 
@@ -33,7 +33,7 @@ namespace zPoolMiner.Devices
                 var result = ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt);
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    Helpers.ConsolePrint("ADL", "ADL temp getting failed with error code " + result);
+                    //Helpers.ConsolePrint("ADL", "ADL temp getting failed with error code " + result);
                 }
                 return adlt.Temperature * 0.001f;
             }
@@ -47,7 +47,7 @@ namespace zPoolMiner.Devices
                 var result = ADL.ADL_Overdrive5_CurrentActivity_Get(adapterIndex, ref adlp);
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    Helpers.ConsolePrint("ADL", "ADL load getting failed with error code " + result);
+                    //Helpers.ConsolePrint("ADL", "ADL load getting failed with error code " + result);
                 }
                 return adlp.ActivityPercent;
             }

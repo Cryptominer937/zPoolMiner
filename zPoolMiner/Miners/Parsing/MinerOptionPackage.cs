@@ -13,10 +13,10 @@ namespace zPoolMiner.Miners.Parsing
 
         public MinerOptionPackage(MinerType iType, List<MinerOption> iGeneralOptions, List<MinerOption> iTemperatureOptions)
         {
-            this.Type = iType;
-            this.GeneralOptions = iGeneralOptions;
-            this.TemperatureOptions = iTemperatureOptions;
-            this.Name = Enum.GetName(typeof(MinerType), iType);
+            Type = iType;
+            GeneralOptions = iGeneralOptions;
+            TemperatureOptions = iTemperatureOptions;
+            Name = Enum.GetName(typeof(MinerType), iType);
         }
     }
 }

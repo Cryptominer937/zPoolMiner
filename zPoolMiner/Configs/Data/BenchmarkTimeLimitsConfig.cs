@@ -14,10 +14,10 @@ namespace zPoolMiner.Configs.Data
         #region CONSTANTS
 
         [field: NonSerialized]
-        readonly static private int[] DEFAULT_CPU_NVIDIA = { 10, 20, 60 };
+        readonly static private int[] DEFAULT_CPU_NVIDIA = { 30, 60, 120 };
 
         [field: NonSerialized]
-        readonly static private int[] DEFAULT_AMD = { 220, 280, 340 };
+        readonly static private int[] DEFAULT_AMD = { 300, 360, 420 };
 
         [field: NonSerialized]
         readonly static public int SIZE = 3;

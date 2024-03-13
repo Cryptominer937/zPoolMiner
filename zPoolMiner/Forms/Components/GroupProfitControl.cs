@@ -21,5 +21,10 @@ namespace zPoolMiner.Forms.Components
             labelBTCRateValue.Text = btcRateString;
             labelCurentcyPerDayVaue.Text = currencyRateString;
         }
+
+        private void GroupProfitControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

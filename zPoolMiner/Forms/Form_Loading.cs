@@ -23,12 +23,14 @@ namespace zPoolMiner
             InitializeComponent();
 
             label_LoadingText.Text = loadFormTitle;
-            label_LoadingText.Location = new Point((this.Size.Width - label_LoadingText.Size.Width) / 2, label_LoadingText.Location.Y);
+            label_LoadingText.Location = new Point((Size.Width - label_LoadingText.Size.Width) / 2, label_LoadingText.Location.Y);
 
             AfterInitCaller = initCaller;
 
             TotalLoadSteps = totalLoadSteps;
+            //progressBar1.Maximum = TotalLoadSteps;
             progressBar1.Maximum = TotalLoadSteps;
+            //progressBar1.Value = 0;
             progressBar1.Value = 0;
 
             SetInfoMsg(startInfoMsg);
@@ -40,7 +42,7 @@ namespace zPoolMiner
         public Form_Loading(MinersDownloader minersDownloader)
         {
             InitializeComponent();
-            label_LoadingText.Location = new Point((this.Size.Width - label_LoadingText.Size.Width) / 2, label_LoadingText.Location.Y);
+            label_LoadingText.Location = new Point((Size.Width - label_LoadingText.Size.Width) / 2, label_LoadingText.Location.Y);
             _minersDownloader = minersDownloader;
         }
 
@@ -52,6 +54,7 @@ namespace zPoolMiner
 
         public void SetProgressMaxValue(int maxValue)
         {
+            //progressBar1.Maximum = maxValue;
             progressBar1.Maximum = maxValue;
         }
 
@@ -63,6 +66,7 @@ namespace zPoolMiner
         public void IncreaseLoadCounter()
         {
             LoadCounter++;
+            //progressBar1.Value = LoadCounter;
             progressBar1.Value = LoadCounter;
             Update();
             if (LoadCounter >= TotalLoadSteps)
@@ -84,8 +88,14 @@ namespace zPoolMiner
         public void SetValueAndMsg(int setValue, string infoMsg)
         {
             SetInfoMsg(infoMsg);
+            //progressBar1.Value = setValue;
             progressBar1.Value = setValue;
             Update();
+            /*if (progressBar1.Value >= progressBar1.Maximum)
+            {
+                Close();
+                Dispose();
+            }*/
             if (progressBar1.Value >= progressBar1.Maximum)
             {
                 Close();
@@ -111,16 +121,18 @@ namespace zPoolMiner
 
         public void SetMaxProgressValue(int max)
         {
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
-                this.progressBar1.Maximum = max;
-                this.progressBar1.Value = 0;
+                //this.progressBar1.Maximum = max;
+                progressBar1.Maximum = max;
+                //this.progressBar1.Value = 0;
+                progressBar1.Value = 0;
             });
         }
 
         public void SetProgressValueAndMsg(int value, string msg)
         {
-            if (value <= this.progressBar1.Maximum)
+            /*if (value <= this.progressBar1.Maximum)
             {
                 this.Invoke((MethodInvoker)delegate
                 {
@@ -129,12 +141,22 @@ namespace zPoolMiner
                     this.progressBar1.Invalidate();
                     this.LoadText.Invalidate();
                 });
+            }*/
+            if (value <= progressBar1.Maximum)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    progressBar1.Value = value;
+                    LoadText.Text = msg;
+                    progressBar1.Invalidate();
+                    LoadText.Invalidate();
+                });
             }
         }
 
         public void SetTitle(string title)
         {
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
                 label_LoadingText.Text = title;
             });
@@ -142,7 +164,7 @@ namespace zPoolMiner
 
         public void FinishMsg(bool ok)
         {
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
                 if (ok)
                 {

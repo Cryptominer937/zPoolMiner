@@ -13,12 +13,6 @@ namespace zPoolMiner
         private static extern IntPtr _GetCPUVendor();
 
         [DllImport("cpuid.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SupportsSSE2();
-
-        [DllImport("cpuid.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SupportsAVX();
-
-        [DllImport("cpuid.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SupportsAVX2();
 
         [DllImport("cpuid.dll", CallingConvention = CallingConvention.Cdecl)]

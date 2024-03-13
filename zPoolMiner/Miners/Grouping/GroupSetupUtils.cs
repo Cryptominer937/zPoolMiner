@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
+using zPoolMiner.Configs;
 
 namespace zPoolMiner.Miners.Grouping
 {
@@ -130,18 +131,36 @@ namespace zPoolMiner.Miners.Grouping
         {
             // calculate avarage speeds, to ensure mining stability
             // device name, algo key, algos refs list
-            Dictionary<string, AvaragerGroup> allAvaragers = new Dictionary<string, AvaragerGroup>();
+            var allAvaragers = new Dictionary<string, AvaragerGroup>();
+            //Dictionary<string, AvaragerGroup> allAvaragers = new Dictionary<string, AvaragerGroup>();
 
             // init empty avarager
+            string devName = "";
             foreach (var device in miningDevs)
             {
-                string devName = device.Device.Name;
+                if (ConfigManager.GeneralConfig.Group_same_devices)
+                {
+                    devName = device.Device.Name;
+                }
+                else
+                {
+                    devName = device.Device.UUID;
+                }
                 allAvaragers[devName] = new AvaragerGroup();
+                //string devName = device.Device.Name;
+                //allAvaragers[devName] = new AvaragerGroup();
             }
             // fill avarager
             foreach (var device in miningDevs)
             {
-                string devName = device.Device.Name;
+                if (ConfigManager.GeneralConfig.Group_same_devices)
+                {
+                    devName = device.Device.Name;
+                }
+                else
+                {
+                    devName = device.Device.UUID;
+                }
                 // add UUID
                 allAvaragers[devName].UUIDsList.Add(device.Device.UUID);
                 allAvaragers[devName].AddAlgorithms(device.Algorithms);
@@ -210,7 +229,7 @@ namespace zPoolMiner.Miners.Grouping
         public Dictionary<string, List<double>> CalculateAvarages()
         {
             Dictionary<string, List<double>> ret = new Dictionary<string, List<double>>();
-            foreach (var kvp in this.BenchmarkSums)
+            foreach (var kvp in BenchmarkSums)
             {
                 string algo_id = kvp.Key;
                 SpeedSumCount ssc = kvp.Value;

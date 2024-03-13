@@ -1,5 +1,6 @@
 ﻿using System;
 using zPoolMiner.Enums;
+using zPoolMiner.Miners;
 
 namespace zPoolMiner.Utils
 {
@@ -14,7 +15,7 @@ namespace zPoolMiner.Utils
         {
             if (ParseCommandLine(argv, "-config", out string tmpString))
             {
-                Helpers.ConsolePrint("CommandLineParser", "-config parameter has been depreciated, run setting from GUI");
+                Helpers.ConsolePrint("CommandLineParser", "-config parameter has been deprecated, run setting from GUI");
             }
             if (ParseCommandLine(argv, "-lang", out tmpString))
             {
@@ -31,7 +32,7 @@ namespace zPoolMiner.Utils
             }
 
             if (ParseCommandLine(argv, "-donations", out tmpString))
-                if (tmpString == "false") Miner.DonationStart = DateTime.MaxValue;
+                if (tmpString == "false") MiningSession.DonationStart = DateTime.MaxValue;
         }
 
         private bool ParseCommandLine(string[] argv, string find, out string value)

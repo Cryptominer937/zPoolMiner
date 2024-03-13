@@ -13,9 +13,9 @@ namespace zPoolMiner
             InitializeComponent();
 
             DisableDetection = false;
-            this.Text = International.GetText("MinerFileNotFoundDialog_title");
+            Text = International.GetText("MinerFileNotFoundDialog_title");
             linkLabelError.Text = String.Format(International.GetText("MinerFileNotFoundDialog_linkLabelError"), MinerDeviceName, Path, International.GetText("MinerFileNotFoundDialog_link"));
-            linkLabelError.LinkArea = new LinkArea(this.linkLabelError.Text.IndexOf(International.GetText("MinerFileNotFoundDialog_link")), International.GetText("MinerFileNotFoundDialog_link").Length);
+            linkLabelError.LinkArea = new LinkArea(linkLabelError.Text.IndexOf(International.GetText("MinerFileNotFoundDialog_link")), International.GetText("MinerFileNotFoundDialog_link").Length);
             chkBoxDisableDetection.Text = International.GetText("MinerFileNotFoundDialog_chkBoxDisableDetection");
             buttonOK.Text = International.GetText("Global_OK");
         }
@@ -25,7 +25,7 @@ namespace zPoolMiner
             if (chkBoxDisableDetection.Checked)
                 DisableDetection = true;
 
-            this.Close();
+            Close();
         }
 
         private void LinkLabelError_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

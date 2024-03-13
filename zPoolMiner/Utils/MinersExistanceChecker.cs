@@ -11,6 +11,7 @@ namespace zPoolMiner.Utils
             {
                 if (!File.Exists(String.Format("bin{0}", filePath)))
                 {
+                    Helpers.ConsolePrint("MinersExistanceChecker", $"bin{filePath} doesn't exist! Warning");
                     return false;
                 }
             }
@@ -23,6 +24,7 @@ namespace zPoolMiner.Utils
             {
                 if (!File.Exists(String.Format("bin_3rdparty{0}", filePath)))
                 {
+                    Helpers.ConsolePrint("MinersExistanceChecker", $"bin_3rdparty{filePath} doesn't exist! Warning");
                     return false;
                 }
             }

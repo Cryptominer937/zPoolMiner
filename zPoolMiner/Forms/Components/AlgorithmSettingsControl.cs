@@ -1,19 +1,39 @@
-﻿using System;
-using System.Windows.Forms;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-
-namespace zPoolMiner.Forms.Components
+﻿namespace zPoolMiner.Forms.Components
 {
+    using System;
+    using System.Windows.Forms;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+
+    /// <summary>
+    /// Defines the <see cref="AlgorithmSettingsControl" />
+    /// </summary>
     public partial class AlgorithmSettingsControl : UserControl, AlgorithmsListView.IAlgorithmsListView
     {
+        /// <summary>
+        /// Defines the _computeDevice
+        /// </summary>
         private ComputeDevice _computeDevice = null;
+
+        /// <summary>
+        /// Defines the _currentlySelectedAlgorithm
+        /// </summary>
         private Algorithm _currentlySelectedAlgorithm = null;
+
+        /// <summary>
+        /// Defines the _currentlySelectedLvi
+        /// </summary>
         private ListViewItem _currentlySelectedLvi = null;
 
         // winform crappy event workarond
+        // winform crappy event workarond        /// <summary>
+        /// Defines the _selected
+        /// </summary>
         private bool _selected = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AlgorithmSettingsControl"/> class.
+        /// </summary>
         public AlgorithmSettingsControl()
         {
             InitializeComponent();
@@ -27,6 +47,9 @@ namespace zPoolMiner.Forms.Components
             richTextBoxExtraLaunchParameters.TextChanged += TextChangedExtraLaunchParameters;
         }
 
+        /// <summary>
+        /// The Deselect
+        /// </summary>
         public void Deselect()
         {
             _selected = false;
@@ -39,6 +62,10 @@ namespace zPoolMiner.Forms.Components
             richTextBoxExtraLaunchParameters.Text = "";
         }
 
+        /// <summary>
+        /// The InitLocale
+        /// </summary>
+        /// <param name="toolTip1">The <see cref="ToolTip"/></param>
         public void InitLocale(ToolTip toolTip1)
         {
             field_LessThreads.InitLocale(toolTip1,
@@ -55,16 +82,31 @@ namespace zPoolMiner.Forms.Components
             toolTip1.SetToolTip(pictureBox1, International.GetText("Form_Settings_ToolTip_AlgoExtraLaunchParameters"));
         }
 
+        /// <summary>
+        /// The ParseStringDefault
+        /// </summary>
+        /// <param name="value">The <see cref="string"/></param>
+        /// <returns>The <see cref="string"/></returns>
         private string ParseStringDefault(string value)
         {
             return value ?? "";
         }
 
+        /// <summary>
+        /// The ParseDoubleDefault
+        /// </summary>
+        /// <param name="value">The <see cref="double"/></param>
+        /// <returns>The <see cref="string"/></returns>
         private string ParseDoubleDefault(double value)
         {
             return value <= 0 ? "" : value.ToString();
         }
 
+        /// <summary>
+        /// The SetCurrentlySelected
+        /// </summary>
+        /// <param name="lvi">The <see cref="ListViewItem"/></param>
+        /// <param name="computeDevice">The <see cref="ComputeDevice"/></param>
         public void SetCurrentlySelected(ListViewItem lvi, ComputeDevice computeDevice)
         {
             // should not happen ever
@@ -76,12 +118,12 @@ namespace zPoolMiner.Forms.Components
                 _selected = true;
                 _currentlySelectedAlgorithm = algorithm;
                 _currentlySelectedLvi = lvi;
-                this.Enabled = lvi.Checked;
+                Enabled = lvi.Checked;
 
                 groupBoxSelectedAlgorithmSettings.Text = String.Format(International.GetText("AlgorithmsListView_GroupBox"),
                 String.Format("{0} ({1})", algorithm.AlgorithmName, algorithm.MinerBaseTypeName)); ;
 
-                field_LessThreads.Enabled = _computeDevice.DeviceGroupType == DeviceGroupType.CPU && algorithm.MinerBaseType == MinerBaseType.XmrStackCPU;
+                field_LessThreads.Enabled = _computeDevice.DeviceGroupType == DeviceGroupType.CPU;
                 if (field_LessThreads.Enabled)
                 {
                     field_LessThreads.EntryText = algorithm.LessThreads.ToString();
@@ -93,8 +135,8 @@ namespace zPoolMiner.Forms.Components
                 fieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.BenchmarkSpeed);
                 richTextBoxExtraLaunchParameters.Text = ParseStringDefault(algorithm.ExtraLaunchParameters);
                 secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.SecondaryBenchmarkSpeed);
-                secondaryFieldBoxBenchmarkSpeed.Enabled = _currentlySelectedAlgorithm.SecondaryNiceHashID != AlgorithmType.NONE;
-                this.Update();
+                secondaryFieldBoxBenchmarkSpeed.Enabled = _currentlySelectedAlgorithm.SecondaryCryptoMiner937ID != AlgorithmType.NONE;
+                Update();
             }
             else
             {
@@ -102,14 +144,22 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
+        /// <summary>
+        /// The HandleCheck
+        /// </summary>
+        /// <param name="lvi">The <see cref="ListViewItem"/></param>
         public void HandleCheck(ListViewItem lvi)
         {
             if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
             {
-                this.Enabled = lvi.Checked;
+                Enabled = lvi.Checked;
             }
         }
 
+        /// <summary>
+        /// The ChangeSpeed
+        /// </summary>
+        /// <param name="lvi">The <see cref="ListViewItem"/></param>
         public void ChangeSpeed(ListViewItem lvi)
         {
             if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
@@ -122,13 +172,20 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
+        /// <summary>
+        /// The CanEdit
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         private bool CanEdit()
         {
             return _currentlySelectedAlgorithm != null && _selected;
         }
 
-        #region Callbacks Events
-
+        /// <summary>
+        /// The TextChangedBenchmarkSpeed
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void TextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
@@ -139,6 +196,11 @@ namespace zPoolMiner.Forms.Components
             UpdateSpeedText();
         }
 
+        /// <summary>
+        /// The SecondaryTextChangedBenchmarkSpeed
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void SecondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
@@ -148,9 +210,12 @@ namespace zPoolMiner.Forms.Components
             UpdateSpeedText();
         }
 
+        /// <summary>
+        /// The UpdateSpeedText
+        /// </summary>
         private void UpdateSpeedText()
         {
-            var speedString = Helpers.FormatDualSpeedOutput(_currentlySelectedAlgorithm.NiceHashID, _currentlySelectedAlgorithm.BenchmarkSpeed, _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed);
+            var speedString = Helpers.FormatDualSpeedOutput(_currentlySelectedAlgorithm.CryptoMiner937ID, _currentlySelectedAlgorithm.BenchmarkSpeed, _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed);
             // update lvi speed
             if (_currentlySelectedLvi != null)
             {
@@ -158,6 +223,11 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
+        /// <summary>
+        /// The LessThreads_Leave
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void LessThreads_Leave(object sender, EventArgs e)
         {
             TextBox txtbox = (TextBox)sender;
@@ -185,6 +255,11 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
+        /// <summary>
+        /// The TextChangedExtraLaunchParameters
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void TextChangedExtraLaunchParameters(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
@@ -193,25 +268,13 @@ namespace zPoolMiner.Forms.Components
             _currentlySelectedAlgorithm.ExtraLaunchParameters = ExtraLaunchParams;
         }
 
+        /// <summary>
+        /// The fieldBoxBenchmarkSpeed_Load
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void fieldBoxBenchmarkSpeed_Load(object sender, EventArgs e)
         {
-
         }
-
-        #endregion Callbacks Events
-
-        //private void buttonBenchmark_Click(object sender, EventArgs e) {
-        //    var device = new List<ComputeDevice>();
-        //    device.Add(_computeDevice);
-        //    var BenchmarkForm = new Form_Benchmark(
-        //                BenchmarkPerformanceType.Standard,
-        //                false, _currentlySelectedAlgorithm.NiceHashID);
-        //    BenchmarkForm.ShowDialog();
-        //    fieldBoxBenchmarkSpeed.EntryText = _currentlySelectedAlgorithm.BenchmarkSpeed.ToString();
-        //    // update lvi speed
-        //    if (_currentlySelectedLvi != null) {
-        //        _currentlySelectedLvi.SubItems[2].Text = Helpers.FormatSpeedOutput(_currentlySelectedAlgorithm.BenchmarkSpeed);
-        //    }
-        //}
     }
 }

@@ -1,84 +1,204 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Enums;
-using zPoolMiner.Interfaces;
-using zPoolMiner.Miners;
-
-namespace zPoolMiner.Forms
+﻿namespace zPoolMiner.Forms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using zPoolMiner.Configs;
+    using zPoolMiner.Devices;
+    using zPoolMiner.Enums;
+    using zPoolMiner.Interfaces;
+    using zPoolMiner.Miners;
     using zPoolMiner.Miners.Grouping;
 
+    /// <summary>
+    /// Defines the <see cref="Form_Benchmark" />
+    /// </summary>
     public partial class Form_Benchmark : Form, IListItemCheckColorSetter, IBenchmarkComunicator, IBenchmarkCalculation
     {
+        /// <summary>
+        /// Defines the _inBenchmark
+        /// </summary>
         private bool _inBenchmark = false;
+
+        /// <summary>
+        /// Defines the _bechmarkCurrentIndex
+        /// </summary>
         private int _bechmarkCurrentIndex = 0;
+
+        /// <summary>
+        /// Defines the _bechmarkedSuccessCount
+        /// </summary>
         private int _bechmarkedSuccessCount = 0;
+
+        /// <summary>
+        /// Defines the _benchmarkAlgorithmsCount
+        /// </summary>
         private int _benchmarkAlgorithmsCount = 0;
+
+        /// <summary>
+        /// Defines the _algorithmOption
+        /// </summary>
         private AlgorithmBenchmarkSettingsType _algorithmOption = AlgorithmBenchmarkSettingsType.SelectedUnbenchmarkedAlgorithms;
 
+        /// <summary>
+        /// Defines the _benchmarkMiners
+        /// </summary>
         private List<Miner> _benchmarkMiners;
+
+        /// <summary>
+        /// Defines the _currentMiner
+        /// </summary>
         private Miner _currentMiner;
+
+        /// <summary>
+        /// Defines the _benchmarkDevicesAlgorithmQueue
+        /// </summary>
         private List<Tuple<ComputeDevice, Queue<Algorithm>>> _benchmarkDevicesAlgorithmQueue;
 
+        /// <summary>
+        /// Defines the ExitWhenFinished
+        /// </summary>
         private bool ExitWhenFinished = false;
-        //private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;
 
+        //private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;
+        //private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;        /// <summary>
+        /// Defines the _benchmarkingTimer
+        /// </summary>
         private Timer _benchmarkingTimer;
+
+        /// <summary>
+        /// Defines the dotCount
+        /// </summary>
         private int dotCount = 0;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether StartMining
+        /// </summary>
         public bool StartMining { get; private set; }
 
+        /// <summary>
+        /// Defines the <see cref="DeviceAlgo" />
+        /// </summary>
         private struct DeviceAlgo
         {
+            /// <summary>
+            /// Gets or sets the Device
+            /// </summary>
             public string Device { get; set; }
+
+            /// <summary>
+            /// Gets or sets the Algorithm
+            /// </summary>
             public string Algorithm { get; set; }
         }
 
+        /// <summary>
+        /// Defines the _benchmarkFailedAlgoPerDev
+        /// </summary>
         private List<DeviceAlgo> _benchmarkFailedAlgoPerDev;
 
+        /// <summary>
+        /// Defines the BenchmarkSettingsStatus
+        /// </summary>
         private enum BenchmarkSettingsStatus : int
         {
+            /// <summary>
+            /// Defines the NONE
+            /// </summary>
             NONE = 0,
+
+            /// <summary>
+            /// Defines the TODO
+            /// </summary>
             TODO,
+
+            /// <summary>
+            /// Defines the DISABLED_NONE
+            /// </summary>
             DISABLED_NONE,
+
+            /// <summary>
+            /// Defines the DISABLED_TODO
+            /// </summary>
             DISABLED_TODO
         }
 
+        /// <summary>
+        /// Defines the _benchmarkDevicesAlgorithmStatus
+        /// </summary>
         private Dictionary<string, BenchmarkSettingsStatus> _benchmarkDevicesAlgorithmStatus;
+
+        /// <summary>
+        /// Defines the _currentDevice
+        /// </summary>
         private ComputeDevice _currentDevice;
+
+        /// <summary>
+        /// Defines the _currentAlgorithm
+        /// </summary>
         private Algorithm _currentAlgorithm;
 
+        /// <summary>
+        /// Defines the CurrentAlgoName
+        /// </summary>
         private string CurrentAlgoName;
 
         // CPU benchmarking helpers
+        /// <summary>
+        /// Defines the <see cref="CPUBenchmarkStatus" />
+        /// </summary>
         private class CPUBenchmarkStatus
         {
+            /// <summary>
+            /// Defines the <see cref="benchmark" />
+            /// </summary>
             private class benchmark
             {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="benchmark"/> class.
+                /// </summary>
+                /// <param name="lt">The <see cref="int"/></param>
+                /// <param name="bench">The <see cref="double"/></param>
                 public benchmark(int lt, double bench)
                 {
                     LessTreads = lt;
                     Benchmark = bench;
                 }
 
+                /// <summary>
+                /// Defines the LessTreads
+                /// </summary>
                 public readonly int LessTreads;
+
+                /// <summary>
+                /// Defines the Benchmark
+                /// </summary>
                 public readonly double Benchmark;
             }
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CPUBenchmarkStatus"/> class.
+            /// </summary>
+            /// <param name="max_threads">The <see cref="int"/></param>
             public CPUBenchmarkStatus(int max_threads)
             {
                 _max_threads = max_threads;
             }
 
+            /// <summary>
+            /// The HasTest
+            /// </summary>
+            /// <returns>The <see cref="bool"/></returns>
             public bool HasTest()
             {
                 return _cur_less_threads < _max_threads;
             }
 
+            /// <summary>
+            /// The SetNextSpeed
+            /// </summary>
+            /// <param name="speed">The <see cref="double"/></param>
             public void SetNextSpeed(double speed)
             {
                 if (HasTest())
@@ -88,49 +208,118 @@ namespace zPoolMiner.Forms
                 }
             }
 
+            /// <summary>
+            /// The FindFastest
+            /// </summary>
             public void FindFastest()
             {
                 _benchmarks.Sort((a, b) => -a.Benchmark.CompareTo(b.Benchmark));
             }
 
+            /// <summary>
+            /// The GetBestSpeed
+            /// </summary>
+            /// <returns>The <see cref="double"/></returns>
             public double GetBestSpeed()
             {
                 return _benchmarks[0].Benchmark;
             }
 
+            /// <summary>
+            /// The GetLessThreads
+            /// </summary>
+            /// <returns>The <see cref="int"/></returns>
             public int GetLessThreads()
             {
                 return _benchmarks[0].LessTreads;
             }
 
+            /// <summary>
+            /// Defines the _max_threads
+            /// </summary>
             private readonly int _max_threads;
+
+            /// <summary>
+            /// Defines the _cur_less_threads
+            /// </summary>
             private int _cur_less_threads = 0;
+
+            /// <summary>
+            /// Defines the _benchmarks
+            /// </summary>
             private List<benchmark> _benchmarks = new List<benchmark>();
-            public int LessTreads { get { return _cur_less_threads; } }
+
+            /// <summary>
+            /// Gets the LessTreads
+            /// </summary>
+            public int LessTreads
+            {
+                get { return _cur_less_threads; }
+            }
+
+            /// <summary>
+            /// Defines the Time
+            /// </summary>
             public int Time;
         }
 
+        /// <summary>
+        /// Defines the __CPUBenchmarkStatus
+        /// </summary>
         private CPUBenchmarkStatus __CPUBenchmarkStatus = null;
 
+        /// <summary>
+        /// Defines the <see cref="ClaymoreZcashStatus" />
+        /// </summary>
         private class ClaymoreZcashStatus
         {
+            /// <summary>
+            /// Defines the MAX_BENCH
+            /// </summary>
             private const int MAX_BENCH = 2;
+
+            /// <summary>
+            /// Defines the ASM_MODES
+            /// </summary>
             private readonly string[] ASM_MODES = new string[] { " -asm 1", " -asm 0" };
 
+            /// <summary>
+            /// Defines the speeds
+            /// </summary>
             private double[] speeds = new double[] { 0.0d, 0.0d };
+
+            /// <summary>
+            /// Defines the CurIndex
+            /// </summary>
             private int CurIndex = 0;
+
+            /// <summary>
+            /// Defines the originalExtraParams
+            /// </summary>
             private readonly string originalExtraParams;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ClaymoreZcashStatus"/> class.
+            /// </summary>
+            /// <param name="oep">The <see cref="string"/></param>
             public ClaymoreZcashStatus(string oep)
             {
                 originalExtraParams = oep;
             }
 
+            /// <summary>
+            /// The HasTest
+            /// </summary>
+            /// <returns>The <see cref="bool"/></returns>
             public bool HasTest()
             {
                 return CurIndex < MAX_BENCH;
             }
 
+            /// <summary>
+            /// The SetSpeed
+            /// </summary>
+            /// <param name="speed">The <see cref="double"/></param>
             public void SetSpeed(double speed)
             {
                 if (HasTest())
@@ -139,11 +328,18 @@ namespace zPoolMiner.Forms
                 }
             }
 
+            /// <summary>
+            /// The SetNext
+            /// </summary>
             public void SetNext()
             {
                 CurIndex += 1;
             }
 
+            /// <summary>
+            /// The GetTestExtraParams
+            /// </summary>
+            /// <returns>The <see cref="string"/></returns>
             public string GetTestExtraParams()
             {
                 if (HasTest())
@@ -153,6 +349,10 @@ namespace zPoolMiner.Forms
                 return originalExtraParams;
             }
 
+            /// <summary>
+            /// The FastestIndex
+            /// </summary>
+            /// <returns>The <see cref="int"/></returns>
             private int FastestIndex()
             {
                 int maxIndex = 0;
@@ -169,30 +369,62 @@ namespace zPoolMiner.Forms
                 return 0;
             }
 
+            /// <summary>
+            /// The GetFastestExtraParams
+            /// </summary>
+            /// <returns>The <see cref="string"/></returns>
             public string GetFastestExtraParams()
             {
                 return originalExtraParams + ASM_MODES[FastestIndex()];
             }
 
+            /// <summary>
+            /// The GetFastestTime
+            /// </summary>
+            /// <returns>The <see cref="double"/></returns>
             public double GetFastestTime()
             {
                 return speeds[FastestIndex()];
             }
 
+            /// <summary>
+            /// Defines the Time
+            /// </summary>
             public int Time = 180;
         }
 
+        /// <summary>
+        /// Defines the __ClaymoreZcashStatus
+        /// </summary>
         private ClaymoreZcashStatus __ClaymoreZcashStatus = null;
 
         // CPU sweet spots
+        // CPU sweet spots        /// <summary>
+        /// Defines the CPUAlgos
+        /// </summary>
         private List<AlgorithmType> CPUAlgos = new List<AlgorithmType>() {
-            AlgorithmType.CryptoNight
+            AlgorithmType.cryptonight
         };
 
+        /// <summary>
+        /// Defines the DISABLED_COLOR
+        /// </summary>
         private static Color DISABLED_COLOR = Color.DarkGray;
-        private static Color BENCHMARKED_COLOR = Color.LightGreen;
-        private static Color UNBENCHMARKED_COLOR = Color.LightBlue;
 
+        /// <summary>
+        /// Defines the BENCHMARKED_COLOR
+        /// </summary>
+        private static Color BENCHMARKED_COLOR = Color.DarkGreen;
+
+        /// <summary>
+        /// Defines the UNBENCHMARKED_COLOR
+        /// </summary>
+        private static Color UNBENCHMARKED_COLOR = Color.DarkBlue;
+
+        /// <summary>
+        /// The LviSetColor
+        /// </summary>
+        /// <param name="lvi">The <see cref="ListViewItem"/></param>
         public void LviSetColor(ListViewItem lvi)
         {
             if (lvi.Tag is ComputeDevice CDevice && _benchmarkDevicesAlgorithmStatus != null)
@@ -226,11 +458,16 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form_Benchmark"/> class.
+        /// </summary>
+        /// <param name="benchmarkPerformanceType">The <see cref="BenchmarkPerformanceType"/></param>
+        /// <param name="autostart">The <see cref="bool"/></param>
         public Form_Benchmark(BenchmarkPerformanceType benchmarkPerformanceType = BenchmarkPerformanceType.Standard,
             bool autostart = false)
         {
             InitializeComponent();
-            this.Icon = zPoolMiner.Properties.Resources.logo;
+            Icon = zPoolMiner.Properties.Resources.logo;
 
             StartMining = false;
 
@@ -303,6 +540,9 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The CopyBenchmarks
+        /// </summary>
         private void CopyBenchmarks()
         {
             Helpers.ConsolePrint("CopyBenchmarks", "Checking for benchmarks to copy");
@@ -321,6 +561,11 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The BenchmarkingTimer_Tick
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BenchmarkingTimer_Tick(object sender, EventArgs e)
         {
             if (_inBenchmark)
@@ -329,6 +574,10 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The GetDotsWaitString
+        /// </summary>
+        /// <returns>The <see cref="string"/></returns>
         private string GetDotsWaitString()
         {
             ++dotCount;
@@ -336,9 +585,12 @@ namespace zPoolMiner.Forms
             return new String('.', dotCount);
         }
 
+        /// <summary>
+        /// The InitLocale
+        /// </summary>
         private void InitLocale()
         {
-            this.Text = International.GetText("Form_Benchmark_title"); //International.GetText("SubmitResultDialog_title");
+            Text = International.GetText("Form_Benchmark_title"); //International.GetText("SubmitResultDialog_title");
             //labelInstruction.Text = International.GetText("SubmitResultDialog_labelInstruction");
             StartStopBtn.Text = International.GetText("SubmitResultDialog_StartBtn");
             CloseBtn.Text = International.GetText("SubmitResultDialog_CloseBtn");
@@ -353,6 +605,11 @@ namespace zPoolMiner.Forms
             checkBox_StartMiningAfterBenchmark.Text = International.GetText("Form_Benchmark_checkbox_StartMiningAfterBenchmark");
         }
 
+        /// <summary>
+        /// The StartStopBtn_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void StartStopBtn_Click(object sender, EventArgs e)
         {
             if (_inBenchmark)
@@ -366,6 +623,9 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The StopBenchmark
+        /// </summary>
         public void StopBenchmark()
         {
             if (_inBenchmark)
@@ -375,6 +635,9 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The BenchmarkStoppedGUISettings
+        /// </summary>
         private void BenchmarkStoppedGUISettings()
         {
             StartStopBtn.Text = International.GetText("Form_Benchmark_buttonStartBenchmark");
@@ -402,6 +665,9 @@ namespace zPoolMiner.Forms
         }
 
         // TODO add list for safety and kill all miners
+        /// <summary>
+        /// The StopButonClick
+        /// </summary>
         private void StopButonClick()
         {
             _benchmarkingTimer.Stop();
@@ -416,10 +682,14 @@ namespace zPoolMiner.Forms
             }
             if (ExitWhenFinished)
             {
-                this.Close();
+                Close();
             }
         }
 
+        /// <summary>
+        /// The StartButonClick
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
         private bool StartButonClick()
         {
             CalcBenchmarkDevicesAlgorithmQueue();
@@ -487,6 +757,9 @@ namespace zPoolMiner.Forms
             return true;
         }
 
+        /// <summary>
+        /// The CalcBenchmarkDevicesAlgorithmQueue
+        /// </summary>
         public void CalcBenchmarkDevicesAlgorithmQueue()
         {
             _benchmarkAlgorithmsCount = 0;
@@ -529,6 +802,11 @@ namespace zPoolMiner.Forms
             SetLabelBenchmarkSteps(0, _benchmarkAlgorithmsCount);
         }
 
+        /// <summary>
+        /// The ShoulBenchmark
+        /// </summary>
+        /// <param name="algorithm">The <see cref="Algorithm"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private bool ShoulBenchmark(Algorithm algorithm)
         {
             bool isBenchmarked = algorithm.BenchmarkSpeed > 0 ? true : false;
@@ -553,6 +831,9 @@ namespace zPoolMiner.Forms
             return false;
         }
 
+        /// <summary>
+        /// The StartBenchmark
+        /// </summary>
         private void StartBenchmark()
         {
             _inBenchmark = true;
@@ -560,8 +841,12 @@ namespace zPoolMiner.Forms
             NextBenchmark();
         }
 
+        /// <summary>
+        /// The NextBenchmark
+        /// </summary>
         private void NextBenchmark()
         {
+            ConfigManager.CommitBenchmarks();
             if (_bechmarkCurrentIndex > -1)
             {
                 StepUpBenchmarkStepProgress();
@@ -594,7 +879,7 @@ namespace zPoolMiner.Forms
             if (_currentDevice != null && _currentAlgorithm != null)
             {
                 _currentMiner = MinerFactory.CreateMiner(_currentDevice, _currentAlgorithm);
-                if (_currentAlgorithm.MinerBaseType == MinerBaseType.XmrStackCPU && _currentAlgorithm.NiceHashID == AlgorithmType.CryptoNight && string.IsNullOrEmpty(_currentAlgorithm.ExtraLaunchParameters) && _currentAlgorithm.ExtraLaunchParameters.Contains("enable_ht=true") == false)
+                if (_currentAlgorithm.MinerBaseType == MinerBaseType.cpuminer && _currentAlgorithm.CryptoMiner937ID == AlgorithmType.cryptonight && string.IsNullOrEmpty(_currentAlgorithm.ExtraLaunchParameters) && _currentAlgorithm.ExtraLaunchParameters.Contains("enable_ht=true") == false)
                 {
                     __CPUBenchmarkStatus = new CPUBenchmarkStatus(Globals.ThreadsPerCPU);
                     _currentAlgorithm.LessThreads = __CPUBenchmarkStatus.LessTreads;
@@ -603,7 +888,7 @@ namespace zPoolMiner.Forms
                 {
                     __CPUBenchmarkStatus = null;
                 }
-                if (_currentAlgorithm.MinerBaseType == MinerBaseType.Claymore && _currentAlgorithm.NiceHashID == AlgorithmType.Equihash && _currentAlgorithm.ExtraLaunchParameters != null && !_currentAlgorithm.ExtraLaunchParameters.Contains("-asm"))
+                if (_currentAlgorithm.MinerBaseType == MinerBaseType.Claymore && _currentAlgorithm.CryptoMiner937ID == AlgorithmType.equihash && _currentAlgorithm.ExtraLaunchParameters != null && !_currentAlgorithm.ExtraLaunchParameters.Contains("-asm"))
                 {
                     __ClaymoreZcashStatus = new ClaymoreZcashStatus(_currentAlgorithm.ExtraLaunchParameters);
                     _currentAlgorithm.ExtraLaunchParameters = __ClaymoreZcashStatus.GetTestExtraParams();
@@ -617,7 +902,7 @@ namespace zPoolMiner.Forms
             if (_currentMiner != null && _currentAlgorithm != null)
             {
                 _benchmarkMiners.Add(_currentMiner);
-                CurrentAlgoName = AlgorithmNiceHashNames.GetName(_currentAlgorithm.NiceHashID);
+                CurrentAlgoName = AlgorithmCryptoMiner937Names.GetName(_currentAlgorithm.CryptoMiner937ID);
                 _currentMiner.InitBenchmarkSetup(new MiningPair(_currentDevice, _currentAlgorithm));
 
                 var time = ConfigManager.GeneralConfig.BenchmarkTimeLimits
@@ -633,7 +918,7 @@ namespace zPoolMiner.Forms
                 }
 
                 // dagger about 4 minutes
-                var showWaitTime = _currentAlgorithm.NiceHashID == AlgorithmType.DaggerHashimoto ? 4 * 60 : time;
+                var showWaitTime = _currentAlgorithm.CryptoMiner937ID == AlgorithmType.DaggerHashimoto ? 4 * 60 : time;
 
                 dotCount = 0;
                 _benchmarkingTimer.Start();
@@ -648,6 +933,9 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The EndBenchmark
+        /// </summary>
         private void EndBenchmark()
         {
             _benchmarkingTimer.Stop();
@@ -692,26 +980,35 @@ namespace zPoolMiner.Forms
             }
             if (ExitWhenFinished || StartMining)
             {
-                this.Close();
+                Close();
             }
         }
 
+        /// <summary>
+        /// The SetCurrentStatus
+        /// </summary>
+        /// <param name="status">The <see cref="string"/></param>
         public void SetCurrentStatus(string status)
         {
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
                 algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, GetDotsWaitString());
             });
         }
 
+        /// <summary>
+        /// The OnBenchmarkComplete
+        /// </summary>
+        /// <param name="success">The <see cref="bool"/></param>
+        /// <param name="status">The <see cref="string"/></param>
         public void OnBenchmarkComplete(bool success, string status)
         {
             if (!_inBenchmark) return;
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
                 _bechmarkedSuccessCount += success ? 1 : 0;
                 bool rebenchSame = false;
-                if (success && __CPUBenchmarkStatus != null && CPUAlgos.Contains(_currentAlgorithm.NiceHashID) && _currentAlgorithm.MinerBaseType == MinerBaseType.XmrStackCPU)
+                if (success && __CPUBenchmarkStatus != null && CPUAlgos.Contains(_currentAlgorithm.CryptoMiner937ID))
                 {
                     __CPUBenchmarkStatus.SetNextSpeed(_currentAlgorithm.BenchmarkSpeed);
                     rebenchSame = __CPUBenchmarkStatus.HasTest();
@@ -724,7 +1021,7 @@ namespace zPoolMiner.Forms
                     }
                 }
 
-                if (__ClaymoreZcashStatus != null && _currentAlgorithm.MinerBaseType == MinerBaseType.Claymore && _currentAlgorithm.NiceHashID == AlgorithmType.Equihash)
+                if (__ClaymoreZcashStatus != null && _currentAlgorithm.MinerBaseType == MinerBaseType.Claymore && _currentAlgorithm.CryptoMiner937ID == AlgorithmType.equihash)
                 {
                     if (__ClaymoreZcashStatus.HasTest())
                     {
@@ -734,7 +1031,7 @@ namespace zPoolMiner.Forms
                         __ClaymoreZcashStatus.SetSpeed(_currentAlgorithm.BenchmarkSpeed);
                         __ClaymoreZcashStatus.SetNext();
                         _currentAlgorithm.ExtraLaunchParameters = __ClaymoreZcashStatus.GetTestExtraParams();
-                        Helpers.ConsolePrint("ClaymoreAMD_Equihash", _currentAlgorithm.ExtraLaunchParameters);
+                        Helpers.ConsolePrint("ClaymoreAMD_equihash", _currentAlgorithm.ExtraLaunchParameters);
                         _currentMiner.InitBenchmarkSetup(new MiningPair(_currentDevice, _currentAlgorithm));
                     }
 
@@ -787,31 +1084,48 @@ namespace zPoolMiner.Forms
             });
         }
 
-        #region Benchmark progress GUI stuff
-
+        /// <summary>
+        /// The SetLabelBenchmarkSteps
+        /// </summary>
+        /// <param name="current">The <see cref="int"/></param>
+        /// <param name="max">The <see cref="int"/></param>
         private void SetLabelBenchmarkSteps(int current, int max)
         {
             labelBenchmarkSteps.Text = String.Format(International.GetText("FormBenchmark_Benchmark_Step"), current, max);
         }
 
+        /// <summary>
+        /// The StepUpBenchmarkStepProgress
+        /// </summary>
         private void StepUpBenchmarkStepProgress()
         {
             SetLabelBenchmarkSteps(_bechmarkCurrentIndex + 1, _benchmarkAlgorithmsCount);
             progressBarBenchmarkSteps.Value = _bechmarkCurrentIndex + 1;
         }
 
+        /// <summary>
+        /// The ResetBenchmarkProgressStatus
+        /// </summary>
         private void ResetBenchmarkProgressStatus()
         {
             progressBarBenchmarkSteps.Value = 0;
         }
 
-        #endregion Benchmark progress GUI stuff
-
+        /// <summary>
+        /// The CloseBtn_Click
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CloseBtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
+        /// <summary>
+        /// The FormBenchmark_New_FormClosing
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/></param>
         private void FormBenchmark_New_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_inBenchmark)
@@ -850,6 +1164,11 @@ namespace zPoolMiner.Forms
             }
         }
 
+        /// <summary>
+        /// The DevicesListView1_ItemSelectionChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="ListViewItemSelectionChangedEventArgs"/></param>
         private void DevicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //algorithmSettingsControl1.Deselect();
@@ -858,6 +1177,11 @@ namespace zPoolMiner.Forms
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
         }
 
+        /// <summary>
+        /// The RadioButton_SelectedUnbenchmarked_CheckedChanged_1
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void RadioButton_SelectedUnbenchmarked_CheckedChanged_1(object sender, EventArgs e)
         {
             _algorithmOption = AlgorithmBenchmarkSettingsType.SelectedUnbenchmarkedAlgorithms;
@@ -866,6 +1190,11 @@ namespace zPoolMiner.Forms
             algorithmsListView1.ResetListItemColors();
         }
 
+        /// <summary>
+        /// The RadioButton_RE_SelectedUnbenchmarked_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void RadioButton_RE_SelectedUnbenchmarked_CheckedChanged(object sender, EventArgs e)
         {
             _algorithmOption = AlgorithmBenchmarkSettingsType.ReBecnhSelectedAlgorithms;
@@ -874,11 +1203,21 @@ namespace zPoolMiner.Forms
             algorithmsListView1.ResetListItemColors();
         }
 
+        /// <summary>
+        /// The CheckBox_StartMiningAfterBenchmark_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void CheckBox_StartMiningAfterBenchmark_CheckedChanged(object sender, EventArgs e)
         {
-            this.StartMining = this.checkBox_StartMiningAfterBenchmark.Checked;
+            StartMining = checkBox_StartMiningAfterBenchmark.Checked;
         }
 
+        /// <summary>
+        /// The AlgorithmsListView1_Load
+        /// </summary>
+        /// <param name="sender">The <see cref="object"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void AlgorithmsListView1_Load(object sender, EventArgs e)
         {
         }

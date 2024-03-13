@@ -34,13 +34,14 @@
             // 
             // groupBoxMinerGroup
             // 
+            this.groupBoxMinerGroup.BackColor = System.Drawing.Color.Transparent;
             this.groupBoxMinerGroup.Controls.Add(this.labelSpeedIndicator);
             this.groupBoxMinerGroup.Controls.Add(this.labelCurentcyPerDayVaue);
             this.groupBoxMinerGroup.Controls.Add(this.labelBTCRateValue);
             this.groupBoxMinerGroup.Controls.Add(this.labelBTCRateIndicator);
             this.groupBoxMinerGroup.Controls.Add(this.labelSpeedValue);
-            this.groupBoxMinerGroup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.groupBoxMinerGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBoxMinerGroup.ForeColor = System.Drawing.Color.White;
             this.groupBoxMinerGroup.Location = new System.Drawing.Point(0, 0);
             this.groupBoxMinerGroup.Name = "groupBoxMinerGroup";
             this.groupBoxMinerGroup.Size = new System.Drawing.Size(536, 32);
@@ -51,7 +52,9 @@
             // labelSpeedIndicator
             // 
             this.labelSpeedIndicator.AutoSize = true;
+            this.labelSpeedIndicator.BackColor = System.Drawing.Color.Transparent;
             this.labelSpeedIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelSpeedIndicator.ForeColor = System.Drawing.Color.White;
             this.labelSpeedIndicator.Location = new System.Drawing.Point(6, 16);
             this.labelSpeedIndicator.Name = "labelSpeedIndicator";
             this.labelSpeedIndicator.Size = new System.Drawing.Size(47, 13);
@@ -61,6 +64,8 @@
             // labelCurentcyPerDayVaue
             // 
             this.labelCurentcyPerDayVaue.AutoSize = true;
+            this.labelCurentcyPerDayVaue.BackColor = System.Drawing.Color.Transparent;
+            this.labelCurentcyPerDayVaue.ForeColor = System.Drawing.Color.White;
             this.labelCurentcyPerDayVaue.Location = new System.Drawing.Point(434, 16);
             this.labelCurentcyPerDayVaue.Name = "labelCurentcyPerDayVaue";
             this.labelCurentcyPerDayVaue.Size = new System.Drawing.Size(61, 13);
@@ -70,7 +75,9 @@
             // labelBTCRateValue
             // 
             this.labelBTCRateValue.AutoSize = true;
+            this.labelBTCRateValue.BackColor = System.Drawing.Color.Transparent;
             this.labelBTCRateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelBTCRateValue.ForeColor = System.Drawing.Color.White;
             this.labelBTCRateValue.Location = new System.Drawing.Point(317, 16);
             this.labelBTCRateValue.Name = "labelBTCRateValue";
             this.labelBTCRateValue.Size = new System.Drawing.Size(112, 13);
@@ -80,6 +87,8 @@
             // labelBTCRateIndicator
             // 
             this.labelBTCRateIndicator.AutoSize = true;
+            this.labelBTCRateIndicator.BackColor = System.Drawing.Color.Transparent;
+            this.labelBTCRateIndicator.ForeColor = System.Drawing.Color.White;
             this.labelBTCRateIndicator.Location = new System.Drawing.Point(279, 16);
             this.labelBTCRateIndicator.Name = "labelBTCRateIndicator";
             this.labelBTCRateIndicator.Size = new System.Drawing.Size(33, 13);
@@ -89,7 +98,9 @@
             // labelSpeedValue
             // 
             this.labelSpeedValue.AutoSize = true;
+            this.labelSpeedValue.BackColor = System.Drawing.Color.Transparent;
             this.labelSpeedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelSpeedValue.ForeColor = System.Drawing.Color.White;
             this.labelSpeedValue.Location = new System.Drawing.Point(56, 16);
             this.labelSpeedValue.Name = "labelSpeedValue";
             this.labelSpeedValue.Size = new System.Drawing.Size(30, 13);
@@ -105,6 +116,7 @@
             this.Controls.Add(this.groupBoxMinerGroup);
             this.Name = "GroupProfitControl";
             this.Size = new System.Drawing.Size(537, 36);
+            this.Load += new System.EventHandler(this.GroupProfitControl_Load);
             this.groupBoxMinerGroup.ResumeLayout(false);
             this.groupBoxMinerGroup.PerformLayout();
             this.ResumeLayout(false);
