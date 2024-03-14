@@ -78,7 +78,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 90 * 1000; // 1.5 minute max, whole waiting time 75seconds
         }
@@ -355,7 +355,7 @@
 
             return " "
                 + GetDevicesCommandString()
-                + String.Format("  -epool {0} -ewal {1} -mport 127.0.0.1:{2} -esm 3 -epsw x -allpools 1", url, username, APIPort)
+                + String.Format("  -epool {0} -ewal {1} -mport 127.0.0.1:{2} -esm 3 -epsw x -allpools 1", url, username, ApiPort)
                 + dualModeParams;
         }
 

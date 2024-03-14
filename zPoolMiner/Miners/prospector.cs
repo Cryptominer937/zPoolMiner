@@ -230,7 +230,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 3600000; // 1hour
         }
@@ -250,7 +250,7 @@
             }
             else
             {  // fallback
-                Helpers.ConsolePrint(MinerTAG(), "Failed to get platforms, falling back");
+                Helpers.ConsolePrint(MinerTag(), "Failed to get platforms, falling back");
                 if (ComputeDeviceManager.Avaliable.HasNVIDIA && type != DeviceType.NVIDIA)
                     platform = 1;
             }
@@ -455,13 +455,13 @@
                                 {
                                     if (lineLowered.Contains("nvidia"))
                                     {
-                                        Helpers.ConsolePrint(MinerTAG(), "Setting nvidia platform: " + platIndex);
+                                        Helpers.ConsolePrint(MinerTag(), "Setting nvidia platform: " + platIndex);
                                         ProspectorPlatforms.NVPlatform = platIndex;
                                         if (ProspectorPlatforms.AMDPlatform >= 0) break;
                                     }
                                     else if (lineLowered.Contains("amd"))
                                     {
-                                        Helpers.ConsolePrint(MinerTAG(), "Setting amd platform: " + platIndex);
+                                        Helpers.ConsolePrint(MinerTag(), "Setting amd platform: " + platIndex);
                                         ProspectorPlatforms.AMDPlatform = platIndex;
                                         if (ProspectorPlatforms.NVPlatform >= 0) break;
                                     }
@@ -471,7 +471,7 @@
                     }
                 }
             }
-            catch (Exception e) { Helpers.ConsolePrint(MinerTAG(), e.ToString()); }
+            catch (Exception e) { Helpers.ConsolePrint(MinerTag(), e.ToString()); }
 
             return ProspectorPlatforms.IsInit;
         }
@@ -537,7 +537,7 @@
         /// <returns>The <see cref="Task{APIData}"/></returns>
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
 
             WebClient client = new WebClient();
@@ -555,7 +555,7 @@
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null)
@@ -566,12 +566,12 @@
                     if (response.coin == MiningSetup.MinerName)
                     {
                         ad.Speed += response.rate;
-                        _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                        CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                     }
                 }
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
             }
 
@@ -588,7 +588,7 @@
         {
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             LastCommandLine = GetStartupCommand(url, btcAddress, worker);
@@ -660,7 +660,7 @@
             try
             {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-                Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
+                Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
                 Stopwatch _benchmarkTimer = new Stopwatch();
                 _benchmarkTimer.Reset();
@@ -729,7 +729,7 @@
                     {
                         database = new ProspectorDatabase(WorkingDirectory + "info.db");
                     }
-                    catch (Exception e) { Helpers.ConsolePrint(MinerTAG(), e.ToString()); }
+                    catch (Exception e) { Helpers.ConsolePrint(MinerTag(), e.ToString()); }
                 }
 
                 var session = database.LastSession();

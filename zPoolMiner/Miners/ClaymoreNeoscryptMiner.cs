@@ -150,7 +150,7 @@ public class ClaymoreNeoscryptMiner : ClaymoreBaseMiner
                 }
             }
             url = Globals.GetLocationURL(AlgorithmType.NeoScrypt, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], NHMConectionType.STRATUM_TCP);
-                 LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -pool " + url +
+                 LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -pool " + url +
                                    " -wal " + btcAddress + " -psw " + worker + " -dbg -1 -ftime 10 -retrydelay 5";
  
              
@@ -213,7 +213,7 @@ public class ClaymoreNeoscryptMiner : ClaymoreBaseMiner
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
             string ret;
-                ret = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -pool " + url + " -wal " +
+                ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -pool " + url + " -wal " +
                              btcAddress + " -psw " + worker;
             return ret;
         }

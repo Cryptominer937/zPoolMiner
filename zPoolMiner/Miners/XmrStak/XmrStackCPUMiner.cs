@@ -259,7 +259,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 3600000; // 1hour
         }
@@ -281,7 +281,7 @@
                     {
                         numTr /= 2;
                     }
-                    var config = new XmrStackCPUMinerConfig(numTr, pool, wallet, APIPort);
+                    var config = new XmrStackCPUMinerConfig(numTr, pool, wallet, ApiPort);
                     var no_prefetch = ExtraLaunchParametersParser.GetNoPrefetch(MiningSetup.MiningPairs[0]);
                     //config.Inti_cpu_threads_conf(false, false, true, ComputeDeviceManager.Avaliable.IsHyperThreadingEnabled);
                     config.Inti_cpu_threads_conf(false, no_prefetch, false, IsHyperThreadingEnabled);

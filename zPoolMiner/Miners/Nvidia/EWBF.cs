@@ -159,11 +159,11 @@
                 try
                 {
                     File.Copy(vcp, vcpPath, true);
-                    Helpers.ConsolePrint(MinerTAG(), String.Format("Copy from {0} to {1} done", vcp, vcpPath));
+                    Helpers.ConsolePrint(MinerTag(), String.Format("Copy from {0} to {1} done", vcp, vcpPath));
                 }
                 catch (Exception e)
                 {
-                    Helpers.ConsolePrint(MinerTAG(), "Copy msvcp.dll failed: " + e.Message);
+                    Helpers.ConsolePrint(MinerTag(), "Copy msvcp.dll failed: " + e.Message);
                 }
             }
             ProcessHandle = _Start();
@@ -286,7 +286,7 @@
             var ret = GetDevicesCommandString()
                 + " --server " + url.Split(':')[0]
                 + " --user " + btcAddress + " --pass " + worker +"" + " --port "
-                + url.Split(':')[1] + " --api 127.0.0.1:" + APIPort;
+                + url.Split(':')[1] + " --api 127.0.0.1:" + ApiPort;
             if (!ret.Contains("--fee"))
             {
                 ret += " --fee 0";
@@ -403,7 +403,7 @@
             try
             {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-                Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
+                Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
                 BenchmarkHandle.WaitForExit(benchmarkTimeWait + 2);
                 Stopwatch _benchmarkTimer = new Stopwatch();
@@ -486,11 +486,11 @@
                             {
                                 lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
                                 read = true;
-                                Helpers.ConsolePrint(MinerTAG(), "Successfully read log after " + iteration.ToString() + " iterations");
+                                Helpers.ConsolePrint(MinerTag(), "Successfully read log after " + iteration.ToString() + " iterations");
                             }
                             catch (Exception ex)
                             {
-                                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                                Helpers.ConsolePrint(MinerTag(), ex.Message);
                                 Thread.Sleep(1000);
                             }
                             iteration++;
@@ -498,7 +498,7 @@
                         else
                         {
                             read = true;  // Give up after 10s
-                            Helpers.ConsolePrint(MinerTAG(), "Gave up on iteration " + iteration.ToString());
+                            Helpers.ConsolePrint(MinerTag(), "Gave up on iteration " + iteration.ToString());
                         }
                     }
 
@@ -624,14 +624,14 @@
         /// <returns>The <see cref="Task{APIData}"/></returns>
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
             TcpClient client = null;
             JsonApiResponse resp = null;
             try
             {
                 byte[] bytesToSend = Encoding.ASCII.GetBytes("{\"method\":\"getstat\"}\n");
-                client = new TcpClient("127.0.0.1", APIPort);
+                client = new TcpClient("127.0.0.1", ApiPort);
                 NetworkStream nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
@@ -642,16 +642,16 @@
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ex.Message);
             }
 
             if (resp != null && resp.Error == null)
             {
                 ad.Speed = resp.Result.Aggregate<Result, uint>(0, (current, t1) => current + t1.Speed_sps);
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
             }
 
@@ -671,7 +671,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }

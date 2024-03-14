@@ -123,7 +123,7 @@
                 }
             }
             string username = GetUsername(btcAddress, worker);
-            LastCommandLine = " " + GetDevicesCommandString() + " -mport 127.0.0.1:" + APIPort + " -zpool " + url + " -zwal " + username + " -zpsw " + worker + " -dbg -1 -allpools 1";
+            LastCommandLine = " " + GetDevicesCommandString() + " -mport 127.0.0.1:" + ApiPort + " -zpool " + url + " -zwal " + username + " -zpsw " + worker + " -dbg -1 -allpools 1";
             ProcessHandle = _Start();
         }
 
@@ -132,7 +132,7 @@
         {
             benchmarkTimeWait = time / 3; // 3 times faster than sgminer
 
-            string ret = " -mport 127.0.0.1:" + APIPort + " -benchmark 1 " + GetDevicesCommandString();
+            string ret = " -mport 127.0.0.1:" + ApiPort + " -benchmark 1 " + GetDevicesCommandString();
             return ret;
         }
     }

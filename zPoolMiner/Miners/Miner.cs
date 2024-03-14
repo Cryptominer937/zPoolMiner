@@ -133,10 +133,10 @@
 
         private string _minetTag = null;
         public string MinerDeviceName { get; set; }
-        protected int APIPort { get; private set; }
+        protected int ApiPort { get; private set; }
 
         // if miner has no API bind port for reading curentlly only cryptonight on ccminer
-        public bool IsAPIReadException { get; protected set; }
+        public bool IsApiReadException { get; protected set; }
 
         public bool IsNeverHideMiningWindow { get; protected set; }
 
@@ -191,10 +191,10 @@
         //private const int _MAX_CooldownTimeInMilliseconds = 60 * 1000; // 1 minute max, whole waiting time 75seconds
         private readonly int _MAX_CooldownTimeInMilliseconds; // = GET_MAX_CooldownTimeInMilliseconds();
 
-        protected abstract int GET_MAX_CooldownTimeInMilliseconds();
+        protected abstract int GetMaxCooldownTimeInMilliseconds();
 
         private Timer _cooldownCheckTimer;
-        protected MinerAPIReadStatus _currentMinerReadStatus { get; set; }
+        protected MinerApiReadStatus CurrentMinerReadStatus { get; set; }
         private int _currentCooldownTimeInSeconds = _MIN_CooldownTimeInMilliseconds;
         private int _currentCooldownTimeInSecondsLeft = _MIN_CooldownTimeInMilliseconds;
         private const int IS_COOLDOWN_CHECK_TIMER_ALIVE_CAP = 15;
@@ -222,20 +222,20 @@
 
             LastCommandLine = "";
 
-            IsAPIReadException = false;
+            IsApiReadException = false;
             // Only set minimize if hide is false (specific miners will override true after)
             IsNeverHideMiningWindow = ConfigManager.GeneralConfig.MinimizeMiningWindows && !ConfigManager.GeneralConfig.HideMiningWindows;
             IsKillAllUsedMinerProcs = false;
-            _MAX_CooldownTimeInMilliseconds = GET_MAX_CooldownTimeInMilliseconds();
+            _MAX_CooldownTimeInMilliseconds = GetMaxCooldownTimeInMilliseconds();
             //
-            Helpers.ConsolePrint(MinerTAG(), "NEW MINER CREATED");
+            Helpers.ConsolePrint(MinerTag(), "NEW MINER CREATED");
         }
 
         ~Miner()
         {
             // free the port
-            MinersApiPortsManager.RemovePort(APIPort);
-            Helpers.ConsolePrint(MinerTAG(), "MINER DESTROYED");
+            MinersApiPortsManager.RemovePort(ApiPort);
+            Helpers.ConsolePrint(MinerTag(), "MINER DESTROYED");
         }
 
         protected void SetWorkingDirAndProgName(string fullPath)
@@ -258,19 +258,19 @@
                 var algoType = MiningSetup.MiningPairs[0].Algorithm.CryptoMiner937ID;
                 var path = MiningSetup.MinerPath;
                 var reservedPorts = MinersSettingsManager.GetPortsListFor(minerBase, path, algoType);
-                APIPort = -1; // not set
+                ApiPort = -1; // not set
                 foreach (var reservedPort in reservedPorts)
                 {
                     Thread.Sleep(1000);
                     if (MinersApiPortsManager.IsPortAvaliable(reservedPort))
                     {
-                        APIPort = reservedPort;
+                        ApiPort = reservedPort;
                         break;
                     }
                 }
-                if (APIPort == -1)
+                if (ApiPort == -1)
                 {
-                    APIPort = MinersApiPortsManager.GetAvaliablePort();
+                    ApiPort = MinersApiPortsManager.GetAvaliablePort();
                 }
             }
         }
@@ -290,7 +290,7 @@
         }
 
         // TAG for identifying miner
-        public string MinerTAG()
+        public string MinerTag()
         {
             if (_minetTag == null)
             {
@@ -325,7 +325,7 @@
         public void KillAllUsedMinerProcesses()
         {
             List<MinerPID_Data> toRemovePidData = new List<MinerPID_Data>();
-            Helpers.ConsolePrint(MinerTAG(), "Trying to kill all miner processes for this instance:");
+            Helpers.ConsolePrint(MinerTag(), "Trying to kill all miner processes for this instance:");
             foreach (var PidData in _allPidData)
             {
                 try
@@ -333,7 +333,7 @@
                     Process process = Process.GetProcessById(PidData.PID);
                     if (process != null && PidData.minerBinPath.Contains(process.ProcessName))
                     {
-                        Helpers.ConsolePrint(MinerTAG(), String.Format("Trying to kill {0}", ProcessTag(PidData)));
+                        Helpers.ConsolePrint(MinerTag(), String.Format("Trying to kill {0}", ProcessTag(PidData)));
                         try
                         {
                             process.Kill();
@@ -342,14 +342,14 @@
                         }
                         catch (Exception e)
                         {
-                            Helpers.ConsolePrint(MinerTAG(), String.Format("Exception killing {0}, exMsg {1}", ProcessTag(PidData), e.Message));
+                            Helpers.ConsolePrint(MinerTag(), String.Format("Exception killing {0}, exMsg {1}", ProcessTag(PidData), e.Message));
                         }
                     }
                 }
                 catch (Exception e)
                 {
                     toRemovePidData.Add(PidData);
-                    Helpers.ConsolePrint(MinerTAG(), String.Format("Nothing to kill {0}, exMsg {1}", ProcessTag(PidData), e.Message));
+                    Helpers.ConsolePrint(MinerTag(), String.Format("Nothing to kill {0}, exMsg {1}", ProcessTag(PidData), e.Message));
                 }
             }
             _allPidData.RemoveAll(x => toRemovePidData.Contains(x));
@@ -395,7 +395,7 @@
         {
             if (IsRunning)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Shutting down miner");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Shutting down miner");
             }
             if (ProcessHandle != null)
             {
@@ -481,7 +481,7 @@
         virtual protected Process BenchmarkStartProcess(string CommandLine)
         {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
-            Helpers.ConsolePrint(MinerTAG(), "Starting benchmark: " + CommandLine);
+            Helpers.ConsolePrint(MinerTag(), "Starting benchmark: " + CommandLine);
 
             Process BenchmarkHandle = new Process();
 
@@ -496,7 +496,7 @@
             else
             {
                 BenchmarkProcessPath = BenchmarkHandle.StartInfo.FileName;
-                Helpers.ConsolePrint(MinerTAG(), "Using miner: " + BenchmarkHandle.StartInfo.FileName);
+                Helpers.ConsolePrint(MinerTag(), "Using miner: " + BenchmarkHandle.StartInfo.FileName);
                 BenchmarkHandle.StartInfo.WorkingDirectory = WorkingDirectory;
             }
             // set sys variables
@@ -790,7 +790,7 @@
         {
             BenchmarkAlgorithm.BenchmarkSpeed = 0;
 
-            Helpers.ConsolePrint(MinerTAG(), "Benchmark Exception: " + ex.Message);
+            Helpers.ConsolePrint(MinerTag(), "Benchmark Exception: " + ex.Message);
             if (BenchmarkComunicator != null && !OnBenchmarkCompleteCalled)
             {
                 OnBenchmarkCompleteCalled = true;
@@ -902,7 +902,7 @@
             try
             {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-                Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
+                Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)commandLine);
                 BenchmarkHandle.WaitForExit(benchmarkTimeWait + 2);
                 Stopwatch _benchmarkTimer = new Stopwatch();
@@ -1082,7 +1082,7 @@
                     };
                     _allPidData.Add(_currentPidData);
 
-                    Helpers.ConsolePrint(MinerTAG(), "Starting miner " + ProcessTag() + " " + LastCommandLine);
+                    Helpers.ConsolePrint(MinerTag(), "Starting miner " + ProcessTag() + " " + LastCommandLine);
                     //add hsrminer palgin
                     //StartCoolDownTimerChecker();
                     if (!ProcessTag().Contains("hsrminer_neoscrypt")) //temporary disable hsrminer checker
@@ -1098,13 +1098,13 @@
                 }
                 else
                 {
-                    Helpers.ConsolePrint(MinerTAG(), "NOT STARTED " + ProcessTag() + " " + LastCommandLine);
+                    Helpers.ConsolePrint(MinerTag(), "NOT STARTED " + ProcessTag() + " " + LastCommandLine);
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " _Start: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " _Start: " + ex.Message);
                 return null;
             }
         }
@@ -1113,7 +1113,7 @@
         {
             if (ConfigManager.GeneralConfig.CoolDownCheckEnabled)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Starting cooldown checker");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Starting cooldown checker");
                 if (_cooldownCheckTimer != null && _cooldownCheckTimer.Enabled) _cooldownCheckTimer.Stop();
                 // cool down init
                 _cooldownCheckTimer = new Timer()
@@ -1127,9 +1127,9 @@
             }
             else
             {
-                Helpers.ConsolePrint(MinerTAG(), "Cooldown checker disabled");
+                Helpers.ConsolePrint(MinerTag(), "Cooldown checker disabled");
             }
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
         }
 
         virtual protected void Miner_Exited()
@@ -1141,10 +1141,10 @@
         {
             var RestartInMS = ConfigManager.GeneralConfig.MinerRestartDelayMS > ms ?
                 ConfigManager.GeneralConfig.MinerRestartDelayMS : ms;
-            Helpers.ConsolePrint(MinerTAG(), ProcessTag() + String.Format(" Miner_Exited Will restart in {0} ms", RestartInMS));
+            Helpers.ConsolePrint(MinerTag(), ProcessTag() + String.Format(" Miner_Exited Will restart in {0} ms", RestartInMS));
             if (ConfigManager.GeneralConfig.CoolDownCheckEnabled)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
+                CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
                 NeedsRestart = true;
                 _currentCooldownTimeInSecondsLeft = RestartInMS;
             }
@@ -1159,7 +1159,7 @@
         {
             if (!isEnded)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Restarting miner..");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Restarting miner..");
                 Stop(MinerStopType.END); // stop miner first
                 System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
                 ProcessHandle = _Start(); // start with old command line
@@ -1224,7 +1224,7 @@
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " GetAPIData reason: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " GetAPIData reason: " + ex.Message);
                 return null;
             }
 
@@ -1239,13 +1239,13 @@
 
             try
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.WAIT;
+                CurrentMinerReadStatus = MinerApiReadStatus.WAIT;
                 string dataToSend = GetHttpRequestNHMAgentStrin(method);
-                string respStr = await GetAPIDataAsync(APIPort, dataToSend);
+                string respStr = await GetAPIDataAsync(ApiPort, dataToSend);
 
                 if (String.IsNullOrEmpty(respStr))
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.NETWORK_EXCEPTION;
+                    CurrentMinerReadStatus = MinerApiReadStatus.NETWORK_EXCEPTION;
                     throw new Exception("Response is empty!");
                 }
                 if (respStr.IndexOf("HTTP/1.1 200 OK") > -1)
@@ -1270,11 +1270,11 @@
                     }
                     if (ad.Speed == 0)
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                        CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                     }
                     else
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                        CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                     }
                 }
                 else
@@ -1284,7 +1284,7 @@
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ex.Message);
             }
 
             return ad;
@@ -1300,11 +1300,11 @@
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
-            resp = await GetAPIDataAsync(APIPort, DataToSend);
+            resp = await GetAPIDataAsync(ApiPort, DataToSend);
             if (resp == null)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " summary is null");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
@@ -1323,14 +1323,14 @@
             }
             catch
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from API bind port");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 
             return ad;
         }
@@ -1396,11 +1396,11 @@
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
-            resp = await GetAPIDataAsync(APIPort, DataToSend);
+            resp = await GetAPIDataAsync(ApiPort, DataToSend);
             if (resp == null)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " summary is null");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
@@ -1419,14 +1419,14 @@
             }
             catch
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from API bind port");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 
             return ad;
         }
@@ -1441,7 +1441,7 @@
             {
                 _currentCooldownTimeInSeconds = _MIN_CooldownTimeInMilliseconds;
                 //Helpers.ConsolePrint(MinerTAG(), String.Format("{0} Reseting cool time = {1} ms", ProcessTag(), _MIN_CooldownTimeInMilliseconds.ToString()));
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             }
         }
 
@@ -1454,8 +1454,8 @@
             //Helpers.ConsolePrint(MinerTAG(), String.Format("{0} Cooling UP, cool time is {1} ms", ProcessTag(), _currentCooldownTimeInSeconds.ToString()));
             if (_currentCooldownTimeInSeconds > _MAX_CooldownTimeInMilliseconds)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " MAX cool time exceeded. RESTARTING");
+                CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " MAX cool time exceeded. RESTARTING");
                 Restart();
             }
         }
@@ -1476,16 +1476,16 @@
                     NeedsRestart = false;
                     Restart();
                 }
-                else if (_currentMinerReadStatus == MinerAPIReadStatus.GOT_READ)
+                else if (CurrentMinerReadStatus == MinerApiReadStatus.GOT_READ)
                 {
                     CoolDown();
                 }
-                else if (_currentMinerReadStatus == MinerAPIReadStatus.READ_SPEED_ZERO)
+                else if (CurrentMinerReadStatus == MinerApiReadStatus.READ_SPEED_ZERO)
                 {
                     //Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " READ SPEED ZERO, will cool up");
                     CoolUp();
                 }
-                else if (_currentMinerReadStatus == MinerAPIReadStatus.RESTART)
+                else if (CurrentMinerReadStatus == MinerApiReadStatus.RESTART)
                 {
                     Restart();
                 }

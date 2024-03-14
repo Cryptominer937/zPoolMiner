@@ -27,7 +27,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 3600000; // 1hour
         }
@@ -147,7 +147,7 @@
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
@@ -158,7 +158,7 @@
                               ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.CPU) +
-                              " --api-bind=" + APIPort.ToString();
+                              " --api-bind=" + ApiPort.ToString();
 
             ProcessHandle = _Start();
         }

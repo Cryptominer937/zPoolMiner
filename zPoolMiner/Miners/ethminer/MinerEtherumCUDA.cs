@@ -129,7 +129,7 @@ namespace zPoolMiner.Miners
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            Helpers.ConsolePrint(MinerTAG(), "Starting MinerEtherumCUDA, checking existing MinerEtherumCUDA to stop");
+            Helpers.ConsolePrint(MinerTag(), "Starting MinerEtherumCUDA, checking existing MinerEtherumCUDA to stop");
             base.Start(url, btcAddress, worker, MinerEtherumCUDAList);
         }
 
@@ -142,7 +142,7 @@ namespace zPoolMiner.Miners
                                                     DeviceType.NVIDIA)
                 + " -S " + url.Substring(14)
                 + " -O " + username + ""
-                + " --api-port " + APIPort.ToString()
+                + " --api-port " + ApiPort.ToString()
                 + " --cuda-devices ";
         }
 

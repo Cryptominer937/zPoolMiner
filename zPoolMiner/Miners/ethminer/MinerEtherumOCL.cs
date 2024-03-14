@@ -135,7 +135,7 @@ namespace zPoolMiner.Miners
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            Helpers.ConsolePrint(MinerTAG(), "Starting MinerEtherumOCL, checking existing MinerEtherumOCL to stop");
+            Helpers.ConsolePrint(MinerTag(), "Starting MinerEtherumOCL, checking existing MinerEtherumOCL to stop");
             base.Start(url, btcAddress, worker, MinerEtherumOCLList);
         }
 
@@ -148,7 +148,7 @@ namespace zPoolMiner.Miners
                                                     DeviceType.AMD)
                 + " -S " + url.Substring(14)
                 + " -O " + username + ""
-                + " --api-port " + APIPort.ToString()
+                + " --api-port " + ApiPort.ToString()
                 + " --opencl-devices ";
         }
 

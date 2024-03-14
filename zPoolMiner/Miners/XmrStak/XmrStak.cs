@@ -80,7 +80,7 @@
         {
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
@@ -119,7 +119,7 @@
                 {
                     if (double.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out double lastSpeed))
                     {
-                        Helpers.ConsolePrint("BENCHMARK " + MinerTAG(), "double.TryParse true. Last speed is" + lastSpeed.ToString());
+                        Helpers.ConsolePrint("BENCHMARK " + MinerTag(), "double.TryParse true. Last speed is" + lastSpeed.ToString());
                         BenchmarkAlgorithm.BenchmarkSpeed = Helpers.ParseDouble(s);
                         return true;
                     }

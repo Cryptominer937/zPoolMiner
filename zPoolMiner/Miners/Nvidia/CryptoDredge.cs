@@ -31,7 +31,7 @@ namespace zPoolMiner.Miners
         double speed = 0;
         int count = 0;
         private bool _benchmarkException => MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 8;
         }
@@ -149,16 +149,16 @@ namespace zPoolMiner.Miners
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string address = btcAddress;
-            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
+            IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
             var algo = "";
             var apiBind = ""; 
             algo = "--algo " + MiningSetup.MinerName;
-            apiBind = " --api-bind 127.0.0.1:" + APIPort;
-            IsAPIReadException = false;
+            apiBind = " --api-bind 127.0.0.1:" + ApiPort;
+            IsApiReadException = false;
             LastCommandLine = " -a " + MiningSetup.MinerName.ToLower() + " -o " + url + " -u " + address + " -p " + worker +"" + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
                 + " --no-watchdog " + " -d ";
             /*algo +
@@ -305,13 +305,13 @@ namespace zPoolMiner.Miners
         #endregion // Decoupled benchmarking routines
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             var ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
             string resp = null;
             try
             {
                 var bytesToSend = Encoding.ASCII.GetBytes("summary\r\n");
-                var client = new TcpClient("127.0.0.1", APIPort);
+                var client = new TcpClient("127.0.0.1", ApiPort);
                 var nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 var bytesToRead = new byte[client.ReceiveBufferSize];
@@ -324,7 +324,7 @@ namespace zPoolMiner.Miners
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null)
@@ -340,17 +340,17 @@ namespace zPoolMiner.Miners
 
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
                 else
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                    CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 }
 
                 // some clayomre miners have this issue reporting negative speeds in that case restart miner
                 if (ad.Speed < 0)
                 {
-                    Helpers.ConsolePrint(MinerTAG(), "Reporting negative speeds will restart...");
+                    Helpers.ConsolePrint(MinerTag(), "Reporting negative speeds will restart...");
                     Restart();
                 }
             }

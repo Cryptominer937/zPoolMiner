@@ -153,7 +153,7 @@
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            LastCommandLine = GetDevicesCommandString() + " -a " + APIPort + " -l " + url + " -u " + username + " -p " + worker +"";
+            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + username + " -p " + worker +"";
             ProcessHandle = _Start();
         }
 

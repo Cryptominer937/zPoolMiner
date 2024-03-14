@@ -77,7 +77,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 90 * 1000; // 1.5 minute max, whole waiting time 75seconds
         }
@@ -206,7 +206,7 @@
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
@@ -217,7 +217,7 @@
                               " --userpass=" + username + ":" + worker + " " +
                               " -p " + worker +
                               " --api-listen" +
-                              " --api-port=" + APIPort.ToString() +
+                              " --api-port=" + ApiPort.ToString() +
                               " " +
                               ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
@@ -349,7 +349,7 @@
         {
             if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds)
             {
-                string resp = GetAPIDataAsync(APIPort, "quit").Result.TrimEnd(new char[] { (char)0 });
+                string resp = GetAPIDataAsync(ApiPort, "quit").Result.TrimEnd(new char[] { (char)0 });
                 Helpers.ConsolePrint("BENCHMARK", "SGMiner Response: " + resp);
             }
             if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds + 2)
@@ -464,10 +464,10 @@
             string resp;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
-            resp = await GetAPIDataAsync(APIPort, "summary");
+            resp = await GetAPIDataAsync(ApiPort, "summary");
             if (resp == null)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
             //// sgminer debug log
@@ -476,10 +476,10 @@
             try
             {
                 // Checks if all the GPUs are Alive first
-                string resp2 = await GetAPIDataAsync(APIPort, "devs");
+                string resp2 = await GetAPIDataAsync(ApiPort, "devs");
                 if (resp2 == null)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                    CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                     return null;
                 }
                 //// sgminer debug log
@@ -491,8 +491,8 @@
                 {
                     if (checkGPUStatus[i].Contains("Enabled=Y") && !checkGPUStatus[i].Contains("Status=Alive"))
                     {
-                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " GPU " + i + ": Sick/Dead/NoStart/Initialising/Disabled/Rejecting/Unknown");
-                        _currentMinerReadStatus = MinerAPIReadStatus.WAIT;
+                        Helpers.ConsolePrint(MinerTag(), ProcessTag() + " GPU " + i + ": Sick/Dead/NoStart/Initialising/Disabled/Rejecting/Unknown");
+                        CurrentMinerReadStatus = MinerApiReadStatus.WAIT;
                         return null;
                     }
                 }
@@ -512,9 +512,9 @@
 
                     if (total_mh <= PreviousTotalMH)
                     {
-                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " SGMiner might be stuck as no new hashes are being produced");
-                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Prev Total MH: " + PreviousTotalMH + " .. Current Total MH: " + total_mh);
-                        _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                        Helpers.ConsolePrint(MinerTag(), ProcessTag() + " SGMiner might be stuck as no new hashes are being produced");
+                        Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Prev Total MH: " + PreviousTotalMH + " .. Current Total MH: " + total_mh);
+                        CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                         return null;
                     }
 
@@ -527,13 +527,13 @@
             }
             catch
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 
             return ad;
         }

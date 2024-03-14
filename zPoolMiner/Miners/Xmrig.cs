@@ -160,7 +160,7 @@
         private string GetStartCommand(string url, string btcAddress, string worker)
         {
             var extras = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.CPU);
-            return $" -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --api-port {APIPort}";
+            return $" -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --api-port {ApiPort}";
         }
 
         /// <summary>
@@ -176,7 +176,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5;  // 5 min
         }
@@ -336,7 +336,7 @@
         /// <returns>The <see cref="bool"/></returns>
         protected override bool BenchmarkParseLine(string outdata)
         {
-            Helpers.ConsolePrint(MinerTAG(), outdata);
+            Helpers.ConsolePrint(MinerTag(), outdata);
             return false;
         }
     }

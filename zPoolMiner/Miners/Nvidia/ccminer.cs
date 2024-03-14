@@ -53,7 +53,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 3; // 1 minute max, whole waiting time 75seconds
         }
@@ -173,19 +173,19 @@
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
 
-            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.NONE;
+            IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.NONE;
 
             string algo = "";
             string apiBind = "";
-            if (!IsAPIReadException)
+            if (!IsApiReadException)
             {
                 algo = "--algo=" + MiningSetup.MinerName;
-                apiBind = " --api-bind=" + APIPort.ToString();
+                apiBind = " --api-bind=" + ApiPort.ToString();
             }
 
             LastCommandLine = algo +
@@ -305,13 +305,13 @@
         public override async Task<APIData> GetSummaryAsync()
         {
             // cryptonight does not have api bind port
-            if (IsAPIReadException)
+            if (IsApiReadException)
             {
                 // check if running
                 if (ProcessHandle == null)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from cryptonight Proccess is null");
+                    CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from cryptonight Proccess is null");
                     return null;
                 }
                 try
@@ -320,14 +320,14 @@
                 }
                 catch (ArgumentException ex)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from cryptonight reason: " + ex.Message);
+                    CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from cryptonight reason: " + ex.Message);
                     return null; // will restart outside
                 }
                 catch (InvalidOperationException ex)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from cryptonight reason: " + ex.Message);
+                    CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from cryptonight reason: " + ex.Message);
                     return null; // will restart outside
                 }
 
@@ -345,9 +345,9 @@
                 {
                     Speed = totalSpeed
                 };
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 // check if speed zero
-                if (cryptonightData.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                if (cryptonightData.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 return cryptonightData;
             }
             return await GetSummaryCPU_CCMINERAsync();

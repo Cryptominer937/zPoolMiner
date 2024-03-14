@@ -301,7 +301,7 @@
             var ret = GetDevicesCommandString()
                 + " --server " + url.Split(':')[0]
                 + " --user " + btcAddress + " --pass " + worker +"" + " --port "
-                + url.Split(':')[1] + " --telemetry=127.0.0.1:" + APIPort;
+                + url.Split(':')[1] + " --telemetry=127.0.0.1:" + ApiPort;
             return ret;
         }
 
@@ -367,7 +367,7 @@
             try
             {
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-                Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
+                Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
                 BenchmarkHandle.WaitForExit(benchmarkTimeWait + 2);
                 Stopwatch _benchmarkTimer = new Stopwatch();
@@ -443,11 +443,11 @@
                             {
                                 lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
                                 read = true;
-                                Helpers.ConsolePrint(MinerTAG(), "Successfully read log after " + iteration.ToString() + " iterations");
+                                Helpers.ConsolePrint(MinerTag(), "Successfully read log after " + iteration.ToString() + " iterations");
                             }
                             catch (Exception ex)
                             {
-                                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                                Helpers.ConsolePrint(MinerTag(), ex.Message);
                                 Thread.Sleep(1000);
                             }
                             iteration++;
@@ -455,7 +455,7 @@
                         else
                         {
                             read = true;  // Give up after 10s
-                            Helpers.ConsolePrint(MinerTAG(), "Gave up on iteration " + iteration.ToString());
+                            Helpers.ConsolePrint(MinerTag(), "Gave up on iteration " + iteration.ToString());
                         }
                     }
 
@@ -552,9 +552,9 @@
                 int speedStart = outdata.IndexOf(LOOK_FOR_START);
                 string speed = outdata.Substring(speedStart, outdata.Length - speedStart);
                 speed = speed.Replace(LOOK_FOR_START, "");
-                Helpers.ConsolePrint(MinerTAG(), speed);
+                Helpers.ConsolePrint(MinerTag(), speed);
                 speed = speed.Substring(0, speed.IndexOf(LOOK_FOR_END));
-                Helpers.ConsolePrint(MinerTAG(), speed);
+                Helpers.ConsolePrint(MinerTag(), speed);
 
                 if (speed.Contains("k"))
                 {
@@ -582,26 +582,26 @@
         /// <returns>The <see cref="Task{APIData}"/></returns>
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
             TcpClient client = null;
             dynamic resp = null;
             try
             {
                 byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes("{\"id\":0,\"jsonrpc\":\"2.0\",\"method\":\"sol_ps\"}n");
-                client = new TcpClient("127.0.0.1", APIPort);
+                client = new TcpClient("127.0.0.1", ApiPort);
                 NetworkStream nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = await nwStream.ReadAsync(bytesToRead, 0, client.ReceiveBufferSize);
                 string respStr = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 resp = JsonConvert.DeserializeObject(respStr);
-                Helpers.ConsolePrint(MinerTAG(), "MINER RESPONCE:" + respStr);
+                Helpers.ConsolePrint(MinerTag(), "MINER RESPONCE:" + respStr);
                 client.Close();
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ex.Message);
             }
             // double speeds = 0;
             uint tmpSpeed = 0;
@@ -613,10 +613,10 @@
                     ad.Speed += tmpSpeed;
                 }
                 //  ad.Speed = speeds;
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
             }
 
@@ -636,7 +636,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }

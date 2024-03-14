@@ -161,7 +161,7 @@ namespace NiceHashMiner.Miners
                 }
                 catch (Exception ex)
                 {
-                    Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                    Helpers.ConsolePrint(MinerTag(), ex.Message);
                 }
             }
 
@@ -213,7 +213,7 @@ namespace NiceHashMiner.Miners
                 algo = "rx/0";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                  + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.randomarq))
@@ -245,7 +245,7 @@ namespace NiceHashMiner.Miners
                 algo = "cn/double";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_saber))
@@ -269,7 +269,7 @@ namespace NiceHashMiner.Miners
                 algo = "cn-heavy/xhv";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.chukwa))
@@ -360,7 +360,7 @@ namespace NiceHashMiner.Miners
                 algo = "rx/0";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                  + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.randomarq))
@@ -392,7 +392,7 @@ namespace NiceHashMiner.Miners
                 algo = "cn/double";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_saber))
@@ -416,7 +416,7 @@ namespace NiceHashMiner.Miners
                 algo = "cn-heavy/xhv";
                 port = "3367";
                 variant = " --variant 2 ";
-                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {APIPort} {platform}"
+                return $"-a {algo} -o {url} -u {btcAddress} --pass {worker} --nicehash {extras} --http-port {ApiPort} {platform}"
                + GetDevicesCommandString().TrimStart();
             }
             /*if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.chukwa))
@@ -447,7 +447,7 @@ namespace NiceHashMiner.Miners
 
             try
             {
-                HttpWebRequest WR = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + APIPort.ToString() + "/1/summary");
+                HttpWebRequest WR = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + ApiPort.ToString() + "/1/summary");
                 WR.UserAgent = "GET / HTTP/1.1\r\n\r\n";
                 WR.Timeout = 30 * 1000;
                 WR.Credentials = CredentialCache.DefaultCredentials;
@@ -463,7 +463,7 @@ namespace NiceHashMiner.Miners
 
                 if (string.IsNullOrEmpty(respStr))
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.NETWORK_EXCEPTION;
+                    CurrentMinerReadStatus = MinerApiReadStatus.NETWORK_EXCEPTION;
                     throw new Exception("Response is empty!");
                 }
 
@@ -481,11 +481,11 @@ namespace NiceHashMiner.Miners
 
                     if (ad.Speed == 0)
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                        CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                     }
                     else
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                        CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                     }
                 }
                 else
@@ -495,7 +495,7 @@ namespace NiceHashMiner.Miners
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                Helpers.ConsolePrint(MinerTag(), ex.Message);
             }
 
             return ad;
@@ -547,7 +547,7 @@ namespace NiceHashMiner.Miners
             try
             {
                 Helpers.ConsolePrint("BENCHMARK-routineAlt", "Benchmark starts");
-                Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
+                Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)commandLine);
                 BenchmarkHandle.WaitForExit(benchmarkTimeWait + 2);
                 var benchmarkTimer = new Stopwatch();
@@ -693,11 +693,11 @@ namespace NiceHashMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
-            Helpers.ConsolePrint(MinerTAG(), outdata);
+            Helpers.ConsolePrint(MinerTag(), outdata);
             return false;
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5;  // 5 min
         }

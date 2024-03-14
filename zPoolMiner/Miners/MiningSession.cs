@@ -716,7 +716,7 @@ namespace zPoolMiner.Miners
                     m.IsUpdatingAPI = false;
                     if (AD == null)
                     {
-                        Helpers.ConsolePrint(m.MinerTAG(), "GetSummary returned null..");
+                        Helpers.ConsolePrint(m.MinerTag(), "GetSummary returned null..");
                     }
                     // set rates
                     if (CryptoMiner937Data != null && AD != null)
@@ -735,7 +735,7 @@ namespace zPoolMiner.Miners
                     }
                     CurrentProfit += groupMiners.CurrentRate;
                     // Update GUI
-                    _mainFormRatesComunication.AddRateInfo(m.MinerTAG(), groupMiners.DevicesInfoString, AD, groupMiners.CurrentRate, m.IsAPIReadException);
+                    _mainFormRatesComunication.AddRateInfo(m.MinerTag(), groupMiners.DevicesInfoString, AD, groupMiners.CurrentRate, m.IsApiReadException);
                 }
             }
             catch (Exception e) { Helpers.ConsolePrint(TAG, e.Message); }

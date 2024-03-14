@@ -150,7 +150,7 @@ namespace zPoolMiner.Miners.equihash
                 }
             }
             string username = GetUsername(btcAddress, worker);
-            LastCommandLine = " " + GetDevicesCommandString() + " -m " + APIPort + " -s " + url + " -u " + username + " -p " + worker;
+            LastCommandLine = " " + GetDevicesCommandString() + " -m " + ApiPort + " -s " + url + " -u " + username + " -p " + worker;
             ProcessHandle = _Start();
 
             //
@@ -163,7 +163,7 @@ namespace zPoolMiner.Miners.equihash
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }
@@ -185,7 +185,7 @@ namespace zPoolMiner.Miners.equihash
 
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
             if (_skipAPICheck == false)
@@ -194,7 +194,7 @@ namespace zPoolMiner.Miners.equihash
                 try
                 {
                     string DataToSend = GetHttpRequestNHMAgentStrin("");
-                    string respStr = await GetAPIDataAsync(APIPort, DataToSend, true);
+                    string respStr = await GetAPIDataAsync(ApiPort, DataToSend, true);
                     if (respStr != null && respStr.Contains("{"))
                     {
                         int start = respStr.IndexOf("{");
@@ -222,12 +222,12 @@ namespace zPoolMiner.Miners.equihash
                         if (total_solution_rate_dict != null && total_solution_rate_dict.ContainsKey(_5s_key))
                         {
                             ad.Speed = total_solution_rate_dict[_5s_key];
-                            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                         }
                     }
                     if (ad.Speed == 0)
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                        CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                     }
                 }
             }

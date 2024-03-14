@@ -32,7 +32,7 @@ namespace zPoolMiner.Miners
             }
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             if (this.MiningSetup.MinerPath == MinerPaths.Data.mkxminer)
             {
@@ -151,7 +151,7 @@ namespace zPoolMiner.Miners
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
@@ -193,7 +193,7 @@ namespace zPoolMiner.Miners
                                   " --device ";
             CommandLine += GetDevicesCommandString();
 
-            Helpers.ConsolePrint(MinerTAG(), CommandLine);
+            Helpers.ConsolePrint(MinerTag(), CommandLine);
 
             return CommandLine;
         }
@@ -201,7 +201,7 @@ namespace zPoolMiner.Miners
         protected override bool BenchmarkParseLine(string outdata)
 
         {
-            Helpers.ConsolePrint(MinerTAG(), outdata);
+            Helpers.ConsolePrint(MinerTag(), outdata);
             if (BenchmarkException)
             {
                 if (outdata.Contains("> "))
@@ -252,13 +252,13 @@ namespace zPoolMiner.Miners
             {
                 Speed = 0
             };
-            if (IsAPIReadException)
+            if (IsApiReadException)
             {
                 // check if running
                 if (ProcessHandle == null)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer Proccess is null");
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from mkxminer Proccess is null");
                     return null;
                 }
                 try
@@ -268,13 +268,13 @@ namespace zPoolMiner.Miners
                 catch (ArgumentException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
                 catch (InvalidOperationException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from mkxminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
 

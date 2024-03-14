@@ -1,6 +1,6 @@
 ﻿namespace zPoolMiner.Enums
 {
-    public enum MinerAPIReadStatus
+    public enum MinerApiReadStatus
     {
         NONE,
         WAIT,

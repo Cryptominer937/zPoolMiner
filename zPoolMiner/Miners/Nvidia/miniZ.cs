@@ -61,7 +61,7 @@ namespace zPoolMiner.Miners
 
     public override void Start(string url, string btcAddress, string worker)
     {
-        IsAPIReadException = false;
+        IsApiReadException = false;
         firstStart = true;
         LastCommandLine = GetStartCommand(url, btcAddress, worker);
         ProcessHandle = _Start();
@@ -216,7 +216,7 @@ namespace zPoolMiner.Miners
 
 
         var ret = GetDevicesCommandString()
-                  + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + address + "@" + pool  + " --pass=" + worker +"" + " --telemetry=" + APIPort;
+                  + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + address + "@" + pool  + " --pass=" + worker +"" + " --telemetry=" + ApiPort;
 
         return ret;
     }
@@ -279,7 +279,7 @@ namespace zPoolMiner.Miners
 
 
             var ret = GetDevicesCommandString()
-                      + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66" + "@" + pool + " --pass=" + "c=DOGE,ID=Benchmark" +"" + " --telemetry=" + APIPort + " --log-file=" + "bench.txt";
+                      + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66" + "@" + pool + " --pass=" + "c=DOGE,ID=Benchmark" +"" + " --telemetry=" + ApiPort + " --log-file=" + "bench.txt";
 
             return ret;
         }
@@ -296,7 +296,7 @@ namespace zPoolMiner.Miners
         try
         {
             Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-            Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + _benchmarkTimeWait + " seconds");
+            Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + _benchmarkTimeWait + " seconds");
             BenchmarkHandle = BenchmarkStartProcess((string)commandLine);
             BenchmarkHandle.WaitForExit(_benchmarkTimeWait + 2);
             var benchmarkTimer = new Stopwatch();
@@ -375,12 +375,12 @@ namespace zPoolMiner.Miners
                         {
                             lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
                             read = true;
-                            Helpers.ConsolePrint(MinerTAG(),
+                            Helpers.ConsolePrint(MinerTag(),
                                 "Successfully read log after " + iteration + " iterations");
                         }
                         catch (Exception ex)
                         {
-                            Helpers.ConsolePrint(MinerTAG(), ex.Message);
+                            Helpers.ConsolePrint(MinerTag(), ex.Message);
                             Thread.Sleep(1000);
                         }
 
@@ -389,7 +389,7 @@ namespace zPoolMiner.Miners
                     else
                     {
                         read = true; // Give up after 10s
-                        Helpers.ConsolePrint(MinerTAG(), "Gave up on iteration " + iteration);
+                        Helpers.ConsolePrint(MinerTag(), "Gave up on iteration " + iteration);
                     }
                 }
 
@@ -489,7 +489,7 @@ namespace zPoolMiner.Miners
 
     public override async Task<APIData> GetSummaryAsync()
     {
-        _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+        CurrentMinerReadStatus = MinerApiReadStatus.NONE;
         var ad = new APIData(MiningSetup.CurrentAlgorithmType);
         var elapsedSeconds = DateTime.Now.Subtract(_started).Seconds; ////PVS-Studio - stupid program! 
 
@@ -507,7 +507,7 @@ namespace zPoolMiner.Miners
         try
         {
             var bytesToSend = Encoding.ASCII.GetBytes("{\"id\":\"0\", \"method\":\"getstat\"}\\n");
-            var client = new TcpClient("127.0.0.1", APIPort);
+            var client = new TcpClient("127.0.0.1", ApiPort);
             var nwStream = client.GetStream();
             await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
             var bytesToRead = new byte[client.ReceiveBufferSize];
@@ -517,7 +517,7 @@ namespace zPoolMiner.Miners
             if (!respStr.Contains("speed_sps") && prevSpeed != 0)
             {
                 client.Close();
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 ad.Speed = prevSpeed;
                 return ad;
             }
@@ -526,8 +526,8 @@ namespace zPoolMiner.Miners
         }
         catch (Exception ex)
         {
-            Helpers.ConsolePrint(MinerTAG(), ex.Message);
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            Helpers.ConsolePrint(MinerTag(), ex.Message);
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             ad.Speed = prevSpeed;
         }
 
@@ -535,10 +535,10 @@ namespace zPoolMiner.Miners
         {
             ad.Speed = resp.result.Aggregate<Result, double>(0, (current, t1) => current + t1.speed_sps);
             prevSpeed = ad.Speed;
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             if (ad.Speed == 0)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
             }
         }
 
@@ -550,7 +550,7 @@ namespace zPoolMiner.Miners
         Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
     }
 
-    protected override int GET_MAX_CooldownTimeInMilliseconds()
+    protected override int GetMaxCooldownTimeInMilliseconds()
     {
         return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
     }

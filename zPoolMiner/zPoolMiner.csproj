@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="IFTTT.cs" />
     <Compile Include="ExchangeRateAPI.cs" />
+    <Compile Include="Miners\AMD\lolminer.cs" />
     <Compile Include="Miners\ClaymoreDual.cs" />
     <Compile Include="Miners\ClaymoreNeoscryptMiner.cs" />
     <Compile Include="Miners\CPU\CPU_verium.cs" />
@@ -256,7 +257,7 @@
     <Compile Include="Enums\DeviceMiningStatus.cs" />
     <Compile Include="Enums\DeviceType.cs" />
     <Compile Include="Enums\LanguageType.cs" />
-    <Compile Include="Enums\MinerAPIReadStatus.cs" />
+    <Compile Include="Enums\MinerApiReadStatus.cs" />
     <Compile Include="Enums\MinerBaseType.cs" />
     <Compile Include="Enums\MinerOptionFlagType.cs" />
     <Compile Include="Enums\MinerStopType.cs" />

@@ -53,7 +53,7 @@
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 90 * 1000; // 1.5 minute max, whole waiting time 75seconds
         }
@@ -238,14 +238,14 @@
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             foreach (var ethminer in usedMiners)
             {
                 if (ethminer.MINER_ID != MINER_ID && (ethminer.IsRunning || ethminer.IsPaused))
                 {
-                    Helpers.ConsolePrint(MinerTAG(), String.Format("Will end {0} {1}", ethminer.MinerTAG(), ethminer.ProcessTag()));
+                    Helpers.ConsolePrint(MinerTag(), String.Format("Will end {0} {1}", ethminer.MinerTag(), ethminer.ProcessTag()));
                     ethminer.End();
                     System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
                 }
@@ -260,7 +260,7 @@
             }
             else
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Resuming ethminer..");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Resuming ethminer..");
                 StartCoolDownTimerChecker();
                 StartMining();
             }
@@ -314,22 +314,22 @@
             {
                 // fix MH/s
                 ad.Speed *= 1000 * 1000;
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 // check if speed zero
-                if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 return Task.FromResult(ad);
             }
             else if (GetSpeedStatus.NONE == getSpeedStatus)
             {
                 ad.Speed = 0;
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return Task.FromResult(ad);
             }
             // else if (GetSpeedStatus.EXCEPTION == getSpeedStatus) {
             // we don't restart unles not responding for long time check cooldown logic in Miner
             //Helpers.ConsolePrint(MinerTAG(), "ethminer is not running.. restarting..");
             //IsRunning = false;
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             return Task.FromResult<APIData>(null);
         }
 
@@ -339,7 +339,7 @@
         /// <returns>The <see cref="HashKingsProcess"/></returns>
         protected override HashKingsProcess _Start()
         {
-            SetEthminerAPI(APIPort);
+            SetEthminerAPI(ApiPort);
             return base._Start();
         }
 
@@ -354,13 +354,13 @@
             {
                 // daggerhashimoto - we only "pause" mining
                 IsPaused = true;
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Pausing ethminer..");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Pausing ethminer..");
                 StopMining();
                 return;
             }
             else if ((IsRunning || IsPaused) && willswitch != MinerStopType.SWITCH)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Shutting down miner");
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Shutting down miner");
             }
             if ((willswitch == MinerStopType.FORCE_END || willswitch == MinerStopType.END) && ProcessHandle != null)
             {
@@ -446,7 +446,7 @@
         /// </summary>
         private void StartMining()
         {
-            Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Sending START UDP");
+            Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Sending START UDP");
             SendUDP(2);
             IsRunning = true;
         }
@@ -456,7 +456,7 @@
         /// </summary>
         private void StopMining()
         {
-            Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Sending STOP UDP");
+            Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Sending STOP UDP");
             SendUDP(1);
             IsRunning = false;
         }
@@ -493,7 +493,7 @@
                     }
                     catch
                     {
-                        Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
+                        Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from API bind port");
                         return GetSpeedStatus.EXCEPTION;
                     }
                 }

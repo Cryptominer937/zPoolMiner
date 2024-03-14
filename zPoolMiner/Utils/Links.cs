@@ -14,7 +14,7 @@
         // add version        /// <summary>
         /// Defines the VisitURLNew
         /// </summary>
-        public static string VisitURLNew = "https://github.com/hash-kings/Hash-Kings-Miner-V3/releases";
+        public static string VisitURLNew = "https://github.com/Cryptominer937/zPoolMiner/releases";
 
         // add btc adress as parameter
         // add btc adress as parameter        /// <summary>

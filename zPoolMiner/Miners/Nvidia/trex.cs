@@ -139,21 +139,21 @@ namespace zPoolMiner.Miners
 
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string address = btcAddress;
 
 
 
-            IsAPIReadException = MiningSetup.MinerPath == MinerPaths.Data.trex;
+            IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.trex;
             
-            var apiBind = "--api-bind-telnet 127.0.0.1:" + APIPort;
-            var apiBindHttp = "-b 127.0.0.1:" + APIPort;
+            var apiBind = "--api-bind-telnet 127.0.0.1:" + ApiPort;
+            var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
             //apiBind = " --api-bind 127.0.0.1:" + ApiPort;
 
-            IsAPIReadException = true; //no api
+            IsApiReadException = true; //no api
                                        /*
                                        LastCommandLine = algo +
                                            " -o " + url + " -u " + username + " -p x " +
@@ -189,7 +189,7 @@ namespace zPoolMiner.Miners
         {
 
             string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
-            var apiBindHttp = "-b 127.0.0.1:" + APIPort;
+            var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
             string address = Globals.DemoUser;
 
@@ -212,7 +212,7 @@ namespace zPoolMiner.Miners
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
             Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
-            Helpers.ConsolePrint(MinerTAG(), "Benchmark should end in : " + _benchmarkTimeWait + " seconds");
+            Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + _benchmarkTimeWait + " seconds");
 
             BenchmarkHandle = BenchmarkStartProcess((string)commandLine);
             BenchmarkHandle.WaitForExit(_benchmarkTimeWait + 2);
@@ -313,13 +313,13 @@ namespace zPoolMiner.Miners
 
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             var ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
             string resp = null;
             try
             {
                 var bytesToSend = Encoding.ASCII.GetBytes("summary\r\n");
-                var client = new TcpClient("127.0.0.1", APIPort);
+                var client = new TcpClient("127.0.0.1", ApiPort);
                 var nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 var bytesToRead = new byte[client.ReceiveBufferSize];
@@ -332,7 +332,7 @@ namespace zPoolMiner.Miners
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null)
@@ -348,17 +348,17 @@ namespace zPoolMiner.Miners
 
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
                 else
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                    CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 }
 
                 // some clayomre miners have this issue reporting negative speeds in that case restart miner
                 if (ad.Speed < 0)
                 {
-                    Helpers.ConsolePrint(MinerTAG(), "Reporting negative speeds will restart...");
+                    Helpers.ConsolePrint(MinerTag(), "Reporting negative speeds will restart...");
                     Restart();
                 }
             }
@@ -380,7 +380,7 @@ namespace zPoolMiner.Miners
         //    return 5 * 60 * 1000; // 5 min
         //}
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }

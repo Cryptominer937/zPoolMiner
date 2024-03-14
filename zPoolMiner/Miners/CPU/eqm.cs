@@ -119,7 +119,7 @@ namespace zPoolMiner.Miners
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            LastCommandLine = GetDevicesCommandString() + " -a " + APIPort + " -l " + url + " -u " + btcAddress + " -w " + worker +"";
+            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + btcAddress + " -w " + worker +"";
             ProcessHandle = _Start();
         }
 

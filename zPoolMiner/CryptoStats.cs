@@ -649,7 +649,7 @@
         }
         public static string GetVersion(string worker)
         {
-            string url = "https://api.github.com/repos/hash-kings/Hash-Kings-Miner-V3/releases";
+            string url = "https://api.github.com/repos/Cryptominer937/zPoolMiner/releases";
             string r1 = GetGitHubAPIData(url);
             //Helpers.ConsolePrint("GITHUB!", r1);
             //string r1 = GetNiceHashApiData(url, "");

@@ -46,7 +46,7 @@ namespace zPoolMiner.Miners
         /// The GET_MAX_CooldownTimeInMilliseconds
         /// </summary>
         /// <returns>The <see cref="int"/></returns>
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
            // if (MiningSetup.MinerPath == MinerPaths.Data.Palgin_HSR)
            // {
@@ -170,7 +170,7 @@ namespace zPoolMiner.Miners
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string username = GetUsername(btcAddress, worker);
@@ -222,7 +222,7 @@ namespace zPoolMiner.Miners
                                   " --devices ";
             CommandLine += GetDevicesCommandString();
 
-            Helpers.ConsolePrint(MinerTAG(), CommandLine);
+            Helpers.ConsolePrint(MinerTag(), CommandLine);
 
             return CommandLine;
         }
@@ -236,7 +236,7 @@ namespace zPoolMiner.Miners
         {
             string hashSpeed = "";
             int kspeed = 1;
-            Helpers.ConsolePrint(MinerTAG(), outdata);
+            Helpers.ConsolePrint(MinerTag(), outdata);
             /*if (BenchmarkException)
             {
                 if (outdata.Contains("speed is "))
@@ -282,13 +282,13 @@ namespace zPoolMiner.Miners
             {
                 Speed = 0
             };
-            if (IsAPIReadException)
+            if (IsApiReadException)
             {
                 // check if running
                 if (ProcessHandle == null)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer Proccess is null");
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from hsrminer Proccess is null");
                     return null;
                 }
                 try
@@ -298,13 +298,13 @@ namespace zPoolMiner.Miners
                 catch (ArgumentException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
                 catch (InvalidOperationException ex)
                 {
                     //_currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                    Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
+                    Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from hsrminer reason: " + ex.Message);
                     return null; // will restart outside
                 }
 

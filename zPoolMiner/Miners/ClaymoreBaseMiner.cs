@@ -50,7 +50,7 @@ namespace zPoolMiner.Miners
             return (SecondaryAlgorithmType != AlgorithmType.NONE);
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }
@@ -64,7 +64,7 @@ namespace zPoolMiner.Miners
 
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
 
             TcpClient client = null;
@@ -72,7 +72,7 @@ namespace zPoolMiner.Miners
             try
             {
                 byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes("{\"id\":0,\"jsonrpc\":\"2.0\",\"method\":\"miner_getstat1\"}n");
-                client = new TcpClient("127.0.0.1", APIPort);
+                client = new TcpClient("127.0.0.1", ApiPort);
                 NetworkStream nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
@@ -84,7 +84,7 @@ namespace zPoolMiner.Miners
             }
             catch (Exception ex)
             {
-                Helpers.ConsolePrint(MinerTAG(), "GetSummary exception: " + ex.Message);
+                Helpers.ConsolePrint(MinerTag(), "GetSummary exception: " + ex.Message);
             }
 
             if (resp != null && resp.Error == null)
@@ -133,16 +133,16 @@ namespace zPoolMiner.Miners
 
                     ad.Speed *= api_read_mult;
                     ad.SecondarySpeed *= api_read_mult;
-                    _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                    CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 }
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
                 // some clayomre miners have this issue reporting negative speeds in that case restart miner
                 if (ad.Speed < 0)
                 {
-                    Helpers.ConsolePrint(MinerTAG(), "Reporting negative speeds will restart...");
+                    Helpers.ConsolePrint(MinerTag(), "Reporting negative speeds will restart...");
                     Restart();
                 }
             }

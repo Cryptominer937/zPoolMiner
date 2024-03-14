@@ -83,7 +83,7 @@ namespace zPoolMiner.Miners
 
         public override async Task<APIData> GetSummaryAsync()
         {
-            _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+            CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
 
             TcpClient client = null;
@@ -91,7 +91,7 @@ namespace zPoolMiner.Miners
             try
             {
                 byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes("status\n");
-                client = new TcpClient("127.0.0.1", APIPort);
+                client = new TcpClient("127.0.0.1", ApiPort);
                 NetworkStream nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
@@ -108,10 +108,10 @@ namespace zPoolMiner.Miners
             if (resp != null && resp.Error == null)
             {
                 ad.Speed = resp.Result.Speed_sps;
-                _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 if (ad.Speed == 0)
                 {
-                    _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+                    CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 }
             }
 
@@ -123,7 +123,7 @@ namespace zPoolMiner.Miners
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 5; // 5 minute max, whole waiting time 75seconds
         }

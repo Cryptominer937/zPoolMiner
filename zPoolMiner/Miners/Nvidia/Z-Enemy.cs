@@ -29,7 +29,7 @@ namespace zPoolMiner.Miners
         private double speed;
         private const int TotalDelim = 2;
         private bool _benchmarkException => MiningSetup.MinerPath == MinerPaths.Data.ZEnemy;
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 8;
         }
@@ -146,7 +146,7 @@ namespace zPoolMiner.Miners
             }
             if (!IsInit)
             {
-                Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
+                Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
             string address = btcAddress;
@@ -154,7 +154,7 @@ namespace zPoolMiner.Miners
             var algo = "";
             var apiBind = "";
             algo = "-a " + MiningSetup.MinerName;
-            apiBind = " --api-bind=" + APIPort;
+            apiBind = " --api-bind=" + ApiPort;
             LastCommandLine = algo +
                " -o " + url + " -u " + address + " -p " + worker +"" +"" + apiBind +
                " --devices " + GetDevicesCommandString() + " " +
@@ -299,12 +299,12 @@ namespace zPoolMiner.Miners
         #endregion // Decoupled benchmarking routines
         public override async Task<APIData> GetSummaryAsync()
         {
-            if (!IsAPIReadException) return await GetSummaryCPU_CCMINERAsync();
+            if (!IsApiReadException) return await GetSummaryCPU_CCMINERAsync();
             // check if running
             if (ProcessHandle == null)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from CryptoNight Proccess is null");
+                CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from CryptoNight Proccess is null");
                 return null;
             }
             try
@@ -313,14 +313,14 @@ namespace zPoolMiner.Miners
             }
             catch (ArgumentException ex)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from CryptoNight reason: " + ex.Message);
+                CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from CryptoNight reason: " + ex.Message);
                 return null; // will restart outside
             }
             catch (InvalidOperationException ex)
             {
-                _currentMinerReadStatus = MinerAPIReadStatus.RESTART;
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from CryptoNight reason: " + ex.Message);
+                CurrentMinerReadStatus = MinerApiReadStatus.RESTART;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from CryptoNight reason: " + ex.Message);
                 return null; // will restart outside
             }
             var totalSpeed = MiningSetup.MiningPairs
@@ -331,9 +331,9 @@ namespace zPoolMiner.Miners
             {
                 Speed = totalSpeed
             };
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
-            if (zenemyData.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (zenemyData.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
             return zenemyData;
         }
     }

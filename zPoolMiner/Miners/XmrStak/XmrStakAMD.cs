@@ -81,7 +81,7 @@ namespace zPoolMiner.Miners
             IsNeverHideMiningWindow = true;
         }
 
-        protected override int GET_MAX_CooldownTimeInMilliseconds()
+        protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 5 * 60 * 1000;  // 5 minutes
         }
@@ -90,7 +90,7 @@ namespace zPoolMiner.Miners
         {
             try
             {
-                var config = new XmrStakAMDConfig(pool, wallet, APIPort);
+                var config = new XmrStakAMDConfig(pool, wallet, ApiPort);
                 var gpuConfigs = new List<XmrStakGPUSettings>();
                 foreach (var pair in MiningSetup.MiningPairs)
                 {
@@ -121,11 +121,11 @@ namespace zPoolMiner.Miners
 
             string DataToSend = GetHttpRequestNHMAgentStrin("h");
 
-            resp = await GetAPIDataAsync(APIPort, DataToSend, false, true);
+            resp = await GetAPIDataAsync(ApiPort, DataToSend, false, true);
             if (resp == null)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " summary is null");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
             const string Totals = "Totals:";
@@ -143,14 +143,14 @@ namespace zPoolMiner.Miners
                 {
                     if (double.TryParse(s, out var speed))
                     {
-                        _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+                        CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                         ad.Speed = speed;
                         break;
                     }
                 }
             }
             // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 
             return ad;
         }

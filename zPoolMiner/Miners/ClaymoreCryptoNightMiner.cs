@@ -78,12 +78,12 @@
             string username = GetUsername(btcAddress, worker);
             if (isOld)
             {
-                LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -o " + url + " -u " +
+                LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -o " + url + " -u " +
                                   username + " -p " + worker + " -dbg -1";
             }
             else
             {
-                LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -xpool " + url +
+                LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -xpool " + url +
                                   " -xwal " + username + " -xpsw " + worker + " -dbg -1";
             }
             ProcessHandle = _Start();
@@ -109,12 +109,12 @@
             string ret;
             if (isOld)
             {
-                ret = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -o " + url + " -u " + username +
+                ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -o " + url + " -u " + username +
                       " -p x" ;
             }
             else
             {
-                ret = " " + GetDevicesCommandString() + " -mport -" + APIPort + " -xpool " + url + " -xwal " +
+                ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -xpool " + url + " -xwal " +
                              username + " -xpsw x";
             }
             return ret;
