@@ -194,7 +194,7 @@
                         MinerPaths.Data.sgminer_5_6_0_general,
                         MinerPaths.Data.sgminer_gm,
                         //MinerPaths.Data.sgminer_HSR,
-                        MinerPaths.Data.sgminer_Bitcore,
+                        //MinerPaths.Data.sgminer_Bitcore,
                         MinerPaths.Data.sgminer_Phi,
                         MinerPaths.Data.sgminer_Skein,
                         //MinerPaths.Data.sgminer_Tribus,

@@ -100,7 +100,7 @@
         /// <summary>
         /// Defines the Bitcore
         /// </summary>
-        Bitcore = 0,
+        //Bitcore = 0,
 
         /// <summary>
         /// Defines the Blake2s

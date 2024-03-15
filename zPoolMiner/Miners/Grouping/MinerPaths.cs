@@ -263,7 +263,7 @@
             /// <summary>
             /// Defines the sgminer_Bitcore
             /// </summary
-            public const string sgminer_Bitcore = _bin + @"\AMD\sgminer-Bitcore\sgminer.exe";
+            //public const string sgminer_Bitcore = _bin + @"\AMD\sgminer-Bitcore\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Skein
@@ -736,10 +736,10 @@
                 {
                     return Data.sgminer_Skein;
                 }
-                if (AlgorithmType.Bitcore == type)
+                /*if (AlgorithmType.Bitcore == type)
                 {
                     return Data.sgminer_Bitcore;
-                }
+                }*/
                 /*if (AlgorithmType.Hsr == type)
                 {
                     return Data.sgminer_HSR;

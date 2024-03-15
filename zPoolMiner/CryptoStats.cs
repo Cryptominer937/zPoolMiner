@@ -832,7 +832,7 @@
         {
             switch (s.ToLower())
             {
-                case "bitcore": return ZAlgorithm.bitcore;
+                //case "bitcore": return ZAlgorithm.bitcore;
                 case "blake2s": return ZAlgorithm.blake2s;
                 case "blakecoin": return ZAlgorithm.blake256r8;
                 case "c11": return ZAlgorithm.c11;
@@ -923,7 +923,7 @@
         {
             switch (Name)
             {
-                case "bitcore": return 0;
+                //case "bitcore": return 0;
                 case "blake2s": return 1;
                 case "blakecoin": return 2;
                 case "c11": return 3;
@@ -1057,7 +1057,7 @@
                 case "x14":
                 case "x15":
                 //case "x17":
-                case "bitcore":
+                //case "bitcore":
                 case "skunk":
                 case "c11":
                 case "bcd":
@@ -1156,7 +1156,7 @@
         /// <summary>
         /// Defines the bitcore
         /// </summary>
-        bitcore,
+        //bitcore,
 
         /// <summary>
         /// Defines the blake2s

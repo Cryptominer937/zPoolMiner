@@ -415,7 +415,7 @@
                             //Cryptominer937 Additions                            
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Skein, "skeincoin") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 256 --intensity d" },
                            // new Algorithm(MinerBaseType.sgminer, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Blake2s, "sia") { ExtraLaunchParameters = DefaultParam + "--intensity d" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Phi, "phi") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },

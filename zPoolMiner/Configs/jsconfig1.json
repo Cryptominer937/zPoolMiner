@@ -1,6 +1,6 @@
 {
   "Algos": {
-    "bitcore": "ZAlgorithm.bitcore",
+    //"bitcore": "ZAlgorithm.bitcore",
     "blake2s": "ZAlgorithm.blake2s",
     "blakecoin": "ZAlgorithm.blakecoin",
     "c11": "ZAlgorithm.c11",
@@ -58,7 +58,7 @@
     "karlsenhash": "ZAlgorithm.karlsenhash"
   },
   "AlgoID": {
-    "bitcore": "0",
+    //"bitcore": "0",
     "blake2s": "1",
     "blakecoin": "2",
     "c11": "3",
