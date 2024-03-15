@@ -253,7 +253,7 @@
             /// <summary>
             /// Defines the sgminer_HSR
             /// </summary>
-            public const string sgminer_HSR = _bin + @"\AMD\sgminer-HSR\sgminer.exe";
+            //public const string sgminer_HSR = _bin + @"\AMD\sgminer-HSR\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Phi
@@ -273,12 +273,12 @@
             /// <summary>
             /// Defines the sgminer_Tribus
             /// </summary>
-            public const string sgminer_Tribus = _bin + @"\AMD\sgminer-Tribus\sgminer.exe";
+            //public const string sgminer_Tribus = _bin + @"\AMD\sgminer-Tribus\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Xevan
             /// </summary>
-            public const string sgminer_Xevan = _bin + @"\AMD\sgminer-Xevan\sgminer.exe";
+            //public const string sgminer_Xevan = _bin + @"\AMD\sgminer-Xevan\sgminer.exe";
             public const string sgminer_aceneun = _bin + @"\AMD\sgminer-aceneun\sgminer.exe";
 
             /// <summary>
@@ -645,7 +645,7 @@
             /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
             /// <param name="nvidiaGroup">The <see cref="DeviceGroupType"/></param>
             /// <returns>The <see cref="string"/></returns>
-            public static string Palgin_HSR_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            /*public static string Palgin_HSR_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings                
                 // CN exception
@@ -664,7 +664,7 @@
 
                 // TODO wrong case?
                 return Data.NONE; // should not happen
-            }
+            }*/
 
             /// <summary>
             /// The Ccminer_path
@@ -680,7 +680,7 @@
                     return NVIDIA_GROUPS.Ccminer_sm21_or_sm3x(algorithmType);
                 }
                 // CN exception
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.cryptonight || AlgorithmType.Tribus == algorithmType)
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.cryptonight)
                 {
                     return Data.ccminer_tpruvot2;
                 }
@@ -740,22 +740,22 @@
                 {
                     return Data.sgminer_Bitcore;
                 }
-                if (AlgorithmType.Hsr == type)
+                /*if (AlgorithmType.Hsr == type)
                 {
                     return Data.sgminer_HSR;
-                }
+                }*/
                 if (AlgorithmType.Phi == type)
                 {
                     return Data.sgminer_Phi;
                 }
-                if (AlgorithmType.Tribus == type)
+                /*if (AlgorithmType.Tribus == type)
                 {
                     return Data.sgminer_Tribus;
-                }
-                if (AlgorithmType.Xevan == type)
+                }*/
+                /*if (AlgorithmType.Xevan == type)
                 {
                     return Data.sgminer_Xevan;
-                }
+                }*/
                 /*if (AlgorithmType.x16r == type)
                 {
                     return Data.sgminer_aceneun;

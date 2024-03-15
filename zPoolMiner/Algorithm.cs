@@ -130,7 +130,7 @@
             SecondaryBenchmarkSpeed = 0.0d;
             ExtraLaunchParameters = "";
             LessThreads = 1;
-            Enabled = !(CryptoMiner937ID == AlgorithmType.Nist5 || CryptoMiner937ID == AlgorithmType.Skein || CryptoMiner937ID == AlgorithmType.Blake2s || CryptoMiner937ID == AlgorithmType.Xevan || CryptoMiner937ID == AlgorithmType.Tribus || CryptoMiner937ID == AlgorithmType.Phi || CryptoMiner937ID == AlgorithmType.Hsr || CryptoMiner937ID == AlgorithmType.Bitcore) && minerBaseType == MinerBaseType.sgminer;
+            Enabled = !(CryptoMiner937ID == AlgorithmType.Nist5 || CryptoMiner937ID == AlgorithmType.Skein || CryptoMiner937ID == AlgorithmType.Blake2s || CryptoMiner937ID == AlgorithmType.Phi || CryptoMiner937ID == AlgorithmType.Bitcore) && minerBaseType == MinerBaseType.sgminer;
             Enabled = !(CryptoMiner937ID == AlgorithmType.cryptonight) || (CryptoMiner937ID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
             //Enabled = !(CryptoMiner937ID == AlgorithmType.Lyra2REv2) && minerBaseType == MinerBaseType.mkxminer;
             BenchmarkStatus = "";

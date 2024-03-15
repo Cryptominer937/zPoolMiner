@@ -240,13 +240,13 @@
                         }
                     } // END AMD case
 
-                    /*if (algoSettings.ContainsKey(MinerBaseType.lolMiner) && device.DeviceType == DeviceType.AMD && device.GpuRam < (ulong)(1024 * 1024 * 1024 * 7.4))
+                    if (algoSettings.ContainsKey(MinerBaseType.lolMiner) && device.DeviceType == DeviceType.AMD && device.GpuRam < (ulong)(1024 * 1024 * 1024 * 7.4))
                     {
                         algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType>
                     {
-                        AlgorithmType.GrinCuckatoo32
+                        AlgorithmType.karlsenhash
                     });
-                    }*/
+                    }
                     // check if it is Etherum capable
                     if (device.IsEtherumCapale == false)
                     {
@@ -417,11 +417,11 @@
                            // new Algorithm(MinerBaseType.sgminer, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Bitcore, "timetravel10") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
                             new Algorithm(MinerBaseType.sgminer, AlgorithmType.Blake2s, "sia") { ExtraLaunchParameters = DefaultParam + "--intensity d" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Hsr, "hsr") { ExtraLaunchParameters = DefaultParam + "--intensity 20" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Phi, "phi") { ExtraLaunchParameters = DefaultParam + "--intensity 21" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Veltor, "veltor") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Tribus, "tribus") { ExtraLaunchParameters = DefaultParam + "--shaders 1792 --lookup-gap 4 --intensity 19" },
-                            new Algorithm(MinerBaseType.sgminer, AlgorithmType.Xevan, "xevan-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Tribus, "tribus") { ExtraLaunchParameters = DefaultParam + "--shaders 1792 --lookup-gap 4 --intensity 19" },
+                            //new Algorithm(MinerBaseType.sgminer, AlgorithmType.Xevan, "xevan-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 19" },
                             //new Algorithm(MinerBaseType.sgminer, AlgorithmType.x16r, "x16r") { ExtraLaunchParameters = DefaultParam + "--intensity 19" }
 
                         }
@@ -475,8 +475,12 @@
                         new List<Algorithm> {
                             new Algorithm(MinerBaseType.XmrStakAMD, AlgorithmType.cryptonight, "")
                         }
-                    }*/
-                };
+                    }*/{MinerBaseType.lolMiner,
+                new List<Algorithm>() {
+                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.karlsenhash,"karlsenhash")
+                }
+                }
+            };
             }
             // NVIDIA
 
@@ -499,11 +503,11 @@
                            // new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Skunk, "skunk"),
                             //new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Tribus, "tribus"),
                             new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.lyra2z, "lyra2z"),
-                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.hmq1725, "hmq1725"),
+                            //new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.hmq1725, "hmq1725"),
                            // new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Phi, "phi"),
-                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.X17, "x17"),
+                            //new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.X17, "x17"),
                             //new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Sha256t, "sha256t"),
-                            new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Keccakc, "keccakc")
+                            //new Algorithm(MinerBaseType.ccminer_tpruvot2, AlgorithmType.Keccakc, "keccakc")
                         }
                     },
                     { MinerBaseType.Claymore,
@@ -519,15 +523,15 @@
                     { MinerBaseType.trex,
                         new List<Algorithm>() {
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.lyra2z, "Lyra2z"),
-                            new Algorithm(MinerBaseType.trex, AlgorithmType.Tribus, "tribus"),
+                            //new Algorithm(MinerBaseType.trex, AlgorithmType.Tribus, "tribus"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.phi2, "phi2"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.Phi, "phi"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.C11, "c11"),
-                            new Algorithm(MinerBaseType.trex, AlgorithmType.X17, "x17"),
+                            //new Algorithm(MinerBaseType.trex, AlgorithmType.X17, "x17"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.Hsr, "hsr"),
                             new Algorithm(MinerBaseType.trex, AlgorithmType.x16r, "x16r"),
-                            new Algorithm(MinerBaseType.trex, AlgorithmType.x16s, "x16s"),
-                            new Algorithm(MinerBaseType.trex, AlgorithmType.sonoa, "sonoa"),
+                            //new Algorithm(MinerBaseType.trex, AlgorithmType.x16s, "x16s"),
+                            //new Algorithm(MinerBaseType.trex, AlgorithmType.sonoa, "sonoa"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.hmq1725, "hmq1725"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.Bitcore, "bitcore"),
                             //new Algorithm(MinerBaseType.trex, AlgorithmType.Polytimos, "polytimos"),
@@ -538,18 +542,18 @@
                     { MinerBaseType.ZEnemy,
                         new List<Algorithm>() {
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Bitcore, "bitcore"),//
-                            new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Xevan, "xevan"),//
-                            new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.X17, "x17"),//
+                            //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Xevan, "xevan"),//
+                            //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.X17, "x17"),//
                             new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.x16r, "x16r"),//
-                            new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.x16s, "x16s"),
+                            //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.x16s, "x16s"),
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Tribus, "tribus"),//
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.C11, "c11"),//
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Skunk, "skunk"),//
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Phi, "phi"),//
-                            new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.phi2, "phi2"),
+                            //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.phi2, "phi2"),
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.hex, "hex"),
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.Timetravel, "timetravel"),//
-                            new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.sonoa, "sonoa"),
+                            //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.sonoa, "sonoa"),
                             //new Algorithm(MinerBaseType.ZEnemy, AlgorithmType.bcd, "bcd"),
                         }
                     },
@@ -558,23 +562,23 @@
                             new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.allium, "allium"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.argon2d250, "argon2d250"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.argon2d4096, "argon2d4096"),
-                            new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.hmq1725, "hmq1725"),
-                            new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.lyra2v3, "lyra2v3"),
+                            //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.hmq1725, "hmq1725"),
+                            //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.lyra2v3, "lyra2v3"),
                             new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.NeoScrypt, "neoscrypt"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.Skunk, "skunk"),
-                            new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.phi2, "phi2"),
+                            //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.phi2, "phi2"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_heavy, "cryptonightheavy"),
                             new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_gpu, "cngpu"),
-                            new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_xeq, "cngpu"),
+                           // new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_xeq, "cngpu"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_saber, "cnsaber"),
-                            new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_conceal, "cnconceal"),
+                            //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_conceal, "cnconceal"),
                         new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.cryptonight_upx, "cnupx2"),
                             //new Algorithm(MinerBaseType.CryptoDredge, AlgorithmType.chukwa, "chukwa"),
                         }
                     },
                     { MinerBaseType.MiniZ,
                         new List<Algorithm>() {
-                            new Algorithm(MinerBaseType.MiniZ, AlgorithmType.equihash96, "equihash96"),
+                            //new Algorithm(MinerBaseType.MiniZ, AlgorithmType.equihash96, "equihash96"),
                             new Algorithm(MinerBaseType.MiniZ, AlgorithmType.equihash125, "equihash125"),
                             new Algorithm(MinerBaseType.MiniZ, AlgorithmType.equihash144, "equihash144"),
                             new Algorithm(MinerBaseType.MiniZ, AlgorithmType.equihash192, "equihash192"),
@@ -582,6 +586,8 @@
                     },
                 };
 
+
+                
                 if (DeviceGroupType.NVIDIA_6_x == deviceGroupType)
                 {
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {

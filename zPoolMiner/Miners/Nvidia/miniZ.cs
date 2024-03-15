@@ -203,11 +203,11 @@ namespace zPoolMiner.Miners
                 ARG = "--algo 192,7 --pers auto --oc1 ";
                 pool = "equihash192.mine.zergpool.com:2144";
             }
-            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash96)
+            /*if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash96)
             {
                 ARG = "--algo 96,5 --pers auto --oc1 ";
                 pool = "equihash96.mine.zergpool.com:2148";
-            }
+            }*/
             string sColor = "";
         if (GetWinVer(Environment.OSVersion.Version) < 8)
         {
@@ -266,11 +266,11 @@ namespace zPoolMiner.Miners
                 ARG = "--algo 192,7 --pers auto --oc1 ";
                 pool = "equihash192.mine.zergpool.com:2144";
             }
-            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash96)
+            /*if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash96)
             {
                 ARG = "--algo 96,5 --pers auto --oc1 ";
                 pool = "equihash96.mine.zergpool.com:2148";
-            }
+            }*/
             string sColor = "";
             if (GetWinVer(Environment.OSVersion.Version) < 8)
             {

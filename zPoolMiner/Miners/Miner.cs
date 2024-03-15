@@ -1085,10 +1085,10 @@
                     Helpers.ConsolePrint(MinerTag(), "Starting miner " + ProcessTag() + " " + LastCommandLine);
                     //add hsrminer palgin
                     //StartCoolDownTimerChecker();
-                    if (!ProcessTag().Contains("hsrminer_neoscrypt")) //temporary disable hsrminer checker
+                    /*if (!ProcessTag().Contains("hsrminer_neoscrypt")) //temporary disable hsrminer checker
                     {
                         StartCoolDownTimerChecker();
-                    }
+                    }*/
                     /* if (!ProcessTag().Contains("mkxminer_lyra2rev2")) //temporary disable mkxminer checker
                      {
                          StartCoolDownTimerChecker();

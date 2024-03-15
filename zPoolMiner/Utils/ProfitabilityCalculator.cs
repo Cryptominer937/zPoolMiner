@@ -43,8 +43,8 @@
             { AlgorithmType.X11_UNUSED ,                    MHs }, // NOT used
             { AlgorithmType.X13_UNUSED ,                    MHs },
             { AlgorithmType.Skein ,                         MHs },
-            { AlgorithmType.Tribus ,                        MHs },
-            { AlgorithmType.X17 ,                           MHs },
+            //{ AlgorithmType.Tribus ,                        MHs },
+            //{ AlgorithmType.X17 ,                           MHs },
             { AlgorithmType.Keccak ,                        GHs },
             { AlgorithmType.X15_UNUSED ,                    MHs },
             { AlgorithmType.Nist5 ,                         MHs },
@@ -69,7 +69,8 @@
             { AlgorithmType.X11Gost ,                       MHs },
             { AlgorithmType.Sia ,                           GHs },
             { AlgorithmType.Blake2s ,                       GHs },
-            { AlgorithmType.Skunk ,                         MHs }
+            { AlgorithmType.Skunk ,                         MHs },
+            { AlgorithmType.karlsenhash,                        kHs }
         };
 
         /// <summary>

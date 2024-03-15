@@ -839,7 +839,7 @@
                 case "cryptonight": return ZAlgorithm.cryptonight;
                 case "equihash": return ZAlgorithm.equihash;
                 case "groestl": return ZAlgorithm.groestl;
-                case "hsr": return ZAlgorithm.hsr;
+                //case "hsr": return ZAlgorithm.hsr;
                 case "keccak": return ZAlgorithm.keccak;
                 case "lbry": return ZAlgorithm.lbry;
                 case "lyra2v2": return ZAlgorithm.lyra2v2;
@@ -856,24 +856,24 @@
                 case "skein": return ZAlgorithm.skein;
                 case "skunk": return ZAlgorithm.skunk;
                 case "timetravel": return ZAlgorithm.timetravel;
-                case "tribus": return ZAlgorithm.tribus;
+                //case "tribus": return ZAlgorithm.tribus;
                 case "veltor": return ZAlgorithm.veltor;
                 case "x11": return ZAlgorithm.x11;
                 case "x11evo": return ZAlgorithm.x11evo;
                 case "x13": return ZAlgorithm.x13;
                 case "x14": return ZAlgorithm.x14;
-                case "x17": return ZAlgorithm.x17;
-                case "xevan": return ZAlgorithm.xevan;
+                //case "x17": return ZAlgorithm.x17;
+                //case "xevan": return ZAlgorithm.xevan;
                 case "yescrypt": return ZAlgorithm.yescrypt;
                 //case "m7m": return ZAlgorithm.m7m;
                 case "daggerhashimoto": return ZAlgorithm.daggerhashimoto;
                 case "lyra2z": return ZAlgorithm.lyra2z;
-                case "hmq1725": return ZAlgorithm.hmq1725;
+                //case "hmq1725": return ZAlgorithm.hmq1725;
                 case "yescryptr16": return ZAlgorithm.yescryptr16;
                 case "sia": return ZAlgorithm.sia;
                 case "decred": return ZAlgorithm.decred;
                 case "pascal": return ZAlgorithm.pascal;
-                case "keccakc": return ZAlgorithm.keccakc;
+                //case "keccakc": return ZAlgorithm.keccakc;
                 case "sha256t": return ZAlgorithm.sha256t;
                 case "cryptonightv7": return ZAlgorithm.cryptonightv7;
                 case "x16r": return ZAlgorithm.x16r;
@@ -894,21 +894,22 @@
                 //case "yespoweriots": return ZAlgorithm.yespoweriots;
                 //case "chukwa": return ZAlgorithm.chukwa;
                 case "yescryptr32": return ZAlgorithm.yescryptr32;
-                case "x16s": return ZAlgorithm.x16s;
-                case "sonoa": return ZAlgorithm.sonoa;
+                //case "x16s": return ZAlgorithm.x16s;
+                //case "sonoa": return ZAlgorithm.sonoa;
                 case "bcd": return ZAlgorithm.bcd;
-                case "phi2": return ZAlgorithm.phi2;
+                ///case "phi2": return ZAlgorithm.phi2;
                 case "hex": return ZAlgorithm.hex;
                 case "allium": return ZAlgorithm.allium;
                 case "cryptonight_gpu": return ZAlgorithm.cryptonight_gpu;
-                case "cryptonight_xeq": return ZAlgorithm.cryptonight_xeq;
-                case "cryptonight_conceal": return ZAlgorithm.cryptonight_conceal;
-                case "lyra2v3": return ZAlgorithm.lyra2v3;
-                case "equihash96": return ZAlgorithm.equihash96;
+                //case "cryptonight_xeq": return ZAlgorithm.cryptonight_xeq;
+                //case "cryptonight_conceal": return ZAlgorithm.cryptonight_conceal;
+                //case "lyra2v3": return ZAlgorithm.lyra2v3;
+                //case "equihash96": return ZAlgorithm.equihash96;
                 case "equihash125": return ZAlgorithm.equihash125;
                 case "equihash144": return ZAlgorithm.equihash144;
                 case "equihash192": return ZAlgorithm.equihash192;
                 case "scryptn2": return ZAlgorithm.scryptn2;
+                case "karlsenhash": return ZAlgorithm.karlsenhash;
             }
 
             return ZAlgorithm.unknown;
@@ -929,7 +930,7 @@
                 case "cryptonight": return 33;
                 case "equihash": return 4;
                 case "groestl": return 5;
-                case "hsr": return 6;
+                //case "hsr": return 6;
                 case "keccak": return 7;
                 case "lbry": return 8;
                 case "lyra2v2": return 9;
@@ -946,24 +947,24 @@
                 case "skein": return 20;
                 case "skunk": return 21;
                 case "timetravel": return 22;
-                case "tribus": return 23;
+                //case "tribus": return 23;
                 case "veltor": return 24;
                 case "x11": return 25;
                 case "x11evo": return 26;
                 case "x13": return 27;
                 case "x14": return 28;
-                case "x17": return 29;
-                case "xevan": return 30;
+                //case "x17": return 29;
+                //case "xevan": return 30;
                 case "yescrypt": return 31;
                 //case "m7m": return 32;
                 case "daggerhashimoto": return 35;
                 case "lyra2z": return 36;
-                case "hmq1725": return 37;
+                //case "hmq1725": return 37;
                 case "yescryptr16": return 38;
                 case "sia": return 39;
                 case "decred": return 40;
                 case "pascal": return 41;
-                case "keccakc": return 42;
+                //case "keccakc": return 42;
                 case "sha256t": return 43;
                 case "cryptonightv7": return 44;
                 case "x16r": return 45;
@@ -984,21 +985,22 @@
                 //case "yespoweriots": return 60;
                 //case "chukwa": return 61;
                 case "yescryptr32": return 62;
-                case "x16s": return 63;
-                case "sonoa": return 64;
+                //case "x16s": return 63;
+                //case "sonoa": return 64;
                 case "bcd": return 65;
-                case "phi2": return 66;
+                ///case "phi2": return 66;
                 case "hex": return 67;
                 case "allium": return 68;
-                case "lyra2v3": return 69;
+                //case "lyra2v3": return 69;
                 case "cryptonight_gpu": return 70;
-                case "cryptonight_xeq": return 71;
-                case "cryptonight_conceal": return 72;
+                //case "cryptonight_xeq": return 71;
+                //case "cryptonight_conceal": return 72;
                 case "equihash144": return 73;
                 case "equihash125": return 74;
                 case "equihash192": return 75;
-                case "equihash96": return 76;
+                //case "equihash96": return 76;
                 case "scryptn2": return 77;
+                case "karlsenhash": return 78;
 
                 default: return -1;
             }
@@ -1026,7 +1028,7 @@
                 //GH Below
                 case "decred":
                 case "blakecoin":
-                case "keccakc":
+                //case "keccakc":
                 case "pascal":
                 case "scrypt":
                 case "x11":
@@ -1040,7 +1042,7 @@
                 case "honeycomb":
                 case "k12":
                 case "lyra2v2":
-                case "lyra2v3":
+                //case "lyra2v3":
                 case "myr-gr":
                 case "nist5":
                 case "odocrypt":
@@ -1048,56 +1050,57 @@
                 case "sha3d":
                 case "sib":
                 case "skein":
-                case "tribus":
+                //case "tribus":
                 case "veil":
                 case "verushash":
                 case "x13":
                 case "x14":
                 case "x15":
-                case "x17":
+                //case "x17":
                 case "bitcore":
                 case "skunk":
                 case "c11":
                 case "bcd":
                     return 1; //end GH
                 //MH Below
-                case "hmq1725":
+                //case "hmq1725":
                 case "jeonghash":
                 //case "m7m":
                 case "mtp":
                 case "neoscrypt":
                 case "padihash":
                 case "pawelhash":
-                case "phi2":
+                ///case "phi2":
                 case "progpow":
-                case "sonoa":
+                //case "sonoa":
                 case "x12":
                 case "x16r":
                 case "x16rt":
                 case "x16rv2":
-                case "x16s":
+                //case "x16s":
                 case "x21s":
                 case "x22i":
                 case "x25x":
-                case "xevan":
+                //case "xevan":
                 case "allium":
-                case "equihash96":
+                //case "equihash96":
                 case "cryptonight_upx":
                     return 1000; // end MH
                 //KH Below
+                case "karlsenhash":
                 case "yescrypt":
                 case "yescryptr16":
                 case "randomx":
                 //case "randomarq":
                 //case "randomsfx":
                 case "cryptonight_haven":
-                case "cryptonight_conceal":
+                //case "cryptonight_conceal":
                 //case "cryptonight_fast":
                 //case "cryptonight_saber":
                 case "cryptonight_heavyx":
                 //case "cryptonight_heavy":
                 case "cryptonight_gpu":
-                case "cryptonight_xeq":
+                //case "cryptonight_xeq":
                 case "yespower":
                 case "cpupower":
                 case "power2b":
@@ -1184,7 +1187,7 @@
         /// <summary>
         /// Defines the hsr
         /// </summary>
-        hsr,
+        //hsr,
 
         /// <summary>
         /// Defines the keccak
@@ -1269,7 +1272,7 @@
         /// <summary>
         /// Defines the tribus
         /// </summary>
-        tribus,
+        //tribus,
 
         /// <summary>
         /// Defines the veltor
@@ -1299,12 +1302,12 @@
         /// <summary>
         /// Defines the x17
         /// </summary>
-        x17,
+        //x17,
 
         /// <summary>
         /// Defines the xevan
         /// </summary>
-        xevan,
+        //xevan,
 
         /// <summary>
         /// Defines the unknown
@@ -1319,7 +1322,7 @@
 
         daggerhashimoto,
         lyra2z,
-        hmq1725,
+        //hmq1725,
         yescryptr16,
         sia,
         decred,
@@ -1345,21 +1348,22 @@
         //yespoweriots,
         //chukwa,
         yescryptr32,
-        x16s,
-        sonoa,
+        //x16s,
+        //sonoa,
         bcd,
-        phi2,
+        //phi2,
         hex,
         allium,
         cryptonight_gpu,
-        cryptonight_xeq,
-        cryptonight_conceal,
-        lyra2v3,
-        equihash96,
+        //cryptonight_xeq,
+        //cryptonight_conceal,
+        //lyra2v3,
+        //equihash96,
         equihash125,
         equihash144,
         equihash192,
         scryptn2,
+        karlsenhash
 
     }
 }

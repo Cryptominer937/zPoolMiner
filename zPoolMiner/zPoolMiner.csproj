@@ -216,7 +216,6 @@
     <Compile Include="Miners\CPU\CPU_RKZ.cs" />
     <Compile Include="Miners\Nvidia\miniZ.cs" />
     <Compile Include="Miners\Nvidia\palgin_neoscrypt.cs" />
-    <Compile Include="Miners\Nvidia\palgin_hsr.cs" />
     <Compile Include="Miners\prospector.cs" />
     <Compile Include="Miners\CPU\CPU_Xmrig.cs" />
     <Compile Include="Miners\Nvidia\trex.cs" />
