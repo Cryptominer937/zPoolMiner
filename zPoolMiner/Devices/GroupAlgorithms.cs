@@ -235,18 +235,16 @@
                                             algo.Enabled = false;
                                         }
                                     }
+                                    if (algoSettings.ContainsKey(MinerBaseType.lolMiner))
+                                    {
+                                        
+                                    }
                                 }
                             }
                         }
                     } // END AMD case
 
-                    if (algoSettings.ContainsKey(MinerBaseType.lolMiner) && device.DeviceType == DeviceType.AMD && device.GpuRam < (ulong)(1024 * 1024 * 1024 * 7.4))
-                    {
-                        algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType>
-                    {
-                        AlgorithmType.karlsenhash
-                    });
-                    }
+                    
                     // check if it is Etherum capable
                     if (device.IsEtherumCapale == false)
                     {

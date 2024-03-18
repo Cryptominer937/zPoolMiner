@@ -454,6 +454,8 @@
                     return NVIDIA_GROUPS.CryptoDredge(algoType, devGroupType);
                 case MinerBaseType.CPU_verium:
                     return Data.CPU_verium;
+                case MinerBaseType.lolMiner:
+                    return AMD_GROUP.lolMiner(algoType);
             }
             return Data.NONE;
         }
@@ -748,20 +750,26 @@
                 {
                     return Data.sgminer_Phi;
                 }
-                /*if (AlgorithmType.Tribus == type)
+                if (AlgorithmType.karlsenhash == type)
                 {
-                    return Data.sgminer_Tribus;
-                }*/
-                /*if (AlgorithmType.Xevan == type)
-                {
-                    return Data.sgminer_Xevan;
-                }*/
+                    return Data.lolMiner;
+                }
                 /*if (AlgorithmType.x16r == type)
                 {
                     return Data.sgminer_aceneun;
                 }*/
 
                 return Data.sgminer_5_6_0_general;
+            }
+            public static string lolMiner_path(AlgorithmType type)
+            {
+             
+                if (AlgorithmType.karlsenhash == type)
+                {
+                    return Data.lolMiner;
+                }
+
+                return Data.lolMiner;
             }
 
             /// <summary>
@@ -775,6 +783,15 @@
                 if (AlgorithmType.cryptonight == type || AlgorithmType.DaggerHashimoto == type || AlgorithmType.equihash == type || AlgorithmType.NeoScrypt == type || AlgorithmType.Lyra2REv2 == type || AlgorithmType.Myriad_groestl == type || AlgorithmType.Keccak == type)
                 {
                     return Data.glg;
+                }
+                return Data.NONE;
+            }
+
+            public static string lolMiner(AlgorithmType type)
+            {
+                if (AlgorithmType.karlsenhash == type)
+                {
+                    return Data.lolMiner;
                 }
                 return Data.NONE;
             }
