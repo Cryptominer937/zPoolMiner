@@ -212,7 +212,7 @@
             /// <summary>
             /// Defines the ccminer_tpruvot2
             /// </summary>
-            public const string ccminer_tpruvot2 = _bin + @"\ccminer_tpruvot2\ccminer.exe";
+            //public const string ccminer_tpruvot2 = _bin + @"\ccminer_tpruvot2\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_x11gost
@@ -243,12 +243,12 @@
             /// <summary>
             /// sgminers
             /// </summary>
-            public const string sgminer_5_6_0_general = _bin + @"\AMD\sgminer-5-6-0-general\sgminer.exe";
+            //public const string sgminer_5_6_0_general = _bin + @"\AMD\sgminer-5-6-0-general\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_gm
             /// </summary>
-            public const string sgminer_gm = _bin + @"\AMD\sgminer-gm\sgminer.exe";
+            //public const string sgminer_gm = _bin + @"\AMD\sgminer-gm\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_HSR
@@ -258,7 +258,7 @@
             /// <summary>
             /// Defines the sgminer_Phi
             /// </summary>
-            public const string sgminer_Phi = _bin + @"\AMD\sgminer-Phi\sgminer.exe";
+            //public const string sgminer_Phi = _bin + @"\AMD\sgminer-Phi\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Bitcore
@@ -268,7 +268,7 @@
             /// <summary>
             /// Defines the sgminer_Skein
             /// </summary>
-            public const string sgminer_Skein = _bin + @"\AMD\sgminer-Skein\sgminer.exe";
+            //public const string sgminer_Skein = _bin + @"\AMD\sgminer-Skein\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Tribus
@@ -279,7 +279,7 @@
             /// Defines the sgminer_Xevan
             /// </summary>
             //public const string sgminer_Xevan = _bin + @"\AMD\sgminer-Xevan\sgminer.exe";
-            public const string sgminer_aceneun = _bin + @"\AMD\sgminer-aceneun\sgminer.exe";
+            //public const string sgminer_aceneun = _bin + @"\AMD\sgminer-aceneun\sgminer.exe";
 
             /// <summary>
             /// Defines the glg
@@ -525,33 +525,33 @@
             /// </summary>
             /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
             /// <returns>The <see cref="string"/></returns>
-            public static string Ccminer_sm21_or_sm3x(AlgorithmType algorithmType)
+            /*public static string Ccminer_sm21_or_sm3x(AlgorithmType algorithmType)
             {
-                return Data.ccminer_tpruvot2;
-            }
+              *  return Data.ccminer_tpruvot2;
+            }*/
 
                 /// <summary>
                 /// The Ccminer_sm5x
                 /// </summary>
                 /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
                 /// <returns>The <see cref="string"/></returns>
-                public static string Ccminer_sm5x(AlgorithmType algorithmType)
+               /* public static string Ccminer_sm5x(AlgorithmType algorithmType)
             {
 
                 return Data.ccminer_tpruvot2;
-            }
+            }*/
 
             /// <summary>
             /// The Ccminer_sm6x
             /// </summary>
             /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
             /// <returns>The <see cref="string"/></returns>
-            public static string Ccminer_sm6x(AlgorithmType algorithmType)
+            /*public static string Ccminer_sm6x(AlgorithmType algorithmType)
             {
                 
 
                 return Data.ccminer_tpruvot2;
-            }
+            }*/
             public static string trex(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -677,24 +677,24 @@
             public static string Ccminer_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
+                /*if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
                     return NVIDIA_GROUPS.Ccminer_sm21_or_sm3x(algorithmType);
-                }
+                }*/
                 // CN exception
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.cryptonight)
+                /*if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x && algorithmType == AlgorithmType.cryptonight)
                 {
                     return Data.ccminer_tpruvot2;
-                }
+                }*/
                 // sm5x and sm6x have same settings otherwise
-                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
+                /*if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
                 {
                     return NVIDIA_GROUPS.Ccminer_sm5x(algorithmType);
                 }
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return NVIDIA_GROUPS.Ccminer_sm6x(algorithmType);
-                }
+                }*/
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -706,7 +706,7 @@
             /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
             /// <param name="nvidiaGroup">The <see cref="DeviceGroupType"/></param>
             /// <returns>The <see cref="string"/></returns>
-            public static string Ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            /*public static string Ccminer_unstable_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
@@ -715,7 +715,7 @@
                 }
                 // TODO wrong case?
                 return Data.ccminer_tpruvot2; // should not happen
-            }
+            }*/
         }
 
         /// <summary>
@@ -732,11 +732,11 @@
             {
                 if (AlgorithmType.cryptonight == type || AlgorithmType.DaggerHashimoto == type)
                 {
-                    return Data.sgminer_gm;
+                    //return Data.sgminer_gm;
                 }
                 if (AlgorithmType.Skein == type)
                 {
-                    return Data.sgminer_Skein;
+                    //return Data.sgminer_Skein;
                 }
                 /*if (AlgorithmType.Bitcore == type)
                 {
@@ -748,7 +748,7 @@
                 }*/
                 if (AlgorithmType.Phi == type)
                 {
-                    return Data.sgminer_Phi;
+                    //return Data.sgminer_Phi;
                 }
                 if (AlgorithmType.karlsenhash == type)
                 {
@@ -759,7 +759,7 @@
                     return Data.sgminer_aceneun;
                 }*/
 
-                return Data.sgminer_5_6_0_general;
+                return Data.NONE;
             }
             public static string lolMiner_path(AlgorithmType type)
             {

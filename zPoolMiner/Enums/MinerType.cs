@@ -121,7 +121,7 @@
         /// Defines the Palgin_HSR
         /// </summary>
         //Palgin_HSR,
-        //mkxminer,
+        mkxminer,
 
         /// <summary>
         /// Defines the cpuminer_opt

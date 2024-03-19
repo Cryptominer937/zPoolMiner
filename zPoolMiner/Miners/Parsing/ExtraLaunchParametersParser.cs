@@ -283,10 +283,10 @@ namespace zPoolMiner.Miners.Parsing
             {
                 return MinerType.glg;
             }
-            //if (MinerBaseType.mkxminer == minerBaseType)
-            //{
-            //    return MinerType.mkxminer;
-            //}
+            if (MinerBaseType.mkxminer == minerBaseType)
+            {
+                return MinerType.mkxminer;
+            }
             if (MinerBaseType.ccminer == minerBaseType || MinerBaseType.ccminer_tpruvot2 == minerBaseType || MinerBaseType.experimental == minerBaseType)
             {
                 if (AlgorithmType.cryptonight == algorithmType)

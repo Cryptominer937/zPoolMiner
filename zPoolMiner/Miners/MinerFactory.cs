@@ -141,8 +141,8 @@
 
                     case MinerBaseType.Palgin_HSR:
                         return new Palgin_HSR();*/
-                    //case MinerBaseType.mkxminer:
-                    // return new Mkxminer();
+                    case MinerBaseType.mkxminer:
+                     return new Mkxminer();
             }
             return null;
         }

@@ -181,7 +181,7 @@
     /// Defines the Palgin_HSR
     /// </summary>
     //Palgin_HSR,
-    //mkxminer,
+    mkxminer,
 
     CPU_cpuminerOptBF,
         CPU_Cpupower,

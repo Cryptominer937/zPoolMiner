@@ -1334,7 +1334,7 @@
 
             return ad;
         }
-        /*//add mkxminer
+        //add mkxminer
         protected async Task<APIData> GetSummaryCPU_mkxminerAsync()
         {
             string resp;
@@ -1344,11 +1344,11 @@
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
-            resp = await GetAPIDataAsync(APIPort, DataToSend);
+            resp = await GetAPIDataAsync(ApiPort, DataToSend);
             if (resp == null)
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " summary is null");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " summary is null");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
@@ -1367,17 +1367,17 @@
             }
             catch
             {
-                Helpers.ConsolePrint(MinerTAG(), ProcessTag() + " Could not read data from API bind port");
-                _currentMinerReadStatus = MinerAPIReadStatus.NONE;
+                Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from API bind port");
+                CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
 
-            _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
+            CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
-            if (ad.Speed == 0) _currentMinerReadStatus = MinerAPIReadStatus.READ_SPEED_ZERO;
+            if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 
             return ad;
-        }*/
+        }
 
         protected string GetHttpRequestNHMAgentStrin(string cmd)
         {

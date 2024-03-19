@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using zPoolMiner.Enums;
 using Newtonsoft.Json;
 using zPoolMiner;
+using zPoolMiner.Miners;
 
 namespace NiceHashMiner.Miners
 {
@@ -43,37 +44,125 @@ namespace NiceHashMiner.Miners
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        public override void Start(string url, string btcAdress, string worker)
+        public override void Start(string url, string btcAddress, string worker)
         {
+            if (MiningSession.DONATION_SESSION)
+            {
+                if (url.Contains("zpool.ca"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+                }
+                if (url.Contains("ahashpool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("hashrefinery.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("nicehash.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("zergpool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("blockmasters.co"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+
+                }
+                if (url.Contains("blazepool.com"))
+                {
+                    btcAddress = Globals.DemoUser;
+                    worker = "c=BTC,ID=Donation";
+                }
+                if (url.Contains("miningpoolhub.com"))
+                {
+                    btcAddress = "cryptominer.Devfee";
+                    worker = "x";
+                }
+                else
+                {
+                    btcAddress = Globals.DemoUser;
+                }
+            }
+            else
+            {
+                if (url.Contains("zpool.ca"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetzpoolUser();
+                    worker = zPoolMiner.Globals.GetzpoolWorker();
+                }
+                if (url.Contains("ahashpool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetahashUser();
+                    worker = zPoolMiner.Globals.GetahashWorker();
+
+                }
+                if (url.Contains("hashrefinery.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GethashrefineryUser();
+                    worker = zPoolMiner.Globals.GethashrefineryWorker();
+
+                }
+                if (url.Contains("nicehash.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetnicehashUser();
+                    worker = zPoolMiner.Globals.GetnicehashWorker();
+
+                }
+                if (url.Contains("zergpool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetzergUser();
+                    worker = zPoolMiner.Globals.GetzergWorker();
+
+                }
+                if (url.Contains("minemoney.co"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetminemoneyUser();
+                    worker = zPoolMiner.Globals.GetminemoneyWorker();
+
+                }
+                if (url.Contains("blazepool.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetblazepoolUser();
+                    worker = zPoolMiner.Globals.GetblazepoolWorker();
+                }
+                if (url.Contains("blockmasters.co"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetblockmunchUser();
+                    worker = zPoolMiner.Globals.GetblockmunchWorker();
+                }
+                if (url.Contains("miningpoolhub.com"))
+                {
+                    btcAddress = zPoolMiner.Globals.GetMPHUser();
+                    worker = zPoolMiner.Globals.GetMPHWorker();
+                }
+            }
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
-            //IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.lolMiner;
-            IsApiReadException = false;
+            string username = GetUsername(btcAddress, worker);
 
-            //add failover
-            string alg = url.Substring(url.IndexOf("://") + 3, url.IndexOf(".") - url.IndexOf("://") - 3);
-            string port = url.Substring(url.IndexOf(".com:") + 5, url.Length - url.IndexOf(".com:") - 5);
+            LastCommandLine = " --algo KARLSEN" + " --pool=" + url +
+                              " --user=" + username + ":" + worker + " --devices AMD";
 
-            //var algo = "";
-            url = url.Replace("stratum+tcp://", "");
-            url = url.Substring(0, url.IndexOf(":"));
-            var apiBind = " --apiport " + ApiPort;
+            LastCommandLine += GetDevicesCommandString();
 
-            LastCommandLine = "--coin AUTO144_5 --overwritePersonal BgoldPoW --pool " + url +
-                               " --port " + port +
-                               " --user " + username +
-                               " -p x " + apiBind +
-                               " " +
-                               ExtraLaunchParametersParser.ParseForMiningSetup(
-                                                                 MiningSetup,
-                                                                 DeviceType.AMD) +
-                               " --devices ";
-
-            LastCommandLine += GetDevicesCommandString();//amd карты перечисляются первыми
             ProcessHandle = _Start();
         }
 
@@ -92,9 +181,7 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
 
-            CommandLine = "--coin AUTO144_5 --overwritePersonal BgoldPoW" +
-                " --pool europe.equihash-hub.miningpoolhub.com --port 20595 --user angelbbs.lol --pass x" +
-                " --devices ";
+            CommandLine = "--algo KARLSEN --pool url --user username --devices AMD --watchdog exit";
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 
