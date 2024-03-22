@@ -146,7 +146,7 @@
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
-                    worker = zPoolMiner.Globals.GetzergWorker() +"";
+                    worker = zPoolMiner.Globals.GetzergWorker() + "";
 
                 }
                 if (url.Contains("minemoney.co"))
@@ -277,13 +277,13 @@
             double lastSpeed = BenchmarkParseLine_cpu_ccminer_extra(outdata);
             if (lastSpeed > 0.0d)
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) *(1.0 - DevFee * 0.01);
+                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
 
             if (double.TryParse(outdata, out lastSpeed))
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) *(1.0 - DevFee * 0.01);
+                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
             return false;

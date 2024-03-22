@@ -153,7 +153,7 @@
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + username + " -p " + worker +"";
+            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + username + " -p " + worker + "";
             ProcessHandle = _Start();
         }
 
@@ -237,7 +237,7 @@
                 var sols = GetNumber(outdata, "Speed: ", Sols_PER_SEC);
                 if (sols > 0)
                 {
-                    BenchmarkAlgorithm.BenchmarkSpeed = (curSpeed) *(1.0 - DevFee * 0.01);
+                    BenchmarkAlgorithm.BenchmarkSpeed = (curSpeed) * (1.0 - DevFee * 0.01);
                     return true;
                 }
             }

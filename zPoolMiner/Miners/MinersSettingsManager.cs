@@ -190,7 +190,8 @@
             {
                 // general AMD defaults scope
                 {
-                    List<string> minerPaths = new List<string>() {
+                    List<string> minerPaths = new List<string>()
+                    {
                         //MinerPaths.Data.sgminer_5_6_0_general,
                         //MinerPaths.Data.sgminer_gm,
                         //MinerPaths.Data.sgminer_HSR,

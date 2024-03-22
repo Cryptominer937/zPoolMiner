@@ -37,7 +37,7 @@
         public string zpoolAddress = "";
         public string ahashAddress = "";
         public string hashrefineryAddress = "";
-        public string nicehashAddress= "";
+        public string nicehashAddress = "";
         public string zergAddress = "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66";
         public string minemoneyAddress = "";
         public string starpoolAddress = "";
@@ -278,7 +278,7 @@
         /// </summary>
         public bool AllowMultipleInstances = true;
 
-        
+
 
         // device enabled disabled stuff
         // device enabled disabled stuff        /// <summary>
@@ -424,7 +424,7 @@
             tempHighThreshold = 90;
             beep = true;
             Group_same_devices = false;
-    }
+        }
 
         /// <summary>
         /// The FixSettingBounds

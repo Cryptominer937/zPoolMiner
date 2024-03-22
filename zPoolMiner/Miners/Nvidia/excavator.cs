@@ -154,7 +154,7 @@ namespace zPoolMiner.Miners
                 }
             }
             string username = GetUsername(btcAddress, worker);
-            LastCommandLine = GetDevicesCommandString() + " -a " + MiningSetup.MinerName + " -p " + ApiPort + " -s " + url + " -u " + username + ":" + worker +"";
+            LastCommandLine = GetDevicesCommandString() + " -a " + MiningSetup.MinerName + " -p " + ApiPort + " -s " + url + " -u " + username + ":" + worker + "";
             ProcessHandle = _Start();
         }
 
@@ -233,7 +233,7 @@ namespace zPoolMiner.Miners
                             return false;
                         }
 
-                        BenchmarkAlgorithm.BenchmarkSpeed = (spd) * (1.0 - DevFee * 0.01) ;
+                        BenchmarkAlgorithm.BenchmarkSpeed = (spd) * (1.0 - DevFee * 0.01);
                         return true;
                     }
                 }

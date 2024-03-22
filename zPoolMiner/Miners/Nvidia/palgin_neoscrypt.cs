@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Threading.Tasks;
     using zPoolMiner.Configs;
     using zPoolMiner.Enums;
@@ -36,10 +35,10 @@
         /// </summary>
         //private bool BenchmarkException
         //{
-            //get
-            //{
-                
-            //}
+        //get
+        //{
+
+        //}
         //}
 
         /// <summary>
@@ -48,7 +47,7 @@
         /// <returns>The <see cref="int"/></returns>
         protected override int GetMaxCooldownTimeInMilliseconds()
         {
-            
+
             return 660 * 1000; // 11 minute max
         }
 
@@ -176,7 +175,7 @@
 
             LastCommandLine = " --url=" + url +
                                   " --user=" + username +
-                          " -p " + worker +"" +
+                          " -p " + worker + "" +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.NVIDIA) +
@@ -258,12 +257,12 @@
                            tmp *= 1000000000;
                    }
                    */
-                   /*
-                    double speed = Double.Parse(hashspeed, CultureInfo.InvariantCulture);
-                    BenchmarkAlgorithm.BenchmarkSpeed = (speed * 1000) * (1.0 - DevFee * 0.01);
-                    BenchmarkSignalFinnished = true;
-                }
-            }*/
+            /*
+             double speed = Double.Parse(hashspeed, CultureInfo.InvariantCulture);
+             BenchmarkAlgorithm.BenchmarkSpeed = (speed * 1000) * (1.0 - DevFee * 0.01);
+             BenchmarkSignalFinnished = true;
+         }
+     }*/
             return false;
         }
 

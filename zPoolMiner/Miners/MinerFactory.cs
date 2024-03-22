@@ -136,13 +136,13 @@
 
 
 
-                    /*case MinerBaseType.Palgin_Neoscrypt:
-                        return new Palgin_Neoscrypt();
+                /*case MinerBaseType.Palgin_Neoscrypt:
+                    return new Palgin_Neoscrypt();
 
-                    case MinerBaseType.Palgin_HSR:
-                        return new Palgin_HSR();*/
-                    case MinerBaseType.mkxminer:
-                     return new Mkxminer();
+                case MinerBaseType.Palgin_HSR:
+                    return new Palgin_HSR();*/
+                case MinerBaseType.mkxminer:
+                    return new Mkxminer();
             }
             return null;
         }

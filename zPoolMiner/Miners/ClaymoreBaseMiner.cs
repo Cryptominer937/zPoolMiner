@@ -80,7 +80,7 @@ namespace zPoolMiner.Miners
                 string respStr = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 resp = JsonConvert.DeserializeObject<JsonApiResponse>(respStr, Globals.JsonSettings);
                 client.Close();
-               // Helpers.ConsolePrint("ClaymoreZcashMiner API back:", respStr);
+                // Helpers.ConsolePrint("ClaymoreZcashMiner API back:", respStr);
             }
             catch (Exception ex)
             {
@@ -124,12 +124,12 @@ namespace zPoolMiner.Miners
                         }
                         ad.SecondarySpeed += tmpSpeed;
                     }
-                    
+
                     if (MiningSetup.CurrentAlgorithmType == AlgorithmType.NeoScrypt)
                     {
                         api_read_mult = 1000;
                     }
-                 //   Helpers.ConsolePrint("speed:", ad.Speed.ToString() + " "+api_read_mult.ToString());
+                    //   Helpers.ConsolePrint("speed:", ad.Speed.ToString() + " "+api_read_mult.ToString());
 
                     ad.Speed *= api_read_mult;
                     ad.SecondarySpeed *= api_read_mult;

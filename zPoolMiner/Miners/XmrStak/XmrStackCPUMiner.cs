@@ -47,11 +47,11 @@
                 {
                     if (affine_to_cpu)
                     {
-                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu * 2}));
+                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu * 2 }));
                     }
                     else
                     {
-                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu * 2}));
+                        cpu_threads_conf.Add(JObject.FromObject(new { low_power_mode, no_prefetch, affine_to_cpu = i_cpu * 2 }));
                     }
                 }
             }

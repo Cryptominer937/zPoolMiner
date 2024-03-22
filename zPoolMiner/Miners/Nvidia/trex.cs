@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Net;
-using System.Net.Sockets;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
+using System.Globalization;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using zPoolMiner.Configs;
-using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
-using System.Threading.Tasks;
-using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using zPoolMiner.Enums;
-using System.Linq;
 
 namespace zPoolMiner.Miners
 {
@@ -147,27 +141,27 @@ namespace zPoolMiner.Miners
 
 
             IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.trex;
-            
+
             var apiBind = "--api-bind-telnet 127.0.0.1:" + ApiPort;
             var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
             //apiBind = " --api-bind 127.0.0.1:" + ApiPort;
 
             IsApiReadException = true; //no api
-                                       /*
-                                       LastCommandLine = algo +
-                                           " -o " + url + " -u " + username + " -p x " +
-                                           " --url=stratum+tcp://" + alg + ".hk.nicehash.com:" + port + " " + " -u " + username + " -p x " +
-                                           " -o " + alg + ".jp.nicehash.com:" + port + " " + " -u " + username + " -p x " +
-                                           " -o " + alg + ".in.nicehash.com:" + port + " " + " -u " + username + " -p x " +
-                                           " -o " + alg + ".br.nicehash.com:" + port + " " + " -u " + username + " -p x " +
-                                           " -o " + alg + ".usa.nicehash.com:" + port + " " + " -u " + username + " -p x " +
-                                           " -o " + alg + ".eu.nicehash.com:" + port + " -u " + username + " -p x " +
-                                           apiBind +
-                                           " -d " + GetDevicesCommandString() + " " +
-                                           ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " ";
-                                           */
-            LastCommandLine = " -a " + MiningSetup.MinerName + " -o "+ url + " -u " + address + " -p " + worker +"" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
+            /*
+            LastCommandLine = algo +
+                " -o " + url + " -u " + username + " -p x " +
+                " --url=stratum+tcp://" + alg + ".hk.nicehash.com:" + port + " " + " -u " + username + " -p x " +
+                " -o " + alg + ".jp.nicehash.com:" + port + " " + " -u " + username + " -p x " +
+                " -o " + alg + ".in.nicehash.com:" + port + " " + " -u " + username + " -p x " +
+                " -o " + alg + ".br.nicehash.com:" + port + " " + " -u " + username + " -p x " +
+                " -o " + alg + ".usa.nicehash.com:" + port + " " + " -u " + username + " -p x " +
+                " -o " + alg + ".eu.nicehash.com:" + port + " -u " + username + " -p x " +
+                apiBind +
+                " -d " + GetDevicesCommandString() + " " +
+                ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " ";
+                */
+            LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url + " -u " + address + " -p " + worker + "" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
             LastCommandLine += GetDevicesCommandString();
             ProcessHandle = _Start();
         }
@@ -196,7 +190,7 @@ namespace zPoolMiner.Miners
 
             LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url + " -u " + address + " -p c=BTC,Benchmark" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
             LastCommandLine += GetDevicesCommandString();
-            
+
 
             return LastCommandLine;
         }
@@ -207,7 +201,7 @@ namespace zPoolMiner.Miners
             BenchmarkSignalHanged = false;
             BenchmarkSignalFinnished = false;
             BenchmarkException = null;
-            
+
 
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
@@ -274,16 +268,17 @@ namespace zPoolMiner.Miners
                     // wait a second reduce CPU load
                     Thread.Sleep(1000);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                  BenchmarkThreadRoutineCatch(ex);
+                BenchmarkThreadRoutineCatch(ex);
                 Helpers.ConsolePrint("Benchmark Error:", " " + ex.ToString());
             }
             finally
             {
                 if (speed.Count == 0)
                 {
-                    Helpers.ConsolePrint("Benchmark Error:", " Benchmarks returned 0" );
+                    Helpers.ConsolePrint("Benchmark Error:", " Benchmarks returned 0");
 
                 }
                 else
@@ -293,8 +288,8 @@ namespace zPoolMiner.Miners
                 }
                 BenchmarkThreadRoutineFinish();
             }
-            
-            
+
+
         }
 
         // stub benchmarks read from file
@@ -374,7 +369,7 @@ namespace zPoolMiner.Miners
         {
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
-        
+
         //protected override int GET_MAX_CoolUpTimeInMilliseconds()
         //{
         //    return 5 * 60 * 1000; // 5 min

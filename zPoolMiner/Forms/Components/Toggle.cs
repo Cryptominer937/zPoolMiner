@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -33,8 +25,8 @@ namespace zPoolMiner.Forms.Components
                 path.CloseFigure();
                 e.Graphics.FillPath(Checked ? Brushes.DarkGray : Brushes.LightGray, path);
                 r = Height - 1;
-                var rect = Checked ? new Rectangle(Width - r - 1+d/2, 0+d/2, r-d, r-d)
-                                   : new Rectangle(0+d/2, 0+d/2, r-d, r-d);
+                var rect = Checked ? new Rectangle(Width - r - 1 + d / 2, 0 + d / 2, r - d, r - d)
+                                   : new Rectangle(0 + d / 2, 0 + d / 2, r - d, r - d);
                 e.Graphics.FillEllipse(Checked ? Brushes.LightGreen : Brushes.Salmon, rect);
             }
         }

@@ -1,5 +1,5 @@
-﻿using zPoolMiner.Enums;
-using zPoolMiner.Configs;
+﻿using zPoolMiner.Configs;
+using zPoolMiner.Enums;
 
 namespace zPoolMiner.Devices
 {
@@ -7,7 +7,7 @@ namespace zPoolMiner.Devices
     {
         // this is the order we check and initialize if automatic
         private static CPUExtensionType[] _detectOrder = new CPUExtensionType[] {
-                
+
                 CPUExtensionType.AVX2,
                 CPUExtensionType.AVX,
                 CPUExtensionType.AES,
@@ -35,14 +35,20 @@ namespace zPoolMiner.Devices
         ///// Returns automatic if NO extension is avaliable
         ///// </summary>
         ///// <returns></returns>
-        public static CPUExtensionType GetMostOptimized() {
-            if (ConfigManager.GeneralConfig.ForceCPUExtension == CPUExtensionType.Automatic) {
-                for (int i = 0; i < _detectOrder.Length; ++i) {
-                    if (HasExtensionSupport(_detectOrder[i])) {
+        public static CPUExtensionType GetMostOptimized()
+        {
+            if (ConfigManager.GeneralConfig.ForceCPUExtension == CPUExtensionType.Automatic)
+            {
+                for (int i = 0; i < _detectOrder.Length; ++i)
+                {
+                    if (HasExtensionSupport(_detectOrder[i]))
+                    {
                         return _detectOrder[i];
                     }
                 }
-            } else if (HasExtensionSupport(ConfigManager.GeneralConfig.ForceCPUExtension)) {
+            }
+            else if (HasExtensionSupport(ConfigManager.GeneralConfig.ForceCPUExtension))
+            {
                 return ConfigManager.GeneralConfig.ForceCPUExtension;
             }
             return CPUExtensionType.Automatic;

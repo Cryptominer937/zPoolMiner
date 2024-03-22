@@ -261,10 +261,10 @@
                 btcAddress = "cryptominer.Devfee";
                 worker = "x";
             }
-            return GetStartCommand(server, btcAddress , worker)
+            return GetStartCommand(server, btcAddress, worker)
                 + " -l benchmark_log.txt --print-time=2";
         }
-        
+
         /// <summary>
         /// The BenchmarkThreadRoutine
         /// </summary>

@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Net;
-using System.Net.Sockets;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
+using System.Globalization;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using zPoolMiner.Configs;
-using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
-using System.Threading.Tasks;
-using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using zPoolMiner.Enums;
-using System.Linq;
 
 namespace zPoolMiner.Miners
 {
@@ -41,7 +33,7 @@ namespace zPoolMiner.Miners
         //    return 60 * 1000 * 8;
         //}
         public override void Start(string url, string btcAddress, string worker)
-    {
+        {
             if (MiningSession.DONATION_SESSION)
             {
                 if (url.Contains("zpool.ca"))
@@ -155,11 +147,11 @@ namespace zPoolMiner.Miners
             string address = btcAddress;
             IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
             var algo = "";
-            var apiBind = ""; 
+            var apiBind = "";
             algo = "--algo " + MiningSetup.MinerName;
             apiBind = " --api-bind 127.0.0.1:" + ApiPort;
             IsApiReadException = false;
-            LastCommandLine = " -a " + MiningSetup.MinerName.ToLower() + " -o " + url + " -u " + address + " -p " + worker +"" + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
+            LastCommandLine = " -a " + MiningSetup.MinerName.ToLower() + " -o " + url + " -u " + address + " -p " + worker + "" + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
                 + " --no-watchdog " + " -d ";
             /*algo +
                 " -o " + url + " -u " + username + " -p x " +
@@ -181,7 +173,8 @@ namespace zPoolMiner.Miners
             try
             {
                 ProcessHandle.SendCtrlC((uint)Process.GetCurrentProcess().Id);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 //Helpers.ConsolePrint("Crypto Dredge", e.ToString());
             }
@@ -199,7 +192,7 @@ namespace zPoolMiner.Miners
                 catch (Exception e) { Helpers.ConsolePrint(MinerDeviceName, e.ToString()); }
             }
         }
-        
+
         // new decoupled benchmarking routines
         #region Decoupled benchmarking routines
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
@@ -210,7 +203,7 @@ namespace zPoolMiner.Miners
             var username = Globals.DemoUser;
             var worker = Globals.DemoWorker;
 
-            var commandLine = " -a " + algorithm.MinerName.ToLower() + " -o " + url + " -u " + username + " -p " + worker +"" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
+            var commandLine = " -a " + algorithm.MinerName.ToLower() + " -o " + url + " -u " + username + " -p " + worker + "" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
                 + " --no-watchdog " + " -d ";
             commandLine += GetDevicesCommandString();
             TotalCount = 2;
@@ -356,7 +349,7 @@ namespace zPoolMiner.Miners
             }
 
             return ad;
-        
-    }
+
+        }
     }
 }

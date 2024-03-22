@@ -79,7 +79,7 @@
         /// Defines the Claymorecryptonight
         /// </summary>
         Claymorecryptonight,
-        
+
         ClaymoreNeoScrypt,
 
         /// <summary>

@@ -6,7 +6,6 @@
     using zPoolMiner.Configs.ConfigJsonFile;
     using zPoolMiner.Devices;
     using zPoolMiner.Enums;
-    using zPoolMiner.Configs;
 
     /// <summary>
     /// Defines the <see cref="MinerPathPackageFile" />
@@ -355,8 +354,8 @@
             /// </summary>
             public const string mkxminer = _bin + @"\AMD\mkxminer\mkxminer.exe";
             /// <summary>
-                                                                                     /// Defines the NONE
-                                                                                     /// </summary>
+            /// Defines the NONE
+            /// </summary>
             public const string NONE = "";
 
             // root binary folder
@@ -368,7 +367,7 @@
             /// <summary>
             /// Defines the ClaymoreZcashMiner
             /// </summary>
-            
+
         }
 
         // NEW START
@@ -530,16 +529,16 @@
               *  return Data.ccminer_tpruvot2;
             }*/
 
-                /// <summary>
-                /// The Ccminer_sm5x
-                /// </summary>
-                /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
-                /// <returns>The <see cref="string"/></returns>
-               /* public static string Ccminer_sm5x(AlgorithmType algorithmType)
-            {
+            /// <summary>
+            /// The Ccminer_sm5x
+            /// </summary>
+            /// <param name="algorithmType">The <see cref="AlgorithmType"/></param>
+            /// <returns>The <see cref="string"/></returns>
+            /* public static string Ccminer_sm5x(AlgorithmType algorithmType)
+         {
 
-                return Data.ccminer_tpruvot2;
-            }*/
+             return Data.ccminer_tpruvot2;
+         }*/
 
             /// <summary>
             /// The Ccminer_sm6x
@@ -634,7 +633,7 @@
                 }
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    
+
                 }
 
                 // TODO wrong case?
@@ -763,7 +762,7 @@
             }
             public static string lolMiner_path(AlgorithmType type)
             {
-             
+
                 if (AlgorithmType.karlsenhash == type)
                 {
                     return Data.lolMiner;
@@ -895,7 +894,7 @@
                         var minerPaths = new List<MinerPath>();
                         foreach (var algo in package[type])
                         {
-                            minerPaths.Add(new MinerPath(algo.CryptoMiner937ID, GetPathFor(type, algo.CryptoMiner937ID, i,0, true)));
+                            minerPaths.Add(new MinerPath(algo.CryptoMiner937ID, GetPathFor(type, algo.CryptoMiner937ID, i, 0, true)));
                         }
                         minerTypePaths.Add(new MinerTypePath(type, minerPaths));
                     }

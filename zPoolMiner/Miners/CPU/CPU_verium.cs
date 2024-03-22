@@ -153,7 +153,7 @@
             string username = GetUsername(btcAddress, worker);
 
             LastCommandLine = " -o " + url +
-                              " -u " + username + " -p " + worker +"" +
+                              " -u " + username + " -p " + worker + "" +
                               ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.CPU) +
@@ -237,7 +237,7 @@
         {
             if (double.TryParse(outdata, out double lastSpeed))
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) *(1.0 - DevFee * 0.01);
+                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
             return false;

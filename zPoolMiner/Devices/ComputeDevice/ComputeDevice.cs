@@ -447,11 +447,11 @@
             // NVIDIA
             if (DeviceGroupType == DeviceGroupType.NVIDIA_5_x || DeviceGroupType == DeviceGroupType.NVIDIA_6_x)
             {
-                
+
             }
             else if (DeviceType == DeviceType.NVIDIA)
             {
-                
+
             }
 
             // sort by algo
@@ -504,7 +504,7 @@
             {
                 return AlgorithmSettings;
             }
-            var third_party_miners = new List<MinerBaseType>() {  };
+            var third_party_miners = new List<MinerBaseType>() { };
 
             return AlgorithmSettings.FindAll((a) => third_party_miners.IndexOf(a.MinerBaseType) == -1);
         }

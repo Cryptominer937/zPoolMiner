@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Net;
-using System.Net.Sockets;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using zPoolMiner.Configs;
-using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
-using System.Threading.Tasks;
-using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using zPoolMiner.Enums;
-using System.Linq;
 
 namespace zPoolMiner.Miners
 {
@@ -156,7 +148,7 @@ namespace zPoolMiner.Miners
             algo = "-a " + MiningSetup.MinerName;
             apiBind = " --api-bind=" + ApiPort;
             LastCommandLine = algo +
-               " -o " + url + " -u " + address + " -p " + worker +"" +"" + apiBind +
+               " -o " + url + " -u " + address + " -p " + worker + "" + "" + apiBind +
                " --devices " + GetDevicesCommandString() + " " +
                ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " ";
             ProcessHandle = _Start();

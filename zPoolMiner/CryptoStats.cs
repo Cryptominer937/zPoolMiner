@@ -57,7 +57,7 @@
             /// Defines the version
             /// </summary>
             public string version;
-            
+
             /// <summary>
             /// Defines the protocol
             /// </summary>

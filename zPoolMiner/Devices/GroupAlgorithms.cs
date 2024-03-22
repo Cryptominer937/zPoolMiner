@@ -115,7 +115,7 @@
                         // non sgminer optimizations
                         if (algoSettings.ContainsKey(MinerBaseType.Claymore))
                         {
-                            
+
 
                             var claymoreNewAlgos = algoSettings[MinerBaseType.Claymore];
                             var cryptonightNewIndex =
@@ -198,7 +198,7 @@
                                     mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "-I 23";
                                 }
                             }
-                        } 
+                        }
 
                         // disable by default
                         {
@@ -223,9 +223,12 @@
                                     }
                                 }
                             }
-                            if (algoSettings.ContainsKey(MinerBaseType.Claymore)) {
-                                foreach (var algo in algoSettings[MinerBaseType.Claymore]) {
-                                    if (algo.CryptoMiner937ID == AlgorithmType.cryptonight) {
+                            if (algoSettings.ContainsKey(MinerBaseType.Claymore))
+                            {
+                                foreach (var algo in algoSettings[MinerBaseType.Claymore])
+                                {
+                                    if (algo.CryptoMiner937ID == AlgorithmType.cryptonight)
+                                    {
                                         algo.Enabled = false;
                                     }
                                     if (device.Codename.Contains("gfx804"))
@@ -237,14 +240,14 @@
                                     }
                                     if (algoSettings.ContainsKey(MinerBaseType.lolMiner))
                                     {
-                                        
+
                                     }
                                 }
                             }
                         }
                     } // END AMD case
 
-                    
+
                     // check if it is Etherum capable
                     if (device.IsEtherumCapale == false)
                     {
@@ -585,17 +588,17 @@
                 };
 
 
-                
+
                 if (DeviceGroupType.NVIDIA_6_x == deviceGroupType)
                 {
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
-                        
+
                     });
                 }
                 if (DeviceGroupType.NVIDIA_5_x == deviceGroupType)
                 {
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
-                        
+
                     });
                 }
 

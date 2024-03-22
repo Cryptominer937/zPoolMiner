@@ -350,7 +350,7 @@
                         worker = zPoolMiner.Globals.GetMPHWorker();
                     }
                 }
-                dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw "+ worker, SecondaryShortName(), urlSecond, btcAddress);
+                dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw " + worker, SecondaryShortName(), urlSecond, btcAddress);
             }
 
             return " "

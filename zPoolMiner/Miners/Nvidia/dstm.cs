@@ -300,7 +300,7 @@
             }
             var ret = GetDevicesCommandString()
                 + " --server " + url.Split(':')[0]
-                + " --user " + btcAddress + " --pass " + worker +"" + " --port "
+                + " --user " + btcAddress + " --pass " + worker + "" + " --port "
                 + url.Split(':')[1] + " --telemetry=127.0.0.1:" + ApiPort;
             return ret;
         }

@@ -10,7 +10,6 @@
     using zPoolMiner.Miners;
     using zPoolMiner.Miners.Grouping;
     using zPoolMiner.Miners.Parsing;
-    using zPoolMiner.Forms;
 
     /// <summary>
     /// Defines the <see cref="Form_Settings" />

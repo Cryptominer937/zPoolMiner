@@ -85,7 +85,7 @@
 
                     case AlgorithmType.Sia:
                         return AlgorithmType.DaggerSia;
-                    
+
                     case AlgorithmType.Blake2s:
                         return AlgorithmType.DaggerBlake2s;
                 }
@@ -360,7 +360,7 @@
         protected string GetUsername(string btcAddress, string worker)
         {
             Helpers.ConsolePrint("Miners MiningSession.DONATION_SESSION ", "" + MiningSession.DONATION_SESSION);
-           
+
             if (MiningSession.DONATION_SESSION)
             {
                 Helpers.ConsolePrint("Miner", Globals.DemoUser);
@@ -1498,7 +1498,7 @@
             }
         }
 
-        
+
 
     }
 }

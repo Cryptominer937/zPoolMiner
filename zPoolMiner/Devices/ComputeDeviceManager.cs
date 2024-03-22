@@ -1,7 +1,7 @@
 ﻿using ATI.ADL;
+using ManagedCuda.Nvml;
 using Newtonsoft.Json;
 using NVIDIA.NVAPI;
-using zPoolMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Windows.Forms;
 using zPoolMiner.Configs;
 using zPoolMiner.Enums;
-using ManagedCuda.Nvml;
+using zPoolMiner.Interfaces;
 
 namespace zPoolMiner.Devices
 {

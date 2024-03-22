@@ -101,7 +101,7 @@ namespace zPoolMiner.Miners
             // init fixed
             _mainFormRatesComunication = mainFormRatesComunication;
             _miningLocation = miningLocation;
-           
+
             _btcAddress = btcAddress;
             _worker = worker;
 
@@ -394,7 +394,7 @@ namespace zPoolMiner.Miners
                 {
                     Helpers.ConsolePrint(TAG, String.Format("Will SWITCH profit diff is {0}, current threshold {1}", percDiff, ConfigManager.GeneralConfig.SwitchProfitabilityThreshold));
                 }
-                
+
             }
 
             Helpers.ConsolePrint("Monitoring", "If enabled here I would submit Monitoring data to the server");
@@ -526,7 +526,8 @@ namespace zPoolMiner.Miners
                     // If we need to start donating, stop everything
                     else if (MiningSession.IS_DONATING && !MiningSession.DONATION_SESSION)
                     {
-                        if (it == count) {
+                        if (it == count)
+                        {
                             MiningSession.DONATION_SESSION = true;
                         }
                         toStopGroupMiners[runningGroupKey] = _runningGroupMiners[runningGroupKey];

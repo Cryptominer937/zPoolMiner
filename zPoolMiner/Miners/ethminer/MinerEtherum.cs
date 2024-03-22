@@ -211,7 +211,7 @@
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
-                    worker = zPoolMiner.Globals.GetzergWorker() +"";
+                    worker = zPoolMiner.Globals.GetzergWorker() + "";
 
                 }
                 if (url.Contains("minemoney.co"))
@@ -394,7 +394,7 @@
                 double avg_spd = Convert.ToDouble(splt[index + 2]);
                 Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + avg_spd + "H/s");
 
-                BenchmarkAlgorithm.BenchmarkSpeed = (avg_spd) *(1.0 - DevFee * 0.01);
+                BenchmarkAlgorithm.BenchmarkSpeed = (avg_spd) * (1.0 - DevFee * 0.01);
                 return true;
             }
 

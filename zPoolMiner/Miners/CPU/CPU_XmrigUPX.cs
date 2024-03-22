@@ -1,20 +1,20 @@
-﻿using zPoolMiner.Configs;
-using zPoolMiner.Miners.Parsing;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using System.IO;
-using System.Threading;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Linq;
 using zPoolMiner;
+using zPoolMiner.Configs;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners;
+using zPoolMiner.Miners.Parsing;
 
 namespace NiceHashMiner.Miners
 {
@@ -208,7 +208,7 @@ namespace NiceHashMiner.Miners
                 }
             }
 
-            
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_upx))
             {
                 algo = "cryptonight-upx/2";
@@ -292,7 +292,7 @@ namespace NiceHashMiner.Miners
             var port = "3363";
             var variant = " --variant 1 ";
             string username = GetUsername(btcAddress, worker);
-            
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_upx))
             {
                 algo = "cryptonight-upx/2";
@@ -312,7 +312,7 @@ namespace NiceHashMiner.Miners
 
         //protected override int GetMaxCooldownTimeInMilliseconds()
         //{
-         //   return 60 * 1000 * 5; // 5 min
+        //   return 60 * 1000 * 5; // 5 min
         //}
 
         protected async Task<APIData> GetSummaryCpuAsyncXMRig(string method = "", bool overrideLoop = false)
@@ -496,11 +496,11 @@ namespace NiceHashMiner.Miners
 
                 BenchmarkHandle?.WaitForExit(10000);
                 // read file log
-                 Helpers.ConsolePrint("BENCHMARK-routineAlt", WorkingDirectory + latestLogFile);
+                Helpers.ConsolePrint("BENCHMARK-routineAlt", WorkingDirectory + latestLogFile);
                 if (File.Exists(WorkingDirectory + latestLogFile))
                 {
                     var lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
-                        Helpers.ConsolePrint("BENCHMARK-routineAlt", lines.ToString());
+                    Helpers.ConsolePrint("BENCHMARK-routineAlt", lines.ToString());
                     ProcessBenchLinesAlternate(lines);
                 }
 

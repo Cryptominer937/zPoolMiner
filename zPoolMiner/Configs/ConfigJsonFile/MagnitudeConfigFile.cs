@@ -1,6 +1,4 @@
-﻿using zPoolMiner.Configs.Data;
-
-namespace zPoolMiner.Configs.ConfigJsonFile
+﻿namespace zPoolMiner.Configs.ConfigJsonFile
 {
     //public class MagnitudeConfigFile : ConfigFile<MagnitudeConfigFile>
     //{

@@ -154,7 +154,7 @@
 
             LastCommandLine = "--algo=" + MiningSetup.MinerName +
                               " --url=" + url +
-                              " --userpass=" + username + ":" + worker +"" +
+                              " --userpass=" + username + ":" + worker + "" +
                               ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.CPU) +
@@ -238,7 +238,7 @@
         {
             if (double.TryParse(outdata, out double lastSpeed))
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) *(1.0 - DevFee * 0.01);
+                BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
             return false;

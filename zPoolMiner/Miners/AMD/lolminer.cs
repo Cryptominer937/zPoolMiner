@@ -1,20 +1,19 @@
-﻿using System;
-using System.IO;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Net;
-using System.Windows.Forms;
-using zPoolMiner.Configs;
-using zPoolMiner.Devices;
-using zPoolMiner.Miners.Grouping;
-using zPoolMiner.Miners.Parsing;
 using System.Threading;
 using System.Threading.Tasks;
-using zPoolMiner.Enums;
-using Newtonsoft.Json;
+using System.Windows.Forms;
 using zPoolMiner;
+using zPoolMiner.Configs;
+using zPoolMiner.Devices;
+using zPoolMiner.Enums;
 using zPoolMiner.Miners;
+using zPoolMiner.Miners.Grouping;
 
 namespace NiceHashMiner.Miners
 {
@@ -158,8 +157,7 @@ namespace NiceHashMiner.Miners
             }
             string username = GetUsername(btcAddress, worker);
 
-            LastCommandLine = " --algo KARLSEN" + " --pool=" + url +
-                              " --user=" + username + ":" + worker + " --devices AMD";
+            LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + ":" + worker + " --devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort;
 
             LastCommandLine += GetDevicesCommandString();
 
@@ -181,7 +179,7 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
 
-            CommandLine = "--algo KARLSEN --pool url --user username --devices AMD --watchdog exit";
+            CommandLine = "--algo KARLSEN --pool" + url + "--user " + username + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort;
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 
@@ -195,10 +193,10 @@ namespace NiceHashMiner.Miners
 
             //Average speed (30s): 25.5 sol/s 
             //GPU 3: Share accepted (45 ms)
-            if (outdata.Contains("Average speed (30s):"))
+            if (outdata.Contains("Average speed (15s):"))
             {
-                int i = outdata.IndexOf("Average speed (30s):");
-                int k = outdata.IndexOf("sol/s");
+                int i = outdata.IndexOf("Average speed (15s):");
+                int k = outdata.IndexOf("Mh/s");
                 hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
                 try
                 {
@@ -214,12 +212,12 @@ namespace NiceHashMiner.Miners
                 count++;
             }
 
-            if (outdata.Contains("Share accepted") && speed != 0)
+            /*if (outdata.Contains("Share accepted") && speed != 0)
             {
                 BenchmarkAlgorithm.BenchmarkSpeed = speed / count;
                 BenchmarkSignalFinnished = true;
                 return true;
-            }
+            }*/
 
             return false;
 

@@ -110,7 +110,7 @@
             if (isOld)
             {
                 ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -o " + url + " -u " + username +
-                      " -p x" ;
+                      " -p x";
             }
             else
             {

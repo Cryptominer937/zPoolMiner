@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
-using zPoolMiner.Utils;
+using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 using zPoolMiner.Configs;
 using zPoolMiner.Forms;
-using zPoolMiner.Enums;
-using Newtonsoft.Json;
-using System.Globalization;
-using System.Threading;
-using System.Diagnostics;
-using System.Linq;
 using zPoolMiner.Miners;
+using zPoolMiner.Utils;
 
 namespace zPoolMiner
 {
@@ -32,7 +30,7 @@ namespace zPoolMiner
                 Environment.CurrentDirectory = path;
                 pathSet = true;
             }
- 
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -70,10 +68,10 @@ namespace zPoolMiner
             if (startProgram)
             {
                 if (ConfigManager.GeneralConfig.LogToFile)
-                if (ConfigManager.GeneralConfig.DebugConsole)
-                {
-                    Helpers.AllocConsole();
-                }
+                    if (ConfigManager.GeneralConfig.DebugConsole)
+                    {
+                        Helpers.AllocConsole();
+                    }
                 {
                     Logger.ConfigureWithFile();
                 }

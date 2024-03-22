@@ -154,12 +154,13 @@ namespace zPoolMiner.Forms.Components
                 {
                     txt = "Temperature: " + Math.Truncate(computeDevice.Temp).ToString() + "°C" + "  /  Fan Speed: " + computeDevice.FanSpeed.ToString() + "%" + "  /  Load: " + Math.Truncate(computeDevice.Load).ToString() + "%";
                     Form_Main form = (Form_Main)ParentForm;
-                    
+
                     if (computeDevice.Temp < ConfigManager.GeneralConfig.tempLowThreshold && computeDevice.Enabled && form.getDevicesListControl().IsMining && ConfigManager.GeneralConfig.beep)
                     {
                         Console.Beep();
                         c = Color.LightBlue;
-                    }else if (computeDevice.Temp > ConfigManager.GeneralConfig.tempHighThreshold && computeDevice.Enabled && form.getDevicesListControl().IsMining && ConfigManager.GeneralConfig.beep)
+                    }
+                    else if (computeDevice.Temp > ConfigManager.GeneralConfig.tempHighThreshold && computeDevice.Enabled && form.getDevicesListControl().IsMining && ConfigManager.GeneralConfig.beep)
                     {
                         c = Color.LightSalmon;
                         Console.Beep();

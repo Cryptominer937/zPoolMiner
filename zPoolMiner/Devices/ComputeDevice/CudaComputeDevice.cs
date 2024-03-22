@@ -5,13 +5,8 @@
 using ManagedCuda.Nvml;
 using NVIDIA.NVAPI;
 using System;
-using zPoolMiner.Enums;
 using zPoolMiner.Configs;
-using static zPoolMiner.Devices.ComputeDeviceManager;
-using System.Diagnostics;
-using System.Windows.Forms;
-using zPoolMiner.Devices;
-using zPoolMiner;
+using zPoolMiner.Enums;
 
 namespace zPoolMiner.Devices
 {
@@ -189,7 +184,7 @@ namespace zPoolMiner.Devices
             }
             return nvmlHandle;
         }
-    public override double PowerUsage
+        public override double PowerUsage
         {
             get
             {
@@ -197,7 +192,7 @@ namespace zPoolMiner.Devices
                 {
                     var nvmlDevice = GetNvmlDevice();
                     var power = 0u;
-                    var ret = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref  power);
+                    var ret = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                     if (ret != nvmlReturn.Success)
                         throw new Exception($"NVML power get failed with status: {ret}");
 

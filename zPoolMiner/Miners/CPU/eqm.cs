@@ -94,7 +94,7 @@ namespace zPoolMiner.Miners
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
-                    worker = zPoolMiner.Globals.GetzergWorker() +"";
+                    worker = zPoolMiner.Globals.GetzergWorker() + "";
 
                 }
                 if (url.Contains("minemoney.co"))
@@ -119,7 +119,7 @@ namespace zPoolMiner.Miners
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + btcAddress + " -w " + worker +"";
+            LastCommandLine = GetDevicesCommandString() + " -a " + ApiPort + " -l " + url + " -u " + btcAddress + " -w " + worker + "";
             ProcessHandle = _Start();
         }
 

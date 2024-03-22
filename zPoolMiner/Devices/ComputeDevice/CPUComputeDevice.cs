@@ -1,8 +1,8 @@
-﻿using System;
+﻿//using LibreHardwareMonitor.Collections;
+using LibreHardwareMonitor.Hardware;
+using System;
 using System.Diagnostics;
 using zPoolMiner.Enums;
-//using LibreHardwareMonitor.Collections;
-using LibreHardwareMonitor.Hardware;
 
 namespace zPoolMiner.Devices
 {
@@ -26,20 +26,21 @@ namespace zPoolMiner.Devices
         {
             get
             {
-                foreach(IHardware h in c.Hardware)
+                foreach (IHardware h in c.Hardware)
                 {
                     h.Update();
                     float highest = 0;
-                    foreach(ISensor s in h.Sensors)
+                    foreach (ISensor s in h.Sensors)
                     {
-                        if(s.SensorType == SensorType.Temperature && s.Name == "Package")
+                        if (s.SensorType == SensorType.Temperature && s.Name == "Package")
                         {
-                            return s.Value??-1;
-                        }else if(s.SensorType == SensorType.Temperature)
+                            return s.Value ?? -1;
+                        }
+                        else if (s.SensorType == SensorType.Temperature)
                         {
-                            if(highest < s.Value)
+                            if (highest < s.Value)
                             {
-                                highest = s.Value??-1;
+                                highest = s.Value ?? -1;
                             }
                         }
                     }
@@ -75,5 +76,5 @@ namespace zPoolMiner.Devices
         }
     }
 
-   
+
 }

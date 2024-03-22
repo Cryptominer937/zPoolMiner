@@ -1,31 +1,22 @@
 ﻿namespace zPoolMiner
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Drawing;
-    using System.Text;
-    using System.Windows.Forms;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Globalization;
+    using System.IO;
     using System.Management;
+    using System.Windows.Forms;
     using zPoolMiner.Configs;
     using zPoolMiner.Devices;
     using zPoolMiner.Enums;
     using zPoolMiner.Forms;
-    using zPoolMiner.Miners;
-    using zPoolMiner.Interfaces;
     using zPoolMiner.Forms.Components;
+    using zPoolMiner.Interfaces;
+    using zPoolMiner.Miners;
     using zPoolMiner.Utils;
-    using zPoolMiner.PInvoke;
-    using zPoolMiner.Miners.Grouping;
-    using zPoolMiner.Miners.Parsing;
-    using System.IO;
-
     using SystemTimer = System.Timers.Timer;
     using Timer = System.Windows.Forms.Timer;
-    using System.Timers;
 
     /// <summary>
     /// Defines the <see cref="Form_Main" />
@@ -225,7 +216,7 @@
             }
             labelBitcoinAddress.Text = International.GetText("BitcoinAddress") + ":";
             labelWorkerName.Text = International.GetText("WorkerName") + ":";
-            
+
             linkLabelChooseBTCWallet.Text = International.GetText("Form_Main_choose_bitcoin_wallet");
 
             toolStripStatusLabelGlobalRateText.Text = International.GetText("Form_Main_global_rate") + ":";
@@ -586,7 +577,7 @@
                 //labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.ForeColor = Color.LightGreen;
-                
+
             }
         }
 
@@ -892,7 +883,7 @@
             Helpers.ConsolePrint("Hash-Kings", "API Update");
             isSMAUpdated = true;
             if (CryptoStats.AlgorithmRates != null)
-                            {
+            {
                 Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates; Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates;
                 // Save new rates to config
                 ConfigManager.ApiCache.CryptoMiner937Data = CryptoStats.AlgorithmRates;
@@ -1548,5 +1539,5 @@
         }
     }
 
-    
+
 }

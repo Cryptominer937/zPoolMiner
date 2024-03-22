@@ -38,6 +38,6 @@ namespace zPoolMiner.Configs.Data
         {
             ConfigFileVersionapi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         }
-        }
+    }
 }
 

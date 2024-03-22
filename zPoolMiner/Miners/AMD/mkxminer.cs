@@ -41,7 +41,7 @@ namespace zPoolMiner.Miners
             return 660 * 1000; // 11 minute max
         }
 
-      
+
         public override void Start(string url, string btcAddress, string worker)
         {
             if (MiningSession.DONATION_SESSION)

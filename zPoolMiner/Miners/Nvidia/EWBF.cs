@@ -285,7 +285,7 @@
             }
             var ret = GetDevicesCommandString()
                 + " --server " + url.Split(':')[0]
-                + " --user " + btcAddress + " --pass " + worker +"" + " --port "
+                + " --user " + btcAddress + " --pass " + worker + "" + " --port "
                 + url.Split(':')[1] + " --api 127.0.0.1:" + ApiPort;
             if (!ret.Contains("--fee"))
             {
@@ -381,7 +381,7 @@
                 btcAddress = "cryptominer.Devfee";
                 worker = "x";
             }
-            
+
             string ret = " --log 2 --logfile benchmark_log.txt" + GetStartCommand(server, btcAddress, worker);
             benchmarkTimeWait = Math.Max(time * 3, 90);  // EWBF takes a long time to get started
             return ret;

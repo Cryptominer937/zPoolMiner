@@ -388,7 +388,7 @@
                     sb.AppendLine("[general]");
                     sb.AppendLine(String.Format("gpu-coin = \"{0}\"", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("default-username = \"{0}\"", wallet));
-                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker +""));
+                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker + ""));
 
                     sb.AppendLine(String.Format("[pools.{0}]", MiningSetup.MinerName));
                     sb.AppendLine(String.Format("url = \"{0}\"", pool));

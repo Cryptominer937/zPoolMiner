@@ -69,7 +69,7 @@
                 || (AlgorithmType.equihash144 <= type && type <= AlgorithmType.equihash144)
                 || (AlgorithmType.equihash192 <= type && type <= AlgorithmType.equihash192)
                 || (AlgorithmType.scryptn2 <= type && type <= AlgorithmType.scryptn2)
-                || (AlgorithmType.karlsenhash <= type && type<= AlgorithmType.karlsenhash)
+                || (AlgorithmType.karlsenhash <= type && type <= AlgorithmType.karlsenhash)
 
                 )
             {

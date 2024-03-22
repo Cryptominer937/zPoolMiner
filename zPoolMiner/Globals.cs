@@ -161,7 +161,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.nicehashAddress.Trim())))
             {
-               // Helpers.ConsolePrint("Address Get", "nicehash");
+                // Helpers.ConsolePrint("Address Get", "nicehash");
                 return Configs.ConfigManager.GeneralConfig.nicehashAddress.Trim();
             }
             else

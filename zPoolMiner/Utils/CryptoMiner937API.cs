@@ -151,12 +151,12 @@
                         }
                         else
                         {
-                            currentSMA[algo].paying = (current) *(.9);
+                            currentSMA[algo].paying = (current) * (.9);
                         }
                     }
                     else
                     {
-                        currentSMA[algo].paying = (current) *(.9);
+                        currentSMA[algo].paying = (current) * (.9);
                     }
                 }
             }

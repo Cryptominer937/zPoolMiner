@@ -43,14 +43,14 @@
         /// </summary>
         Hodl = -14,
 
-       
+
 
         /// <summary>
         /// Defines the cryptonight
         /// </summary>
         cryptonight = 33,
 
-       
+
 
         /// <summary>
         /// Defines the Blake256r14_UNUSED

@@ -174,7 +174,7 @@
 
                     }
                 }
-                
+
 
                 return ratio;
             }
@@ -199,7 +199,7 @@
                         {
                             payingRate += 0;
                         }
-                        
+
                     }
                     if (SecondaryBenchmarkSpeed > 0 && IsDual())
                     {

@@ -26,11 +26,7 @@
 #region Using
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.Threading;
 using FARPROC = System.IntPtr;
 using HMODULE = System.IntPtr;
 // ReSharper disable All

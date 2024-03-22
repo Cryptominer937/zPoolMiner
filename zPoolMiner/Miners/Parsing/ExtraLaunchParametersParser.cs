@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using zPoolMiner.Configs;
-using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 
@@ -268,7 +267,8 @@ namespace zPoolMiner.Miners.Parsing
 
         private static MinerType GetMinerType(DeviceType deviceType, MinerBaseType minerBaseType, AlgorithmType algorithmType)
         {
-            if (MinerBaseType.cpuminer == minerBaseType) {
+            if (MinerBaseType.cpuminer == minerBaseType)
+            {
                 return MinerType.cpuminer_opt;
             }
             if (MinerBaseType.OptiminerAMD == minerBaseType)
@@ -311,14 +311,14 @@ namespace zPoolMiner.Miners.Parsing
                 }
                 if (AlgorithmType.NeoScrypt == algorithmType)
                 {
-                     return MinerType.ClaymoreNeoScrypt;
+                    return MinerType.ClaymoreNeoScrypt;
                 }
                 if (AlgorithmType.DaggerHashimoto == algorithmType)
                 {
                     return MinerType.ClaymoreDual;
                 }
             }
-            
+
             if (MinerBaseType.CPU_XMRig == minerBaseType)
             {
                 return MinerType.CPU_XMRig;

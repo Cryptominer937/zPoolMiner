@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using zPoolMiner.Configs;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
-using zPoolMiner.Configs;
 
 namespace zPoolMiner.Miners.Grouping
 {

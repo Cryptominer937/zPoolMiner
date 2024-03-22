@@ -21,8 +21,8 @@
             {
                 // Allow group if prospector
                 //if ((IsNotCpuGroups(a, b) && IsSameDeviceType(a, b))
-                    //|| (a.Algorithm.MinerBaseType == MinerBaseType.Prospector && b.Algorithm.MinerBaseType == MinerBaseType.Prospector))
-                    return true;
+                //|| (a.Algorithm.MinerBaseType == MinerBaseType.Prospector && b.Algorithm.MinerBaseType == MinerBaseType.Prospector))
+                return true;
             }
             return false;
         }

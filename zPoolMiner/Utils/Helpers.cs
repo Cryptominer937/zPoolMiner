@@ -40,7 +40,7 @@ namespace zPoolMiner
         {
             // Console.WriteLine does nothing on x64 while debugging with VS, so use Debug. Console.WriteLine works when run from .exe
 #if DEBUG
-           // Debug.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
+            // Debug.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
 #endif
 #if !DEBUG
             //Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] [" + grp + "] " + text);
