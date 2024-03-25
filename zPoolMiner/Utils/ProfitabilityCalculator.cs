@@ -54,7 +54,7 @@
             { AlgorithmType.Qubit_UNUSED ,                  MHs },
             { AlgorithmType.Quark_UNUSED ,                  MHs },
             { AlgorithmType.Axiom_UNUSED ,                  kHs }, // NOT used
-            { AlgorithmType.Lyra2REv2 ,                     MHs },
+            { AlgorithmType.Lyra2REv2 ,                     GHs },
             { AlgorithmType.ScryptJaneNf16_UNUSED ,         kHs }, // NOT used
             { AlgorithmType.Blake256r8 ,                    GHs },
             { AlgorithmType.Blake256r14_UNUSED ,            GHs },
@@ -70,7 +70,8 @@
             { AlgorithmType.Sia ,                           GHs },
             { AlgorithmType.Blake2s ,                       GHs },
             { AlgorithmType.Skunk ,                         MHs },
-            { AlgorithmType.karlsenhash,                        kHs }
+            { AlgorithmType.karlsenhash,                        kHs },
+            { AlgorithmType.pyrinhash,                        kHs }
         };
 
         /// <summary>

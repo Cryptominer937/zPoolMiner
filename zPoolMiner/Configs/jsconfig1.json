@@ -55,7 +55,8 @@
     //"cryptonight_fast": "ZAlgorithm.cryptonight_fast",
     "cryptonight_haven": "ZAlgorithm.cryptonight_haven",
     "cryptonight_upx": "ZAlgorithm.cryptonight_upx",
-    "karlsenhash": "ZAlgorithm.karlsenhash"
+    "karlsenhash": "ZAlgorithm.karlsenhash",
+    "pyrinhash": "ZAlgorithm.pyrinhash",
   },
   "AlgoID": {
     //"bitcore": "0",
@@ -113,7 +114,8 @@
     //"cryptonight_fast": "52",
     "cryptonight_haven": "53",
     "cryptonight_upx": "54",
-    "karlsenhash": "55"
+    "karlsenhash": "55",
+    "pyrinhash": "56"
   },
     "MagnitudeFactor": {
       "decred": "1",

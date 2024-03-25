@@ -299,5 +299,6 @@
         //equihash96 = 76,
         scryptn2 = 77,
         karlsenhash = 78,
+        pyrinhash = 79,
     }
 }

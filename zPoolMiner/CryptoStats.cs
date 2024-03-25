@@ -910,6 +910,7 @@
                 case "equihash192": return ZAlgorithm.equihash192;
                 case "scryptn2": return ZAlgorithm.scryptn2;
                 case "karlsenhash": return ZAlgorithm.karlsenhash;
+                    case "pyrinhash": return ZAlgorithm.pyrinhash;
             }
 
             return ZAlgorithm.unknown;
@@ -1001,6 +1002,7 @@
                 //case "equihash96": return 76;
                 case "scryptn2": return 77;
                 case "karlsenhash": return 78;
+                case "pyrinhash": return 79;
 
                 default: return -1;
             }
@@ -1024,6 +1026,7 @@
                 case "lbry":
                 case "keccak":
                 case "blake2s":
+                case "lyra2v2":
                     return 0.001M; //end TH
                 //GH Below
                 case "decred":
@@ -1041,7 +1044,6 @@
                 case "hex":
                 case "honeycomb":
                 case "k12":
-                case "lyra2v2":
                 //case "lyra2v3":
                 case "myr-gr":
                 case "nist5":
@@ -1061,6 +1063,8 @@
                 case "skunk":
                 case "c11":
                 case "bcd":
+                case "karlsenhash":
+                case "pyrinhash":
                     return 1; //end GH
                 //MH Below
                 //case "hmq1725":
@@ -1085,7 +1089,6 @@
                 case "allium":
                 //case "equihash96":
                 case "cryptonight_upx":
-                case "karlsenhash":
                     return 1000; // end MH
                 //KH Below
                 case "yescrypt":
@@ -1363,7 +1366,8 @@
         equihash144,
         equihash192,
         scryptn2,
-        karlsenhash
+        karlsenhash,
+        pyrinhash
 
     }
 }

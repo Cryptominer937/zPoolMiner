@@ -753,6 +753,10 @@
                 {
                     return Data.lolMiner;
                 }
+                if (AlgorithmType.pyrinhash == type)
+                {
+                    return Data.lolMiner;
+                }
                 /*if (AlgorithmType.x16r == type)
                 {
                     return Data.sgminer_aceneun;
@@ -764,6 +768,10 @@
             {
 
                 if (AlgorithmType.karlsenhash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.pyrinhash == type)
                 {
                     return Data.lolMiner;
                 }
@@ -789,6 +797,10 @@
             public static string lolMiner(AlgorithmType type)
             {
                 if (AlgorithmType.karlsenhash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.pyrinhash == type)
                 {
                     return Data.lolMiner;
                 }

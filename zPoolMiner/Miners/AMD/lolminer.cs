@@ -46,6 +46,7 @@ namespace NiceHashMiner.Miners
 
         public override void Start(string url, string btcAddress, string worker)
         {
+            var apiBind = " --apiport " + ApiPort;
             if (MiningSession.DONATION_SESSION)
             {
                 if (url.Contains("zpool.ca"))
@@ -157,8 +158,10 @@ namespace NiceHashMiner.Miners
                 return;
             }
             string username = GetUsername(btcAddress, worker);
-
-            LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort;
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
+                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit"+ apiBind;
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash) 
+                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
 
             LastCommandLine += GetDevicesCommandString();
 
@@ -179,8 +182,11 @@ namespace NiceHashMiner.Miners
 
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += ":" + ConfigManager.GeneralConfig.WorkerName.Trim();
-
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
             CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
+                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 
