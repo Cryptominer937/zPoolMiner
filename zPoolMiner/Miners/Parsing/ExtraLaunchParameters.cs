@@ -125,7 +125,7 @@
                 }
             ),
             new MinerOptionPackage(
-                MinerType.lolMiner,
+                MinerType.lolMinerAmd,
                 new List<MinerOption>() {
                     // SingleParam
                     new MinerOption("lolMiner_log", "", "--logs", "0", MinerOptionFlagType.SingleParam, ""),

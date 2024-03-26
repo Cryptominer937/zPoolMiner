@@ -111,7 +111,7 @@
         /// Defines the Xmrig
         /// </summary>
         Xmrig,
-        lolMiner,
+        lolMinerAmd,
         /// <summary>
         /// Defines the Palgin_Neoscrypt
         /// </summary>

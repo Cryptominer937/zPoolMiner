@@ -100,8 +100,8 @@
                 case MinerBaseType.Claymore:
                     return CreateClaymore(algorithmType, secondaryAlgorithmType);
 
-                case MinerBaseType.lolMiner:
-                    return new lolMiner();
+                case MinerBaseType.lolMinerAmd:
+                    return new lolMinerAmd();
 
                 case MinerBaseType.OptiminerAMD:
                     return new OptiminerZcashMiner();

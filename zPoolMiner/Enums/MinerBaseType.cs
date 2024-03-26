@@ -141,7 +141,7 @@
         /// </summary>
         experimental,
 
-        lolMiner,
+        lolMinerAmd,
         /// <summary>
         /// Defines the EWBF
         /// </summary>

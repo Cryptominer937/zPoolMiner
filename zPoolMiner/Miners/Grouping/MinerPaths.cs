@@ -223,7 +223,7 @@
             /// </summary>
             //public const string ccminer_xevan = _bin + @"\ccminer_xevan\ccminer.exe";
 
-            public const string lolMiner = _bin + @"\lolMiner\lolMiner.exe";
+            public const string lolMinerAmd = _bin + @"\lolMiner\lolMiner.exe";
             /// <summary>
             /// CPUminers
             /// </summary>
@@ -453,8 +453,8 @@
                     return NVIDIA_GROUPS.CryptoDredge(algoType, devGroupType);
                 case MinerBaseType.CPU_verium:
                     return Data.CPU_verium;
-                case MinerBaseType.lolMiner:
-                    return AMD_GROUP.lolMiner(algoType);
+                case MinerBaseType.lolMinerAmd:
+                    return AMD_GROUP.lolMinerAmd(algoType);
             }
             return Data.NONE;
         }
@@ -751,19 +751,19 @@
                 }
                 if (AlgorithmType.karlsenhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.pyrinhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethashb3 == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 /*if (AlgorithmType.x16r == type)
                 {
@@ -772,27 +772,27 @@
 
                 return Data.NONE;
             }
-            public static string lolMiner_path(AlgorithmType type)
+            public static string lolMinerAmd_path(AlgorithmType type)
             {
 
                 if (AlgorithmType.karlsenhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.pyrinhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethashb3 == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
 
-                return Data.lolMiner;
+                return Data.lolMinerAmd;
             }
 
             /// <summary>
@@ -810,23 +810,23 @@
                 return Data.NONE;
             }
 
-            public static string lolMiner(AlgorithmType type)
+            public static string lolMinerAmd(AlgorithmType type)
             {
                 if (AlgorithmType.karlsenhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.pyrinhash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethash == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethashb3 == type)
                 {
-                    return Data.lolMiner;
+                    return Data.lolMinerAmd;
                 }
                 return Data.NONE;
             }

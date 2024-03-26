@@ -238,7 +238,7 @@
                                             algo.Enabled = false;
                                         }
                                     }
-                                    if (algoSettings.ContainsKey(MinerBaseType.lolMiner))
+                                    if (algoSettings.ContainsKey(MinerBaseType.lolMinerAmd))
                                     {
 
                                     }
@@ -476,12 +476,12 @@
                         new List<Algorithm> {
                             new Algorithm(MinerBaseType.XmrStakAMD, AlgorithmType.cryptonight, "")
                         }
-                    }*/{MinerBaseType.lolMiner,
+                    }*/{MinerBaseType.lolMinerAmd,
                 new List<Algorithm>() {
-                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.karlsenhash,"karlsenhash"),
-                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.pyrinhash,"pyrinhash"),
-                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.ethash,"ethash"),
-                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.ethashb3,"ethashb3")
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.karlsenhash,"karlsenhash"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.pyrinhash,"pyrinhash"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.ethash,"ethash"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.ethashb3,"ethashb3")
                 }
                 }
             };

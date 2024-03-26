@@ -19,14 +19,14 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NiceHashMiner.Miners
 {
-    class lolMiner : Miner
+    class lolMinerAmd : Miner
     {
         private readonly int GPUPlatformNumber;
         Stopwatch _benchmarkTimer = new Stopwatch();
         int count = 0;
         double speed = 0;
 
-        public lolMiner()
+        public lolMinerAmd()
             : base("lolMiner_AMD")
         {
             GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
@@ -260,7 +260,7 @@ namespace NiceHashMiner.Miners
         public override async Task<APIData> GetSummaryAsync()
         {
             var ad = new APIData(MiningSetup.CurrentAlgorithmType);
-            string ResponseFromlolMiner;
+            string ResponseFromlolMinerAmd;
             try
             {
                 HttpWebRequest WR = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + ApiPort.ToString() + "/summary");
@@ -271,8 +271,8 @@ namespace NiceHashMiner.Miners
                 Stream SS = Response.GetResponseStream();
                 SS.ReadTimeout = 2 * 1000;
                 StreamReader Reader = new StreamReader(SS);
-                ResponseFromlolMiner = await Reader.ReadToEndAsync();
-                //Helpers.ConsolePrint("API: ", ResponseFromlolMiner);
+                ResponseFromlolMinerAmd = await Reader.ReadToEndAsync();
+                //Helpers.ConsolePrint("API: ", ResponseFromlolMinerAmd);
                 //if (ResponseFromlolMiner.Length == 0 || (ResponseFromlolMiner[0] != '{' && ResponseFromlolMiner[0] != '['))
                 //    throw new Exception("Not JSON!");
                 Reader.Close();
@@ -283,14 +283,14 @@ namespace NiceHashMiner.Miners
                 return null;
             }
 
-            if (ResponseFromlolMiner == null)
+            if (ResponseFromlolMinerAmd == null)
             {
                 CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
             try
             {
-                dynamic resp = JsonConvert.DeserializeObject(ResponseFromlolMiner);
+                dynamic resp = JsonConvert.DeserializeObject(ResponseFromlolMinerAmd);
                 int mult = 1;
                 if (resp != null)
                 {

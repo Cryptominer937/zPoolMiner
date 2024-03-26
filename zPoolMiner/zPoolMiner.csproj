@@ -201,7 +201,7 @@
     </Compile>
     <Compile Include="IFTTT.cs" />
     <Compile Include="ExchangeRateAPI.cs" />
-    <Compile Include="Miners\AMD\lolminer.cs" />
+    <Compile Include="Miners\AMD\lolminerAmd.cs" />
     <Compile Include="Miners\ClaymoreDual.cs" />
     <Compile Include="Miners\ClaymoreNeoscryptMiner.cs" />
     <Compile Include="Miners\CPU\CPU_verium.cs" />
@@ -214,6 +214,7 @@
     <Compile Include="Miners\CPU\CPU_nosuch.cs" />
     <Compile Include="Miners\CPU\CPU_rplant.cs" />
     <Compile Include="Miners\CPU\CPU_RKZ.cs" />
+    <Compile Include="Miners\Nvidia\lolminerNvidia.cs" />
     <Compile Include="Miners\Nvidia\miniZ.cs" />
     <Compile Include="Miners\Nvidia\palgin_neoscrypt.cs" />
     <Compile Include="Miners\prospector.cs" />
