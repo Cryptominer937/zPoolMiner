@@ -479,7 +479,9 @@
                     }*/{MinerBaseType.lolMiner,
                 new List<Algorithm>() {
                     new Algorithm(MinerBaseType.lolMiner,AlgorithmType.karlsenhash,"karlsenhash"),
-                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.pyrinhash,"pyrinhash")
+                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.pyrinhash,"pyrinhash"),
+                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.ethash,"ethash"),
+                    new Algorithm(MinerBaseType.lolMiner,AlgorithmType.ethashb3,"ethashb3")
                 }
                 }
             };

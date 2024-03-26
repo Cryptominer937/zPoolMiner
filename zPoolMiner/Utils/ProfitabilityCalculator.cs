@@ -71,7 +71,9 @@
             { AlgorithmType.Blake2s ,                       GHs },
             { AlgorithmType.Skunk ,                         MHs },
             { AlgorithmType.karlsenhash,                        kHs },
-            { AlgorithmType.pyrinhash,                        kHs }
+            { AlgorithmType.pyrinhash,                        kHs },
+            { AlgorithmType.ethash,                        MHs },
+            { AlgorithmType.ethashb3,                        MHs }
         };
 
         /// <summary>

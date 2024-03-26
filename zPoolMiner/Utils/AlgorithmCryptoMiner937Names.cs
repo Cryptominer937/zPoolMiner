@@ -71,6 +71,8 @@
                 || (AlgorithmType.scryptn2 <= type && type <= AlgorithmType.scryptn2)
                 || (AlgorithmType.karlsenhash <= type && type <= AlgorithmType.karlsenhash)
                 || (AlgorithmType.pyrinhash <= type && type <= AlgorithmType.pyrinhash)
+                || (AlgorithmType.ethash <= type && type <= AlgorithmType.ethash)
+                || (AlgorithmType.ethashb3 <= type && type <= AlgorithmType.ethashb3)
 
                 )
             {

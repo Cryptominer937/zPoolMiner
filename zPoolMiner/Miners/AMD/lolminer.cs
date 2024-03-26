@@ -15,6 +15,7 @@ using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners;
 using zPoolMiner.Miners.Grouping;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NiceHashMiner.Miners
 {
@@ -162,6 +163,10 @@ namespace NiceHashMiner.Miners
                 LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit"+ apiBind;
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash) 
                 LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
+                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
+                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
 
             LastCommandLine += GetDevicesCommandString();
 
@@ -187,6 +192,10 @@ namespace NiceHashMiner.Miners
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
                 CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
+                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
+                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 

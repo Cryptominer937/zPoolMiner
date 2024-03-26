@@ -910,7 +910,9 @@
                 case "equihash192": return ZAlgorithm.equihash192;
                 case "scryptn2": return ZAlgorithm.scryptn2;
                 case "karlsenhash": return ZAlgorithm.karlsenhash;
-                    case "pyrinhash": return ZAlgorithm.pyrinhash;
+                case "pyrinhash": return ZAlgorithm.pyrinhash;
+                case "etchash": return ZAlgorithm.ethash;
+                case "etchashb3": return ZAlgorithm.ethashb3;
             }
 
             return ZAlgorithm.unknown;
@@ -1003,6 +1005,8 @@
                 case "scryptn2": return 77;
                 case "karlsenhash": return 78;
                 case "pyrinhash": return 79;
+                case "ethash": return 80;
+                case "ethashb3": return 81;
 
                 default: return -1;
             }
@@ -1065,6 +1069,8 @@
                 case "bcd":
                 case "karlsenhash":
                 case "pyrinhash":
+                case "ethash":
+                case "ethashb3":
                     return 1; //end GH
                 //MH Below
                 //case "hmq1725":
@@ -1367,7 +1373,9 @@
         equihash192,
         scryptn2,
         karlsenhash,
-        pyrinhash
+        pyrinhash,
+        ethash,
+        ethashb3,
 
     }
 }

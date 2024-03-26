@@ -300,5 +300,7 @@
         scryptn2 = 77,
         karlsenhash = 78,
         pyrinhash = 79,
+        ethash = 80,
+        ethashb3 = 81,
     }
 }

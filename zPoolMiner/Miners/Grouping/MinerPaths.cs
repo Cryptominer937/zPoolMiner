@@ -757,6 +757,14 @@
                 {
                     return Data.lolMiner;
                 }
+                if (AlgorithmType.ethash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.ethashb3 == type)
+                {
+                    return Data.lolMiner;
+                }
                 /*if (AlgorithmType.x16r == type)
                 {
                     return Data.sgminer_aceneun;
@@ -772,6 +780,14 @@
                     return Data.lolMiner;
                 }
                 if (AlgorithmType.pyrinhash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.ethash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMiner;
                 }
@@ -801,6 +817,14 @@
                     return Data.lolMiner;
                 }
                 if (AlgorithmType.pyrinhash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.ethash == type)
+                {
+                    return Data.lolMiner;
+                }
+                if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMiner;
                 }
