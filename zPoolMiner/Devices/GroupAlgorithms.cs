@@ -493,11 +493,12 @@
                 var ToRemoveAlgoTypes = new List<AlgorithmType>();
                 var ToRemoveMinerTypes = new List<MinerBaseType>();
                 var ret = new Dictionary<MinerBaseType, List<Algorithm>>() {
-                    { MinerBaseType.ccminer,
+                    { MinerBaseType.lolMinerNvidia,
                         new List<Algorithm>() {
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.Skunk, "skunk"),
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.Groestl, "groestl"),
-                            //new Algorithm(MinerBaseType.ccminer, AlgorithmType.Myriad_groestl, "myr-gr")
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.karlsenhash,"karlsenhash"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.pyrinhash,"pyrinhash"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.ethash,"ethash"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.ethashb3,"ethashb3")
                         }
                     },
                     { MinerBaseType.ccminer_tpruvot2,

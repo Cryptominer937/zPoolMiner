@@ -224,6 +224,7 @@
             //public const string ccminer_xevan = _bin + @"\ccminer_xevan\ccminer.exe";
 
             public const string lolMinerAmd = _bin + @"\lolMiner\lolMiner.exe";
+            public const string lolMinerNvidia = _bin + @"\lolMiner\lolMiner.exe";
             /// <summary>
             /// CPUminers
             /// </summary>
@@ -455,6 +456,8 @@
                     return Data.CPU_verium;
                 case MinerBaseType.lolMinerAmd:
                     return AMD_GROUP.lolMinerAmd(algoType);
+                case MinerBaseType.lolMinerNvidia:
+                    return AMD_GROUP.lolMinerAmd(algoType);
             }
             return Data.NONE;
         }
@@ -528,7 +531,26 @@
             {
               *  return Data.ccminer_tpruvot2;
             }*/
-
+            public static string lolMinerNvidia(AlgorithmType type)
+            {
+                if (AlgorithmType.karlsenhash == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.pyrinhash == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.ethash == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.ethashb3 == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                return Data.NONE;
+            }
             /// <summary>
             /// The Ccminer_sm5x
             /// </summary>
@@ -745,7 +767,7 @@
                 {
                     return Data.sgminer_HSR;
                 }*/
-                if (AlgorithmType.Phi == type)
+                /*if (AlgorithmType.Phi == type)
                 {
                     //return Data.sgminer_Phi;
                 }
@@ -764,7 +786,7 @@
                 if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMinerAmd;
-                }
+                }*/
                 /*if (AlgorithmType.x16r == type)
                 {
                     return Data.sgminer_aceneun;

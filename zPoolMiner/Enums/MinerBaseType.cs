@@ -142,6 +142,7 @@
         experimental,
 
         lolMinerAmd,
+        lolMinerNvidia,
         /// <summary>
         /// Defines the EWBF
         /// </summary>

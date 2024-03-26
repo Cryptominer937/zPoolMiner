@@ -160,13 +160,13 @@ namespace NiceHashMiner.Miners
             }
             string username = GetUsername(btcAddress, worker);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit"+ apiBind;
+                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash) 
-                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
 
             LastCommandLine += GetDevicesCommandString();
 
@@ -188,14 +188,14 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += ":" + ConfigManager.GeneralConfig.WorkerName.Trim();
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-            CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+            CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
-                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 

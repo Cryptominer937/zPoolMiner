@@ -102,6 +102,9 @@
 
                 case MinerBaseType.lolMinerAmd:
                     return new lolMinerAmd();
+                case MinerBaseType.lolMinerNvidia:
+                    return new lolMinerNvidia();
+
 
                 case MinerBaseType.OptiminerAMD:
                     return new OptiminerZcashMiner();

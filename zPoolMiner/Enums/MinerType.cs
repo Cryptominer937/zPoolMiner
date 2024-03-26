@@ -112,6 +112,7 @@
         /// </summary>
         Xmrig,
         lolMinerAmd,
+        lolMinerNvidia,
         /// <summary>
         /// Defines the Palgin_Neoscrypt
         /// </summary>

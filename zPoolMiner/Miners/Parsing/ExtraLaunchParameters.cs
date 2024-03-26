@@ -153,6 +153,35 @@
                 new List<MinerOption>() {
                 }
             ),
+            new MinerOptionPackage(
+                MinerType.lolMinerNvidia,
+                new List<MinerOption>() {
+                    // SingleParam
+                    new MinerOption("lolMiner_log", "", "--logs", "0", MinerOptionFlagType.SingleParam, ""),
+                    new MinerOption("lolMiner_log", "", "--logs", "0", MinerOptionFlagType.SingleParam, ""),
+                    new MinerOption("lolMiner_enablezilcache", "--enablezilcache=", "--enablezilcache=", "0", MinerOptionFlagType.SingleParam, ""),
+                    new MinerOption("lolMiner_win4galloc", "", "--win4galloc", "0", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_4gallocsize", "", "--4g-alloc-size", "0", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_keepfree", "", "--keepfree", "0", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_zombie-tune", "", "--zombie-tune", "0", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_lhrtune", "", "--lhrtune", "auto", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_cclk", "", "--cclk", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_mclk", "", "--mclk", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_coff", "", "--coff", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_moff", "", "--moff", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_pl", "", "--pl", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_fan", "", "--fan", "*", MinerOptionFlagType.MultiParam, ","),
+                    new MinerOption("lolMiner_ergo-prebuild", "--ergo-prebuild", "--ergo-prebuild", "0", MinerOptionFlagType.MultiParam, ","),
+                    //new MinerOption("lolMinerasm", "", "--asm", "0", MinerOptionFlagType.SingleParam, ""),
+                    new MinerOption("lolMinerbasecolor", "", "--basecolor", "", MinerOptionFlagType.Uni, ""),
+                    new MinerOption("lolMinernocolor", "", "--nocolor", "", MinerOptionFlagType.Uni, ""),
+                    new MinerOption("lolMiner_lhrwait", "--lhrwait", "--lhrwait", "0", MinerOptionFlagType.SingleParam, ""),
+                    new MinerOption("lolMiner_screen ", "--screen ", "--screen", "0", MinerOptionFlagType.SingleParam, ""),
+                },
+                // TemperatureOptions
+                new List<MinerOption>() {
+                }
+            ),
            /* new MinerOptionPackage(
                  MinerType.mkxminer,
                  new List<MinerOption>() {
