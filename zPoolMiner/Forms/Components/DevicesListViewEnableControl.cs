@@ -152,7 +152,7 @@ namespace zPoolMiner.Forms.Components
             {
                 if (computeDevice.DeviceType != DeviceType.CPU)
                 {
-                    addInfo = " (" + computeDevice.GpuRam / 1073741824 + " GB)";
+                    addInfo = " (" + computeDevice.GpuRam / 1024000000 + " GB)";
                 }
                 var lvi = new ListViewItem
                 {

@@ -15,7 +15,6 @@ using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners;
 using zPoolMiner.Miners.Grouping;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NiceHashMiner.Miners
 {
@@ -161,7 +160,7 @@ namespace NiceHashMiner.Miners
             string username = GetUsername(btcAddress, worker);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
                 LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
-            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash) 
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
                 LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
                 LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind;
@@ -188,7 +187,7 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += ":" + ConfigManager.GeneralConfig.WorkerName.Trim();
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-            CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
                 CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
@@ -215,7 +214,7 @@ namespace NiceHashMiner.Miners
                 hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
                 try
                 {
-                    speed = speed *1000000 + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                    speed = speed * 1000000 + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
                 }
                 catch
                 {
@@ -229,7 +228,7 @@ namespace NiceHashMiner.Miners
 
             if (outdata.Contains("Share accepted") && speed != 0)
             {
-                BenchmarkAlgorithm.BenchmarkSpeed = speed / count *1000000;
+                BenchmarkAlgorithm.BenchmarkSpeed = speed / count * 1000000;
                 BenchmarkSignalFinnished = true;
                 return true;
             }
@@ -314,7 +313,7 @@ namespace NiceHashMiner.Miners
                         }
                         int dev = 0;
                         var sortedMinerPairs = MiningSetup.MiningPairs.OrderBy(pair => pair.Device.BusID).ToList();
-                        
+
 
 
                         if (ad.Speed == 0)
