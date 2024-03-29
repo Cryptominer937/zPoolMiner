@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hash-Kings")]
 [assembly: AssemblyProduct("Hash-Kings Miner")]
-[assembly: AssemblyCopyright("Cryptominer937 ©  2018-2020 , NiceHash ©  2017")]
+[assembly: AssemblyCopyright("Cryptominer937 ©  2018-2024 , NiceHash ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.2.1")]
-[assembly: AssemblyFileVersion("3.0.2.1")]
+[assembly: AssemblyVersion("3.0.2.2")]
+[assembly: AssemblyFileVersion("3.0.2.2")]
 [assembly: NeutralResourcesLanguage("en")]

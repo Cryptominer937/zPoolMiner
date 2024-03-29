@@ -102,7 +102,7 @@
         /// <summary>
         /// Defines the _betaAlphaPostfixString
         /// </summary>
-        private const string _betaAlphaPostfixString = " Alpha";
+        private const string _betaAlphaPostfixString = " Beta";
 
         /// <summary>
         /// Defines the _isDeviceDetectionInitialized
@@ -975,6 +975,8 @@
             }
             ver = ver.Replace("-Beta", "");
             ver2 = ver2.Replace("-Beta", "");
+            ver = ver.Replace("-Alpha", "");
+            ver2 = ver2.Replace("-Alpha", "");
             //Helpers.ConsolePrint("Github version: ", ver);
             double programVersionn = double.Parse(programVersion, CultureInfo.InvariantCulture);
             //Helpers.ConsolePrint("Program version: ", programVersionn.ToString());
