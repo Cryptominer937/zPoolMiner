@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="algorithmID">The <see cref="AlgorithmType"/></param>
         /// <param name="secondaryAlgorithmID">The <see cref="AlgorithmType"/></param>
-        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID = AlgorithmType.NONE)
+        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID = AlgorithmType.NONE, MiningPair miningPair = null)
         {
             AlgorithmID = algorithmID;
             SecondaryAlgorithmID = secondaryAlgorithmID;

@@ -1095,9 +1095,9 @@
                 case "allium":
                 //case "equihash96":
                 case "cryptonight_upx":
+                case "yescrypt":
                     return 1000; // end MH
                 //KH Below
-                case "yescrypt":
                 case "yescryptr16":
                 case "randomx":
                 //case "randomarq":
