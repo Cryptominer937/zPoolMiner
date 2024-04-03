@@ -128,8 +128,12 @@
                     return new CPU_nosuch();
                 case MinerBaseType.trex:
                     return new trex();
-                case MinerBaseType.CryptoDredge:
-                    return new CryptoDredge();
+                case MinerBaseType.CryptoDredge16:
+                    return new CryptoDredge16();
+                case MinerBaseType.CryptoDredge25:
+                    return new CryptoDredge25();
+                case MinerBaseType.CryptoDredge26:
+                    return new CryptoDredge26();
                 case MinerBaseType.ZEnemy:
                     return new ZEnemy();
                 case MinerBaseType.MiniZ:

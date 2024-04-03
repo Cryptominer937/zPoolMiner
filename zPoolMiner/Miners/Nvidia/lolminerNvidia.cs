@@ -318,16 +318,16 @@ namespace NiceHashMiner.Miners
                         }
                     }
 
-                    /*
-                    if (MiningSetup.CurrentAlgorithmType == AlgorithmType.DaggerHashimoto || MiningSetup.CurrentAlgorithmType == AlgorithmType.Autolykos)
+                    
+                    /*if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
                     {
                         mult = 1000000;
                     }
                     else
                     {
                         mult = 1;
-                    }
-                    */
+                    }*/
+                    
                     ad.Speed = totals;
                     if (Num_Workers > 0)
                     {

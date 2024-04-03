@@ -73,6 +73,7 @@
                 || (AlgorithmType.pyrinhash <= type && type <= AlgorithmType.pyrinhash)
                 || (AlgorithmType.ethash <= type && type <= AlgorithmType.ethash)
                 || (AlgorithmType.ethashb3 <= type && type <= AlgorithmType.ethashb3)
+                || (AlgorithmType.kawpow <= type && type <= AlgorithmType.kawpow)
 
                 )
             {

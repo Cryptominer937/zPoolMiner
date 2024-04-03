@@ -302,5 +302,6 @@
         pyrinhash = 79,
         ethash = 80,
         ethashb3 = 81,
+        kawpow = 82,
     }
 }

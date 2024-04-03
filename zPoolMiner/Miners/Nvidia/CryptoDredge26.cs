@@ -12,17 +12,17 @@ using zPoolMiner.Miners.Parsing;
 
 namespace zPoolMiner.Miners
 {
-    public class CryptoDredge : Miner
+    public class CryptoDredge26 : Miner
     {
 
-        public CryptoDredge() : base("CryptoDredge_NVIDIA")
+        public CryptoDredge26() : base("CryptoDredge_NVIDIA")
         { }
         private int TotalCount = 0;
         private double Total = 0;
         private const int TotalDelim = 2;
         double speed = 0;
         int count = 0;
-        private bool _benchmarkException => MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
+        private bool _benchmarkException => MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge26;
         protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 8;
@@ -145,13 +145,16 @@ namespace zPoolMiner.Miners
                 return;
             }
             string address = btcAddress;
-            IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge;
+            IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.CryptoDredge26;
             var algo = "";
             var apiBind = "";
-            algo = "--algo " + MiningSetup.MinerName;
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.cryptonight_upx)
+            { algo = "--algo cnupx2 "; }
+            else
+            { algo = "--algo " + MiningSetup.MinerName; }
             apiBind = " --api-bind 127.0.0.1:" + ApiPort;
             IsApiReadException = false;
-            LastCommandLine = " -a " + MiningSetup.MinerName.ToLower() + " -o " + url + " -u " + address + " -p " + worker + "" + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
+            LastCommandLine = algo + " -o " + url + " -u " + address + " -p " + worker + "" + " " + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
                 + " --no-watchdog " + " -d ";
             /*algo +
                 " -o " + url + " -u " + username + " -p x " +
@@ -197,13 +200,18 @@ namespace zPoolMiner.Miners
         #region Decoupled benchmarking routines
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
+            var algo = "";
             string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             string alg = url.Substring(url.IndexOf("://") + 3, url.IndexOf(".") - url.IndexOf("://") - 3);
             string port = url.Substring(url.IndexOf(".com:") + 5, url.Length - url.IndexOf(".com:") - 5);
             var username = Globals.DemoUser;
             var worker = Globals.DemoWorker;
 
-            var commandLine = " -a " + algorithm.MinerName.ToLower() + " -o " + url + " -u " + username + " -p " + worker + "" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.cryptonight_upx)
+            { algo = "--algo cnupx2 "; }
+            else
+            { algo = "--algo " + MiningSetup.MinerName; }
+            var commandLine = algo + " -o " + url + " -u " + username + " -p " + worker + "" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA)
                 + " --no-watchdog " + " -d ";
             commandLine += GetDevicesCommandString();
             TotalCount = 2;

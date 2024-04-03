@@ -206,7 +206,9 @@
     <Compile Include="Miners\ClaymoreNeoscryptMiner.cs" />
     <Compile Include="Miners\CPU\CPU_verium.cs" />
     <Compile Include="Miners\CPU\CPU_XmrigUPX.cs" />
-    <Compile Include="Miners\Nvidia\CryptoDredge.cs" />
+    <Compile Include="Miners\Nvidia\CryptoDredge26.cs" />
+    <Compile Include="Miners\Nvidia\CryptoDredge25.cs" />
+    <Compile Include="Miners\Nvidia\CryptoDredge16.cs" />
     <Compile Include="Miners\Nvidia\dstm.cs" />
     <Compile Include="Miners\Nvidia\EWBF.cs" />
     <Compile Include="Miners\AMD\glg.cs" />

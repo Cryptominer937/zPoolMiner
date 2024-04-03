@@ -139,7 +139,9 @@
         CPU_XMRigUPX,
         trex,
         ZEnemy,
-        CryptoDredge,
+        CryptoDredge16,
+        CryptoDredge25,
+        CryptoDredge26,
         MiniZ,
         CPU_verium,
         /// <summary>

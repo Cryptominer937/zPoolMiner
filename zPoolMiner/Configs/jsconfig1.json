@@ -58,7 +58,8 @@
     "karlsenhash": "ZAlgorithm.karlsenhash",
     "pyrinhash": "ZAlgorithm.pyrinhash",
     "ethash": "ZAlgorithm.ethash",
-    "ethash": "ZAlgorithm.ethashb3",
+    "ethashb3": "ZAlgorithm.ethashb3",
+    "kawpow": "ZAlgorithm.kawpow"
   },
   "AlgoID": {
     //"bitcore": "0",
@@ -119,7 +120,8 @@
     "karlsenhash": "55",
     "pyrinhash": "56",
     "ethash": "57",
-    "ethashb3": "58"
+    "ethashb3": "58",
+    "kawpow": "59"
   },
     "MagnitudeFactor": {
       "decred": "1",

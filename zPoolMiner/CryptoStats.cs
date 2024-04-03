@@ -887,6 +887,7 @@
                 //case "cryptonight_fast": return ZAlgorithm.cryptonight_fast;
                 case "cryptonight_haven": return ZAlgorithm.cryptonight_haven;
                 case "cryptonight_upx": return ZAlgorithm.cryptonight_upx;
+                case "kawpow": return ZAlgorithm.kawpow;
                 case "yespower": return ZAlgorithm.yespower;
                 case "cpupower": return ZAlgorithm.cpupower;
                 case "power2b": return ZAlgorithm.power2b;
@@ -1007,6 +1008,7 @@
                 case "pyrinhash": return 79;
                 case "ethash": return 80;
                 case "ethashb3": return 81;
+                case "kawpow": return 82;
 
                 default: return -1;
             }
@@ -1071,6 +1073,7 @@
                 case "pyrinhash":
                 case "ethash":
                 case "ethashb3":
+                case "kawpow":
                     return 1; //end GH
                 //MH Below
                 //case "hmq1725":
@@ -1376,6 +1379,7 @@
         pyrinhash,
         ethash,
         ethashb3,
+        kawpow,
 
     }
 }

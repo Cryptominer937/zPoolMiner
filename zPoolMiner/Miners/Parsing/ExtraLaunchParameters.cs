@@ -67,7 +67,21 @@
                  new List<MinerOption>()
             ),
             new MinerOptionPackage(
-                MinerType.CryptoDredge,
+                MinerType.CryptoDredge16,
+                new List<MinerOption>() {
+                    new MinerOption("Intensity", "-i", "--intensity=", "0", MinerOptionFlagType.MultiParam, ",")
+                },
+                new List<MinerOption>()
+            ),
+            new MinerOptionPackage(
+                MinerType.CryptoDredge25,
+                new List<MinerOption>() {
+                    new MinerOption("Intensity", "-i", "--intensity=", "0", MinerOptionFlagType.MultiParam, ",")
+                },
+                new List<MinerOption>()
+            ),
+            new MinerOptionPackage(
+                MinerType.CryptoDredge26,
                 new List<MinerOption>() {
                     new MinerOption("Intensity", "-i", "--intensity=", "0", MinerOptionFlagType.MultiParam, ",")
                 },

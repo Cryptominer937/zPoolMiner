@@ -324,7 +324,9 @@
             public const string CPU_XMRigUPX = _bin + @"\CPU\CPU-XMRigUPX\xmrig.exe";
             public const string trex = _bin + @"\NVIDIA\NVIDIA-trex\t-rex.exe";
             public const string MiniZ = _bin + @"\NVIDIA\NVIDIA-miniZ\miniZ.exe";
-            public const string CryptoDredge = _bin + @"\NVIDIA\NVIDIA-CryptoDredge\CryptoDredge.exe";
+            public const string CryptoDredge16 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge16\CryptoDredge.exe";
+            public const string CryptoDredge25 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge25\CryptoDredge.exe";
+            public const string CryptoDredge26 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge26\CryptoDredge.exe";
             public const string ZEnemy = _bin + @"\NVIDIA\NVIDIA-zealotenemy\z-enemy.exe";
             //public const string ClaymoreZcashMiner = _bin + @"\AMD-NVIDIA\claymore_zcash\ZecMiner64.exe";
 
@@ -450,8 +452,12 @@
                 case MinerBaseType.ZEnemy:
                     return NVIDIA_GROUPS.ZEnemy(algoType, devGroupType);
 
-                case MinerBaseType.CryptoDredge:
-                    return NVIDIA_GROUPS.CryptoDredge(algoType, devGroupType);
+                case MinerBaseType.CryptoDredge16:
+                    return NVIDIA_GROUPS.CryptoDredge16(algoType, devGroupType);
+                case MinerBaseType.CryptoDredge25:
+                    return NVIDIA_GROUPS.CryptoDredge25(algoType, devGroupType);
+                case MinerBaseType.CryptoDredge26:
+                    return NVIDIA_GROUPS.CryptoDredge26(algoType, devGroupType);
                 case MinerBaseType.CPU_verium:
                     return Data.CPU_verium;
                 case MinerBaseType.lolMinerAmd:
@@ -620,17 +626,47 @@
                 return Data.NONE; // should not happen
             }
 
-            public static string CryptoDredge(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            public static string CryptoDredge16(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
-                    return Data.CryptoDredge;
+                    return Data.CryptoDredge16;
                 }
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    return Data.CryptoDredge; ;
+                    return Data.CryptoDredge16;
+                }
+                // TODO wrong case?
+                return Data.NONE; // should not happen
+            }
+            public static string CryptoDredge25(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            {
+                // sm21 and sm3x have same settings
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
+                {
+                    return Data.CryptoDredge25;
+                }
+                // sm5x and sm6x have same settings otherwise
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                {
+                    return Data.CryptoDredge25;
+                }
+                // TODO wrong case?
+                return Data.NONE; // should not happen
+            }
+            public static string CryptoDredge26(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
+            {
+                // sm21 and sm3x have same settings
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
+                {
+                    return Data.CryptoDredge26;
+                }
+                // sm5x and sm6x have same settings otherwise
+                if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
+                {
+                    return Data.CryptoDredge26;
                 }
                 // TODO wrong case?
                 return Data.NONE; // should not happen

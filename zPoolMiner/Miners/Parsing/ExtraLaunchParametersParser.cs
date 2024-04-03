@@ -347,9 +347,17 @@ namespace zPoolMiner.Miners.Parsing
             {
                 return MinerType.ZEnemy;
             }
-            if (MinerBaseType.CryptoDredge == minerBaseType)
+            if (MinerBaseType.CryptoDredge16 == minerBaseType)
             {
-                return MinerType.CryptoDredge;
+                return MinerType.CryptoDredge16;
+            }
+            if (MinerBaseType.CryptoDredge25 == minerBaseType)
+            {
+                return MinerType.CryptoDredge25;
+            }
+            if (MinerBaseType.CryptoDredge26 == minerBaseType)
+            {
+                return MinerType.CryptoDredge26;
             }
             if (MinerBaseType.CPU_verium == minerBaseType)
             {

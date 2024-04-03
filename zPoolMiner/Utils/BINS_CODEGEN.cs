@@ -30,7 +30,9 @@ namespace zPoolMiner.Utils
             @"\CPU\CPU-XMRigUPX\xmrig.exe",
             @"\NVIDIA\ccminer_tpruvot2\ccminer.exe",
             @"\NVIDIA\NVIDIA-trex\t-rex.exe",
-            @"\NVIDIA\NVIDIA-CryptoDredge\CryptoDredge.exe",
+            @"\NVIDIA\NVIDIA-CryptoDredge16\CryptoDredge.exe",
+            @"\NVIDIA\NVIDIA-CryptoDredge25\CryptoDredge.exe",
+            @"\NVIDIA\NVIDIA-CryptoDredge26\CryptoDredge.exe",
             @"\NVIDIA\NVIDIA-zealotenemy\z-enemy.exe",
             @"\vc_redist.x64.exe",
 };
