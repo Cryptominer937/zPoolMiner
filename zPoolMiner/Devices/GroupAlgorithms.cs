@@ -367,7 +367,7 @@
                             new Algorithm(MinerBaseType.CPU_RKZ, AlgorithmType.yescrypt, "yescrypt"),
                             new Algorithm(MinerBaseType.CPU_RKZ, AlgorithmType.yespower, "yespower"),
                             new Algorithm(MinerBaseType.CPU_RKZ, AlgorithmType.cpupower, "cpupower"),
-                            new Algorithm(MinerBaseType.CPU_RKZ, AlgorithmType.power2b, "power2b")
+                            //new Algorithm(MinerBaseType.CPU_RKZ, AlgorithmType.power2b, "power2b")
 
                         }
                     },
@@ -433,11 +433,11 @@
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.NeoScrypt, "neoscrypt") { ExtraLaunchParameters = DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Lyra2REv2,  "Lyra2REv2") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 6 --worksize 128 --intensity d" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.equihash, "equihash"){ ExtraLaunchParameters = RemDis + "--xintensity 512 --worksize 256 --gpu-threads 2" },
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.DaggerHashimoto, "ethash") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 -w 192 -g 1" },
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Decred, "decred") { ExtraLaunchParameters = RemDis + "--gpu-threads 1 --xintensity 256 --lookup-gap 2 --worksize 64" },
+                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.ethash, "ethash") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 -w 192 -g 1" },
+                             //new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Decred, "decred") { ExtraLaunchParameters = RemDis + "--gpu-threads 1 --xintensity 256 --lookup-gap 2 --worksize 64" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Lbry, "lbry") { ExtraLaunchParameters = DefaultParam + "--xintensity 512 --worksize 128 --gpu-threads 2" },
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.cryptonight, "cryptonight") { ExtraLaunchParameters = DefaultParam + "--rawintensity 512 -w 8 -g 2" },
-                             new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
+                             //new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.cryptonight, "cryptonight") { ExtraLaunchParameters = DefaultParam + "--rawintensity 512 -w 8 -g 2" },
+                             //new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Pascal, "pascal") { ExtraLaunchParameters = DefaultParam + "--intensity 21 -w 64 -g 2" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.X11Gost, "sibcoin-mod") { ExtraLaunchParameters = DefaultParam + "--intensity 16 -w 64 -g 2" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Skein, "skein") { ExtraLaunchParameters = DefaultParam + "--intensity d --gpu-threads 2" },
                              new Algorithm(MinerBaseType.GatelessGate, AlgorithmType.Myriad_groestl, "myriadcoin-groestl") { ExtraLaunchParameters = DefaultParam + "--gpu-threads 2 --worksize 64 --intensity d" },
@@ -481,7 +481,11 @@
                     new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.karlsenhash,"karlsenhash"),
                     new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.pyrinhash,"pyrinhash"),
                     new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.ethash,"ethash"),
-                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.ethashb3,"ethashb3")
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.ethashb3,"ethashb3"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.nexapow,"nexapow"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.sha512256d,"sha512256d"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.equihash144,"equihash144"),
+                    new Algorithm(MinerBaseType.lolMinerAmd,AlgorithmType.equihash192,"equihash192")
                 }
                 }
             };
@@ -498,7 +502,11 @@
                     new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.karlsenhash,"karlsenhash"),
                     new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.pyrinhash,"pyrinhash"),
                     new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.ethash,"ethash"),
-                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.ethashb3,"ethashb3")
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.ethashb3,"ethashb3"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.nexapow,"nexapow"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.sha512256d,"sha512256d"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.equihash144,"equihash144"),
+                    new Algorithm(MinerBaseType.lolMinerNvidia,AlgorithmType.equihash192,"equihash192")
                         }
                     },
                     { MinerBaseType.ccminer_tpruvot2,
@@ -531,6 +539,10 @@
                         new List<Algorithm>() {
                             new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.allium, "allium"),
                             new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.NeoScrypt, "neoscrypt"),
+                            new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.lyra2z, "lyra2z"),
+                            new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.x16r, "x16r"),
+                            //new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.x16rt, "x16rt"),
+                            new Algorithm(MinerBaseType.CryptoDredge16, AlgorithmType.x21s, "x21s"),
                         }
                     },{ MinerBaseType.CryptoDredge25,
                         new List<Algorithm>() {
@@ -538,6 +550,11 @@
                             new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.NeoScrypt, "neoscrypt"),
                             new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.cryptonight_upx, "cryptonight_upx"),
                             new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.cryptonight_gpu, "cryptonight_gpu"),
+                            new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.lyra2z, "lyra2z"),
+                            new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.x16r, "x16r"),
+                            new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.x16rt, "x16rt"),
+                            new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.x16rv2, "x16rv2"),
+                            new Algorithm(MinerBaseType.CryptoDredge25, AlgorithmType.x21s, "x21s"),
                         }
                     },{ MinerBaseType.CryptoDredge26,
                         new List<Algorithm>() {

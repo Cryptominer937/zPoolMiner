@@ -914,6 +914,44 @@
                 case "pyrinhash": return ZAlgorithm.pyrinhash;
                 case "etchash": return ZAlgorithm.ethash;
                 case "etchashb3": return ZAlgorithm.ethashb3;
+                case "aurum": return ZAlgorithm.aurum;
+                case "bmw512": return ZAlgorithm.bmw512;
+                case "curvehash": return ZAlgorithm.curvehash;
+                case "evrprogpow": return ZAlgorithm.evrprogpow;
+                case "firopow": return ZAlgorithm.firopow;
+                case "frkhash": return ZAlgorithm.frkhash;
+                case "ghostrider": return ZAlgorithm.take2;
+                case "heavyhash": return ZAlgorithm.heavyhash;
+                case "karlsenhashnxl": return ZAlgorithm.karlsenhashnxl;
+                case "kheavyhash": return ZAlgorithm.kheavyhash;
+                case "megabtx": return ZAlgorithm.megabtx;
+                case "memehash": return ZAlgorithm.memehash;
+                case "meowpow": return ZAlgorithm.meowpow;
+                case "mike": return ZAlgorithm.mike;
+                case "minotaurx": return ZAlgorithm.minotaurx;
+                case "neoscrypt-xaya": return ZAlgorithm.neoscryptxaya;
+                case "nexapow": return ZAlgorithm.nexapow;
+                case "odocrypt": return ZAlgorithm.odocrypt;
+                case "panthera": return ZAlgorithm.panthera;
+                case "randomarq": return ZAlgorithm.randomarq;
+                case "sha256csm": return ZAlgorithm.sha256csm;
+                case "sha256dt": return ZAlgorithm.sha256dt;
+                case "sha3d": return ZAlgorithm.sha3d;
+                case "sha512256d": return ZAlgorithm.sha512256d;
+                case "skydoge": return ZAlgorithm.skydoge;
+                case "verthash": return ZAlgorithm.verthash;
+                case "verushash": return ZAlgorithm.verushash;
+                case "x16rt": return ZAlgorithm.x16rt;
+                case "x16rv2": return ZAlgorithm.x16rv2;
+                case "x21s": return ZAlgorithm.x21s;
+                case "x25x": return ZAlgorithm.x25x;
+                case "yespowerltncg": return ZAlgorithm.yespowerltncg;
+                case "yespowermgpc": return ZAlgorithm.yespowermgpc;
+                case "yespowerr16": return ZAlgorithm.yespowerr16;
+                case "yespowersugar": return ZAlgorithm.yespowersugar;
+                case "yespowertide": return ZAlgorithm.yespowertide;
+                case "yespowerurx": return ZAlgorithm.yespowerurx;
+
             }
 
             return ZAlgorithm.unknown;
@@ -1009,6 +1047,43 @@
                 case "ethash": return 80;
                 case "ethashb3": return 81;
                 case "kawpow": return 82;
+                case "aurum": return 83;
+                case "bmw512": return 84;
+                case "curvehash": return 85;
+                case "evrprogpow": return 86;
+                case "firopow": return 87;
+                case "frkhash": return 88;
+                case "ghostrider": return 89;
+                case "heavyhash": return 90;
+                case "karlsenhashnxl": return 91;
+                case "kheavyhash": return 92;
+                case "megabtx": return 93;
+                case "memehash": return 94;
+                case "meowpow": return 95;
+                case "mike": return 96;
+                case "minotaurx": return 97;
+                case "neoscrypt-xaya": return 98;
+                case "nexapow": return 99;
+                case "odocrypt": return 100;
+                case "panthera": return 101;
+                case "randomarq": return 102;
+                case "sha256csm": return 103;
+                case "sha256dt": return 104;
+                case "sha3d": return 105;
+                case "sha512256d": return 106;
+                case "skydoge": return 107;
+                case "verthash": return 108;
+                case "verushash": return 109;
+                case "x16rt": return 110;
+                case "x16rv2": return 111;
+                case "x21s": return 112;
+                case "x25x": return 113;
+                case "yespowerltncg": return 114;
+                case "yespowermgpc": return 115;
+                case "yespowerr16": return 116;
+                case "yespowersugar": return 117;
+                case "yespowertide": return 118;
+                case "yespowerurx": return 119;
 
                 default: return -1;
             }
@@ -1043,7 +1118,6 @@
                 case "x11":
                 case "quark":
                 case "qubit":
-                case "sha256t":
                 case "lyra2z":
                 case "dedal":
                 case "groestl":
@@ -1053,9 +1127,7 @@
                 //case "lyra2v3":
                 case "myr-gr":
                 case "nist5":
-                case "odocrypt":
                 case "phi":
-                case "sha3d":
                 case "sib":
                 case "skein":
                 //case "tribus":
@@ -1071,11 +1143,51 @@
                 case "bcd":
                 case "karlsenhash":
                 case "pyrinhash":
+                case "allium":
+                case "bmw512":
+                case "curvehash":
                 case "ethash":
                 case "ethashb3":
+                case "evrprogpow":
+                case "firopow":
+                case "frkhash":
+                case "heavyhash":
                 case "kawpow":
+                case "karlsenhashnxl":
+                case "kheavyhash":
+                case "megabtx":
+                case "memehash":
+                case "meowpow":
+                case "nexapow":
+                case "odocrypt":
+                case "sha256csm":
+                case "sha256dt":
+                case "sha256t":
+                case "sha3d":
+                case "sha512256d":
+                case "skydoge":
+                case "x16r":
+                case "x16rt":
+                case "x16rv2":
+                case "x21s":
+                case "x22i":
+                case "x25x":
                     return 1; //end GH
                 //MH Below
+                case "aurum":
+                case "cpupower":
+                case "cryptonight_gpu":
+                case "cryptonight_upx":
+                case "equihash":
+                case "equihash125":
+                case "minotaurx":
+                case "neoscrypt-xaya":
+                case "randomarq":
+                case "yescrypt":
+                case "yescryptR8":
+                case "yespower":
+                case "yespowerr16":
+                case "yespowertide":
                 //case "hmq1725":
                 case "jeonghash":
                 //case "m7m":
@@ -1087,18 +1199,10 @@
                 case "progpow":
                 //case "sonoa":
                 case "x12":
-                case "x16r":
-                case "x16rt":
-                case "x16rv2":
                 //case "x16s":
-                case "x21s":
-                case "x22i":
-                case "x25x":
                 //case "xevan":
-                case "allium":
                 //case "equihash96":
-                case "cryptonight_upx":
-                case "yescrypt":
+                case "verthash":
                     return 1000; // end MH
                 //KH Below
                 case "yescryptr16":
@@ -1111,24 +1215,24 @@
                 //case "cryptonight_saber":
                 case "cryptonight_heavyx":
                 //case "cryptonight_heavy":
-                case "cryptonight_gpu":
                 //case "cryptonight_xeq":
-                case "yespower":
-                case "cpupower":
                 case "power2b":
                 case "yespoweriots":
                 //case "yescryptr8g":
                 case "yescryptr32":
                 case "argon2d4096":
-                case "equihash":
-                case "equihash125":
                 case "equihash144":
                 case "equihash192":
                 case "lyra2z330":
-                case "yescryptR8":
                 case "yespowerR16":
                 case "scryptn2":
-
+                case "ghostrider":
+                case "mike":
+                case "panthera":
+                case "yespowerltncg":
+                case "yespowermgpc":
+                case "yespowersugar":
+                case "yespowerurx":
                     return 1000000; //end KH
 
                 default: return 1000;
@@ -1380,6 +1484,43 @@
         ethash,
         ethashb3,
         kawpow,
+        aurum,
+        bmw512,
+        curvehash,
+        evrprogpow,
+        firopow,
+        frkhash,
+        take2,
+        heavyhash,
+        karlsenhashnxl,
+        kheavyhash,
+        megabtx,
+        memehash,
+        meowpow,
+        mike,
+        minotaurx,
+        neoscryptxaya,
+        nexapow,
+        odocrypt,
+        panthera,
+        randomarq,
+        sha256csm,
+        sha256dt,
+        sha3d,
+        sha512256d,
+        skydoge,
+        verthash,
+        verushash,
+        x16rt,
+        x16rv2,
+        x21s,
+        x25x,
+        yespowerltncg,
+        yespowermgpc,
+        yespowerr16,
+        yespowersugar,
+        yespowertide,
+        yespowerurx,
 
     }
 }

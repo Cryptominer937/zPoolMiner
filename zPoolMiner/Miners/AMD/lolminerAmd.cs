@@ -15,6 +15,7 @@ using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners;
 using zPoolMiner.Miners.Grouping;
+using zPoolMiner.Miners.Parsing;
 
 namespace NiceHashMiner.Miners
 {
@@ -159,13 +160,21 @@ namespace NiceHashMiner.Miners
             }
             string username = GetUsername(btcAddress, worker);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
-                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind;
+                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.nexapow)
+                LastCommandLine = " --algo NEXA" + " --pool=" + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.sha512256d)
+                LastCommandLine = " --algo RADIANT" + " --pool=" + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash144)
+                LastCommandLine = " --algo EQUI144_5 --pers auto" + " --pool=" + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash192)
+                LastCommandLine = " --algo EQUI192_7 --pers auto" + " --pool=" + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             LastCommandLine += GetDevicesCommandString();
 
