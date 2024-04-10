@@ -283,6 +283,10 @@ namespace zPoolMiner.Miners.Parsing
             {
                 return MinerType.glg;
             }
+            if (MinerBaseType.lolMinerAmd == minerBaseType)
+            { return MinerType.lolMinerAmd; }
+            if (MinerBaseType.lolMinerNvidia == minerBaseType)
+            { return MinerType.lolMinerNvidia; }
             if (MinerBaseType.mkxminer == minerBaseType)
             {
                 return MinerType.mkxminer;

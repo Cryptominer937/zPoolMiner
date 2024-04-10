@@ -132,7 +132,7 @@
             LessThreads = 1;
             Enabled = !(CryptoMiner937ID == AlgorithmType.Nist5 || CryptoMiner937ID == AlgorithmType.Skein || CryptoMiner937ID == AlgorithmType.Blake2s || CryptoMiner937ID == AlgorithmType.Phi) && minerBaseType == MinerBaseType.sgminer;
             Enabled = !(CryptoMiner937ID == AlgorithmType.cryptonight) || (CryptoMiner937ID == AlgorithmType.Keccak) && minerBaseType == MinerBaseType.GatelessGate;
-            Enabled = !(CryptoMiner937ID == AlgorithmType.karlsenhash) || (CryptoMiner937ID == AlgorithmType.pyrinhash) || (CryptoMiner937ID == AlgorithmType.ethash) || (CryptoMiner937ID == AlgorithmType.ethashb3) && minerBaseType == MinerBaseType.lolMinerAmd;
+            Enabled = !(CryptoMiner937ID == AlgorithmType.karlsenhash) || (CryptoMiner937ID == AlgorithmType.pyrinhash) || (CryptoMiner937ID == AlgorithmType.ethash) || (CryptoMiner937ID == AlgorithmType.ethashb3) || (CryptoMiner937ID == AlgorithmType.nexapow) || (CryptoMiner937ID == AlgorithmType.sha512256d) || (CryptoMiner937ID == AlgorithmType.equihash144) || (CryptoMiner937ID == AlgorithmType.equihash192) && minerBaseType == MinerBaseType.lolMinerAmd;
             BenchmarkStatus = "";
         }
 

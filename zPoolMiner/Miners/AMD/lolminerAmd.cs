@@ -160,22 +160,22 @@ namespace NiceHashMiner.Miners
             }
             string username = GetUsername(btcAddress, worker);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
-                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo ETHASH" + " --pool=" + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo ETHASHB3" + " --pool=" + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.nexapow)
-                LastCommandLine = " --algo NEXA" + " --pool=" + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo NEXA" + " --pool=" + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.sha512256d)
-                LastCommandLine = " --algo RADIANT" + " --pool=" + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo RADIANT" + " --pool=" + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash144)
-                LastCommandLine = " --algo EQUI144_5 --pers auto" + " --pool=" + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                LastCommandLine = " --algo EQUI144_5 --pers AUTO" + " --pool=" + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash192)
-                LastCommandLine = " --algo EQUI192_7 --pers auto" + " --pool=" + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
-
+                LastCommandLine = " --algo EQUI192_7 --pers AUTO" + " --pool=" + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user=" + username + " --pass " + worker + " --devices AMD --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+            
             LastCommandLine += GetDevicesCommandString();
 
             ProcessHandle = _Start();
@@ -196,14 +196,26 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += ":" + ConfigManager.GeneralConfig.WorkerName.Trim();
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
-                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethash.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120";
+                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.nexapow)
+                CommandLine = "--algo NEXA --pool " + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.sha512256d)
+                CommandLine = "--algo RADIANT --pool " + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --shortstats 270 --apihost 127.0.0.1 --apiport " + ApiPort + "" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash144)
+                CommandLine = "--algo EQUI144_5 --pers AUTO --pool " + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 250" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+
+            if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash192)
+                CommandLine = "--algo EQUI192_7 --pers AUTO --pool  " + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices AMD --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 250" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 
@@ -216,14 +228,37 @@ namespace NiceHashMiner.Miners
             string hashSpeed = "";
             //Average speed (30s): 25.5 sol/s 
             //GPU 3: Share accepted (45 ms)
-            if (outdata.Contains("Average speed (120s):"))
-            {
-                int i = outdata.IndexOf("Average speed (120s):");
-                int k = outdata.IndexOf("Mh/s");
+            if (outdata.Contains("Average speed (270s):"))
+            { 
+                
+                 int i = outdata.IndexOf("Average speed (270s):");
+                    int k = outdata.IndexOf("Mh/s"); 
                 hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
                 try
                 {
                     speed = speed * 1000000 + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    MessageBox.Show("Unsupported miner version - " + MiningSetup.MinerPath,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    BenchmarkSignalFinnished = true;
+                    return false;
+                }
+                count++;
+            }
+            if (outdata.Contains("Average speed (250s):"))
+            {
+
+                int i = outdata.IndexOf("Average speed (250s):");
+                int k = outdata.IndexOf("sol/s");
+               hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
+                try
+                {
+                    speed = speed + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                    BenchmarkAlgorithm.BenchmarkSpeed = speed;
+                    BenchmarkSignalFinnished = true;
+                    return true;
                 }
                 catch
                 {

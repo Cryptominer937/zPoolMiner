@@ -555,6 +555,22 @@
                 {
                     return Data.lolMinerNvidia;
                 }
+                if (AlgorithmType.nexapow == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.sha512256d == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.equihash144 == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
+                if (AlgorithmType.equihash192 == type)
+                {
+                    return Data.lolMinerNvidia;
+                }
                 return Data.NONE;
             }
             /// <summary>
@@ -849,6 +865,22 @@
                 {
                     return Data.lolMinerAmd;
                 }
+                if (AlgorithmType.equihash192 == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.nexapow == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.sha512256d == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.equihash144 == type)
+                {
+                    return Data.lolMinerAmd;
+                }
 
                 return Data.lolMinerAmd;
             }
@@ -883,6 +915,22 @@
                     return Data.lolMinerAmd;
                 }
                 if (AlgorithmType.ethashb3 == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.nexapow == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.sha512256d == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.equihash144 == type)
+                {
+                    return Data.lolMinerAmd;
+                }
+                if (AlgorithmType.equihash192 == type)
                 {
                     return Data.lolMinerAmd;
                 }
