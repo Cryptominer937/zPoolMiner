@@ -9,11 +9,11 @@ namespace zPoolMiner.Miners
 {
     public class ClaymoreNeoscryptMiner : ClaymoreBaseMiner
     {
-
         private bool isOld;
 
-        const string _LOOK_FOR_START = "NS - Total Speed:";
-        const string _LOOK_FOR_START_OLD = "hashrate =";
+        private const string _LOOK_FOR_START = "NS - Total Speed:";
+        private const string _LOOK_FOR_START_OLD = "hashrate =";
+
         public ClaymoreNeoscryptMiner()
             : base("ClaymoreNeoscryptMiner", _LOOK_FOR_START)
         {
@@ -55,31 +55,26 @@ namespace zPoolMiner.Miners
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -107,31 +102,26 @@ namespace zPoolMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -153,9 +143,9 @@ namespace zPoolMiner.Miners
             LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -pool " + url +
                               " -wal " + btcAddress + " -psw " + worker + " -dbg -1 -ftime 10 -retrydelay 5";
 
-
             ProcessHandle = _Start();
         }
+
         // benchmark stuff
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
@@ -173,31 +163,26 @@ namespace zPoolMiner.Miners
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("blazepool.com"))
             {

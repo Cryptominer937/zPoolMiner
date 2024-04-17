@@ -2,6 +2,7 @@
 * This is an open source non-commercial project. Dear PVS-Studio, please check it.
 * PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 */
+
 using ManagedCuda.Nvml;
 using NVIDIA.NVAPI;
 using System;
@@ -19,6 +20,7 @@ namespace zPoolMiner.Devices
         protected int SMMajor;
         protected int SMMinor;
         public readonly bool ShouldRunEthlargement;
+
         public override float Load
         {
             get
@@ -42,7 +44,6 @@ namespace zPoolMiner.Devices
                 return load;
             }
         }
-
 
         public override float Temp
         {
@@ -73,6 +74,7 @@ namespace zPoolMiner.Devices
         }
 
         private NvPhysicalGpuHandle? _NvPhysicalGpuHandle;
+
         private NvPhysicalGpuHandle? GetNvPhysicalGpuHandle()
         {
             if (_NvPhysicalGpuHandle.HasValue) return _NvPhysicalGpuHandle.Value;
@@ -86,7 +88,6 @@ namespace zPoolMiner.Devices
                 Helpers.ConsolePrint("NVAPI", "NvAPI_GPU_GetBusID unavailable");
                 return null;
             }
-
 
             var handles = new NvPhysicalGpuHandle[NVAPI.MAX_PHYSICAL_GPUS];
             var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out _);
@@ -124,7 +125,6 @@ namespace zPoolMiner.Devices
                 if (!ConfigManager.GeneralConfig.ShowFanAsPercent)
                 {
                     var fanSpeed = -1;
-
 
                     // we got the lock
                     var nvHandle = GetNvPhysicalGpuHandle();
@@ -174,6 +174,7 @@ namespace zPoolMiner.Devices
                 return 0;
             }
         }
+
         private nvmlDevice GetNvmlDevice()
         {
             var nvmlHandle = new nvmlDevice();
@@ -184,6 +185,7 @@ namespace zPoolMiner.Devices
             }
             return nvmlHandle;
         }
+
         public override double PowerUsage
         {
             get

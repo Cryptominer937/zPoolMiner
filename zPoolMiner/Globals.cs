@@ -20,6 +20,7 @@ namespace zPoolMiner
         /// Defines the DemoUser
         /// </summary>
         public static readonly string DemoUser = "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66";
+
         public static readonly string DemoWorker = "c=DOGE,Devfee";
 
         // change this if TOS changes
@@ -121,6 +122,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetzpoolUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zpoolAddress.Trim())))
@@ -133,6 +135,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetahashUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.ahashAddress.Trim())))
@@ -145,6 +148,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GethashrefineryUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.hashrefineryAddress.Trim())))
@@ -157,6 +161,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetnicehashUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.nicehashAddress.Trim())))
@@ -169,6 +174,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetzergUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zergAddress.Trim())))
@@ -181,6 +187,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetMPHUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.MPHAddress.Trim())))
@@ -193,6 +200,7 @@ namespace zPoolMiner
                 return "cryptominer937.invalid";
             }
         }
+
         public static string GetminemoneyUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.minemoneyAddress.Trim())))
@@ -205,6 +213,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetstarpoolUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.starpoolAddress.Trim())))
@@ -217,6 +226,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetblockmunchUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blockmunchAddress.Trim())))
@@ -229,6 +239,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetblazepoolUser()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blazepoolAddress.Trim())))
@@ -241,6 +252,7 @@ namespace zPoolMiner
                 return DemoUser;
             }
         }
+
         public static string GetzpoolWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zpoolWorkerName.Trim())))
@@ -252,6 +264,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetahashWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.ahashWorkerName.Trim())))
@@ -263,6 +276,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GethashrefineryWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.hashrefineryWorkerName.Trim())))
@@ -274,6 +288,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetnicehashWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.nicehashWorkerName.Trim())))
@@ -285,6 +300,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetzergWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zergWorkerName.Trim())))
@@ -296,6 +312,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetminemoneyWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.minemoneyWorkerName.Trim())))
@@ -307,6 +324,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetstarpoolWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.starpoolWorkerName.Trim())))
@@ -318,6 +336,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetblockmunchWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blockmunchWorkerName.Trim())))
@@ -329,6 +348,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetblazepoolWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blazepoolWorkerName.Trim())))
@@ -340,6 +360,7 @@ namespace zPoolMiner
                 return DemoWorker;
             }
         }
+
         public static string GetMPHWorker()
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.MPHWorkerName.Trim())))

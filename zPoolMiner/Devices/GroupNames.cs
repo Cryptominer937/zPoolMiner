@@ -2,7 +2,7 @@
 
 namespace zPoolMiner.Devices
 {
-    static public class GroupNames
+    public static class GroupNames
     {
         private static readonly string[] _names = {
                                         "CPU", // we can have more then one CPU

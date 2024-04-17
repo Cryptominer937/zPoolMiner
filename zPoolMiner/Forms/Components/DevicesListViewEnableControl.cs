@@ -2,6 +2,7 @@
 * This is an open source non-commercial project. Dear PVS-Studio, please check it.
 * PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 */
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,19 +23,19 @@ namespace zPoolMiner.Forms.Components
         private const int FAN = 3;
         private const int POWER = 4;
         public static Color EnabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+
         //public static Color DisabledColor = ConfigManager.GeneralConfig.ColorProfileIndex != 0 ? Color.FromArgb(Form_Main._backColor.ToArgb() + 40 * 256 * 256 * 256 + 40 * 256 * 256 + 40 * 256 + 40) : Color.DarkGray;
         public static Color DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+
         public static Color DisabledForeColor = Color.Gray;
         //public static Color DisabledColor = SystemColors.ControlLight;
 
         public class DefaultDevicesColorSeter : IListItemCheckColorSetter
         {
-
             public void LviSetColor(ListViewItem lvi)
             {
                 if (lvi.Tag is ComputeDevice cdvo)
                 {
-
                     lvi.BackColor = cdvo.Enabled ? EnabledColor : DisabledColor;
                     lvi.ForeColor = cdvo.Enabled ? Form_Main._foreColor : DisabledForeColor;
                 }
@@ -101,9 +102,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-
         public bool SaveToGeneralConfig { get; set; }
-
 
         public DevicesListViewEnableControl()
         {
@@ -167,8 +166,6 @@ namespace zPoolMiner.Forms.Components
                 lvi.SubItems.Add("");
                 lvi.SubItems.Add("");
                 _listItemCheckColorSetter.LviSetColor(lvi);
-
-
             }
             int index = 0;
             foreach (var computeDevice in computeDevices)
@@ -210,7 +207,6 @@ namespace zPoolMiner.Forms.Components
                     //c = Color.LightSalmon;
                     Console.Beep();
                 }*/
-
             }
 
             listViewDevices.EndUpdate();
@@ -235,7 +231,6 @@ namespace zPoolMiner.Forms.Components
 
                     cPowerUsage = "-1";
 
-
                 cPowerUsage = cPowerUsage + " W";
 
                 if (index >= 0)
@@ -246,17 +241,17 @@ namespace zPoolMiner.Forms.Components
                     listViewDevices.Items[index].SubItems[4].Text = cPowerUsage.Contains("-1") ? "--" : cPowerUsage;
                 }
                 index++;
-
             }
         }
+
         public void ResetComputeDevices(List<ComputeDevice> computeDevices)
         {
             SetComputeDevices(computeDevices);
         }
+
         //List view header formatters
         public static void colorListViewHeader(ref ListView list, Color backColor, Color foreColor)
         {
-
             list.OwnerDraw = true;
             list.DrawColumnHeader +=
             new DrawListViewColumnHeaderEventHandler
@@ -265,7 +260,6 @@ namespace zPoolMiner.Forms.Components
             );
             list.DrawItem += new DrawListViewItemEventHandler(bodyDraw);
             list.Columns[TEMP].TextAlign = HorizontalAlignment.Center; //не работает
-
         }
 
         private static void headerDraw(object sender, DrawListViewColumnHeaderEventArgs e, Color backColor, Color foreColor)
@@ -301,15 +295,13 @@ namespace zPoolMiner.Forms.Components
             {
                 e.Graphics.FillRectangle(backBrush, e.Bounds);
             }
-
         }
+
         public void InitLocale()
         {
-
             var _backColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             var _foreColor = System.Drawing.Color.White;
             var _textColor = System.Drawing.Color.White;
-
 
             foreach (var lbl in this.Controls.OfType<ListView>()) lbl.BackColor = SystemColors.ControlLightLight;
             listViewDevices.BackColor = _backColor;
@@ -341,7 +333,6 @@ namespace zPoolMiner.Forms.Components
             //listViewDevices.Columns[0].Width = Width - 4 - SystemInformation.VerticalScrollBarWidth;
             //listViewDevices.Columns[0].Width = Width - SystemInformation.VerticalScrollBarWidth;
             listViewDevices.Columns[0].Width = Width - 316;
-
         }
 
         public void InitLocaleMain()
@@ -359,7 +350,6 @@ namespace zPoolMiner.Forms.Components
             listViewDevices.ForeColor = System.Drawing.Color.White;
 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
-
 
             listViewDevices.Columns[ENABLED].Text = " " + International.GetText("ListView_Device");
             if (ConfigManager.GeneralConfig.Language == LanguageType.Ru)
@@ -384,6 +374,7 @@ namespace zPoolMiner.Forms.Components
             listViewDevices.Columns[POWER].Width = 110;
             //  listViewDevices.Scrollable = true;
         }
+
         public void SaveColumns()
         {
             // if (listViewDevices.Columns[ENABLED] != null)
@@ -488,7 +479,6 @@ namespace zPoolMiner.Forms.Components
                     MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-
                     CDevice.BenchmarkCopyUUID = uuid;
                     CDevice.CopyBenchmarkSettingsFrom(copyBenchCDev);
 
@@ -538,10 +528,11 @@ namespace zPoolMiner.Forms.Components
         {
             //  CheckBox checkbox = (CheckBox)sender;
         }
+
         private void listViewDevices_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-
         }
+
         private void listViewDevices_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             /*
@@ -553,6 +544,7 @@ namespace zPoolMiner.Forms.Components
             }
             */
         }
+
         private void Bink(object sender, System.EventArgs e)
         {
             /*
@@ -565,6 +557,7 @@ namespace zPoolMiner.Forms.Components
             }
             */
         }
+
         private void listViewDevices_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
             /*
@@ -617,6 +610,7 @@ namespace zPoolMiner.Forms.Components
 
             //   ResizeColumn();
         }
+
         /*
         private void ResizeColumn()
         {
@@ -625,7 +619,8 @@ namespace zPoolMiner.Forms.Components
             listViewDevices.EndUpdate();
         }
         */
-        static private void ResizeAutoSizeColumn(ListView listView, int autoSizeColumnIndex)
+
+        private static void ResizeAutoSizeColumn(ListView listView, int autoSizeColumnIndex)
         {
             // Do some rudimentary (parameter) validation.
             if (listView == null) throw new ArgumentNullException("listView");
@@ -649,11 +644,9 @@ namespace zPoolMiner.Forms.Components
 
         private void listViewDevices_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
-
             //    var with1 = e.Graphics;
             //  with1.DrawLines(new Pen(Color.Green), new Point[] {/*new Point(e.Bounds.Left, e.Bounds.Top - 1),*/new Point(e.Bounds.Left + e.Bounds.Width, e.Bounds.Top - 1), new Point(e.Bounds.Left + e.Bounds.Width, e.Bounds.Top + e.Bounds.Height)/*,new Point(e.Bounds.Left, e.Bounds.Top + e.Bounds.Height)*/});
             // e.DrawText();
-
         }
 
         private void DevicesListViewEnableControl_Leave(object sender, EventArgs e)
@@ -678,6 +671,7 @@ namespace zPoolMiner.Forms.Components
             }
         }
     }
+
     public static class ControlExtensions
     {
         public static void DoubleBuffer(this Control control)

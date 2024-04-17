@@ -34,6 +34,7 @@
         /// Defines the BitcoinAddress
         /// </summary>
         public string BitcoinAddress = "";
+
         public string zpoolAddress = "";
         public string ahashAddress = "";
         public string hashrefineryAddress = "";
@@ -45,13 +46,13 @@
         public string blazepoolAddress = "";
         public string MPHAddress = "Username.Worker";
 
-
         public string Averaging = "5";
 
         /// <summary>
         /// Defines the WorkerName
         /// </summary>
         public string WorkerName = "c=BTC,Worker1";
+
         public string zpoolWorkerName = "c=BTC,Worker1";
         public string ahashWorkerName = "c=BTC,Worker1";
         public string hashrefineryWorkerName = "c=BTC,Worker1";
@@ -63,7 +64,6 @@
         public string blazepoolWorkerName = "c=BTC,Worker1";
         public string MPHWorkerName = "x";
         public string MonServerurl = "";
-
 
         /// <summary>
         /// Defines the TimeUnit
@@ -260,8 +260,8 @@
         /// </summary>
         public bool RunScriptOnCUDA_GPU_Lost = false;
 
-
         public bool Group_same_devices = false;
+
         // 3rd party miners
         // 3rd party miners        /// <summary>
         /// Defines the Use3rdPartyMiners
@@ -277,8 +277,6 @@
         /// Defines the AllowMultipleInstances
         /// </summary>
         public bool AllowMultipleInstances = true;
-
-
 
         // device enabled disabled stuff
         // device enabled disabled stuff        /// <summary>

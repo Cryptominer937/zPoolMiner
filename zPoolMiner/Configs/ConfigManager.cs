@@ -14,12 +14,14 @@ namespace zPoolMiner.Configs
         //public static MagnitudeConfigFile MagnitudeConfig = new MagnitudeConfigFile();
         // helper variables
         private static bool IsGeneralConfigFileInit = false;
+
         private static bool IsApiCacheFileInit = false;
 
         private static bool IsNewVersion = false;
 
         // for loading and saving
         private static GeneralConfigFile GeneralConfigFile = new GeneralConfigFile();
+
         private static ApiCacheFile ApiCacheFile = new ApiCacheFile();
         //private static MagnitudeConfigFile MagnitudeConfigFile = new MagnitudeConfigFile();
 
@@ -27,6 +29,7 @@ namespace zPoolMiner.Configs
 
         // backups
         private static GeneralConfig GeneralConfigBackup = new GeneralConfig();
+
         private static ApiCache ApiCacheBackup = new ApiCache();
         //private static MagnitudeConfigFile MagnitudeBackup = new MagnitudeConfigFile();
 
@@ -109,6 +112,7 @@ namespace zPoolMiner.Configs
         {
             return IsGeneralConfigFileInit;
         }
+
         public static bool ApiCacheIsFileExist()
         {
             return IsApiCacheFileInit;
@@ -188,6 +192,7 @@ namespace zPoolMiner.Configs
             }
             ApiCacheFile.Commit(ApiCache);
         }
+
         public static void CommitBenchmarks()
         {
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)

@@ -185,7 +185,6 @@
             toolTip1.SetToolTip(label_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
             toolTip1.SetToolTip(pictureBox_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
 
-
             toolTip1.SetToolTip(checkBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
             toolTip1.SetToolTip(checkBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
             toolTip1.SetToolTip(pictureBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
@@ -254,7 +253,6 @@
             toolTip1.SetToolTip(checkBox_IdleWhenNoInternetAccess, International.GetText("Form_Settings_ToolTip_ContinueMiningIfNoInternetAccess"));
             toolTip1.SetToolTip(pictureBox_IdleWhenNoInternetAccess, International.GetText("Form_Settings_ToolTip_ContinueMiningIfNoInternetAccess"));
 
-
             toolTip1.SetToolTip(pictureBox_SwitchProfitabilityThreshold, International.GetText("Form_Settings_ToolTip_SwitchProfitabilityThreshold"));
             toolTip1.SetToolTip(label_SwitchProfitabilityThreshold, International.GetText("Form_Settings_ToolTip_SwitchProfitabilityThreshold"));
 
@@ -319,8 +317,6 @@
             label_MinProfit.Text = International.GetText("Form_Settings_General_MinimumProfit") + ":";
 
             label_displayCurrency.Text = International.GetText("Form_Settings_DisplayCurrency");
-
-
 
             // device enabled listview translation
             devicesListViewEnableControl1.InitLocale();
@@ -515,7 +511,7 @@
                 textBox_blockmunch_Wallet.Text = ConfigManager.GeneralConfig.blockmunchAddress;
                 textBox_blockmunch_Worker.Text = ConfigManager.GeneralConfig.blockmunchWorkerName;
                 textBox_blazepool_Wallet.Text = ConfigManager.GeneralConfig.blazepoolAddress;
-                
+
                 textBox_blazepool_Worker.Text = ConfigManager.GeneralConfig.blazepoolWorkerName;
                 textBox_minemoney_Wallet.Text = ConfigManager.GeneralConfig.minemoneyAddress;
                 textBox_minemoney_Worker.Text = ConfigManager.GeneralConfig.minemoneyWorkerName;*/
@@ -535,8 +531,6 @@
 
             // set custom control referances
             {
-
-
                 // here we want all devices
                 devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
                 devicesListViewEnableControl1.SetAlgorithmsListView(algorithmsListView1);
@@ -1129,8 +1123,6 @@
         {
             Form1 frm = new Form1();
             frm.ShowDialog();
-
-
         }
     }
 }

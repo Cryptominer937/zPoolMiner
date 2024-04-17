@@ -7,9 +7,9 @@ namespace zPoolMiner.Utils
     internal class CommandLineParser
     {
         // keep it simple only two parameters for now
-        readonly public bool IsLang = false;
+        public readonly bool IsLang = false;
 
-        readonly public LanguageType LangValue = 0;
+        public readonly LanguageType LangValue = 0;
 
         public CommandLineParser(string[] argv)
         {

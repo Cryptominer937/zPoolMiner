@@ -21,8 +21,8 @@ namespace zPoolMiner.Miners
         // extra benchmark stuff
         protected double curSpeed = 0;
 
-        static protected readonly String Iter_PER_SEC = "I/s";
-        static protected readonly String Sols_PER_SEC = "Sols/s";
+        protected static readonly String Iter_PER_SEC = "I/s";
+        protected static readonly String Sols_PER_SEC = "Sols/s";
         protected const double SolMultFactor = 1.9;
 
         private class Result

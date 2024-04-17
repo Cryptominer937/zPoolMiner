@@ -10,6 +10,7 @@ namespace zPoolMiner.Devices
     {
         private PerformanceCounter cpuCounter;
         private Computer c = new Computer();
+
         public override float Load
         {
             get
@@ -22,6 +23,7 @@ namespace zPoolMiner.Devices
                 return 0;
             }
         }
+
         public override float Temp
         {
             get
@@ -75,6 +77,4 @@ namespace zPoolMiner.Devices
             };
         }
     }
-
-
 }

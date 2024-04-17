@@ -81,6 +81,7 @@ namespace zPoolMiner
 
             return appender;
         }
+
         public static IAppender CreateDebugAppender()
         {
             PatternLayout debugLayout = new PatternLayout();
@@ -127,6 +128,5 @@ namespace zPoolMiner
             appender.ActivateOptions();
             return appender;
         }
-
     }
 }

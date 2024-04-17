@@ -15,6 +15,7 @@ namespace ComputeDeviceCPU
             _computer.Open();
         }
         */
+
         public static int GetTemperaturesInCelsius()
         {
             // _computer = new Computer { CPUEnabled = true };
@@ -90,6 +91,7 @@ namespace ComputeDeviceCPU
             }
             return _ret;
         }
+
         public static int GetLoad()
         {
             // _computer = new Computer { CPUEnabled = true };
@@ -127,5 +129,4 @@ namespace ComputeDeviceCPU
             }
         }
     }
-
 }

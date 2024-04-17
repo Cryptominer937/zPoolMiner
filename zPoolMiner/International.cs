@@ -9,6 +9,7 @@ namespace zPoolMiner
     internal class International
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger("LANGUAGE");
+
         private class Language
         {
 #pragma warning disable 649

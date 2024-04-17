@@ -171,10 +171,8 @@
                     catch (Exception)
                     {
                         Console.WriteLine("BAD API DATA", "Look in benchmarks for N/A to find the bad Algo");
-
                     }
                 }
-
 
                 return ratio;
             }
@@ -199,7 +197,6 @@
                         {
                             payingRate += 0;
                         }
-
                     }
                     if (SecondaryBenchmarkSpeed > 0 && IsDual())
                     {
@@ -305,6 +302,7 @@
 
                     case AlgorithmType.Sia:
                         return AlgorithmType.DaggerSia;
+
                     case AlgorithmType.Blake2s:
                         return AlgorithmType.DaggerBlake2s;
                 }

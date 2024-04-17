@@ -16,6 +16,7 @@
     public abstract class MinerEtherum : Miner
     {
         private const double DevFee = 6.0;
+
         //ComputeDevice
         //ComputeDevice        /// <summary>
         /// Defines the DaggerHashimotoGenerateDevice
@@ -25,12 +26,12 @@
         /// <summary>
         /// Defines the CurrentBlockString
         /// </summary>
-        readonly protected string CurrentBlockString;
+        protected readonly string CurrentBlockString;
 
         /// <summary>
         /// Defines the DagGenerationType
         /// </summary>
-        readonly private DagGenerationType DagGenerationType;
+        private readonly DagGenerationType DagGenerationType;
 
         /// <summary>
         /// Defines the IsPaused
@@ -142,31 +143,26 @@
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -194,31 +190,26 @@
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker() + "";
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {

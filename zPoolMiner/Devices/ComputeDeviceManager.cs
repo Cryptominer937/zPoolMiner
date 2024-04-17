@@ -78,7 +78,7 @@ namespace zPoolMiner.Devices
 
             private static int GPUCount = 0;
 
-            static private NVIDIA_SMI_DRIVER GetNvidiaSMIDriver()
+            private static NVIDIA_SMI_DRIVER GetNvidiaSMIDriver()
             {
                 if (WindowsDisplayAdapters.HasNvidiaVideoController())
                 {
@@ -509,7 +509,7 @@ namespace zPoolMiner.Devices
             {
                 private static string QueryCudaDevicesString = "";
 
-                static private void QueryCudaDevicesOutputErrorDataReceived(object sender, DataReceivedEventArgs e)
+                private static void QueryCudaDevicesOutputErrorDataReceived(object sender, DataReceivedEventArgs e)
                 {
                     if (e.Data != null)
                     {
@@ -522,7 +522,7 @@ namespace zPoolMiner.Devices
                     return ConfigManager.GeneralConfig.DeviceDetection.DisableDetectionNVIDIA;
                 }
 
-                static public void QueryCudaDevices()
+                public static void QueryCudaDevices()
                 {
                     Helpers.ConsolePrint(TAG, "QueryCudaDevices START");
                     QueryCudaDevices(ref CUDA_Devices);
@@ -655,7 +655,7 @@ namespace zPoolMiner.Devices
                     Helpers.ConsolePrint(TAG, "QueryCudaDevices END");
                 }
 
-                static public void QueryCudaDevices(ref List<CudaDevice> cudaDevices)
+                public static void QueryCudaDevices(ref List<CudaDevice> cudaDevices)
                 {
                     QueryCudaDevicesString = "";
 
@@ -721,7 +721,7 @@ namespace zPoolMiner.Devices
             {
                 private static string QueryOpenCLDevicesString = "";
 
-                static private void QueryOpenCLDevicesOutputErrorDataReceived(object sender, DataReceivedEventArgs e)
+                private static void QueryOpenCLDevicesOutputErrorDataReceived(object sender, DataReceivedEventArgs e)
                 {
                     if (e.Data != null)
                     {
@@ -729,7 +729,7 @@ namespace zPoolMiner.Devices
                     }
                 }
 
-                static public void QueryOpenCLDevices()
+                public static void QueryOpenCLDevices()
                 {
                     Helpers.ConsolePrint(TAG, "QueryOpenCLDevices START");
                     Process OpenCLDevicesDetection = new Process();
@@ -809,7 +809,7 @@ namespace zPoolMiner.Devices
 
             private static class AMD
             {
-                static public void QueryAMD()
+                public static void QueryAMD()
                 {
                     const int AMD_VENDOR_ID = 1002;
                     Helpers.ConsolePrint(TAG, "QueryAMD START");

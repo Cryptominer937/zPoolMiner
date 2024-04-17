@@ -1,24 +1,16 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using zPoolMiner.Configs;
-using zPoolMiner.Miners.Parsing;
-using zPoolMiner.Devices;
-using zPoolMiner.Miners.Grouping;
+﻿using Newtonsoft.Json;
+using System;
 using System.Globalization;
-using System.Net.Sockets;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net;
 using System.IO;
+using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using zPoolMiner;
 using zPoolMiner.Configs;
 using zPoolMiner.Devices;
 using zPoolMiner.Enums;
 using zPoolMiner.Miners.Grouping;
 using zPoolMiner.Miners.Parsing;
-using zPoolMiner;
 
 namespace NiceHashMiner.Miners
 {
@@ -29,13 +21,14 @@ namespace NiceHashMiner.Miners
 
         private int TotalCount = 2;
         private const int TotalDelim = 2;
-        double speed = 0;
-        int count = 0;
+        private double speed = 0;
+        private int count = 0;
 
         public SRBMiner() : base("SRBMiner")
         {
             GPUPlatformNumber = ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
         }
+
         /*
                 protected override int GetMaxCooldownTimeInMilliseconds()
                 {
@@ -48,6 +41,7 @@ namespace NiceHashMiner.Miners
                 }
 
         */
+
         public override void Start(string url, string btcAdress, string worker)
         {
             //IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.SRBMiner;
@@ -160,7 +154,6 @@ namespace NiceHashMiner.Miners
                 return $" {variant} --cgpuid {GetDevicesCommandString().TrimStart()} {extras} --cnicehash true --apienable --apiport {ApiPort} --cpool {url} --cwallet {btcAdress}.{worker} --cpassword x --pools poolsH.txt";
             }*/
 
-
             return $" {variant} --cgpuid {GetDevicesCommandString().TrimStart()} {extras} --cnicehash true --apienable --apiport {ApiPort} --cpool {url} --cwallet {btcAdress}.{worker} --cpassword x --pools poolsV8.txt";
         }
 
@@ -184,7 +177,6 @@ namespace NiceHashMiner.Miners
             }
 
             return $" {variant} --cgpuid {GetDevicesCommandString().TrimStart()} {extras} --apienable --apiport {ApiPort} --cpool xmr-eu.dwarfpool.com:8005 --cwallet 42fV4v2EC4EALhKWKNCEJsErcdJygynt7RJvFZk8HSeYA9srXdJt58D9fQSwZLqGHbijCSMqSP4mU7inEEWNyer6F7PiqeX.{worker} --cpassword x --logfile ";
-
         }
 
         protected override void _Stop(MinerStopType willswitch)
@@ -196,9 +188,9 @@ namespace NiceHashMiner.Miners
         {
             return 60 * 1000 * 5;  // 5 min
         }
+
         public override async Task<ApiData> GetSummaryAsync()
         {
-
             var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
             string ResponseFromSRBMiner;
             try
@@ -244,8 +236,6 @@ namespace NiceHashMiner.Miners
 
             Thread.Sleep(1000);
             return ad;
-
-
         }
 
         protected override bool IsApiEof(byte third, byte second, byte last)
@@ -263,6 +253,7 @@ namespace NiceHashMiner.Miners
             //   _benchmarkTimeWait = time;
             return GetStartBenchmarkCommand(server, Globals.GetBitcoinUser(), ConfigManager.GeneralConfig.WorkerName.Trim());
         }
+
         /*
         protected override bool BenchmarkParseLine(string outdata)
         {
@@ -301,7 +292,6 @@ namespace NiceHashMiner.Miners
                 return false;
             }
             return false;
-
         }
         */
 
@@ -365,6 +355,7 @@ namespace NiceHashMiner.Miners
             }
         }
         */
+
         protected override void BenchmarkThreadRoutine(object CommandLine)
         {
             BenchmarkThreadRoutineAlternate(CommandLine, _benchmarkTimeWait);
@@ -407,7 +398,7 @@ namespace NiceHashMiner.Miners
             Helpers.ConsolePrint(MinerTag(), outdata);
             return false;
         }
-        #endregion
-    }
 
+        #endregion Benchmark
+    }
 }

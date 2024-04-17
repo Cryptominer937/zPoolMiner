@@ -67,6 +67,7 @@
                  * here is the size of your L3 cache divided by 2. Intel mid-to-high end desktop processors have 2MB of L3
                  * cache per physical core. Low end cpus can have 1.5 or 1 MB while Xeons can have 2, 2.5 or 3MB per core.
                  */        /// <summary>
+
                            /// Defines the cpu_thread_num
                            /// </summary>
         public readonly int cpu_thread_num;
@@ -103,6 +104,7 @@
                  *                  physical core CPU you should select cpu numbers 0-3.
                  *
                  */        /// <summary>
+
                            /// Defines the cpu_threads_conf
                            /// </summary>
         public List<JObject> cpu_threads_conf;
@@ -199,6 +201,7 @@
          *           It will never use slow memory, but it won't attempt to mlock
          * never   - If we fail to allocate large pages we will print an error and exit.
          */        /// <summary>
+
                    /// Defines the use_slow_memory
                    /// </summary>
         public string use_slow_memory = "warn";
@@ -215,6 +218,7 @@
                  *                  if a block isn't found within 30 minutes then you might run into nonce collisions. Number
                  *                  of threads in this mode is hard-limited to 32.
                  */        /// <summary>
+
                            /// Defines the nicehash_nonce
                            /// </summary>
         public readonly bool nicehash_nonce = true;//
@@ -235,6 +239,7 @@
                  *
                  * WARNING: setting this to true on a CPU that doesn't support hardware AES will crash the miner.
                  */        /// <summary>
+
                            /// Defines the aes_override
                            /// </summary>
         public readonly bool? aes_override = null;

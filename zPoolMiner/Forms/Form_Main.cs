@@ -64,6 +64,7 @@
         private SystemTimer ComputeDevicesCheckTimer;
 
         public static bool needRestart = false;
+
         /// <summary>
         /// Defines the ShowWarningNiceHashData
         /// </summary>
@@ -404,7 +405,6 @@
             MinerStatsCheck.Tick += MinerStatsCheck_Tick;
             MinerStatsCheck.Interval = ConfigManager.GeneralConfig.MinerAPIQueryInterval * 1000;
 
-
             devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
             devicesListViewEnableControl1.SaveToGeneralConfig = false;
             devicesListViewEnableControl1.IsMining = true;
@@ -474,7 +474,6 @@
                 Globals.CryptoMiner937Data = ConfigManager.ApiCache.CryptoMiner937Data;
                 groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
             }
-
 
             bool runVCRed = !MinersExistanceChecker.IsMinersBinsInit() && !ConfigManager.GeneralConfig.DownloadInit;
             // standard miners check scope
@@ -577,7 +576,6 @@
                 //labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.ForeColor = Color.LightGreen;
-
             }
         }
 
@@ -641,7 +639,7 @@
         /// </summary>
         /// <param name="sender">The <see cref="object"/></param>
         /// <param name="e">The <see cref="EventArgs"/></param>
-        async private void MinerStatsCheck_Tick(object sender, EventArgs e)
+        private async void MinerStatsCheck_Tick(object sender, EventArgs e)
         {
             await MinersManager.MinerStatsCheck(Globals.CryptoMiner937Data);
         }
@@ -1466,6 +1464,7 @@
 
             return isMining ? StartMiningReturnType.StartMining : StartMiningReturnType.ShowNoMining;
         }
+
         private void restartProgram()
         {
             var pHandle = new Process
@@ -1478,6 +1477,7 @@
             // pHandle.Start();
             // Close();
         }
+
         private void DeviceStatusTimer_Tick(object sender, EventArgs e)
         {
             if (needRestart)
@@ -1487,6 +1487,7 @@
             }
             //devicesListViewEnableControl1.SetComputeDevicesStatus(ComputeDeviceManager.Available.Devices);
         }
+
         /// <summary>
         /// The StopMining
         /// </summary>
@@ -1537,9 +1538,6 @@
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
     }
-
-
 }

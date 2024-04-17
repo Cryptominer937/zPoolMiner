@@ -28,9 +28,11 @@ namespace NiceHashMiner.Miners
         private const string LookForEnd = "h/s max";
         private System.Diagnostics.Process CMDconfigHandle;
         private string platform = "";
-        string platform_prefix = "";
+        private string platform_prefix = "";
+
         public CPU_XMRigUPX() : base("CPU_XMRigUPX")
         { }
+
         public override void Start(string url, string btcAddress, string worker)
         {
             if (MiningSession.DONATION_SESSION)
@@ -44,31 +46,26 @@ namespace NiceHashMiner.Miners
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -96,31 +93,26 @@ namespace NiceHashMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -142,6 +134,7 @@ namespace NiceHashMiner.Miners
 
             ProcessHandle = _Start();
         }
+
         /*
         private string GetStartCommand(string url, string btcAddress, string worker)
         {
@@ -149,9 +142,9 @@ namespace NiceHashMiner.Miners
             return $" -o {url} -u {btcAddress}.{worker}:x --nicehash {extras} --api-port {ApiPort}";
         }
         */
+
         public void FreeMem()
         {
-
             EmptyWorkingSet(Process.GetCurrentProcess().Handle);
             foreach (Process process in Process.GetProcesses())
             {
@@ -164,7 +157,6 @@ namespace NiceHashMiner.Miners
                     Helpers.ConsolePrint(MinerTag(), ex.Message);
                 }
             }
-
         }
 
         protected override string GetDevicesCommandString()
@@ -208,7 +200,6 @@ namespace NiceHashMiner.Miners
                 }
             }
 
-
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_upx))
             {
                 algo = "cryptonight-upx/2";
@@ -219,6 +210,7 @@ namespace NiceHashMiner.Miners
             }
             return "unsupported algo";
         }
+
         private string GetStartBenchmarkCommand(string url, string btcAddress, string worker)
         {
             if (url.Contains("zpool.ca"))
@@ -230,31 +222,26 @@ namespace NiceHashMiner.Miners
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
-
             }
             if (url.Contains("blazepool.com"))
             {
@@ -266,7 +253,6 @@ namespace NiceHashMiner.Miners
                 btcAddress = "cryptominer.Devfee";
                 worker = "x";
             }
-
 
             foreach (var pair in MiningSetup.MiningPairs)
             {
@@ -375,7 +361,6 @@ namespace NiceHashMiner.Miners
             return ad;
         }
 
-
         public override async Task<ApiData> GetSummaryAsync()
         {
             return await GetSummaryCpuAsyncXMRig();
@@ -416,7 +401,6 @@ namespace NiceHashMiner.Miners
 
             if (File.Exists("bin\\CPU\\CPU-XMRigUPX\\benchmark_log.txt"))
                 File.Delete("bin\\CPU\\CPU-XMRigUPX\\benchmark_log.txt");
-
 
             try
             {
@@ -508,8 +492,6 @@ namespace NiceHashMiner.Miners
             }
         }
 
-
-
         protected override void ProcessBenchLinesAlternate(string[] lines)
         {
             // Xmrig reports 2.5s and 60s averages, so prefer to use 60s values for benchmark
@@ -576,9 +558,6 @@ namespace NiceHashMiner.Miners
             return 60 * 1000 * 5;  // 5 min
         }
 
-
-
-
-        #endregion
+        #endregion Benchmark
     }
 }

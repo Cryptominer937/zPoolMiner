@@ -206,7 +206,7 @@ namespace zPoolMiner.Miners
             { algo = "--algo cnupx2 "; }
             else
             { algo = "--algo " + MiningSetup.MinerName; }
-            var commandLine = algo + " -o " + url + " -u " + username + " -p " + worker + "" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " --no-watchdog " + " -d " + GetDevicesCommandString() + " " ;
+            var commandLine = algo + " -o " + url + " -u " + username + " -p " + worker + "" + " " + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " --no-watchdog " + " -d " + GetDevicesCommandString() + " ";
             //commandLine += GetDevicesCommandString();
             TotalCount = 2;
             Total = 0.0d;

@@ -47,6 +47,7 @@
         public static int SMAMinerCheckInterval = seconds * 1000; // 30s
         public static bool ForcePerCardMiners = false;
 #endif
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MiningDevice"/> class.
         /// </summary>

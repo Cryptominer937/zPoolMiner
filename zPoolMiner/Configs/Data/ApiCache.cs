@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using zPoolMiner.Enums;
 
@@ -21,6 +20,7 @@ namespace zPoolMiner.Configs.Data
         /// Defines the CryptoMiner937DataTimeStamp
         /// </summary>
         public DateTime CryptoMiner937DataTimeStamp = DateTime.MinValue; // device enabled disabled stuff
+
         // device enabled disabled stuff        /// <summary>
         /// Defines the LastDevicesSettup
         /// </summary>
@@ -34,10 +34,10 @@ namespace zPoolMiner.Configs.Data
         {
             ConfigFileVersionapi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         }
+
         public void FixSettingBounds()
         {
             ConfigFileVersionapi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         }
     }
 }
-

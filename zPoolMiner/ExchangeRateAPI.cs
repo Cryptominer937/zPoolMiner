@@ -102,7 +102,7 @@
             // if we are still null after an update something went wrong. just use USD hopefully itll update next tick
             if (exchanges_fiat == null || ActiveDisplayCurrency == "USD")
             {
-                // Moved logging to update for berevity 
+                // Moved logging to update for berevity
                 return amount;
             }
 

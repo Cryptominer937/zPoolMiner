@@ -289,31 +289,26 @@
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
-
                         }
                         if (pool.Contains("hashrefinery.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
-
                         }
                         if (pool.Contains("nicehash.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
-
                         }
                         if (pool.Contains("zergpool.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
-
                         }
                         if (pool.Contains("blockmasters.co"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
-
                         }
                         if (pool.Contains("blazepool.com"))
                         {
@@ -341,31 +336,26 @@
                         {
                             wallet = zPoolMiner.Globals.GetahashUser();
                             worker = zPoolMiner.Globals.GetahashWorker();
-
                         }
                         if (pool.Contains("hashrefinery.com"))
                         {
                             wallet = zPoolMiner.Globals.GethashrefineryUser();
                             worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                         }
                         if (pool.Contains("nicehash.com"))
                         {
                             wallet = zPoolMiner.Globals.GetnicehashUser();
                             worker = zPoolMiner.Globals.GetnicehashWorker();
-
                         }
                         if (pool.Contains("zergpool.com"))
                         {
                             wallet = zPoolMiner.Globals.GetzergUser();
                             worker = zPoolMiner.Globals.GetzergWorker();
-
                         }
                         if (pool.Contains("minemoney.co"))
                         {
                             wallet = zPoolMiner.Globals.GetminemoneyUser();
                             worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                         }
                         if (pool.Contains("blazepool.com"))
                         {
@@ -684,7 +674,6 @@
                         || BenchmarkSignalTimedout
                         || BenchmarkException != null)
                     {
-
                         string imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillProspectorClaymoreMinerBase(imageName);

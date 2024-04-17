@@ -32,7 +32,6 @@ namespace zPoolMiner.Forms
 
         private void label_Tos_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

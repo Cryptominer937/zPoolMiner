@@ -17,7 +17,7 @@ namespace zPoolMiner.PInvoke
         public static extern bool AllocConsole();
 
         [DllImport("wininet.dll")]
-        protected extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
+        protected static extern bool InternetGetConnectedState(out int Description, int ReservedValue);
 
         #region Check If Idle
 

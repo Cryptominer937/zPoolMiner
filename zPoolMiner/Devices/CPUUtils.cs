@@ -7,7 +7,6 @@ namespace zPoolMiner.Devices
     {
         // this is the order we check and initialize if automatic
         private static CPUExtensionType[] _detectOrder = new CPUExtensionType[] {
-
                 CPUExtensionType.AVX2,
                 CPUExtensionType.AVX,
                 CPUExtensionType.AES,

@@ -12,6 +12,7 @@ namespace zPoolMiner.Forms.Components
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             Padding = new Padding(2);
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             OnPaintBackground(e);

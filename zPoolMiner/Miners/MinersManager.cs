@@ -112,7 +112,7 @@
         /// </summary>
         /// <param name="CryptoMiner937Data">The <see cref="Dictionary{AlgorithmType, CryptoMiner937API}"/></param>
         /// <returns>The <see cref="Task"/></returns>
-        async public static Task MinerStatsCheck(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data)
+        public static async Task MinerStatsCheck(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data)
         {
             if (CurMiningSession != null) await CurMiningSession.MinerStatsCheck(CryptoMiner937Data);
         }

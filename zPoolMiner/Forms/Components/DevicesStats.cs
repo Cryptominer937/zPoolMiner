@@ -9,6 +9,7 @@ using zPoolMiner.Interfaces;
 namespace zPoolMiner.Forms.Components
 {
 #pragma warning disable
+
     public partial class DeviceStats : UserControl
     {
         private const int ENABLED = 0;
@@ -165,7 +166,6 @@ namespace zPoolMiner.Forms.Components
                         c = Color.LightSalmon;
                         Console.Beep();
                     }
-
                 }
                 ListViewItem lvi = new ListViewItem
                 {
@@ -293,5 +293,6 @@ namespace zPoolMiner.Forms.Components
             }
         }
     }
+
 #pragma warning restore
 }

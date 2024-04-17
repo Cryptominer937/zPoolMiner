@@ -24,7 +24,6 @@ namespace zPoolMiner.Forms.Components
 
         private void GroupProfitControl_Load(object sender, EventArgs e)
         {
-
         }
     }
 }
