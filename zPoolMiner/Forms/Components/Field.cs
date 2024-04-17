@@ -28,12 +28,11 @@ namespace zPoolMiner.Forms.Components
             }
             set
             {
-                if (value != null)
-                {
-                    textBox.Text = value;
-                }
+                if (value != null) textBox.Text = value;
             }
         }
+
+        public Field() => InitializeComponent();
 
         public void InitLocale(ToolTip toolTip1, string infoLabel, string infoMsg)
         {
@@ -53,19 +52,8 @@ namespace zPoolMiner.Forms.Components
             textBox.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
         }
 
-        public void SetOnTextChanged(EventHandler textChanged)
-        {
-            textBox.TextChanged += textChanged;
-        }
+        public void SetOnTextChanged(EventHandler textChanged) => textBox.TextChanged += textChanged;
 
-        public void SetOnTextLeave(EventHandler textLeave)
-        {
-            textBox.Leave += textLeave;
-        }
-
-        public Field()
-        {
-            InitializeComponent();
-        }
+        public void SetOnTextLeave(EventHandler textLeave) => textBox.Leave += textLeave;
     }
 }

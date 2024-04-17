@@ -1,6 +1,5 @@
 ﻿namespace zPoolMiner.Miners
 {
-    using System;
     using System.Collections.Generic;
     using zPoolMiner.Configs;
     using zPoolMiner.Enums;
@@ -41,10 +40,7 @@
         /// The DevFee
         /// </summary>
         /// <returns>The <see cref="double"/></returns>
-        protected override double DevFee()
-        {
-            return isOld ? 8.0 : 7.0;
-        }
+        protected override double DevFee() => isOld ? 8.0 : 7.0;
 
         /// <summary>
         /// The GetDevicesCommandString
@@ -54,15 +50,17 @@
         {
             if (!isOld) return base.GetDevicesCommandString();
 
-            string extraParams = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
-            string deviceStringCommand = " -di ";
-            List<string> ids = new List<string>();
+            var extraParams = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+            var deviceStringCommand = " -di ";
+            var ids = new List<string>();
+
             foreach (var mPair in MiningSetup.MiningPairs)
             {
                 var id = mPair.Device.ID;
                 ids.Add(id.ToString());
             }
-            deviceStringCommand += String.Join("", ids);
+
+            deviceStringCommand += string.Join("", ids);
 
             return deviceStringCommand + extraParams;
         }
@@ -75,7 +73,8 @@
         /// <param name="worker">The <see cref="string"/></param>
         public override void Start(string url, string btcAddress, string worker)
         {
-            string username = GetUsername(btcAddress, worker);
+            var username = GetUsername(btcAddress, worker);
+
             if (isOld)
             {
                 LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -o " + url + " -u " +
@@ -86,6 +85,7 @@
                 LastCommandLine = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -xpool " + url +
                                   " -xwal " + username + " -xpsw " + worker + " -dbg -1";
             }
+
             ProcessHandle = _Start();
         }
 
@@ -101,12 +101,15 @@
             benchmarkTimeWait = time; // Takes longer as of v10
 
             // network workaround
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             // demo for benchmark
-            string username = Globals.DemoUser;
+            var username = Globals.DemoUser;
+
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
+
             string ret;
+
             if (isOld)
             {
                 ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -o " + url + " -u " + username +
@@ -117,6 +120,7 @@
                 ret = " " + GetDevicesCommandString() + " -mport -" + ApiPort + " -xpool " + url + " -xwal " +
                              username + " -xpsw x";
             }
+
             return ret;
         }
     }

@@ -25,6 +25,7 @@
             {
                 return new MinerEtherumCUDA();
             }
+
             return null;
         }
 
@@ -52,6 +53,7 @@
             {
                 return new ClaymoreDual(secondaryAlgorithmType);
             }
+
             return null;
         }
 
@@ -67,6 +69,7 @@
             {
                 return new Ccminer();
             }
+
             return null;
         }
 
@@ -159,6 +162,7 @@
                 case MinerBaseType.mkxminer:
                     return new Mkxminer();
             }
+
             return null;
         }
 
@@ -175,6 +179,7 @@
             {
                 return CreateMiner(device.DeviceType, algorithm.CryptoMiner937ID, algorithm.MinerBaseType, algorithm.SecondaryCryptoMiner937ID);
             }
+
             return null;
         }
     }

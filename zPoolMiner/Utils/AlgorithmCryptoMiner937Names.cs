@@ -115,6 +115,7 @@
             {
                 return Enum.GetName(typeof(AlgorithmType), type);
             }
+
             return "NameNotFound type not supported";
         }
     }

@@ -33,36 +33,43 @@ namespace zPoolMiner.Miners
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -80,41 +87,49 @@ namespace zPoolMiner.Miners
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
@@ -127,14 +142,15 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string address = btcAddress;
+
+            var address = btcAddress;
 
             IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.trex;
 
             var apiBind = "--api-bind-telnet 127.0.0.1:" + ApiPort;
             var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
-            //apiBind = " --api-bind 127.0.0.1:" + ApiPort;
+            // apiBind = " --api-bind 127.0.0.1:" + ApiPort;
 
             IsApiReadException = true; //no api
             /*
@@ -167,10 +183,10 @@ namespace zPoolMiner.Miners
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
-            string address = Globals.DemoUser;
+            var address = Globals.DemoUser;
 
             LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url + " -u " + address + " -p c=DOGE,Benchmark" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
             LastCommandLine += GetDevicesCommandString();
@@ -199,19 +215,19 @@ namespace zPoolMiner.Miners
             BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
 
             var keepRunning = true;
-            List<double> speed = new List<double>();
+            var speed = new List<double>();
 
             try
             {
                 while (keepRunning && IsActiveProcess(BenchmarkHandle.Id))
                 {
-                    Task<ApiData> AD = GetSummaryAsync();
+                    var AD = GetSummaryAsync();
                     Task.WaitAll(AD);
 
                     speed.Add(AD.Result.Speed);
 
-                    //string outdata = BenchmarkHandle.StandardOutput.ReadLine();
-                    //BenchmarkOutputErrorDataReceivedImpl(outdata);
+                    // string outdata = BenchmarkHandle.StandardOutput.ReadLine();
+                    // BenchmarkOutputErrorDataReceivedImpl(outdata);
                     // terminate process situations
                     if (benchmarkTimer.Elapsed.TotalSeconds >= (_benchmarkTimeWait + 2)
                         || BenchmarkSignalQuit
@@ -223,6 +239,7 @@ namespace zPoolMiner.Miners
                         var imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillMinerBase(imageName);
+
                         if (BenchmarkSignalTimedout)
                         {
                             throw new Exception("Benchmark timedout");
@@ -238,10 +255,7 @@ namespace zPoolMiner.Miners
                             throw new Exception("Termined by user request");
                         }
 
-                        if (BenchmarkSignalFinnished)
-                        {
-                            break;
-                        }
+                        if (BenchmarkSignalFinnished) break;
 
                         keepRunning = false;
                         break;
@@ -267,6 +281,7 @@ namespace zPoolMiner.Miners
                     BenchmarkAlgorithm.BenchmarkSpeed = 0;
                     BenchmarkAlgorithm.BenchmarkSpeed = speed.Average();
                 }
+
                 BenchmarkThreadRoutineFinish();
             }
         }
@@ -279,7 +294,7 @@ namespace zPoolMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
-            //Helpers.ConsolePrint("BENCHMARK", outdata);
+            // Helpers.ConsolePrint("BENCHMARK", outdata);
             return false;
         }
 
@@ -288,6 +303,7 @@ namespace zPoolMiner.Miners
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             var ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
             string resp = null;
+
             try
             {
                 var bytesToSend = Encoding.ASCII.GetBytes("summary\r\n");
@@ -300,7 +316,7 @@ namespace zPoolMiner.Miners
 
                 client.Close();
                 resp = respStr;
-                //Helpers.ConsolePrint(MinerTag(), "API: " + respStr);
+                // Helpers.ConsolePrint(MinerTag(), "API: " + respStr);
             }
             catch (Exception ex)
             {
@@ -312,7 +328,7 @@ namespace zPoolMiner.Miners
                 var st = resp.IndexOf(";KHS=");
                 var e = resp.IndexOf(";SOLV=");
                 var parse = resp.Substring(st + 5, e - st - 5).Trim();
-                double tmp = Double.Parse(parse, CultureInfo.InvariantCulture);
+                var tmp = double.Parse(parse, CultureInfo.InvariantCulture);
                 ad.Speed = tmp * 1000;
 
                 if (ad.Speed == 0)
@@ -340,10 +356,10 @@ namespace zPoolMiner.Miners
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        //protected override int GET_MAX_CoolUpTimeInMilliseconds()
-        //{
+        // protected override int GET_MAX_CoolUpTimeInMilliseconds()
+        // {
         //    return 5 * 60 * 1000; // 5 min
-        //}
+        // }
 
         protected override int GetMaxCooldownTimeInMilliseconds()
         {
@@ -356,7 +372,7 @@ namespace zPoolMiner.Miners
         public int device_id { get; set; }
         public int gpu_id { get; set; }
         public int hashrate { get; set; }
-        //public int intensity { get; set; }
+        // public int intensity { get; set; }
     }
 
     public class RootObject

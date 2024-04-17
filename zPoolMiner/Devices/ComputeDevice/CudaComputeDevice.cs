@@ -31,6 +31,7 @@ namespace zPoolMiner.Devices
                 {
                     var rates = new nvmlUtilization();
                     var ret = NvmlNativeMethods.nvmlDeviceGetUtilizationRates(nvmlDevice, ref rates);
+
                     if (ret != nvmlReturn.Success)
                         throw new Exception($"NVML get load failed with code: {ret}");
 
@@ -38,7 +39,7 @@ namespace zPoolMiner.Devices
                 }
                 catch (Exception e)
                 {
-                    //Helpers.ConsolePrint("NVML", e.ToString());
+                    // Helpers.ConsolePrint("NVML", e.ToString());
                 }
 
                 return load;
@@ -54,14 +55,17 @@ namespace zPoolMiner.Devices
                 try
                 {
                     var utemp = 0u;
+
                     var ret = NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu,
                         ref utemp);
+
                     if (ret != nvmlReturn.Success)
                     {
                         Form_Main.needRestart = true;
-                        //ComputeDeviceManager.Query.Nvidia.QueryCudaDevices();
+                        // ComputeDeviceManager.Query.Nvidia.QueryCudaDevices();
                         // throw new Exception($"NVML get temp failed with code: {ret}");
                     }
+
                     temp = utemp;
                 }
                 catch (Exception e)
@@ -75,14 +79,39 @@ namespace zPoolMiner.Devices
 
         private NvPhysicalGpuHandle? _NvPhysicalGpuHandle;
 
+        public CudaComputeDevice(CudaDevice cudaDevice, DeviceGroupType group, int gpuCount,
+            NvPhysicalGpuHandle nvHandle, nvmlDevice nvmlHandle)
+            : base((int)cudaDevice.DeviceID,
+                cudaDevice.GetName(),
+                true,
+                group,
+                cudaDevice.IsEtherumCapable(),
+                DeviceType.NVIDIA,
+                string.Format(International.GetText("ComputeDevice_Short_Name_NVIDIA_GPU"), gpuCount),
+                cudaDevice.DeviceGlobalMemory)
+        {
+            BusID = cudaDevice.pciBusID;
+            SMMajor = cudaDevice.SM_major;
+            SMMinor = cudaDevice.SM_minor;
+            UUID = cudaDevice.UUID;
+            AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
+            Index = ID + ComputeDeviceManager.Available.AvailCPUs; // increment by CPU count
+
+            _nvHandle = nvHandle;
+            nvmlDevice = nvmlHandle;
+            ShouldRunEthlargement = cudaDevice.DeviceName.Contains("1080") || cudaDevice.DeviceName.Contains("Titan Xp");
+        }
+
         private NvPhysicalGpuHandle? GetNvPhysicalGpuHandle()
         {
             if (_NvPhysicalGpuHandle.HasValue) return _NvPhysicalGpuHandle.Value;
+
             if (NVAPI.NvAPI_EnumPhysicalGPUs == null)
             {
                 Helpers.ConsolePrint("NVAPI", "NvAPI_EnumPhysicalGPUs unavailable ");
                 return null;
             }
+
             if (NVAPI.NvAPI_GPU_GetBusID == null)
             {
                 Helpers.ConsolePrint("NVAPI", "NvAPI_GPU_GetBusID unavailable");
@@ -91,6 +120,7 @@ namespace zPoolMiner.Devices
 
             var handles = new NvPhysicalGpuHandle[NVAPI.MAX_PHYSICAL_GPUS];
             var status = NVAPI.NvAPI_EnumPhysicalGPUs(handles, out _);
+
             if (status != NvStatus.OK)
             {
                 Helpers.ConsolePrint("NVAPI", $"Enum physical GPUs failed with status: {status}", TimeSpan.FromMinutes(5));
@@ -115,6 +145,7 @@ namespace zPoolMiner.Devices
                     }
                 }
             }
+
             return null;
         }
 
@@ -128,6 +159,7 @@ namespace zPoolMiner.Devices
 
                     // we got the lock
                     var nvHandle = GetNvPhysicalGpuHandle();
+
                     if (!nvHandle.HasValue)
                     {
                         Helpers.ConsolePrint("NVAPI", $"FanSpeed nvHandle == null", TimeSpan.FromMinutes(5));
@@ -136,8 +168,9 @@ namespace zPoolMiner.Devices
 
                     if (NVAPI.NvAPI_GPU_GetTachReading != null)
                     {
-                        //var result = NVAPI.NvAPI_GPU_GetTachReading(_nvHandle, out fanSpeed);
+                        // var result = NVAPI.NvAPI_GPU_GetTachReading(_nvHandle, out fanSpeed);
                         var result = NVAPI.NvAPI_GPU_GetTachReading(nvHandle.Value, out fanSpeed);
+
                         if (result != NvStatus.OK && result != NvStatus.NOT_SUPPORTED)
                         {
                             // GPUs without fans are not uncommon, so don't treat as error and just return -1
@@ -156,12 +189,14 @@ namespace zPoolMiner.Devices
                     {
                         var ufan = 0u;
                         var ret = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref ufan);
+
                         if (ret != nvmlReturn.Success)
                         {
                             Form_Main.needRestart = true;
-                            //ComputeDeviceManager.Query.Nvidia.QueryCudaDevices();
-                            //throw new Exception($"NVML get fan speed failed with code: {ret}");
+                            // ComputeDeviceManager.Query.Nvidia.QueryCudaDevices();
+                            // throw new Exception($"NVML get fan speed failed with code: {ret}");
                         }
+
                         fan = (int)ufan;
                     }
                     catch (Exception e)
@@ -171,6 +206,7 @@ namespace zPoolMiner.Devices
 
                     return fan;
                 }
+
                 return 0;
             }
         }
@@ -179,10 +215,12 @@ namespace zPoolMiner.Devices
         {
             var nvmlHandle = new nvmlDevice();
             var nvmlRet = NvmlNativeMethods.nvmlDeviceGetHandleByUUID(UUID, ref nvmlHandle);
+
             if (nvmlRet != nvmlReturn.Success)
             {
-                //throw new NvmlException("nvmlDeviceGetHandleByUUID", nvmlRet);
+                // throw new NvmlException("nvmlDeviceGetHandleByUUID", nvmlRet);
             }
+
             return nvmlHandle;
         }
 
@@ -195,6 +233,7 @@ namespace zPoolMiner.Devices
                     var nvmlDevice = GetNvmlDevice();
                     var power = 0u;
                     var ret = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+
                     if (ret != nvmlReturn.Success)
                         throw new Exception($"NVML power get failed with status: {ret}");
 
@@ -207,29 +246,6 @@ namespace zPoolMiner.Devices
 
                 return -1;
             }
-        }
-
-        public CudaComputeDevice(CudaDevice cudaDevice, DeviceGroupType group, int gpuCount,
-            NvPhysicalGpuHandle nvHandle, nvmlDevice nvmlHandle)
-            : base((int)cudaDevice.DeviceID,
-                cudaDevice.GetName(),
-                true,
-                group,
-                cudaDevice.IsEtherumCapable(),
-                DeviceType.NVIDIA,
-                string.Format(International.GetText("ComputeDevice_Short_Name_NVIDIA_GPU"), gpuCount),
-                cudaDevice.DeviceGlobalMemory)
-        {
-            BusID = cudaDevice.pciBusID;
-            SMMajor = cudaDevice.SM_major;
-            SMMinor = cudaDevice.SM_minor;
-            UUID = cudaDevice.UUID;
-            AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
-            Index = ID + ComputeDeviceManager.Available.AvailCPUs; // increment by CPU count
-
-            _nvHandle = nvHandle;
-            nvmlDevice = nvmlHandle;
-            ShouldRunEthlargement = cudaDevice.DeviceName.Contains("1080") || cudaDevice.DeviceName.Contains("Titan Xp");
         }
     }
 }

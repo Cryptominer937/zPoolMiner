@@ -19,12 +19,12 @@
         /// <summary>
         /// Defines the _isInitFinished
         /// </summary>
-        private bool _isInitFinished = false;
+        private bool _isInitFinished;
 
         /// <summary>
         /// Defines the _isChange
         /// </summary>
-        private bool _isChange = false;
+        private bool _isChange;
 
         /// <summary>
         /// Gets or sets a value indicating whether IsChange
@@ -34,21 +34,15 @@
             get { return _isChange; }
             private set
             {
-                if (_isInitFinished)
-                {
-                    _isChange = value;
-                }
-                else
-                {
-                    _isChange = false;
-                }
+                if (_isInitFinished) _isChange = value;
+                else _isChange = false;
             }
         }
 
         /// <summary>
         /// Defines the isCredChange
         /// </summary>
-        private bool isCredChange = false;
+        private bool isCredChange;
 
         /// <summary>
         /// Gets or sets a value indicating whether IsChangeSaved
@@ -79,7 +73,7 @@
         /// <summary>
         /// Defines the isStartupChanged
         /// </summary>
-        private bool isStartupChanged = false;
+        private bool isStartupChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form_Settings"/> class.
@@ -89,7 +83,7 @@
             InitializeComponent();
             Icon = zPoolMiner.Properties.Resources.logo;
 
-            //ret = 1; // default
+            // ret = 1; // default
             IsChange = false;
             IsChangeSaved = false;
 
@@ -110,14 +104,14 @@
             // link algorithm list with algorithm settings control
             algorithmSettingsControl1.Enabled = false;
             algorithmsListView1.ComunicationInterface = algorithmSettingsControl1;
-            //algorithmsListView1.RemoveRatioRates();
+            // algorithmsListView1.RemoveRatioRates();
 
             // set first device selected {
             if (ComputeDeviceManager.Available.AllAvaliableDevices.Count > 0)
             {
                 _selectedComputeDevice = ComputeDeviceManager.Available.AllAvaliableDevices[0];
                 algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
-                groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
+                groupBoxAlgorithmSettings.Text = string.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
             }
 
             // At the very end set to true
@@ -185,10 +179,10 @@
             toolTip1.SetToolTip(label_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
             toolTip1.SetToolTip(pictureBox_DagGeneration, International.GetText("Form_Settings_ToolTip_DagGeneration"));
 
-            toolTip1.SetToolTip(checkBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
-            toolTip1.SetToolTip(checkBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
-            toolTip1.SetToolTip(pictureBox_DisableDetectionNVIDIA, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
-            toolTip1.SetToolTip(pictureBox_DisableDetectionAMD, String.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
+            toolTip1.SetToolTip(checkBox_DisableDetectionNVIDIA, string.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
+            toolTip1.SetToolTip(checkBox_DisableDetectionAMD, string.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
+            toolTip1.SetToolTip(pictureBox_DisableDetectionNVIDIA, string.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "NVIDIA"));
+            toolTip1.SetToolTip(pictureBox_DisableDetectionAMD, string.Format(International.GetText("Form_Settings_ToolTip_checkBox_DisableDetection"), "AMD"));
 
             toolTip1.SetToolTip(checkBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
             toolTip1.SetToolTip(pictureBox_AutoScaleBTCValues, International.GetText("Form_Settings_ToolTip_checkBox_AutoScaleBTCValues"));
@@ -283,8 +277,8 @@
             checkBox_AutoStartMining.Text = International.GetText("Form_Settings_General_AutoStartMining");
             checkBox_HideMiningWindows.Text = International.GetText("Form_Settings_General_HideMiningWindows");
             checkBox_MinimizeToTray.Text = International.GetText("Form_Settings_General_MinimizeToTray");
-            checkBox_DisableDetectionNVIDIA.Text = String.Format(International.GetText("Form_Settings_General_DisableDetection"), "NVIDIA");
-            checkBox_DisableDetectionAMD.Text = String.Format(International.GetText("Form_Settings_General_DisableDetection"), "AMD");
+            checkBox_DisableDetectionNVIDIA.Text = string.Format(International.GetText("Form_Settings_General_DisableDetection"), "NVIDIA");
+            checkBox_DisableDetectionAMD.Text = string.Format(International.GetText("Form_Settings_General_DisableDetection"), "AMD");
             checkBox_AutoScaleBTCValues.Text = International.GetText("Form_Settings_General_AutoScaleBTCValues");
             checkBox_StartMiningWhenIdle.Text = International.GetText("Form_Settings_General_StartMiningWhenIdle");
             checkBox_ShowDriverVersionWarning.Text = International.GetText("Form_Settings_General_ShowDriverVersionWarning");
@@ -335,8 +329,8 @@
             // advanced
             groupBox_Miners.Text = International.GetText("FormSettings_Tab_Advanced_Group_Miners");
 
-            //buttonAllProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_ALLProfitability");
-            //buttonSelectedProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_SingleProfitability");
+            // buttonAllProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_ALLProfitability");
+            // buttonSelectedProfit.Text = International.GetText("FormSettings_Tab_Devices_Algorithms_Check_SingleProfitability");
 
             checkBox_DisableDefaultOptimizations.Text = International.GetText("Form_Settings_Text_DisableDefaultOptimizations");
             checkBox_IdleWhenNoInternetAccess.Text = International.GetText("Form_Settings_Text_ContinueMiningIfNoInternetAccess");
@@ -400,9 +394,9 @@
                 textBox_blockmunch_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
                 textBox_blazepool_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);*/
                 textBox_averaging.Leave += new EventHandler(GeneralTextBoxes_Leave);
-                //textBox_blazepool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
-                //textBox_MPH_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
-                //textBox_MPH_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                // textBox_blazepool_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                // textBox_MPH_Wallet.Leave += new EventHandler(GeneralTextBoxes_Leave);
+                // textBox_MPH_Worker.Leave += new EventHandler(GeneralTextBoxes_Leave);
                 // these are ints only
                 textBox_SwitchMinSecondsFixed.Leave += new EventHandler(GeneralTextBoxes_Leave);
                 textBox_SwitchMinSecondsDynamic.Leave += new EventHandler(GeneralTextBoxes_Leave);
@@ -439,10 +433,12 @@
             comboBox_CPU0_ForceCPUExtension.SelectedIndexChanged += ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged;
             // fill dag dropdown
             comboBox_DagLoadMode.Items.Clear();
+
             for (int i = 0; i < (int)DagGenerationType.END; ++i)
             {
                 comboBox_DagLoadMode.Items.Add(MinerEtherum.GetDagGenerationString((DagGenerationType)i));
             }
+
             // set selected
             comboBox_DagLoadMode.SelectedIndex = (int)ConfigManager.GeneralConfig.EthminerDagGenerationType;
         }
@@ -489,7 +485,6 @@
                 checkBox_RunScriptOnCUDA_GPU_Lost.Checked = ConfigManager.GeneralConfig.RunScriptOnCUDA_GPU_Lost;
                 checkbox_Group_same_devices.Checked = ConfigManager.GeneralConfig.Group_same_devices;
             }
-
             // Textboxes
             {
                 /*textBox_Zpool_Wallet.Text = ConfigManager.GeneralConfig.zpoolAddress;
@@ -528,7 +523,6 @@
                 textBox_MinProfit.Text = ConfigManager.GeneralConfig.MinimumProfit.ToString("F2").Replace(',', '.'); // force comma;
                 textBox_SwitchProfitabilityThreshold.Text = ConfigManager.GeneralConfig.SwitchProfitabilityThreshold.ToString("F2").Replace(',', '.'); // force comma;
             }
-
             // set custom control referances
             {
                 // here we want all devices
@@ -536,21 +530,18 @@
                 devicesListViewEnableControl1.SetAlgorithmsListView(algorithmsListView1);
                 devicesListViewEnableControl1.IsSettingsCopyEnabled = true;
             }
-
             // Add language selections list
             {
-                Dictionary<LanguageType, string> lang = International.GetAvailableLanguages();
+                var lang = International.GetAvailableLanguages();
 
                 comboBox_Language.Items.Clear();
-                for (int i = 0; i < lang.Count; i++)
-                {
-                    comboBox_Language.Items.Add(lang[(LanguageType)i]);
-                }
-            }
 
+                for (int i = 0; i < lang.Count; i++)
+                    comboBox_Language.Items.Add(lang[(LanguageType)i]);
+            }
             // Add time unit selection list
             {
-                Dictionary<TimeUnitType, string> timeunits = new Dictionary<TimeUnitType, string>();
+                var timeunits = new Dictionary<TimeUnitType, string>();
 
                 foreach (TimeUnitType timeunit in Enum.GetValues(typeof(TimeUnitType)))
                 {
@@ -558,7 +549,6 @@
                     comboBox_TimeUnit.Items.Add(timeunits[timeunit]);
                 }
             }
-
             // ComboBox
             {
                 comboBox_Language.SelectedIndex = (int)ConfigManager.GeneralConfig.Language;
@@ -580,10 +570,7 @@
         /// <summary>
         /// The InitializeDevicesTab
         /// </summary>
-        private void InitializeDevicesTab()
-        {
-            InitializeDevicesCallbacks();
-        }
+        private void InitializeDevicesTab() => InitializeDevicesCallbacks();
 
         /// <summary>
         /// The InitializeDevicesCallbacks
@@ -646,6 +633,7 @@
             // indicate there has been a change
             IsChange = true;
             ConfigManager.GeneralConfig.DisableAMDTempControl = checkBox_AMD_DisableAMDTempControl.Checked;
+
             foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cDev.DeviceType == DeviceType.AMD)
@@ -655,6 +643,7 @@
                         if (algorithm.CryptoMiner937ID != AlgorithmType.DaggerHashimoto)
                         {
                             algorithm.ExtraLaunchParameters += AmdGpuDevice.TemperatureParam;
+
                             algorithm.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
                                 new MiningPair(cDev, algorithm), algorithm.CryptoMiner937ID, DeviceType.AMD, false);
                         }
@@ -675,6 +664,7 @@
             // indicate there has been a change
             IsChange = true;
             ConfigManager.GeneralConfig.DisableDefaultOptimizations = checkBox_DisableDefaultOptimizations.Checked;
+
             if (ConfigManager.GeneralConfig.DisableDefaultOptimizations)
             {
                 foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
@@ -682,9 +672,11 @@
                     foreach (var algorithm in cDev.GetAlgorithmSettings())
                     {
                         algorithm.ExtraLaunchParameters = "";
+
                         if (cDev.DeviceType == DeviceType.AMD && algorithm.CryptoMiner937ID != AlgorithmType.DaggerHashimoto)
                         {
                             algorithm.ExtraLaunchParameters += AmdGpuDevice.TemperatureParam;
+
                             algorithm.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
                                 new MiningPair(cDev, algorithm), algorithm.CryptoMiner937ID, cDev.DeviceType, false);
                         }
@@ -697,12 +689,15 @@
                 {
                     if (cDev.DeviceType == DeviceType.CPU) continue; // cpu has no defaults
                     var deviceDefaultsAlgoSettings = GroupAlgorithms.CreateForDeviceList(cDev);
+
                     foreach (var defaultAlgoSettings in deviceDefaultsAlgoSettings)
                     {
                         var toSetAlgo = cDev.GetAlgorithm(defaultAlgoSettings.MinerBaseType, defaultAlgoSettings.CryptoMiner937ID, defaultAlgoSettings.SecondaryCryptoMiner937ID);
+
                         if (toSetAlgo != null)
                         {
                             toSetAlgo.ExtraLaunchParameters = defaultAlgoSettings.ExtraLaunchParameters;
+
                             toSetAlgo.ExtraLaunchParameters = ExtraLaunchParametersParser.ParseForMiningPair(
                                 new MiningPair(cDev, toSetAlgo), toSetAlgo.CryptoMiner937ID, cDev.DeviceType, false);
                         }
@@ -729,14 +724,16 @@
         {
             // Value is stored in registry
             var startVal = "";
+
             try
             {
-                startVal = (String)rkStartup.GetValue(Application.ProductName, "");
+                startVal = (string)rkStartup.GetValue(Application.ProductName, "");
             }
             catch (Exception e)
             {
                 Helpers.ConsolePrint("REGISTRY", e.ToString());
             }
+
             return startVal == Application.ExecutablePath;
         }
 
@@ -842,7 +839,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ComboBox_CPU0_ForceCPUExtension_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox cmbbox = (ComboBox)sender;
+            var cmbbox = (ComboBox)sender;
             ConfigManager.GeneralConfig.ForceCPUExtension = (CPUExtensionType)cmbbox.SelectedIndex;
         }
 
@@ -857,7 +854,7 @@
             // show algorithms
             _selectedComputeDevice = ComputeDeviceManager.Available.GetCurrentlySelectedComputeDevice(e.ItemIndex, ShowUniqueDeviceList);
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
-            groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
+            groupBoxAlgorithmSettings.Text = string.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
         }
 
         /// <summary>
@@ -872,14 +869,18 @@
                 MessageBox.Show(International.GetText("FormSettings_ButtonProfitSingle"),
                                 International.GetText("Warning_with_Exclamation"),
                                 MessageBoxButtons.OK);
+
                 return;
             }
+
             var url = Links.NHM_Profit_Check + _selectedComputeDevice.Name;
+
             foreach (var algorithm in _selectedComputeDevice.GetAlgorithmSettingsFastest())
             {
                 var id = (int)algorithm.CryptoMiner937ID;
-                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.CryptoMiner937ID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             }
+            // url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.BenchmarkSpeed, algorithm.CryptoMiner937ID).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
             url += "&nhmver=" + Application.ProductVersion.ToString();  // Add version info
             url += "&cost=1&power=1"; // Set default power and cost to 1
             System.Diagnostics.Process.Start(url);
@@ -893,7 +894,8 @@
         private void ButtonAllProfit_Click(object sender, EventArgs e)
         {
             var url = Links.NHM_Profit_Check + "CUSTOM";
-            Dictionary<AlgorithmType, double> total = new Dictionary<AlgorithmType, double>();
+            var total = new Dictionary<AlgorithmType, double>();
+
             foreach (var curCDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algorithm in curCDev.GetAlgorithmSettingsFastest())
@@ -908,11 +910,13 @@
                     }
                 }
             }
+
             foreach (var algorithm in total)
             {
                 var id = (int)algorithm.Key;
-                //url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.Value, algorithm.Key).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
             }
+            // url += "&speed" + id + "=" + ProfitabilityCalculator.GetFormatedSpeed(algorithm.Value, algorithm.Key).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
             url += "&nhmver=" + Application.ProductVersion.ToString();  // Add version info
             url += "&cost=1&power=1"; // Set default power and cost to 1
             System.Diagnostics.Process.Start(url);
@@ -935,7 +939,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonDefaults_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(International.GetText("Form_Settings_buttonDefaultsMsg"),
+            var result = MessageBox.Show(International.GetText("Form_Settings_buttonDefaultsMsg"),
                                                   International.GetText("Form_Settings_buttonDefaultsTitle"),
                                                   MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -961,6 +965,7 @@
             MessageBox.Show(International.GetText("Form_Settings_buttonSaveMsg"),
                             International.GetText("Form_Settings_buttonSaveTitle"),
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             IsChange = true;
             IsChangeSaved = true;
 
@@ -1003,7 +1008,7 @@
         {
             if (IsChange && !IsChangeSaved)
             {
-                DialogResult result = MessageBox.Show(International.GetText("Form_Settings_buttonCloseNoSaveMsg"),
+                var result = MessageBox.Show(International.GetText("Form_Settings_buttonCloseNoSaveMsg"),
                                                       International.GetText("Form_Settings_buttonCloseNoSaveTitle"),
                                                       MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -1083,6 +1088,7 @@
         private void CheckBox_Use3rdPartyMiners_CheckedChanged(object sender, EventArgs e)
         {
             if (!_isInitFinished) return;
+
             if (checkBox_Use3rdPartyMiners.Checked)
             {
                 // Show TOS
@@ -1119,9 +1125,8 @@
         }
 
         private void button1_Click(object sender, EventArgs e)
-
         {
-            Form1 frm = new Form1();
+            var frm = new Form1();
             frm.ShowDialog();
         }
     }

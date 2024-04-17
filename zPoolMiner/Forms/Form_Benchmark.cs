@@ -19,22 +19,22 @@
         /// <summary>
         /// Defines the _inBenchmark
         /// </summary>
-        private bool _inBenchmark = false;
+        private bool _inBenchmark;
 
         /// <summary>
         /// Defines the _bechmarkCurrentIndex
         /// </summary>
-        private int _bechmarkCurrentIndex = 0;
+        private int _bechmarkCurrentIndex;
 
         /// <summary>
         /// Defines the _bechmarkedSuccessCount
         /// </summary>
-        private int _bechmarkedSuccessCount = 0;
+        private int _bechmarkedSuccessCount;
 
         /// <summary>
         /// Defines the _benchmarkAlgorithmsCount
         /// </summary>
-        private int _benchmarkAlgorithmsCount = 0;
+        private int _benchmarkAlgorithmsCount;
 
         /// <summary>
         /// Defines the _algorithmOption
@@ -59,10 +59,10 @@
         /// <summary>
         /// Defines the ExitWhenFinished
         /// </summary>
-        private bool ExitWhenFinished = false;
+        private bool ExitWhenFinished;
 
-        //private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;
-        //private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;        /// <summary>
+        // private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;
+        // private AlgorithmType _singleBenchmarkType = AlgorithmType.NONE;        /// <summary>
         /// Defines the _benchmarkingTimer
         /// </summary>
         private Timer _benchmarkingTimer;
@@ -70,7 +70,7 @@
         /// <summary>
         /// Defines the dotCount
         /// </summary>
-        private int dotCount = 0;
+        private int dotCount;
 
         /// <summary>
         /// Gets or sets a value indicating whether StartMining
@@ -181,19 +181,13 @@
             /// Initializes a new instance of the <see cref="CPUBenchmarkStatus"/> class.
             /// </summary>
             /// <param name="max_threads">The <see cref="int"/></param>
-            public CPUBenchmarkStatus(int max_threads)
-            {
-                _max_threads = max_threads;
-            }
+            public CPUBenchmarkStatus(int max_threads) => _max_threads = max_threads;
 
             /// <summary>
             /// The HasTest
             /// </summary>
             /// <returns>The <see cref="bool"/></returns>
-            public bool HasTest()
-            {
-                return _cur_less_threads < _max_threads;
-            }
+            public bool HasTest() => _cur_less_threads < _max_threads;
 
             /// <summary>
             /// The SetNextSpeed
@@ -211,28 +205,19 @@
             /// <summary>
             /// The FindFastest
             /// </summary>
-            public void FindFastest()
-            {
-                _benchmarks.Sort((a, b) => -a.Benchmark.CompareTo(b.Benchmark));
-            }
+            public void FindFastest() => _benchmarks.Sort((a, b) => -a.Benchmark.CompareTo(b.Benchmark));
 
             /// <summary>
             /// The GetBestSpeed
             /// </summary>
             /// <returns>The <see cref="double"/></returns>
-            public double GetBestSpeed()
-            {
-                return _benchmarks[0].Benchmark;
-            }
+            public double GetBestSpeed() => _benchmarks[0].Benchmark;
 
             /// <summary>
             /// The GetLessThreads
             /// </summary>
             /// <returns>The <see cref="int"/></returns>
-            public int GetLessThreads()
-            {
-                return _benchmarks[0].LessTreads;
-            }
+            public int GetLessThreads() => _benchmarks[0].LessTreads;
 
             /// <summary>
             /// Defines the _max_threads
@@ -242,7 +227,7 @@
             /// <summary>
             /// Defines the _cur_less_threads
             /// </summary>
-            private int _cur_less_threads = 0;
+            private int _cur_less_threads;
 
             /// <summary>
             /// Defines the _benchmarks
@@ -252,10 +237,7 @@
             /// <summary>
             /// Gets the LessTreads
             /// </summary>
-            public int LessTreads
-            {
-                get { return _cur_less_threads; }
-            }
+            public int LessTreads => _cur_less_threads;
 
             /// <summary>
             /// Defines the Time
@@ -266,7 +248,7 @@
         /// <summary>
         /// Defines the __CPUBenchmarkStatus
         /// </summary>
-        private CPUBenchmarkStatus __CPUBenchmarkStatus = null;
+        private CPUBenchmarkStatus __CPUBenchmarkStatus;
 
         /// <summary>
         /// Defines the <see cref="ClaymoreZcashStatus" />
@@ -291,7 +273,7 @@
             /// <summary>
             /// Defines the CurIndex
             /// </summary>
-            private int CurIndex = 0;
+            private int CurIndex;
 
             /// <summary>
             /// Defines the originalExtraParams
@@ -302,19 +284,13 @@
             /// Initializes a new instance of the <see cref="ClaymoreZcashStatus"/> class.
             /// </summary>
             /// <param name="oep">The <see cref="string"/></param>
-            public ClaymoreZcashStatus(string oep)
-            {
-                originalExtraParams = oep;
-            }
+            public ClaymoreZcashStatus(string oep) => originalExtraParams = oep;
 
             /// <summary>
             /// The HasTest
             /// </summary>
             /// <returns>The <see cref="bool"/></returns>
-            public bool HasTest()
-            {
-                return CurIndex < MAX_BENCH;
-            }
+            public bool HasTest() => CurIndex < MAX_BENCH;
 
             /// <summary>
             /// The SetSpeed
@@ -322,19 +298,13 @@
             /// <param name="speed">The <see cref="double"/></param>
             public void SetSpeed(double speed)
             {
-                if (HasTest())
-                {
-                    speeds[CurIndex] = speed;
-                }
+                if (HasTest()) speeds[CurIndex] = speed;
             }
 
             /// <summary>
             /// The SetNext
             /// </summary>
-            public void SetNext()
-            {
-                CurIndex += 1;
-            }
+            public void SetNext() => CurIndex += 1;
 
             /// <summary>
             /// The GetTestExtraParams
@@ -346,6 +316,7 @@
                 {
                     return originalExtraParams + ASM_MODES[CurIndex];
                 }
+
                 return originalExtraParams;
             }
 
@@ -355,8 +326,9 @@
             /// <returns>The <see cref="int"/></returns>
             private int FastestIndex()
             {
-                int maxIndex = 0;
-                double maxValue = speeds[maxIndex];
+                var maxIndex = 0;
+                var maxValue = speeds[maxIndex];
+
                 for (int i = 1; i < speeds.Length; ++i)
                 {
                     if (speeds[i] > maxValue)
@@ -373,19 +345,13 @@
             /// The GetFastestExtraParams
             /// </summary>
             /// <returns>The <see cref="string"/></returns>
-            public string GetFastestExtraParams()
-            {
-                return originalExtraParams + ASM_MODES[FastestIndex()];
-            }
+            public string GetFastestExtraParams() => originalExtraParams + ASM_MODES[FastestIndex()];
 
             /// <summary>
             /// The GetFastestTime
             /// </summary>
             /// <returns>The <see cref="double"/></returns>
-            public double GetFastestTime()
-            {
-                return speeds[FastestIndex()];
-            }
+            public double GetFastestTime() => speeds[FastestIndex()];
 
             /// <summary>
             /// Defines the Time
@@ -396,7 +362,7 @@
         /// <summary>
         /// Defines the __ClaymoreZcashStatus
         /// </summary>
-        private ClaymoreZcashStatus __ClaymoreZcashStatus = null;
+        private ClaymoreZcashStatus __ClaymoreZcashStatus;
 
         // CPU sweet spots
         // CPU sweet spots        /// <summary>
@@ -422,43 +388,6 @@
         private static Color UNBENCHMARKED_COLOR = Color.DarkBlue;
 
         /// <summary>
-        /// The LviSetColor
-        /// </summary>
-        /// <param name="lvi">The <see cref="ListViewItem"/></param>
-        public void LviSetColor(ListViewItem lvi)
-        {
-            if (lvi.Tag is ComputeDevice CDevice && _benchmarkDevicesAlgorithmStatus != null)
-            {
-                var uuid = CDevice.UUID;
-                if (!CDevice.Enabled)
-                {
-                    lvi.BackColor = DISABLED_COLOR;
-                }
-                else
-                {
-                    switch (_benchmarkDevicesAlgorithmStatus[uuid])
-                    {
-                        case BenchmarkSettingsStatus.TODO:
-                        case BenchmarkSettingsStatus.DISABLED_TODO:
-                            lvi.BackColor = UNBENCHMARKED_COLOR;
-                            break;
-
-                        case BenchmarkSettingsStatus.NONE:
-                        case BenchmarkSettingsStatus.DISABLED_NONE:
-                            lvi.BackColor = BENCHMARKED_COLOR;
-                            break;
-                    }
-                }
-                //// enable disable status, NOT needed
-                //if (cdvo.IsEnabled && _benchmarkDevicesAlgorithmStatus[uuid] >= BenchmarkSettingsStatus.DISABLED_NONE) {
-                //    _benchmarkDevicesAlgorithmStatus[uuid] -= 2;
-                //} else if (!cdvo.IsEnabled && _benchmarkDevicesAlgorithmStatus[uuid] <= BenchmarkSettingsStatus.TODO) {
-                //    _benchmarkDevicesAlgorithmStatus[uuid] += 2;
-                //}
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Form_Benchmark"/> class.
         /// </summary>
         /// <param name="benchmarkPerformanceType">The <see cref="BenchmarkPerformanceType"/></param>
@@ -475,9 +404,7 @@
             foreach (var dev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algo in dev.GetAlgorithmSettings())
-                {
                     algo.ClearBenchmarkPendingFirst();
-                }
             }
 
             benchmarkOptions1.SetPerformanceType(benchmarkPerformanceType);
@@ -495,10 +422,10 @@
             _benchmarkingTimer.Tick += BenchmarkingTimer_Tick;
             _benchmarkingTimer.Interval = 1000; // 1s
 
-            //// name, UUID
-            //Dictionary<string, string> benchNamesUUIDs = new Dictionary<string, string>();
-            //// initialize benchmark settings for same cards to only copy settings
-            //foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices) {
+            // // name, UUID
+            // Dictionary<string, string> benchNamesUUIDs = new Dictionary<string, string>();
+            // // initialize benchmark settings for same cards to only copy settings
+            // foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices) {
             //    var plainDevName = cDev.Name;
             //    if (benchNamesUUIDs.ContainsKey(plainDevName)) {
             //        cDev.Enabled = false;
@@ -508,9 +435,9 @@
             //        //cDev.Enabled = true; // enable benchmark
             //        cDev.BenchmarkCopyUUID = null;
             //    }
-            //}
+            // }
 
-            //groupBoxAlgorithmBenchmarkSettings.Enabled = _singleBenchmarkType == AlgorithmType.NONE;
+            // groupBoxAlgorithmBenchmarkSettings.Enabled = _singleBenchmarkType == AlgorithmType.NONE;
             devicesListViewEnableControl1.Enabled = true;
             devicesListViewEnableControl1.SetDeviceSelectionChangedCallback(DevicesListView1_ItemSelectionChanged);
 
@@ -541,20 +468,60 @@
         }
 
         /// <summary>
+        /// The LviSetColor
+        /// </summary>
+        /// <param name="lvi">The <see cref="ListViewItem"/></param>
+        public void LviSetColor(ListViewItem lvi)
+        {
+            if (lvi.Tag is ComputeDevice CDevice && _benchmarkDevicesAlgorithmStatus != null)
+            {
+                var uuid = CDevice.UUID;
+
+                if (!CDevice.Enabled)
+                {
+                    lvi.BackColor = DISABLED_COLOR;
+                }
+                else
+                {
+                    switch (_benchmarkDevicesAlgorithmStatus[uuid])
+                    {
+                        case BenchmarkSettingsStatus.TODO:
+                        case BenchmarkSettingsStatus.DISABLED_TODO:
+                            lvi.BackColor = UNBENCHMARKED_COLOR;
+                            break;
+
+                        case BenchmarkSettingsStatus.NONE:
+                        case BenchmarkSettingsStatus.DISABLED_NONE:
+                            lvi.BackColor = BENCHMARKED_COLOR;
+                            break;
+                    }
+                }
+                // // enable disable status, NOT needed
+                // if (cdvo.IsEnabled && _benchmarkDevicesAlgorithmStatus[uuid] >= BenchmarkSettingsStatus.DISABLED_NONE) {
+                //    _benchmarkDevicesAlgorithmStatus[uuid] -= 2;
+                // } else if (!cdvo.IsEnabled && _benchmarkDevicesAlgorithmStatus[uuid] <= BenchmarkSettingsStatus.TODO) {
+                //    _benchmarkDevicesAlgorithmStatus[uuid] += 2;
+                // }
+            }
+        }
+
+        /// <summary>
         /// The CopyBenchmarks
         /// </summary>
         private void CopyBenchmarks()
         {
             Helpers.ConsolePrint("CopyBenchmarks", "Checking for benchmarks to copy");
+
             foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 // check if copy
                 if (!cDev.Enabled && cDev.BenchmarkCopyUUID != null)
                 {
                     var copyCdevSettings = ComputeDeviceManager.Available.GetDeviceWithUUID(cDev.BenchmarkCopyUUID);
+
                     if (copyCdevSettings != null)
                     {
-                        Helpers.ConsolePrint("CopyBenchmarks", String.Format("Copy from {0} to {1}", cDev.UUID, cDev.BenchmarkCopyUUID));
+                        Helpers.ConsolePrint("CopyBenchmarks", string.Format("Copy from {0} to {1}", cDev.UUID, cDev.BenchmarkCopyUUID));
                         cDev.CopyBenchmarkSettingsFrom(copyCdevSettings);
                     }
                 }
@@ -582,7 +549,7 @@
         {
             ++dotCount;
             if (dotCount > 3) dotCount = 1;
-            return new String('.', dotCount);
+            return new string('.', dotCount);
         }
 
         /// <summary>
@@ -591,7 +558,7 @@
         private void InitLocale()
         {
             Text = International.GetText("Form_Benchmark_title"); //International.GetText("SubmitResultDialog_title");
-            //labelInstruction.Text = International.GetText("SubmitResultDialog_labelInstruction");
+            // labelInstruction.Text = International.GetText("SubmitResultDialog_labelInstruction");
             StartStopBtn.Text = International.GetText("SubmitResultDialog_StartBtn");
             CloseBtn.Text = International.GetText("SubmitResultDialog_CloseBtn");
 
@@ -643,19 +610,20 @@
             StartStopBtn.Text = International.GetText("Form_Benchmark_buttonStartBenchmark");
             // clear benchmark pending status
             if (_currentAlgorithm != null) _currentAlgorithm.ClearBenchmarkPending();
+
             foreach (var deviceAlgosTuple in _benchmarkDevicesAlgorithmQueue)
             {
                 foreach (var algo in deviceAlgosTuple.Item2)
-                {
                     algo.ClearBenchmarkPending();
-                }
             }
+
             ResetBenchmarkProgressStatus();
             CalcBenchmarkDevicesAlgorithmQueue();
             benchmarkOptions1.Enabled = true;
 
             algorithmsListView1.IsInBenchmark = false;
             devicesListViewEnableControl1.IsInBenchmark = false;
+
             if (_currentDevice != null)
             {
                 algorithmsListView1.RepaintStatus(_currentDevice.Enabled, _currentDevice.UUID);
@@ -673,17 +641,15 @@
             _benchmarkingTimer.Stop();
             _inBenchmark = false;
             Helpers.ConsolePrint("FormBenchmark", "StopButonClick() benchmark routine stopped");
-            //// copy benchmarked
-            //CopyBenchmarks();
+            // // copy benchmarked
+            // CopyBenchmarks();
             if (_currentMiner != null)
             {
                 _currentMiner.BenchmarkSignalQuit = true;
                 _currentMiner.InvokeBenchmarkSignalQuit();
             }
-            if (ExitWhenFinished)
-            {
-                Close();
-            }
+
+            if (ExitWhenFinished) Close();
         }
 
         /// <summary>
@@ -695,7 +661,8 @@
             CalcBenchmarkDevicesAlgorithmQueue();
             // device selection check scope
             {
-                bool noneSelected = true;
+                var noneSelected = true;
+
                 foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (cDev.Enabled)
@@ -704,17 +671,20 @@
                         break;
                     }
                 }
+
                 if (noneSelected)
                 {
                     MessageBox.Show(International.GetText("FormBenchmark_No_Devices_Selected_Msg"),
                         International.GetText("FormBenchmark_No_Devices_Selected_Title"),
                         MessageBoxButtons.OK);
+
                     return false;
                 }
             }
             // device todo benchmark check scope
             {
-                bool nothingToBench = true;
+                var nothingToBench = true;
+
                 foreach (var statusKpv in _benchmarkDevicesAlgorithmStatus)
                 {
                     if (statusKpv.Value == BenchmarkSettingsStatus.TODO)
@@ -723,11 +693,13 @@
                         break;
                     }
                 }
+
                 if (nothingToBench)
                 {
                     MessageBox.Show(International.GetText("FormBenchmark_Nothing_to_Benchmark_Msg"),
                         International.GetText("FormBenchmark_Nothing_to_Benchmark_Title"),
                         MessageBoxButtons.OK);
+
                     return false;
                 }
             }
@@ -743,10 +715,9 @@
             foreach (var deviceAlgosTuple in _benchmarkDevicesAlgorithmQueue)
             {
                 foreach (var algo in deviceAlgosTuple.Item2)
-                {
                     algo.SetBenchmarkPending();
-                }
             }
+
             if (_currentDevice != null)
             {
                 algorithmsListView1.RepaintStatus(_currentDevice.Enabled, _currentDevice.UUID);
@@ -765,9 +736,11 @@
             _benchmarkAlgorithmsCount = 0;
             _benchmarkDevicesAlgorithmStatus = new Dictionary<string, BenchmarkSettingsStatus>();
             _benchmarkDevicesAlgorithmQueue = new List<Tuple<ComputeDevice, Queue<Algorithm>>>();
+
             foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 var algorithmQueue = new Queue<Algorithm>();
+
                 foreach (var algo in cDev.GetAlgorithmSettings())
                 {
                     if (ShoulBenchmark(algo))
@@ -782,10 +755,12 @@
                 }
 
                 BenchmarkSettingsStatus status;
+
                 if (cDev.Enabled)
                 {
                     _benchmarkAlgorithmsCount += algorithmQueue.Count;
                     status = algorithmQueue.Count == 0 ? BenchmarkSettingsStatus.NONE : BenchmarkSettingsStatus.TODO;
+
                     _benchmarkDevicesAlgorithmQueue.Add(
                     new Tuple<ComputeDevice, Queue<Algorithm>>(cDev, algorithmQueue)
                     );
@@ -794,8 +769,10 @@
                 {
                     status = algorithmQueue.Count == 0 ? BenchmarkSettingsStatus.DISABLED_NONE : BenchmarkSettingsStatus.DISABLED_TODO;
                 }
+
                 _benchmarkDevicesAlgorithmStatus[cDev.UUID] = status;
             }
+
             // GUI stuff
             progressBarBenchmarkSteps.Maximum = _benchmarkAlgorithmsCount;
             progressBarBenchmarkSteps.Value = 0;
@@ -809,20 +786,24 @@
         /// <returns>The <see cref="bool"/></returns>
         private bool ShoulBenchmark(Algorithm algorithm)
         {
-            bool isBenchmarked = algorithm.BenchmarkSpeed > 0 ? true : false;
+            var isBenchmarked = algorithm.BenchmarkSpeed > 0 ? true : false;
+
             if (_algorithmOption == AlgorithmBenchmarkSettingsType.SelectedUnbenchmarkedAlgorithms
                 && !isBenchmarked && algorithm.Enabled)
             {
                 return true;
             }
+
             if (_algorithmOption == AlgorithmBenchmarkSettingsType.UnbenchmarkedAlgorithms && !isBenchmarked)
             {
                 return true;
             }
+
             if (_algorithmOption == AlgorithmBenchmarkSettingsType.ReBecnhSelectedAlgorithms && algorithm.Enabled)
             {
                 return true;
             }
+
             if (_algorithmOption == AlgorithmBenchmarkSettingsType.AllAlgorithms)
             {
                 return true;
@@ -847,11 +828,14 @@
         private void NextBenchmark()
         {
             ConfigManager.CommitBenchmarks();
+
             if (_bechmarkCurrentIndex > -1)
             {
                 StepUpBenchmarkStepProgress();
             }
+
             ++_bechmarkCurrentIndex;
+
             if (_bechmarkCurrentIndex >= _benchmarkAlgorithmsCount)
             {
                 EndBenchmark();
@@ -860,11 +844,13 @@
 
             Tuple<ComputeDevice, Queue<Algorithm>> currentDeviceAlgosTuple;
             Queue<Algorithm> algorithmBenchmarkQueue;
+
             while (_benchmarkDevicesAlgorithmQueue.Count > 0)
             {
                 currentDeviceAlgosTuple = _benchmarkDevicesAlgorithmQueue[0];
                 _currentDevice = currentDeviceAlgosTuple.Item1;
                 algorithmBenchmarkQueue = currentDeviceAlgosTuple.Item2;
+
                 if (algorithmBenchmarkQueue.Count != 0)
                 {
                     _currentAlgorithm = algorithmBenchmarkQueue.Dequeue();
@@ -879,6 +865,7 @@
             if (_currentDevice != null && _currentAlgorithm != null)
             {
                 _currentMiner = MinerFactory.CreateMiner(_currentDevice, _currentAlgorithm);
+
                 if (_currentAlgorithm.MinerBaseType == MinerBaseType.cpuminer && _currentAlgorithm.CryptoMiner937ID == AlgorithmType.cryptonight && string.IsNullOrEmpty(_currentAlgorithm.ExtraLaunchParameters) && _currentAlgorithm.ExtraLaunchParameters.Contains("enable_ht=true") == false)
                 {
                     __CPUBenchmarkStatus = new CPUBenchmarkStatus(Globals.ThreadsPerCPU);
@@ -888,6 +875,7 @@
                 {
                     __CPUBenchmarkStatus = null;
                 }
+
                 if (_currentAlgorithm.MinerBaseType == MinerBaseType.Claymore && _currentAlgorithm.CryptoMiner937ID == AlgorithmType.equihash && _currentAlgorithm.ExtraLaunchParameters != null && !_currentAlgorithm.ExtraLaunchParameters.Contains("-asm"))
                 {
                     __ClaymoreZcashStatus = new ClaymoreZcashStatus(_currentAlgorithm.ExtraLaunchParameters);
@@ -907,11 +895,12 @@
 
                 var time = ConfigManager.GeneralConfig.BenchmarkTimeLimits
                     .GetBenchamrktime(benchmarkOptions1.PerformanceType, _currentDevice.DeviceGroupType);
-                //currentConfig.TimeLimit = time;
+                // currentConfig.TimeLimit = time;
                 if (__CPUBenchmarkStatus != null)
                 {
                     __CPUBenchmarkStatus.Time = time;
                 }
+
                 if (__ClaymoreZcashStatus != null)
                 {
                     __ClaymoreZcashStatus.Time = time;
@@ -924,6 +913,7 @@
                 _benchmarkingTimer.Start();
 
                 _currentMiner.BenchmarkStart(time, this);
+
                 algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm,
                     GetDotsWaitString());
             }
@@ -942,7 +932,7 @@
             _inBenchmark = false;
             Helpers.ConsolePrint("FormBenchmark", "EndBenchmark() benchmark routine finished");
 
-            //CopyBenchmarks();
+            // CopyBenchmarks();
 
             BenchmarkStoppedGUISettings();
             // check if all ok
@@ -969,19 +959,16 @@
                 {
                     // get unbenchmarked from criteria and disable
                     CalcBenchmarkDevicesAlgorithmQueue();
+
                     foreach (var deviceAlgoQueue in _benchmarkDevicesAlgorithmQueue)
                     {
                         foreach (var algorithm in deviceAlgoQueue.Item2)
-                        {
                             algorithm.Enabled = false;
-                        }
                     }
                 }
             }
-            if (ExitWhenFinished || StartMining)
-            {
-                Close();
-            }
+
+            if (ExitWhenFinished || StartMining) Close();
         }
 
         /// <summary>
@@ -1004,15 +991,18 @@
         public void OnBenchmarkComplete(bool success, string status)
         {
             if (!_inBenchmark) return;
+
             Invoke((MethodInvoker)delegate
             {
                 _bechmarkedSuccessCount += success ? 1 : 0;
-                bool rebenchSame = false;
+                var rebenchSame = false;
+
                 if (success && __CPUBenchmarkStatus != null && CPUAlgos.Contains(_currentAlgorithm.CryptoMiner937ID))
                 {
                     __CPUBenchmarkStatus.SetNextSpeed(_currentAlgorithm.BenchmarkSpeed);
                     rebenchSame = __CPUBenchmarkStatus.HasTest();
                     _currentAlgorithm.LessThreads = __CPUBenchmarkStatus.LessTreads;
+
                     if (rebenchSame == false)
                     {
                         __CPUBenchmarkStatus.FindFastest();
@@ -1027,7 +1017,7 @@
                     {
                         _currentMiner = MinerFactory.CreateMiner(_currentDevice, _currentAlgorithm);
                         rebenchSame = true;
-                        //System.Threading.Thread.Sleep(1000*60*5);
+                        // System.Threading.Thread.Sleep(1000*60*5);
                         __ClaymoreZcashStatus.SetSpeed(_currentAlgorithm.BenchmarkSpeed);
                         __ClaymoreZcashStatus.SetNext();
                         _currentAlgorithm.ExtraLaunchParameters = __ClaymoreZcashStatus.GetTestExtraParams();
@@ -1044,10 +1034,7 @@
                     }
                 }
 
-                if (!rebenchSame)
-                {
-                    _benchmarkingTimer.Stop();
-                }
+                if (!rebenchSame) _benchmarkingTimer.Stop();
 
                 if (!success && !rebenchSame)
                 {
@@ -1058,6 +1045,7 @@
                             Device = _currentDevice.Name,
                             Algorithm = _currentAlgorithm.AlgorithmName
                         });
+
                     algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, status);
                 }
                 else if (!rebenchSame)
@@ -1066,6 +1054,7 @@
                     _currentAlgorithm.ClearBenchmarkPending();
                     algorithmsListView1.SetSpeedStatus(_currentDevice, _currentAlgorithm, "");
                 }
+
                 if (rebenchSame)
                 {
                     if (__CPUBenchmarkStatus != null)
@@ -1091,7 +1080,7 @@
         /// <param name="max">The <see cref="int"/></param>
         private void SetLabelBenchmarkSteps(int current, int max)
         {
-            labelBenchmarkSteps.Text = String.Format(International.GetText("FormBenchmark_Benchmark_Step"), current, max);
+            labelBenchmarkSteps.Text = string.Format(International.GetText("FormBenchmark_Benchmark_Step"), current, max);
         }
 
         /// <summary>
@@ -1106,20 +1095,14 @@
         /// <summary>
         /// The ResetBenchmarkProgressStatus
         /// </summary>
-        private void ResetBenchmarkProgressStatus()
-        {
-            progressBarBenchmarkSteps.Value = 0;
-        }
+        private void ResetBenchmarkProgressStatus() => progressBarBenchmarkSteps.Value = 0;
 
         /// <summary>
         /// The CloseBtn_Click
         /// </summary>
         /// <param name="sender">The <see cref="object"/></param>
         /// <param name="e">The <see cref="EventArgs"/></param>
-        private void CloseBtn_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void CloseBtn_Click(object sender, EventArgs e) => Close();
 
         /// <summary>
         /// The FormBenchmark_New_FormClosing
@@ -1138,9 +1121,7 @@
             foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algorithm in cDev.GetAlgorithmSettings())
-                {
                     algorithm.ClearBenchmarkPending();
-                }
             }
 
             // save already benchmarked algorithms
@@ -1150,7 +1131,8 @@
             {
                 if (cdev.Enabled)
                 {
-                    bool Enabled = false;
+                    var Enabled = false;
+
                     foreach (var algo in cdev.GetAlgorithmSettings())
                     {
                         if (algo.BenchmarkSpeed > 0)
@@ -1159,6 +1141,7 @@
                             break;
                         }
                     }
+
                     cdev.Enabled = Enabled;
                 }
             }
@@ -1171,7 +1154,7 @@
         /// <param name="e">The <see cref="ListViewItemSelectionChangedEventArgs"/></param>
         private void DevicesListView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            //algorithmSettingsControl1.Deselect();
+            // algorithmSettingsControl1.Deselect();
             // show algorithms
             var _selectedComputeDevice = ComputeDeviceManager.Available.GetCurrentlySelectedComputeDevice(e.ItemIndex, true);
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);

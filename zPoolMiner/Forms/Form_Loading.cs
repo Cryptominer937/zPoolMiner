@@ -13,7 +13,7 @@ namespace zPoolMiner
             void AfterLoadComplete();
         }
 
-        private int LoadCounter = 0;
+        private int LoadCounter;
         private int TotalLoadSteps = 12;
         private readonly IAfterInitializationCaller AfterInitCaller;
 
@@ -28,16 +28,16 @@ namespace zPoolMiner
             AfterInitCaller = initCaller;
 
             TotalLoadSteps = totalLoadSteps;
-            //progressBar1.Maximum = TotalLoadSteps;
+            // progressBar1.Maximum = TotalLoadSteps;
             progressBar1.Maximum = TotalLoadSteps;
-            //progressBar1.Value = 0;
+            // progressBar1.Value = 0;
             progressBar1.Value = 0;
 
             SetInfoMsg(startInfoMsg);
         }
 
         // download miners constructor
-        private MinersDownloader _minersDownloader = null;
+        private MinersDownloader _minersDownloader;
 
         public Form_Loading(MinersDownloader minersDownloader)
         {
@@ -54,21 +54,19 @@ namespace zPoolMiner
 
         public void SetProgressMaxValue(int maxValue)
         {
-            //progressBar1.Maximum = maxValue;
+            // progressBar1.Maximum = maxValue;
             progressBar1.Maximum = maxValue;
         }
 
-        public void SetInfoMsg(string infoMsg)
-        {
-            LoadText.Text = infoMsg;
-        }
+        public void SetInfoMsg(string infoMsg) => LoadText.Text = infoMsg;
 
         public void IncreaseLoadCounter()
         {
             LoadCounter++;
-            //progressBar1.Value = LoadCounter;
+            // progressBar1.Value = LoadCounter;
             progressBar1.Value = LoadCounter;
             Update();
+
             if (LoadCounter >= TotalLoadSteps)
             {
                 AfterInitCaller.AfterLoadComplete();
@@ -80,15 +78,13 @@ namespace zPoolMiner
         public void FinishLoad()
         {
             while (LoadCounter < TotalLoadSteps)
-            {
                 IncreaseLoadCounter();
-            }
         }
 
         public void SetValueAndMsg(int setValue, string infoMsg)
         {
             SetInfoMsg(infoMsg);
-            //progressBar1.Value = setValue;
+            // progressBar1.Value = setValue;
             progressBar1.Value = setValue;
             Update();
             /*if (progressBar1.Value >= progressBar1.Maximum)
@@ -105,10 +101,7 @@ namespace zPoolMiner
 
         #region IMessageNotifier
 
-        public void SetMessage(string infoMsg)
-        {
-            SetInfoMsg(infoMsg);
-        }
+        public void SetMessage(string infoMsg) => SetInfoMsg(infoMsg);
 
         public void SetMessageAndIncrementStep(string infoMsg)
         {
@@ -123,9 +116,9 @@ namespace zPoolMiner
         {
             Invoke((MethodInvoker)delegate
             {
-                //this.progressBar1.Maximum = max;
+                // this.progressBar1.Maximum = max;
                 progressBar1.Maximum = max;
-                //this.progressBar1.Value = 0;
+                // this.progressBar1.Value = 0;
                 progressBar1.Value = 0;
             });
         }
@@ -166,14 +159,9 @@ namespace zPoolMiner
         {
             Invoke((MethodInvoker)delegate
             {
-                if (ok)
-                {
-                    label_LoadingText.Text = "Init Finished!";
-                }
-                else
-                {
-                    label_LoadingText.Text = "Init Failed!";
-                }
+                if (ok) label_LoadingText.Text = "Init Finished!";
+                else label_LoadingText.Text = "Init Failed!";
+
                 System.Threading.Thread.Sleep(1000);
                 Close();
             });

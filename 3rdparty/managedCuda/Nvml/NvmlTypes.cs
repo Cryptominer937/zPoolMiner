@@ -1,23 +1,22 @@
-﻿//	Copyright (c) 2016, Michael Kunz. All rights reserved.
-//	http://kunzmi.github.io/managedCuda
+﻿// 	Copyright (c) 2016, Michael Kunz. All rights reserved.
+// 	http://kunzmi.github.io/managedCuda
 //
-//	This file is part of ManagedCuda.
+// 	This file is part of ManagedCuda.
 //
-//	ManagedCuda is free software: you can redistribute it and/or modify
-//	it under the terms of the GNU Lesser General Public License as 
-//	published by the Free Software Foundation, either version 2.1 of the 
-//	License, or (at your option) any later version.
+// 	ManagedCuda is free software: you can redistribute it and/or modify
+// 	it under the terms of the GNU Lesser General Public License as
+// 	published by the Free Software Foundation, either version 2.1 of the
+// 	License, or (at your option) any later version.
 //
-//	ManagedCuda is distributed in the hope that it will be useful,
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//	GNU Lesser General Public License for more details.
+// 	ManagedCuda is distributed in the hope that it will be useful,
+// 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// 	GNU Lesser General Public License for more details.
 //
-//	You should have received a copy of the GNU Lesser General Public
-//	License along with this library; if not, write to the Free Software
-//	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//	MA 02110-1301  USA, http://www.gnu.org/licenses/.
-
+// 	You should have received a copy of the GNU Lesser General Public
+// 	License along with this library; if not, write to the Free Software
+// 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+// 	MA 02110-1301  USA, http://www.gnu.org/licenses/.
 
 using System;
 using System.Runtime.InteropServices;
@@ -33,7 +32,6 @@ namespace ManagedCuda.Nvml
         PLX = 0,
         BRO4 = 1
     }
-
 
     /// <summary>
     /// enum to represent the NvLink utilization counter packet units
@@ -259,7 +257,6 @@ namespace ManagedCuda.Nvml
         SyncBoost = 2
     }
 
-
     /// <summary>
     /// Generic enable/disable enum.
     /// </summary>
@@ -274,7 +271,6 @@ namespace ManagedCuda.Nvml
         /// </summary>
         Enabled = 1
     }
-
 
     /// <summary>
     /// The Brand of the GPU
@@ -533,7 +529,6 @@ namespace ManagedCuda.Nvml
         LowDP = 2
     }
 
-
     /// <summary>
     /// Available infoROM objects.
     /// </summary>
@@ -706,7 +701,6 @@ namespace ManagedCuda.Nvml
         AutoBoostedClocks = 1
     }
 
-
     /// <summary>
     /// Fan state enum. 
     /// </summary>
@@ -829,9 +823,6 @@ namespace ManagedCuda.Nvml
         All = (None | GpuIdle | ApplicationsClocksSetting | SwPowerCap | HwSlowdown | SyncBoost | Unknown)
     }
     #endregion
-
-
-
 
     #region structs
     /// <summary>
@@ -1064,7 +1055,6 @@ namespace ManagedCuda.Nvml
         public string firmwareVersion;
     }
 
-
     /// <summary> 
     /// LED states for an S-class unit.
     /// </summary>
@@ -1109,8 +1099,6 @@ namespace ManagedCuda.Nvml
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 96)]
         public string firmwareVersion;
     }
-
-
 
     /// <summary> 
     /// Power usage information for an S-class unit.
@@ -1224,7 +1212,6 @@ namespace ManagedCuda.Nvml
         /// Maximum total memory in bytes that was ever allocated by the process. Set to NVML_VALUE_NOT_AVAILABLE if nvmlProcessInfo->usedGpuMemory is not supported
         /// </summary>
         public ulong maxMemoryUsage;
-
 
         /// <summary>
         /// Amount of time in ms during which the compute context was active. The time is reported as 0 if the process is not terminated
@@ -1341,17 +1328,11 @@ namespace ManagedCuda.Nvml
     /// <summary>
     /// NVML API versioning support
     /// </summary>
-    //#define NVML_API_VERSION            8
-    //#define NVML_API_VERSIONR        "8"
-    //#define nvmlInit                    nvmlInit_v2
-    //#define nvmlDeviceGetPciInfo        nvmlDeviceGetPciInfo_v2
-    //#define nvmlDeviceGetCount          nvmlDeviceGetCount_v2
-    //#define nvmlDeviceGetHandleByIndex  nvmlDeviceGetHandleByIndex_v2
-    //#define nvmlDeviceGetHandleByPciBusId nvmlDeviceGetHandleByPciBusId_v2
-
-
-
-
-
-
+    // #define NVML_API_VERSION            8
+    // #define NVML_API_VERSIONR        "8"
+    // #define nvmlInit                    nvmlInit_v2
+    // #define nvmlDeviceGetPciInfo        nvmlDeviceGetPciInfo_v2
+    // #define nvmlDeviceGetCount          nvmlDeviceGetCount_v2
+    // #define nvmlDeviceGetHandleByIndex  nvmlDeviceGetHandleByIndex_v2
+    // #define nvmlDeviceGetHandleByPciBusId nvmlDeviceGetHandleByPciBusId_v2
 }

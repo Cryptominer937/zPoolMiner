@@ -46,6 +46,7 @@
         {
             IsInit = false;
             CurrentAlgorithmType = AlgorithmType.NONE;
+
             if (miningPairs != null && miningPairs.Count > 0)
             {
                 MiningPairs = miningPairs;

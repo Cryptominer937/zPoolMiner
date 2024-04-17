@@ -143,37 +143,18 @@ namespace zPoolMiner.Devices
         private static bool ContainsSM(List<string> list, string text)
         {
             foreach (var el in list)
-            {
-                if (text.Contains(el))
-                {
-                    return true;
-                }
-            }
+                if (text.Contains(el)) return true;
+
             return false;
         }
 
         public static bool IsSupported(string text)
         {
-            if (ContainsSM(SM_1_0, text))
-            {
-                return false;
-            }
-            if (ContainsSM(SM_1_1, text))
-            {
-                return false;
-            }
-            if (ContainsSM(SM_1_2, text))
-            {
-                return false;
-            }
-            if (ContainsSM(SM_1_3, text))
-            {
-                return false;
-            }
-            if (ContainsSM(SM_2_0, text))
-            {
-                return false;
-            }
+            if (ContainsSM(SM_1_0, text)) return false;
+            if (ContainsSM(SM_1_1, text)) return false;
+            if (ContainsSM(SM_1_2, text)) return false;
+            if (ContainsSM(SM_1_3, text)) return false;
+            if (ContainsSM(SM_2_0, text)) return false;
 
             return true;
         }

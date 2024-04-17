@@ -100,16 +100,15 @@
         /// </summary>
         public static void InitMinerReservedPortsFile()
         {
-            MinerReservedPortsFile file = new MinerReservedPortsFile();
+            var file = new MinerReservedPortsFile();
             MinerReservedPorts = new Dictionary<MinerBaseType, Dictionary<string, Dictionary<AlgorithmType, List<int>>>>();
+
             if (file.IsFileExists())
             {
                 var read = file.ReadFile();
-                if (read != null)
-                {
-                    MinerReservedPorts = read;
-                }
+                if (read != null) MinerReservedPorts = read;
             }
+
             try
             {
                 for (MinerBaseType type = (MinerBaseType.NONE + 1); type < MinerBaseType.END; ++type)
@@ -119,26 +118,32 @@
                         MinerReservedPorts[type] = new Dictionary<string, Dictionary<AlgorithmType, List<int>>>();
                     }
                 }
+
                 for (DeviceGroupType devGroupType = (DeviceGroupType.NONE + 1); devGroupType < DeviceGroupType.LAST; ++devGroupType)
                 {
                     var minerAlgosForGroup = GroupAlgorithms.CreateDefaultsForGroup(devGroupType);
+
                     if (minerAlgosForGroup != null)
                     {
                         foreach (var mbaseKvp in minerAlgosForGroup)
                         {
-                            MinerBaseType minerBaseType = mbaseKvp.Key;
+                            var minerBaseType = mbaseKvp.Key;
+
                             if (MinerReservedPorts.ContainsKey(minerBaseType))
                             {
                                 var algos = mbaseKvp.Value;
+
                                 foreach (var algo in algos)
                                 {
                                     var algoType = algo.CryptoMiner937ID;
                                     var path = MinerPaths.GetPathFor(minerBaseType, algoType, devGroupType, 0);
                                     var isPathValid = path != MinerPaths.Data.NONE;
+
                                     if (isPathValid && MinerReservedPorts[minerBaseType].ContainsKey(path) == false)
                                     {
                                         MinerReservedPorts[minerBaseType][path] = new Dictionary<AlgorithmType, List<int>>();
                                     }
+
                                     if (isPathValid && MinerReservedPorts[minerBaseType][path] != null && MinerReservedPorts[minerBaseType][path].ContainsKey(algoType) == false)
                                     {
                                         MinerReservedPorts[minerBaseType][path][algoType] = new List<int>();
@@ -148,6 +153,7 @@
                         }
                     }
                 }
+
                 file.Commit(MinerReservedPorts);
                 // set all reserved
                 foreach (var paths in MinerReservedPorts.Values)
@@ -157,9 +163,7 @@
                         foreach (var ports in algos.Values)
                         {
                             foreach (int port in ports)
-                            {
                                 AllReservedPorts.Add(port);
-                            }
                         }
                     }
                 }
@@ -174,23 +178,26 @@
         /// </summary>
         public static void InitMinerSystemVariablesFile()
         {
-            MinerSystemVariablesFile file = new MinerSystemVariablesFile();
+            var file = new MinerSystemVariablesFile();
             MinerSystemVariables = new Dictionary<string, Dictionary<string, string>>();
-            bool isFileInit = false;
+            var isFileInit = false;
+
             if (file.IsFileExists())
             {
                 var read = file.ReadFile();
+
                 if (read != null)
                 {
                     isFileInit = true;
                     MinerSystemVariables = read;
                 }
             }
+
             if (!isFileInit)
             {
                 // general AMD defaults scope
                 {
-                    List<string> minerPaths = new List<string>()
+                    var minerPaths = new List<string>()
                     {
                         //MinerPaths.Data.sgminer_5_6_0_general,
                         //MinerPaths.Data.sgminer_gm,
@@ -207,6 +214,7 @@
                         //MinerPaths.Data.ClaymoreNeoscryptMiner,
                         //MinerPaths.Data.OptiminerZcashMiner
                     };
+
                     foreach (var minerPath in minerPaths)
                     {
                         MinerSystemVariables[minerPath] = new Dictionary<string, string>() {

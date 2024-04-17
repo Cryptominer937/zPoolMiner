@@ -1,7 +1,6 @@
 ﻿namespace zPoolMiner.Forms
 {
     using System;
-    using System.Collections.Generic;
     using System.Windows.Forms;
     using zPoolMiner.Configs;
     using zPoolMiner.Enums;
@@ -23,19 +22,18 @@
             InitializeComponent();
 
             // Add language selections list
-            Dictionary<LanguageType, string> lang = International.GetAvailableLanguages();
+            var lang = International.GetAvailableLanguages();
 
             comboBox_Languages.Items.Clear();
+
             for (int i = 0; i < lang.Count; i++)
-            {
                 comboBox_Languages.Items.Add(lang[(LanguageType)i]);
-            }
 
             comboBox_Languages.SelectedIndex = 0;
 
-            //label_Instruction.Location = new Point((this.Width - label_Instruction.Size.Width) / 2, label_Instruction.Location.Y);
-            //button_OK.Location = new Point((this.Width - button_OK.Size.Width) / 2, button_OK.Location.Y);
-            //comboBox_Languages.Location = new Point((this.Width - comboBox_Languages.Size.Width) / 2, comboBox_Languages.Location.Y);
+            // label_Instruction.Location = new Point((this.Width - label_Instruction.Size.Width) / 2, label_Instruction.Location.Y);
+            // button_OK.Location = new Point((this.Width - button_OK.Size.Width) / 2, button_OK.Location.Y);
+            // comboBox_Languages.Location = new Point((this.Width - comboBox_Languages.Size.Width) / 2, comboBox_Languages.Location.Y);
             textBox_TOS.Text = TOS_TEXT;
             textBox_TOS.ScrollBars = ScrollBars.Vertical;
         }

@@ -156,13 +156,15 @@
         {
             get
             {
-                //string ratio = International.GetText("BenchmarkRatioRateN_A");
-                string ratio = "N/A Please Disable";
+                // string ratio = International.GetText("BenchmarkRatioRateN_A");
+                var ratio = "N/A Please Disable";
+
                 if (Globals.CryptoMiner937Data != null)
                 {
                     try
                     {
                         ratio = Globals.CryptoMiner937Data[CryptoMiner937ID].paying.ToString("F8");
+
                         if (IsDual() && Globals.CryptoMiner937Data.ContainsKey(SecondaryCryptoMiner937ID))
                         {
                             ratio += "/" + Globals.CryptoMiner937Data[SecondaryCryptoMiner937ID].paying.ToString("F8");
@@ -185,8 +187,9 @@
         {
             get
             {
-                string rate = International.GetText("BenchmarkRatioRateN_A");
+                var rate = International.GetText("BenchmarkRatioRateN_A");
                 var payingRate = 0.0d;
+
                 if (Globals.CryptoMiner937Data != null)
                 {
                     if (BenchmarkSpeed > 0)
@@ -198,6 +201,7 @@
                             payingRate += 0;
                         }
                     }
+
                     if (SecondaryBenchmarkSpeed > 0 && IsDual())
                     {
                         payingRate += SecondaryBenchmarkSpeed * Globals.CryptoMiner937Data[SecondaryCryptoMiner937ID].paying * 0.000000001;
@@ -205,6 +209,7 @@
 
                     rate = payingRate.ToString("F8");
                 }
+
                 return rate;
             }
         }
@@ -221,10 +226,7 @@
         /// <summary>
         /// The SetBenchmarkPendingNoMsg
         /// </summary>
-        public void SetBenchmarkPendingNoMsg()
-        {
-            IsBenchmarkPending = true;
-        }
+        public void SetBenchmarkPendingNoMsg() => IsBenchmarkPending = true;
 
         /// <summary>
         /// The IsPendingString
@@ -244,10 +246,8 @@
         public void ClearBenchmarkPending()
         {
             IsBenchmarkPending = false;
-            if (IsPendingString())
-            {
-                BenchmarkStatus = "";
-            }
+
+            if (IsPendingString()) BenchmarkStatus = "";
         }
 
         /// <summary>
@@ -277,6 +277,7 @@
             {
                 return BenchmarkStatus;
             }
+
             return International.GetText("BenchmarkSpeedStringNone");
         }
 
@@ -307,6 +308,7 @@
                         return AlgorithmType.DaggerBlake2s;
                 }
             }
+
             return CryptoMiner937ID;
         }
 

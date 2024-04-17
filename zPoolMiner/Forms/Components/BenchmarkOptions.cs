@@ -8,10 +8,7 @@ namespace zPoolMiner.Forms.Components
     {
         public BenchmarkPerformanceType PerformanceType { get; private set; }
 
-        public BenchmarkOptions()
-        {
-            InitializeComponent();
-        }
+        public BenchmarkOptions() => InitializeComponent();
 
         public void SetPerformanceType(BenchmarkPerformanceType performanceType)
         {

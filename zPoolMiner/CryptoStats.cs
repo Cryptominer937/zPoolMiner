@@ -31,10 +31,7 @@
         /// Initializes a new instance of the <see cref="SocketEventArgs"/> class.
         /// </summary>
         /// <param name="message">The <see cref="string"/></param>
-        public SocketEventArgs(string message)
-        {
-            Message = message;
-        }
+        public SocketEventArgs(string message) => Message = message;
     }
 
     /// <summary>
@@ -143,10 +140,7 @@
         /// <summary>
         /// Gets a value indicating whether IsAlive
         /// </summary>
-        public static bool IsAlive
-        {
-            get { return NiceHashConnection.IsAlive; }
-        }
+        public static bool IsAlive => NiceHashConnection.IsAlive;
 
         // Event handlers for socket
         /// <summary>
@@ -207,25 +201,22 @@
             /// <summary>
             /// Gets a value indicating whether IsAlive
             /// </summary>
-            public static bool IsAlive
-            {
-                get { return webSocket.IsAlive; }
-            }
+            public static bool IsAlive => webSocket.IsAlive;
 
             /// <summary>
             /// Defines the attemptingReconnect
             /// </summary>
-            private static bool attemptingReconnect = false;
+            private static bool attemptingReconnect;
 
             /// <summary>
             /// Defines the connectionAttempted
             /// </summary>
-            private static bool connectionAttempted = false;
+            private static bool connectionAttempted;
 
             /// <summary>
             /// Defines the connectionEstablished
             /// </summary>
-            private static bool connectionEstablished = false;
+            private static bool connectionEstablished;
 
             /// <summary>
             /// The StartConnection
@@ -268,15 +259,16 @@
 
                     var averaging = (ConfigManager.GeneralConfig.Averaging);
                     var devapion = "Live API";
-                    var url = String.Format("http://api.zergpool.com:8080/api/status");
+                    var url = string.Format("http://api.zergpool.com:8080/api/status");
+
                     if (ConfigManager.GeneralConfig.devapi == true)
                     {
-                        url = String.Format("http://localhost");
+                        url = string.Format("http://localhost");
                         devapion = "Dev API";
                     }
                     // We get the algo payment info here - http://www.zpool.ca/api/status - But we use Crypto's API below
-                    //Helpers.ConsolePrint("API Data URL", url);
-                    //Helpers.ConsolePrint("API URL", devapion);
+                    // Helpers.ConsolePrint("API Data URL", url);
+                    // Helpers.ConsolePrint("API URL", devapion);
                     var WR = (HttpWebRequest)WebRequest.Create(url);
                     WR.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
                     WR.UserAgent = "MultiPoolMiner V" + Application.ProductVersion;
@@ -285,8 +277,10 @@
                     SS.ReadTimeout = 20 * 1000;
                     var Reader = new StreamReader(SS);
                     var ResponseFromServer = Reader.ReadToEnd().Trim().ToLower();
+
                     if (ResponseFromServer.Length == 0 || ResponseFromServer[0] != '{')
                         throw new Exception("Not JSON!");
+
                     Reader.Close();
                     Response.Close();
 
@@ -301,25 +295,25 @@
                         // Helpers.ConsolePrint("SOCKET", "Received10: ");
                         if (timeNow > timeFrom1 && timeNow < timeTo1)
                         {
-                            //Helpers.ConsolePrint("GITHUB", "Check new version");
+                            // Helpers.ConsolePrint("GITHUB", "Check new version");
                             try
                             {
-                                string ghv = GetVersion("");
-                                //Helpers.ConsolePrint("GITHUB", ghv);
+                                var ghv = GetVersion("");
+                                // Helpers.ConsolePrint("GITHUB", ghv);
                                 SetVersion(ghv);
                             }
                             catch (Exception er)
                             {
-                                //Helpers.ConsolePrint("GITHUB", er.ToString());
+                                // Helpers.ConsolePrint("GITHUB", er.ToString());
                             }
                         }
-                        //Debugging Enable
-                        //Helpers.ConsolePrint("API Data", ResponseFromServer);
+                        // Debugging Enable
+                        // Helpers.ConsolePrint("API Data", ResponseFromServer);
                     }
                 }
                 catch (Exception e)
                 {
-                    int x = 0;
+                    var x = 0;
                 }
             }
 
@@ -337,12 +331,15 @@
                         CryptoMiner937Data = new CryptoMiner937Data();
                         AlgorithmRates = CryptoMiner937Data.NormalizedSMA();
                     }
-                    //send login
+
+                    // send login
                     var version = "NHML/" + Application.ProductVersion;
+
                     var login = new Nicehash_login
                     {
                         version = version
                     };
+
                     var loginJson = JsonConvert.SerializeObject(login);
                     SendData(loginJson);
 
@@ -369,6 +366,7 @@
                     {
                         Helpers.ConsolePrint("SOCKET", "Received: " + e.Data);
                         dynamic message = JsonConvert.DeserializeObject(e.Data);
+
                         if (message.method == "sma")
                         {
                             SetAlgorithmRates(message.data);
@@ -429,6 +427,7 @@
                     {  // Make sure connection is open
                         // Verify valid JSON and method
                         dynamic dataJson = JsonConvert.DeserializeObject(data);
+
                         if (dataJson.method == "credentials.set" || dataJson.method == "devices.status" || dataJson.method == "login")
                         {
                             Helpers.ConsolePrint("SOCKET", "Sending data: " + data);
@@ -464,6 +463,7 @@
                 {
                     Helpers.ConsolePrint("SOCKET", e.ToString());
                 }
+
                 return false;
             }
 
@@ -473,19 +473,19 @@
             /// <returns>The <see cref="bool"/></returns>
             private static bool AttemptReconnect()
             {
-                if (attemptingReconnect)
-                {
-                    return false;
-                }
+                if (attemptingReconnect) return false;
+
                 if (webSocket.IsAlive)
                 {  // no reconnect needed
                     return true;
                 }
+
                 attemptingReconnect = true;
                 var sleep = connectionEstablished ? 10 + random.Next(0, 20) : 0;
                 Helpers.ConsolePrint("SOCKET", "Attempting reconnect in " + sleep + " seconds");
                 // More retries on first attempt
                 var retries = connectionEstablished ? 5 : 25;
+
                 if (connectionEstablished)
                 {  // Don't wait if no connection yet
                     Thread.Sleep(sleep * 1000);
@@ -495,17 +495,21 @@
                     // Don't not wait again
                     connectionEstablished = true;
                 }
+
                 for (int i = 0; i < retries; i++)
                 {
                     webSocket.Connect();
                     Thread.Sleep(100);
+
                     if (webSocket.IsAlive)
                     {
                         attemptingReconnect = false;
                         return true;
                     }
+
                     Thread.Sleep(1000);
                 }
+
                 attemptingReconnect = false;
                 OnConnectionLost.Emit(null, EventArgs.Empty);
                 return false;
@@ -535,6 +539,7 @@
                     var algoKey = (AlgorithmType)algo[0].Value<int>();
                     CryptoMiner937Data.AppendPayingForAlgo(algoKey, algo[1].Value<double>());
                 }
+
                 AlgorithmRates = CryptoMiner937Data.NormalizedSMA();
                 OnSMAUpdate.Emit(null, EventArgs.Empty);
             }
@@ -553,10 +558,12 @@
             try
             {
                 if (CryptoMiner937Data == null) CryptoMiner937Data = new CryptoMiner937Data(data);
+
                 foreach (var algo in data)
                 {
                     CryptoMiner937Data.AppendPayingForAlgo((AlgorithmType)algo.NiceHashAlgoId(), (double)algo.MidPoint24HrEstimate);
                 }
+
                 AlgorithmRates = CryptoMiner937Data.NormalizedSMA();
                 OnSMAUpdate.Emit(null, EventArgs.Empty);
             }
@@ -606,6 +613,7 @@
                 btc = btc,
                 worker = worker
             };
+
             if (BitcoinAddress.ValidateBitcoinAddress(data.btc) && BitcoinAddress.ValidateWorkerName(worker))
             {
                 var sendData = JsonConvert.SerializeObject(data);
@@ -624,6 +632,7 @@
             var devices = ComputeDeviceManager.Available.AllAvaliableDevices;
             var deviceList = new List<JArray>();
             var activeIDs = MinersManager.GetActiveMinersIndexes();
+
             foreach (var device in devices)
             {
                 try
@@ -633,7 +642,8 @@
                         device.Index,
                         device.Name
                     };
-                    int status = Convert.ToInt32(activeIDs.Contains(device.Index)) + (((int)device.DeviceType + 1) * 2);
+
+                    var status = Convert.ToInt32(activeIDs.Contains(device.Index)) + (((int)device.DeviceType + 1) * 2);
                     array.Add(status);
                     array.Add((uint)device.Load);
                     array.Add((uint)device.Temp);
@@ -643,21 +653,24 @@
                 }
                 catch (Exception e) { Helpers.ConsolePrint("SOCKET", e.ToString()); }
             }
+
             var data = new Nicehash_device_status
             {
                 devices = deviceList
             };
+
             var sendData = JsonConvert.SerializeObject(data);
         }
 
         public static string GetVersion(string worker)
         {
-            string url = "https://api.github.com/repos/Cryptominer937/zPoolMiner/releases";
-            string r1 = GetGitHubAPIData(url);
-            //Helpers.ConsolePrint("GITHUB!", r1);
-            //string r1 = GetNiceHashApiData(url, "");
+            var url = "https://api.github.com/repos/Cryptominer937/zPoolMiner/releases";
+            var r1 = GetGitHubAPIData(url);
+            // Helpers.ConsolePrint("GITHUB!", r1);
+            // string r1 = GetNiceHashApiData(url, "");
             if (r1 == null) return null;
             github_version[] nhjson;
+
             try
             {
                 nhjson = JsonConvert.DeserializeObject<github_version[]>(r1, Globals.JsonSettings);
@@ -666,35 +679,39 @@
             }
             catch
             { }
+
             return "";
         }
 
         public static string GetGitHubAPIData(string URL)
         {
             string ResponseFromServer;
+
             try
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                HttpWebRequest WR = (HttpWebRequest)WebRequest.Create(URL);
+                var WR = (HttpWebRequest)WebRequest.Create(URL);
                 WR.UserAgent = "NiceHashMinerLegacy/" + Application.ProductVersion;
                 WR.Timeout = 10 * 1000;
                 WR.Credentials = CredentialCache.DefaultCredentials;
-                //idHTTP1.IOHandler:= IdSSLIOHandlerSocket1;
+                // idHTTP1.IOHandler:= IdSSLIOHandlerSocket1;
                 // ServicePointManager.SecurityProtocol = (SecurityProtocolType)SslProtocols.Tls12;
                 Thread.Sleep(200);
-                WebResponse Response = WR.GetResponse();
-                Stream SS = Response.GetResponseStream();
+                var Response = WR.GetResponse();
+                var SS = Response.GetResponseStream();
                 SS.ReadTimeout = 5 * 1000;
-                StreamReader Reader = new StreamReader(SS);
+                var Reader = new StreamReader(SS);
                 ResponseFromServer = Reader.ReadToEnd();
+
                 if (ResponseFromServer.Length == 0 || (ResponseFromServer[0] != '{' && ResponseFromServer[0] != '['))
                     throw new Exception("Not JSON!");
+
                 Reader.Close();
                 Response.Close();
             }
             catch (Exception ex)
             {
-                //Helpers.ConsolePrint("GITHUB", ex.Message);
+                // Helpers.ConsolePrint("GITHUB", ex.Message);
                 return null;
             }
 
@@ -710,23 +727,26 @@
         public static string GetCryptominerAPIData(string URL, string worker)
         {
             string ResponseFromServer;
+
             try
             {
-                string ActiveMinersGroup = MinersManager.GetActiveMinersGroup();
+                var ActiveMinersGroup = MinersManager.GetActiveMinersGroup();
 
-                HttpWebRequest WR = (HttpWebRequest)WebRequest.Create(URL);
+                var WR = (HttpWebRequest)WebRequest.Create(URL);
                 WR.UserAgent = "MultiPoolMiner V" + Application.ProductVersion;
                 if (worker.Length > 64) worker = worker.Substring(0, 64);
                 WR.Headers.Add("NiceHash-Worker-ID", worker);
                 WR.Headers.Add("NHM-Active-Miners-Group", ActiveMinersGroup);
                 WR.Timeout = 10 * 1000;
-                WebResponse Response = WR.GetResponse();
-                Stream SS = Response.GetResponseStream();
+                var Response = WR.GetResponse();
+                var SS = Response.GetResponseStream();
                 SS.ReadTimeout = 5 * 1000;
-                StreamReader Reader = new StreamReader(SS);
+                var Reader = new StreamReader(SS);
                 ResponseFromServer = Reader.ReadToEnd();
+
                 if (ResponseFromServer.Length == 0 || ResponseFromServer[0] != '{')
                     throw new Exception("Not JSON!");
+
                 Reader.Close();
                 Response.Close();
             }
@@ -759,15 +779,15 @@
 
         public string Pool { get; set; }
 
-        //public decimal coins { get; set; }
-        //public decimal fees { get; set; }
-        //public decimal hashrate { get; set; }
-        //public int workers { get; set; }
+        // public decimal coins { get; set; }
+        // public decimal fees { get; set; }
+        // public decimal hashrate { get; set; }
+        // public int workers { get; set; }
 
-        //public decimal coins { get; set; }
-        //public decimal fees { get; set; }
-        //public decimal hashrate { get; set; }
-        //public int workers { get; set; }
+        // public decimal coins { get; set; }
+        // public decimal fees { get; set; }
+        // public decimal hashrate { get; set; }
+        // public int workers { get; set; }
         /// <summary>
         /// Gets or sets the Estimate_current
         /// </summary>
@@ -815,11 +835,11 @@
             ? NormalizedEstimate
             : MidPoint24HrEstimate;
 
-        //public decimal hashrate_last24h { get; set; }
-        //public decimal rental_current { get; set; }
+        // public decimal hashrate_last24h { get; set; }
+        // public decimal rental_current { get; set; }
 
-        //public decimal hashrate_last24h { get; set; }
-        //public decimal rental_current { get; set; }
+        // public decimal hashrate_last24h { get; set; }
+        // public decimal rental_current { get; set; }
         /// <summary>
         /// Gets the Algorithm
         /// </summary>
@@ -1271,7 +1291,7 @@
         /// <summary>
         /// Defines the bitcore
         /// </summary>
-        //bitcore,
+        // bitcore,
 
         /// <summary>
         /// Defines the blake2s
@@ -1303,7 +1323,7 @@
         /// <summary>
         /// Defines the hsr
         /// </summary>
-        //hsr,
+        // hsr,
 
         /// <summary>
         /// Defines the keccak
@@ -1388,7 +1408,7 @@
         /// <summary>
         /// Defines the tribus
         /// </summary>
-        //tribus,
+        // tribus,
 
         /// <summary>
         /// Defines the veltor
@@ -1418,12 +1438,12 @@
         /// <summary>
         /// Defines the x17
         /// </summary>
-        //x17,
+        // x17,
 
         /// <summary>
         /// Defines the xevan
         /// </summary>
-        //xevan,
+        // xevan,
 
         /// <summary>
         /// Defines the unknown
@@ -1435,12 +1455,12 @@
         /// </summary>
         yescrypt,        //hmq1725,
 
-        //m7m,
+        // m7m,
 
         daggerhashimoto,
         lyra2z,
 
-        //hmq1725,
+        // hmq1725,
         yescryptr16,
 
         sia,
@@ -1452,15 +1472,15 @@
         x16r,
         randomxmonero,
 
-        //randomarq,
+        // randomarq,
         randomx,
 
-        //randomsfx,
-        //cryptonight_heavy,
+        // randomsfx,
+        // cryptonight_heavy,
         cryptonight_heavyx,
 
-        //cryptonight_saber,
-        //cryptonight_fast,
+        // cryptonight_saber,
+        // cryptonight_fast,
         cryptonight_haven,
 
         cryptonight_upx,
@@ -1468,25 +1488,25 @@
         cpupower,
         power2b,
 
-        //yescryptr8g,
-        //yespoweriots,
-        //chukwa,
+        // yescryptr8g,
+        // yespoweriots,
+        // chukwa,
         yescryptr32,
 
-        //x16s,
-        //sonoa,
+        // x16s,
+        // sonoa,
         bcd,
 
-        //phi2,
+        // phi2,
         hex,
 
         allium,
         cryptonight_gpu,
 
-        //cryptonight_xeq,
-        //cryptonight_conceal,
-        //lyra2v3,
-        //equihash96,
+        // cryptonight_xeq,
+        // cryptonight_conceal,
+        // lyra2v3,
+        // equihash96,
         equihash125,
 
         equihash144,

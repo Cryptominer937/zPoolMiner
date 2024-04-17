@@ -10,12 +10,13 @@ namespace zPoolMiner.Miners
 
         public static bool IsPortAvaliable(int port)
         {
-            bool isAvailable = true;
+            var isAvailable = true;
 
-            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
             // check TCP
             {
                 var tcpIpEndpoints = ipGlobalProperties.GetActiveTcpListeners();
+
                 foreach (var tcp in tcpIpEndpoints)
                 {
                     if (tcp.Port == port)
@@ -25,10 +26,12 @@ namespace zPoolMiner.Miners
                     }
                 }
             }
+
             // check UDP
             if (isAvailable)
             {
                 var udpIpEndpoints = ipGlobalProperties.GetActiveUdpListeners();
+
                 foreach (var udp in udpIpEndpoints)
                 {
                     if (udp.Port == port)
@@ -38,13 +41,15 @@ namespace zPoolMiner.Miners
                     }
                 }
             }
+
             return isAvailable;
         }
 
         public static int GetAvaliablePort()
         {
-            int port = ConfigManager.GeneralConfig.ApiBindPortPoolStart;
-            int newPortEnd = port + 3000;
+            var port = ConfigManager.GeneralConfig.ApiBindPortPoolStart;
+            var newPortEnd = port + 3000;
+
             for (; port < newPortEnd; ++port)
             {
                 if (MinersSettingsManager.AllReservedPorts.Contains(port) == false && IsPortAvaliable(port) && _usedPorts.Add(port))
@@ -52,12 +57,10 @@ namespace zPoolMiner.Miners
                     break;
                 }
             }
+
             return port;
         }
 
-        public static void RemovePort(int port)
-        {
-            _usedPorts.Remove(port);
-        }
+        public static void RemovePort(int port) => _usedPorts.Remove(port);
     }
 }

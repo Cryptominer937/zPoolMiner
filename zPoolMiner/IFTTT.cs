@@ -25,9 +25,9 @@
         {
             try
             {
-                string key = ConfigManager.GeneralConfig.IFTTTKey;
-                string worker = ConfigManager.GeneralConfig.WorkerName;
-                string minProfit = ConfigManager.GeneralConfig.MinimumProfit.ToString("F2").Replace(',', '.');
+                var key = ConfigManager.GeneralConfig.IFTTTKey;
+                var worker = ConfigManager.GeneralConfig.WorkerName;
+                var minProfit = ConfigManager.GeneralConfig.MinimumProfit.ToString("F2").Replace(',', '.');
 
                 using (WebClient client = new WebClient())
                 {

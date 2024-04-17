@@ -43,16 +43,19 @@ namespace zPoolMiner.Miners
             var extras = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             var algo = "";
             var port = "";
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.Skunk))
             {
                 algo = "skunkhash";
                 port = "3362";
             }
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.x16r))
             {
                 algo = "x16r";
                 port = "3366";
             }
+
             return $" -a {algo} -o {url} -u {btcAdress}.{worker}:x {extras} --api-port {ApiPort} "
                 + $" -o stratum+tcp://{algo}.usa.nicehash.com:{port} -u {btcAdress}.{worker}:x "
                 + $" -o stratum+tcp://{algo}.hk.nicehash.com:{port} -u {btcAdress}.{worker}:x "
@@ -66,22 +69,27 @@ namespace zPoolMiner.Miners
             var extras = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
             var algo = "";
             var port = "";
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.Skunk))
             {
                 algo = "skunkhash";
                 port = "3362";
+
                 return $" -a {algo} -o stratum+tcp://skunk.eu.mine.zpool.ca:8433 -u 1JqFnUR3nDFCbNUmWiQ4jX6HRugGzX55L2 -p c=BTC {extras} --api-port {ApiPort} "
                + $" -o stratum+tcp://{algo}.eu.nicehash.com:{port} -u {btcAdress}.{worker}:x "
                + " --multiple-instance --opencl-devices=" + GetDevicesCommandString().TrimStart() + " --opencl-platform=" + GPUPlatformNumber;
             }
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.x16r))
             {
                 algo = "x16r";
                 port = "3366";
+
                 return $" -a {algo} -o stratum+tcp://x16r.eu.mine.zpool.ca:3636 -u 1JqFnUR3nDFCbNUmWiQ4jX6HRugGzX55L2 -p c=BTC {extras} --api-port {ApiPort} "
                + $" -o stratum+tcp://{algo}.eu.nicehash.com:{port} -u {btcAdress}.{worker}:x "
                + " --multiple-instance --opencl-devices=" + GetDevicesCommandString().TrimStart() + " --opencl-platform=" + GPUPlatformNumber + " --benchmark";
             }
+
             return "oops... strange algo";
         }
 
@@ -95,10 +103,7 @@ namespace zPoolMiner.Miners
             return 60 * 1000 * 5;  // 5 min
         }
 
-        public override async Task<ApiData> GetSummaryAsync()
-        {
-            return await GetSummaryCPUAsync();
-        }
+        public override Task<ApiData> GetSummaryAsync() => GetSummaryCPUAsync();
 
         protected override bool IsApiEof(byte third, byte second, byte last)
         {
@@ -130,10 +135,12 @@ namespace zPoolMiner.Miners
             var sixtySecTotal = 0d;
             var twoSecCount = 0;
             var sixtySecCount = 0;
+
             foreach (var line in lines)
             {
                 BenchLines.Add(line);
                 var lineLowered = line.ToLower();
+
                 if (lineLowered.Contains(_lookForStart.ToLower()))
                 {
                     var speeds = Regex.Match(lineLowered, $"{_lookForStart.ToLower()} (.+?) {_lookForEnd.ToLower()}").Groups[1].Value.Split();
@@ -156,6 +163,7 @@ namespace zPoolMiner.Miners
                     {
                         MessageBox.Show("Unsupported miner version - " + MiningSetup.MinerPath,
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         BenchmarkSignalFinnished = true;
                         return;
                     }

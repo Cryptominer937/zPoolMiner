@@ -8,11 +8,13 @@ namespace zPoolMiner
         {
             // allow only one zero
             var textBox = sender as TextBox;
+
             if (textBox.SelectionLength != textBox.Text.Length && IsHandleZero(e, textBox.Text))
             {
                 e.Handled = true;
                 return;
             }
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
@@ -23,16 +25,15 @@ namespace zPoolMiner
         {
             // allow only one zero
             var textBox = sender as TextBox;
-            string checkText = textBox.Text;
+            var checkText = textBox.Text;
+
             if (e.KeyChar != '.' && textBox.SelectionLength != textBox.Text.Length && IsHandleZero(e, checkText) && !checkText.Contains("."))
             {
                 e.Handled = true;
                 return;
             }
-            if (DoubleInvalid(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+
+            if (DoubleInvalid(e.KeyChar)) e.Handled = true;
             // only allow one decimal point
             if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
             {
@@ -40,10 +41,7 @@ namespace zPoolMiner
             }
         }
 
-        private static bool DoubleInvalid(char c)
-        {
-            return !char.IsControl(c) && !char.IsDigit(c) && (c != '.');
-        }
+        private static bool DoubleInvalid(char c) => !char.IsControl(c) && !char.IsDigit(c) && (c != '.');
 
         private static bool IsHandleZero(KeyPressEventArgs e, string checkText)
         {
@@ -51,6 +49,7 @@ namespace zPoolMiner
             {
                 return true;
             }
+
             return false;
         }
     }

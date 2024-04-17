@@ -12,10 +12,10 @@ namespace zPoolMiner.Miners
 {
     public class XmrStakGPUSettings
     {
-        public int index = 0;
+        public int index;
         public int intensity = 1000;
         public int worksize = 8;
-        public bool affine_to_cpu = false;
+        public bool affine_to_cpu;
 
         public XmrStakGPUSettings(int index, int intensity, int worksize = 8, bool affine_to_cpu = false)
         {
@@ -36,10 +36,10 @@ namespace zPoolMiner.Miners
         public void Initialize_gpu_threads_conf(List<XmrStakGPUSettings> gpuSettings)
         {
             gpu_threads_conf = new List<JObject>();
+
             foreach (var settings in gpuSettings)
-            {
                 gpu_threads_conf.Add(JObject.FromObject(settings));
-            }
+
             gpu_thread_num = gpuSettings.Count;
         }
 
@@ -69,7 +69,7 @@ namespace zPoolMiner.Miners
         /*
          * Platform index. This will be 0 unless you have different OpenCL platform - eg. AMD and Intel.
          */
-        public int platform_index = 0;
+        public int platform_index;
     }
 
     internal class XmrStakAMD : XmrStak
@@ -92,22 +92,27 @@ namespace zPoolMiner.Miners
             {
                 var config = new XmrStakAMDConfig(pool, wallet, ApiPort);
                 var gpuConfigs = new List<XmrStakGPUSettings>();
+
                 foreach (var pair in MiningSetup.MiningPairs)
                 {
                     var intensities = ExtraLaunchParametersParser.GetIntensityStak(pair);
                     if (intensities.Count <= 0) intensities.Add(1000);
+
                     gpuConfigs.AddRange(intensities.Select(intensity =>
                         new XmrStakGPUSettings(pair.Device.ID, intensity)));
                 }
+
                 config.Initialize_gpu_threads_conf(gpuConfigs);
+
                 var serializer = new JsonSerializer
                 {
                     TypeNameHandling = TypeNameHandling.All
                 };
+
                 var confJson = JObject.FromObject(config);
                 var writeStr = confJson.ToString();
                 var start = writeStr.IndexOf("{");
-                int end = writeStr.LastIndexOf("}");
+                var end = writeStr.LastIndexOf("}");
                 writeStr = writeStr.Substring(start + 1, end - 1);
                 System.IO.File.WriteAllText(WorkingDirectory + GetConfigFileName(), writeStr);
             }
@@ -117,28 +122,32 @@ namespace zPoolMiner.Miners
         public override async Task<ApiData> GetSummaryAsync()
         {
             string resp;
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
-            string DataToSend = GetHttpRequestNHMAgentStrin("h");
+            var DataToSend = GetHttpRequestNHMAgentStrin("h");
 
             resp = await GetAPIDataAsync(ApiPort, DataToSend, false, true);
+
             if (resp == null)
             {
                 Helpers.ConsolePrint(MinerTag(), ProcessTag() + " summary is null");
                 CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
+
             const string Totals = "Totals:";
             const string Highest = "Highest:";
-            int start_i = resp.IndexOf(Totals);
-            int end_i = resp.IndexOf(Highest);
+            var start_i = resp.IndexOf(Totals);
+            var end_i = resp.IndexOf(Highest);
+
             if (start_i > -1 && end_i > -1)
             {
-                string sub_resp = resp.Substring(start_i, end_i - start_i);
+                var sub_resp = resp.Substring(start_i, end_i - start_i);
                 sub_resp = sub_resp.Replace(Totals, "");
                 sub_resp = sub_resp.Replace(Highest, "");
                 sub_resp = Regex.Replace(sub_resp, "<.*?>", string.Empty);  // Remove HTML tags
                 var strings = sub_resp.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
                 foreach (var s in strings)
                 {
                     if (double.TryParse(s, out var speed))
@@ -149,6 +158,7 @@ namespace zPoolMiner.Miners
                     }
                 }
             }
+
             // check if speed zero
             if (ad.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
 

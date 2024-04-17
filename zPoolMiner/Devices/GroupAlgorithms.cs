@@ -18,6 +18,7 @@
             if (device != null)
             {
                 var algoSettings = CreateDefaultsForGroup(device.DeviceGroupType);
+
                 if (algoSettings != null)
                 {
                     if (device.DeviceType == DeviceType.AMD)
@@ -26,20 +27,20 @@
                         if (algoSettings.ContainsKey(MinerBaseType.sgminer))
                         {
                             var sgminerAlgos = algoSettings[MinerBaseType.sgminer];
-                            int Lyra2REv2_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
-                            //int NeoScrypt_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.NeoScrypt);
-                            int cryptonight_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.cryptonight);
+                            var Lyra2REv2_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
+                            // int NeoScrypt_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.NeoScrypt);
+                            var cryptonight_Index = sgminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.cryptonight);
 
                             // Check for optimized version
                             if (Lyra2REv2_Index > -1)
                             {
                                 sgminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--nfactor 10 --xintensity 64 --thread-concurrency 0 --worksize 64 --gpu-threads 2";
                             }
-                            //if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
-                            //{
+                            // if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
+                            // {
                             //    sgminerAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
                             //    Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
-                            //}
+                            // }
                             if (cryptonight_Index > -1)
                             {
                                 if (device.Codename.Contains("Hawaii"))
@@ -52,12 +53,13 @@
                                 }
                             }
                         }
+
                         if (algoSettings.ContainsKey(MinerBaseType.GatelessGate))
                         {
                             var glgAlgos = algoSettings[MinerBaseType.GatelessGate];
-                            int Lyra2REv2_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
-                            int NeoScrypt_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.NeoScrypt);
-                            int cryptonight_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.cryptonight);
+                            var Lyra2REv2_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
+                            var NeoScrypt_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.NeoScrypt);
+                            var cryptonight_Index = glgAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.cryptonight);
 
                             // Check for optimized version
                             if (!device.Codename.Contains("Tahiti") && NeoScrypt_Index > -1)
@@ -65,16 +67,19 @@
                                 glgAlgos[NeoScrypt_Index].ExtraLaunchParameters = AmdGpuDevice.DefaultParam + "--intensity 13 --worksize  256 --gpu-threads 1";
                                 Helpers.ConsolePrint("ComputeDevice", "The GPU detected (" + device.Codename + ") is not Tahiti. Changing default gpu-threads to 2.");
                             }
+
                             if (cryptonight_Index > -1)
                             {
                                 if (device.Codename.Contains("gfx804")) //rx550
                                 {
                                     glgAlgos[cryptonight_Index].ExtraLaunchParameters = "--rawintensity 448 -w 8 -g 2";
                                 }
+
                                 if (device.Codename.Contains("Pitcairn")) //r7-370
                                 {
                                     glgAlgos[cryptonight_Index].ExtraLaunchParameters = "--rawintensity 416 -w 8 -g 2";
                                 }
+
                                 if (device.Codename.Contains("Baffin")) //rx460/560
                                 {
                                     glgAlgos[cryptonight_Index].ExtraLaunchParameters = "--rawintensity 448 -w 8 -g 2";
@@ -111,17 +116,19 @@
                                 }
                             }
                         }
+
                         // non sgminer optimizations
                         if (algoSettings.ContainsKey(MinerBaseType.Claymore))
                         {
                             var claymoreNewAlgos = algoSettings[MinerBaseType.Claymore];
+
                             var cryptonightNewIndex =
                                 claymoreNewAlgos.FindIndex(el => el.CryptoMiner937ID == AlgorithmType.cryptonight);
 
                             if (cryptonightNewIndex > -1)
                             {
-                                //string regex_a_3 = "[5|6][0-9][0-9][0-9]";
-                                List<string> a_4 = new List<string>() {
+                                // string regex_a_3 = "[5|6][0-9][0-9][0-9]";
+                                var a_4 = new List<string>() {
                                     "270",
                                     "270x",
                                     "280",
@@ -133,19 +140,16 @@
                                     "390",
                                     "470",
                                     "480"};
-                                foreach (var namePart in a_4)
-                                {
-                                    if (device.Name.Contains(namePart))
-                                    {
-                                        break;
-                                    }
-                                }
 
-                                List<string> old = new List<string> {
+                                foreach (var namePart in a_4)
+                                    if (device.Name.Contains(namePart)) break;
+
+                                var old = new List<string> {
                                     "Verde",
                                     "Oland",
                                     "Bonaire"
                                 };
+
                                 foreach (var codeName in old)
                                 {
                                     var isOld = device.Codename.Contains(codeName);
@@ -157,14 +161,14 @@
                         // drivers algos issue
                         if (device.DriverDisableAlgos)
                         {
-                            //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
-                            //algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
+                            // algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.NeoScrypt, AlgorithmType.Lyra2REv2 });
+                            // algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.Lyra2REv2 });
                         }
 
                         if (algoSettings.ContainsKey(MinerBaseType.mkxminer))
                         {
                             var mkxminerAlgos = algoSettings[MinerBaseType.mkxminer];
-                            int Lyra2REv2_Index = mkxminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
+                            var Lyra2REv2_Index = mkxminerAlgos.FindIndex((el) => el.CryptoMiner937ID == AlgorithmType.Lyra2REv2);
 
                             if (Lyra2REv2_Index > -1)
                             {
@@ -172,10 +176,12 @@
                                 {
                                     mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
                                 }
+
                                 if (device.Codename.Contains("Pitcairn")) //r7-370
                                 {
                                     mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
                                 }
+
                                 if (device.Codename.Contains("Baffin")) //rx460/560
                                 {
                                     mkxminerAlgos[Lyra2REv2_Index].ExtraLaunchParameters = "-I 23";
@@ -196,20 +202,19 @@
                                 }
                             }
                         }
-
                         // disable by default
                         {
                             var minerBases = new List<MinerBaseType>() { MinerBaseType.OptiminerAMD };
+
                             foreach (var minerKey in minerBases)
                             {
                                 if (algoSettings.ContainsKey(minerKey))
                                 {
                                     foreach (var algo in algoSettings[minerKey])
-                                    {
                                         algo.Enabled = false;
-                                    }
                                 }
                             }
+
                             if (algoSettings.ContainsKey(MinerBaseType.sgminer))
                             {
                                 foreach (var algo in algoSettings[MinerBaseType.sgminer])
@@ -220,6 +225,7 @@
                                     }
                                 }
                             }
+
                             if (algoSettings.ContainsKey(MinerBaseType.Claymore))
                             {
                                 foreach (var algo in algoSettings[MinerBaseType.Claymore])
@@ -228,6 +234,7 @@
                                     {
                                         algo.Enabled = false;
                                     }
+
                                     if (device.Codename.Contains("gfx804"))
                                     {
                                         if (algo.CryptoMiner937ID == AlgorithmType.NeoScrypt)
@@ -235,6 +242,7 @@
                                             algo.Enabled = false;
                                         }
                                     }
+
                                     if (algoSettings.ContainsKey(MinerBaseType.lolMinerAmd))
                                     {
                                     }
@@ -248,26 +256,27 @@
                     {
                         algoSettings = FilterMinerAlgos(algoSettings, new List<AlgorithmType> { AlgorithmType.DaggerHashimoto });
                     }
+
                     if (algoSettings.ContainsKey(MinerBaseType.experimental))
                     {
                         foreach (var unstable_algo in algoSettings[MinerBaseType.experimental])
-                        {
                             unstable_algo.Enabled = false;
-                        }
                     }
 
                     // This is not needed anymore after excavator v1.1.4a
-                    //if (device.IsSM50() && algoSettings.ContainsKey(MinerBaseType.excavator)) {
+                    // if (device.IsSM50() && algoSettings.ContainsKey(MinerBaseType.excavator)) {
                     //    int equihash_index = algoSettings[MinerBaseType.excavator].FindIndex((algo) => algo.CryptoMiner937ID == AlgorithmType.equihash);
                     //    if (equihash_index > -1) {
                     //        // -c1 1 needed for SM50 to work ATM
                     //        algoSettings[MinerBaseType.excavator][equihash_index].ExtraLaunchParameters = "-c1 1";
                     //    }
-                    //}
+                    // }
                     // nheqminer exceptions scope
                 } // END algoSettings != null
+
                 return algoSettings;
             }
+
             return null;
         }
 
@@ -278,15 +287,15 @@
         /// <returns>The <see cref="List{Algorithm}"/></returns>
         public static List<Algorithm> CreateForDeviceList(ComputeDevice device)
         {
-            List<Algorithm> ret = new List<Algorithm>();
+            var ret = new List<Algorithm>();
             var retDict = CreateForDevice(device);
+
             if (retDict != null)
             {
                 foreach (var kvp in retDict)
-                {
                     ret.AddRange(kvp.Value);
-                }
             }
+
             return ret;
         }
 
@@ -385,11 +394,13 @@
                     },
             };
             }
+
             if (DeviceGroupType.AMD_OpenCL == deviceGroupType)
             {
                 // DisableAMDTempControl = false; TemperatureParam must be appended lastly
-                string RemDis = " --remove-disabled ";
-                string DefaultParam = RemDis + AmdGpuDevice.DefaultParam;
+                var RemDis = " --remove-disabled ";
+                var DefaultParam = RemDis + AmdGpuDevice.DefaultParam;
+
                 return new Dictionary<MinerBaseType, List<Algorithm>>() {
                     { MinerBaseType.sgminer,
                         new List<Algorithm>() {
@@ -485,6 +496,7 @@
             {
                 var ToRemoveAlgoTypes = new List<AlgorithmType>();
                 var ToRemoveMinerTypes = new List<MinerBaseType>();
+
                 var ret = new Dictionary<MinerBaseType, List<Algorithm>>() {
                     { MinerBaseType.lolMinerNvidia,
                         new List<Algorithm>() {
@@ -569,6 +581,7 @@
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
                     });
                 }
+
                 if (DeviceGroupType.NVIDIA_5_x == deviceGroupType)
                 {
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
@@ -583,12 +596,14 @@
                         AlgorithmType.Lyra2RE,
                         AlgorithmType.Lyra2REv2
                     });
+
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
                         //MinerBaseType.Palgin_HSR,
                         //MinerBaseType.Palgin_Neoscrypt
                         MinerBaseType.lolMinerNvidia
                     });
                 }
+
                 if (DeviceGroupType.NVIDIA_2_1 == deviceGroupType)
                 {
                     ToRemoveAlgoTypes.AddRange(new AlgorithmType[] {
@@ -597,6 +612,7 @@
                         AlgorithmType.Pascal,
                         AlgorithmType.X11Gost
                     });
+
                     ToRemoveMinerTypes.AddRange(new MinerBaseType[] {
                         MinerBaseType.Claymore,
                         MinerBaseType.lolMinerNvidia
@@ -622,6 +638,7 @@
         private static Dictionary<MinerBaseType, List<Algorithm>> FilterMinerBaseTypes(Dictionary<MinerBaseType, List<Algorithm>> minerAlgos, List<MinerBaseType> toRemove)
         {
             var finalRet = new Dictionary<MinerBaseType, List<Algorithm>>();
+
             foreach (var kvp in minerAlgos)
             {
                 if (toRemove.IndexOf(kvp.Key) == -1)
@@ -629,6 +646,7 @@
                     finalRet[kvp.Key] = kvp.Value;
                 }
             }
+
             return finalRet;
         }
 
@@ -642,11 +660,13 @@
         private static Dictionary<MinerBaseType, List<Algorithm>> FilterMinerAlgos(Dictionary<MinerBaseType, List<Algorithm>> minerAlgos, List<AlgorithmType> toRemove, List<MinerBaseType> toRemoveBase = null)
         {
             var finalRet = new Dictionary<MinerBaseType, List<Algorithm>>();
+
             if (toRemoveBase == null)
             { // all minerbasekeys
                 foreach (var kvp in minerAlgos)
                 {
                     var algoList = kvp.Value.FindAll((a) => toRemove.IndexOf(a.CryptoMiner937ID) == -1);
+
                     if (algoList.Count > 0)
                     {
                         finalRet[kvp.Key] = algoList;
@@ -661,6 +681,7 @@
                     if (toRemoveBase.IndexOf(kvp.Key) > -1)
                     {
                         var algoList = kvp.Value.FindAll((a) => toRemove.IndexOf(a.CryptoMiner937ID) == -1);
+
                         if (algoList.Count > 0)
                         {
                             finalRet[kvp.Key] = algoList;
@@ -672,6 +693,7 @@
                     }
                 }
             }
+
             return finalRet;
         }
     }

@@ -14,7 +14,7 @@ namespace zPoolMiner.Miners
     {
         private readonly int GPUPlatformNumber;
         private Stopwatch _benchmarkTimer = new Stopwatch();
-        private int count = 0;
+        private int count;
 
         public teamredminer()
             : base("teamredminer_AMD")
@@ -24,10 +24,7 @@ namespace zPoolMiner.Miners
             IsNeverHideMiningWindow = true;
         }
 
-        protected override int GetMaxCooldownTimeInMilliseconds()
-        {
-            return 240;
-        }
+        protected override int GetMaxCooldownTimeInMilliseconds() => 240;
 
         protected override void _Stop(MinerStopType willswitch)
         {
@@ -42,11 +39,12 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
+
+            var username = GetUsername(btcAdress, worker);
             IsApiReadException = true; //** in miner
-            //add failover
-            string alg = url.Substring(url.IndexOf("://") + 3, url.IndexOf(".") - url.IndexOf("://") - 3);
-            string port = url.Substring(url.IndexOf(".com:") + 5, url.Length - url.IndexOf(".com:") - 5);
+            // add failover
+            var alg = url.Substring(url.IndexOf("://") + 3, url.IndexOf(".") - url.IndexOf("://") - 3);
+            var port = url.Substring(url.IndexOf(".com:") + 5, url.Length - url.IndexOf(".com:") - 5);
 
             LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url +
                               " -u " + username +
@@ -69,10 +67,10 @@ namespace zPoolMiner.Miners
         {
             string CommandLine;
 
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
 
             // demo for benchmark
-            string username = Globals.DemoUser;
+            var username = Globals.DemoUser;
 
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
@@ -93,34 +91,33 @@ namespace zPoolMiner.Miners
 
         protected override bool BenchmarkParseLine(string outdata)
         {
-            string hashSpeed = "";
-            int kspeed = 1;
-            //Pool lyra2z.eu.nicehash.com share accepted.
-            //Stats GPU 0 - lyra2z: 3.279Mh/s (3.279Mh/s)
+            var hashSpeed = "";
+            var kspeed = 1;
+            // Pool lyra2z.eu.nicehash.com share accepted.
+            // Stats GPU 0 - lyra2z: 3.279Mh/s (3.279Mh/s)
             if (outdata.Contains("- lyra2z: "))
             {
-                int i = outdata.IndexOf("- lyra2z: ");
-                int k = outdata.IndexOf("Mh/s (");
+                var i = outdata.IndexOf("- lyra2z: ");
+                var k = outdata.IndexOf("Mh/s (");
                 hashSpeed = outdata.Substring(i + 10, k - i - 10).Trim();
                 Helpers.ConsolePrint(hashSpeed, "");
-                if (outdata.ToUpper().Contains("H/S"))
-                {
-                    kspeed = 1;
-                }
+                if (outdata.ToUpper().Contains("H/S")) kspeed = 1;
+
                 if (outdata.ToUpper().Contains("KH/S"))
                 {
                     kspeed = 1000;
                 }
+
                 if (outdata.ToUpper().Contains("MH/S"))
                 {
                     kspeed = 1000000;
                 }
 
-                double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                var speed = double.Parse(hashSpeed, CultureInfo.InvariantCulture);
                 BenchmarkAlgorithm.BenchmarkSpeed = Math.Max(BenchmarkAlgorithm.BenchmarkSpeed, speed * kspeed);
-                //Killteamredminer();
+                // Killteamredminer();
                 BenchmarkSignalFinnished = true;
-                //BenchmarkSignalHanged = true;
+                // BenchmarkSignalHanged = true;
                 return true;
             }
 
@@ -137,7 +134,7 @@ namespace zPoolMiner.Miners
         // TODO _currentMinerReadStatus
         public override async Task<ApiData> GetSummaryAsync()
         {
-            //if (!IsApiReadException) return await GetSummaryCpuCcminerAsync();
+            // if (!IsApiReadException) return await GetSummaryCpuCcminerAsync();
             // check if running
             if (ProcessHandle == null)
             {
@@ -145,6 +142,7 @@ namespace zPoolMiner.Miners
                 Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from teamredminer Proccess is null");
                 return null;
             }
+
             try
             {
                 Process.GetProcessById(ProcessHandle.Id);
@@ -163,9 +161,11 @@ namespace zPoolMiner.Miners
             }
 
             var totalSpeed = 0.0d;
+
             foreach (var miningPair in MiningSetup.MiningPairs)
             {
                 var algo = miningPair.Device.GetAlgorithm(MinerBaseType.teamredminer, AlgorithmType.ethash, AlgorithmType.NONE);
+
                 if (algo != null)
                 {
                     totalSpeed += algo.BenchmarkSpeed;
@@ -176,6 +176,7 @@ namespace zPoolMiner.Miners
             {
                 Speed = totalSpeed
             };
+
             CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
             // check if speed zero
             if (teamredminerData.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;

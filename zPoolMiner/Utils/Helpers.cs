@@ -27,6 +27,7 @@ namespace zPoolMiner
                     {
                         return false;
                     }
+
                     return retVal;
                 }
             }
@@ -52,27 +53,27 @@ namespace zPoolMiner
 
         public static void ConsolePrint(string grp, string text, params object[] arg)
         {
-            ConsolePrint(grp, String.Format(text, arg));
+            ConsolePrint(grp, string.Format(text, arg));
         }
 
         public static void ConsolePrint(string grp, string text, object arg0)
         {
-            ConsolePrint(grp, String.Format(text, arg0));
+            ConsolePrint(grp, string.Format(text, arg0));
         }
 
         public static void ConsolePrint(string grp, string text, object arg0, object arg1)
         {
-            ConsolePrint(grp, String.Format(text, arg0, arg1));
+            ConsolePrint(grp, string.Format(text, arg0, arg1));
         }
 
         public static void ConsolePrint(string grp, string text, object arg0, object arg1, object arg2)
         {
-            ConsolePrint(grp, String.Format(text, arg0, arg1, arg2));
+            ConsolePrint(grp, string.Format(text, arg0, arg1, arg2));
         }
 
         public static uint GetIdleTime()
         {
-            LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+            var lastInPut = new LASTINPUTINFO();
             lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
             GetLastInputInfo(ref lastInPut);
 
@@ -81,7 +82,7 @@ namespace zPoolMiner
 
         public static void DisableWindowsErrorReporting(bool en)
         {
-            //bool failed = false;
+            // bool failed = false;
 
             log.Error("Trying to enable/disable Windows error reporting");
 
@@ -92,10 +93,11 @@ namespace zPoolMiner
                 {
                     if (rk != null)
                     {
-                        Object o = rk.GetValue("DontShowUI");
+                        var o = rk.GetValue("DontShowUI");
+
                         if (o != null)
                         {
-                            int val = (int)o;
+                            var val = (int)o;
                             log.Info("Current DontShowUI value: " + val);
 
                             if (val == 0 && en)
@@ -129,7 +131,7 @@ namespace zPoolMiner
 
         public static string FormatSpeedOutput(double speed, string separator = " ")
         {
-            string ret = "";
+            var ret = "";
 
             if (speed < 1000)
                 ret = (speed).ToString("F3", CultureInfo.InvariantCulture) + separator;
@@ -146,6 +148,7 @@ namespace zPoolMiner
         public static string FormatDualSpeedOutput(AlgorithmType algorithmID, double primarySpeed, double secondarySpeed = 0)
         {
             string ret;
+
             if (secondarySpeed > 0)
             {
                 ret = FormatSpeedOutput(primarySpeed, "") + "/" + FormatSpeedOutput(secondarySpeed, "") + " ";
@@ -163,13 +166,12 @@ namespace zPoolMiner
 
         public static string GetMotherboardID()
         {
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
-            ManagementObjectCollection moc = mos.Get();
-            string serial = "";
+            var mos = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
+            var moc = mos.Get();
+            var serial = "";
+
             foreach (ManagementObject mo in moc)
-            {
                 serial = (string)mo["SerialNumber"];
-            }
 
             return serial;
         }
@@ -177,34 +179,37 @@ namespace zPoolMiner
         // TODO could have multiple cpus
         public static string GetCpuID()
         {
-            string id = "N/A";
+            var id = "N/A";
+
             try
             {
                 ManagementObjectCollection mbsList = null;
-                ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_processor");
+                var mbs = new ManagementObjectSearcher("Select * From Win32_processor");
                 mbsList = mbs.Get();
+
                 foreach (ManagementObject mo in mbsList)
-                {
                     id = mo["ProcessorID"].ToString();
-                }
             }
             catch { }
+
             return id;
         }
 
         public static bool WebRequestTestGoogle()
         {
-            string url = "http://www.google.com";
+            var url = "http://www.google.com";
+
             try
             {
-                System.Net.WebRequest myRequest = System.Net.WebRequest.Create(url);
+                var myRequest = System.Net.WebRequest.Create(url);
                 myRequest.Timeout = Globals.FirstNetworkCheckTimeoutTimeMS;
-                System.Net.WebResponse myResponse = myRequest.GetResponse();
+                var myResponse = myRequest.GetResponse();
             }
             catch (System.Net.WebException)
             {
                 return false;
             }
+
             return true;
         }
 
@@ -215,27 +220,30 @@ namespace zPoolMiner
         {
             if (releaseKey >= 393295)
             {
-                //return "4.6 or later";
+                // return "4.6 or later";
                 return true;
             }
+
             if ((releaseKey >= 379893))
             {
-                //return "4.5.2 or later";
+                // return "4.5.2 or later";
                 return true;
             }
+
             if ((releaseKey >= 378675))
             {
-                //return "4.5.1 or later";
+                // return "4.5.1 or later";
                 return true;
             }
+
             if ((releaseKey >= 378389))
             {
-                //return "4.5 or later";
+                // return "4.5 or later";
                 return true;
             }
             // This line should never execute. A non-null release key should mean
             // that 4.5 or later is installed.
-            //return "No 4.5 or later version detected";
+            // return "No 4.5 or later version detected";
             return false;
         }
 
@@ -256,7 +264,8 @@ namespace zPoolMiner
 
         public static bool IsConnectedToInternet()
         {
-            bool returnValue = false;
+            var returnValue = false;
+
             try
             {
                 returnValue = InternetGetConnectedState(out int Desc, 0);
@@ -265,25 +274,28 @@ namespace zPoolMiner
             {
                 returnValue = false;
             }
+
             return returnValue;
         }
 
         // parsing helpers
         public static int ParseInt(string text)
         {
-            if (Int32.TryParse(text, out int tmpVal))
+            if (int.TryParse(text, out int tmpVal))
             {
                 return tmpVal;
             }
+
             return 0;
         }
 
         public static long ParseLong(string text)
         {
-            if (Int64.TryParse(text, out long tmpVal))
+            if (long.TryParse(text, out long tmpVal))
             {
                 return tmpVal;
             }
+
             return 0;
         }
 
@@ -291,8 +303,8 @@ namespace zPoolMiner
         {
             try
             {
-                string parseText = text.Replace(',', '.');
-                return Double.Parse(parseText, CultureInfo.InvariantCulture);
+                var parseText = text.Replace(',', '.');
+                return double.Parse(parseText, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -305,7 +317,7 @@ namespace zPoolMiner
         {
             try
             {
-                ManagementObjectCollection moc = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem").Get();
+                var moc = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem").Get();
                 log.Debug("WMI service seems to be running, ManagementObjectSearcher returned success.");
                 return true;
             }
@@ -313,12 +325,13 @@ namespace zPoolMiner
             {
                 log.Debug("ManagementObjectSearcher not working need WMI service to be running");
             }
+
             return false;
         }
 
         public static void InstallVcRedist()
         {
-            Process CudaDevicesDetection = new Process();
+            var CudaDevicesDetection = new Process();
             CudaDevicesDetection.StartInfo.FileName = @"bin\vc_redist.x64.exe";
             CudaDevicesDetection.StartInfo.Arguments = "/q /norestart";
             CudaDevicesDetection.StartInfo.UseShellExecute = false;
@@ -326,8 +339,8 @@ namespace zPoolMiner
             CudaDevicesDetection.StartInfo.RedirectStandardOutput = false;
             CudaDevicesDetection.StartInfo.CreateNoWindow = false;
 
-            //const int waitTime = 45 * 1000; // 45seconds
-            //CudaDevicesDetection.WaitForExit(waitTime);
+            // const int waitTime = 45 * 1000; // 45seconds
+            // CudaDevicesDetection.WaitForExit(waitTime);
             CudaDevicesDetection.Start();
         }
 
@@ -335,7 +348,7 @@ namespace zPoolMiner
         {
             log.Debug("Setting environment variables");
 
-            Dictionary<string, string> envNameValues = new Dictionary<string, string>() {
+            var envNameValues = new Dictionary<string, string>() {
                 { "GPU_MAX_ALLOC_PERCENT",      "100" },
                 { "GPU_USE_SYNC_OBJECTS",       "1" },
                 { "GPU_SINGLE_ALLOC_PERCENT",   "100" },
@@ -345,8 +358,8 @@ namespace zPoolMiner
 
             foreach (var kvp in envNameValues)
             {
-                string envName = kvp.Key;
-                string envValue = kvp.Value;
+                var envName = kvp.Key;
+                var envValue = kvp.Value;
                 // Check if all the variables is set
                 if (Environment.GetEnvironmentVariable(envName) == null)
                 {
@@ -367,15 +380,17 @@ namespace zPoolMiner
         {
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo
+                var psi = new ProcessStartInfo
                 {
                     FileName = "nvidiasetp0state.exe",
                     Verb = "runas",
                     UseShellExecute = true,
                     CreateNoWindow = true
                 };
-                Process p = Process.Start(psi);
+
+                var p = Process.Start(psi);
                 p.WaitForExit();
+
                 if (p.ExitCode != 0)
                     log.Debug("nvidiasetp0state returned error code: " + p.ExitCode.ToString());
                 else

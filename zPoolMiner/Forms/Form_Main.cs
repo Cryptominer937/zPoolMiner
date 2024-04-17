@@ -26,7 +26,7 @@
         /// <summary>
         /// Defines the VisitURLNew
         /// </summary>
-        private String VisitURLNew = Links.VisitURLNew;
+        private string VisitURLNew = Links.VisitURLNew;
 
         /// <summary>
         /// Defines the MinerStatsCheck
@@ -63,7 +63,7 @@
         /// </summary>
         private SystemTimer ComputeDevicesCheckTimer;
 
-        public static bool needRestart = false;
+        public static bool needRestart;
 
         /// <summary>
         /// Defines the ShowWarningNiceHashData
@@ -93,12 +93,12 @@
         /// <summary>
         /// Defines the flowLayoutPanelVisibleCount
         /// </summary>
-        private int flowLayoutPanelVisibleCount = 0;
+        private int flowLayoutPanelVisibleCount;
 
         /// <summary>
         /// Defines the flowLayoutPanelRatesIndex
         /// </summary>
-        private int flowLayoutPanelRatesIndex = 0;
+        private int flowLayoutPanelRatesIndex;
 
         /// <summary>
         /// Defines the _betaAlphaPostfixString
@@ -108,22 +108,22 @@
         /// <summary>
         /// Defines the _isDeviceDetectionInitialized
         /// </summary>
-        private bool _isDeviceDetectionInitialized = false;
+        private bool _isDeviceDetectionInitialized;
 
         /// <summary>
         /// Defines the IsManuallyStarted
         /// </summary>
-        private bool IsManuallyStarted = false;
+        private bool IsManuallyStarted;
 
         /// <summary>
         /// Defines the IsNotProfitable
         /// </summary>
-        private bool IsNotProfitable = false;
+        private bool IsNotProfitable;
 
         /// <summary>
         /// Defines the isSMAUpdated
         /// </summary>
-        private bool isSMAUpdated = false;
+        private bool isSMAUpdated;
 
         /// <summary>
         /// Defines the factorTimeUnit
@@ -133,14 +133,14 @@
         /// <summary>
         /// Defines the MainFormHeight
         /// </summary>
-        private int MainFormHeight = 0;
+        private int MainFormHeight;
 
         /// <summary>
         /// Defines the EmtpyGroupPanelHeight
         /// </summary>
-        private int EmtpyGroupPanelHeight = 0;
+        private int EmtpyGroupPanelHeight;
 
-        private String updateText = "";
+        private string updateText = "";
         internal static Color _backColor;
         internal static Color _foreColor;
         internal static Color _textColor;
@@ -158,11 +158,12 @@
             ComputeDeviceManager.SystemSpecs.QueryAndLog();
 
             // Log the computer's amount of Total RAM and Page File Size
-            ManagementObjectCollection moc = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem").Get();
+            var moc = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem").Get();
+
             foreach (ManagementObject mo in moc)
             {
-                long TotalRam = long.Parse(mo["TotalVisibleMemorySize"].ToString()) / 1024;
-                long PageFileSize = (long.Parse(mo["TotalVirtualMemorySize"].ToString()) / 1024) - TotalRam;
+                var TotalRam = long.Parse(mo["TotalVisibleMemorySize"].ToString()) / 1024;
+                var PageFileSize = (long.Parse(mo["TotalVirtualMemorySize"].ToString()) / 1024) - TotalRam;
                 Helpers.ConsolePrint("NICEHASH", "Total RAM: " + TotalRam + "MB");
                 Helpers.ConsolePrint("NICEHASH", "Page File Size: " + PageFileSize + "MB");
             }
@@ -188,13 +189,11 @@
                 EmtpyGroupPanelHeight = 59;
                 MainFormHeight = 330 - EmtpyGroupPanelHeight;
             }
+
             ClearRatesALL();
         }
 
-        public DevicesListViewEnableControl getDevicesListControl()
-        {
-            return devicesListViewEnableControl1;
-        }
+        public DevicesListViewEnableControl getDevicesListControl() => devicesListViewEnableControl1;
 
         /// <summary>
         /// The InitLocalization
@@ -210,11 +209,14 @@
             MessageBoxManager.Register();
 
             labelServiceLocation.Text = International.GetText("Service_Location") + ":";
+
             {
-                int i = 0;
+                var i = 0;
+
                 foreach (string loc in Globals.MiningLocation)
                     comboBoxLocation.Items[i++] = International.GetText("LocationName_" + loc);
             }
+
             labelBitcoinAddress.Text = International.GetText("BitcoinAddress") + ":";
             labelWorkerName.Text = International.GetText("WorkerName") + ":";
 
@@ -233,7 +235,7 @@
             buttonHelp.Text = ""; //International.GetText("Form_Main_help");
 
             label_NotProfitable.Text = International.GetText("Form_Main_MINING_NOT_PROFITABLE");
-            groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), International.GetText("Form_Main_SMA_Update_NEVER"));
+            groupBox1.Text = string.Format(International.GetText("Form_Main_Group_Device_Rates"), International.GetText("Form_Main_SMA_Update_NEVER"));
         }
 
         /// <summary>
@@ -316,7 +318,7 @@
         {
             if (!ConfigManager.GeneralConfig.StartMiningWhenIdle || IsManuallyStarted) return;
 
-            uint MSIdle = Helpers.GetIdleTime();
+            var MSIdle = Helpers.GetIdleTime();
 
             if (MinerStatsCheck.Enabled)
             {
@@ -331,6 +333,7 @@
                 if (BenchmarkForm == null && (MSIdle > (ConfigManager.GeneralConfig.MinIdleSeconds * 1000)))
                 {
                     Helpers.ConsolePrint("NICEHASH", "Entering idling state");
+
                     if (StartMining(false) != StartMiningReturnType.StartMining)
                     {
                         StopMining();
@@ -373,15 +376,14 @@
                 Close();
                 return;
             }
-
             // 3rdparty miners check scope #1
             {
                 // check if setting set
                 if (ConfigManager.GeneralConfig.Use3rdPartyMiners == Use3rdPartyMiners.NOT_SET)
                 {
                     // Show TOS
-                    //Form tos = new Form_3rdParty_TOS();
-                    //tos.ShowDialog(this);
+                    // Form tos = new Form_3rdParty_TOS();
+                    // tos.ShowDialog(this);
                 }
             }
 
@@ -389,8 +391,8 @@
             ComputeDeviceManager.Query.QueryDevices(LoadingScreen);
             _isDeviceDetectionInitialized = true;
 
-            /////////////////////////////////////////////
-            /////// from here on we have our devices and Miners initialized
+            // ///////////////////////////////////////////
+            // ///// from here on we have our devices and Miners initialized
             ConfigManager.AfterDeviceQueryInitialization();
             LoadingScreen.IncreaseLoadCounterAndMessage(International.GetText("Form_Main_loadtext_SaveConfig"));
 
@@ -416,6 +418,7 @@
             SMAMinerCheck = new Timer();
             SMAMinerCheck.Tick += SMAMinerCheck_Tick;
             SMAMinerCheck.Interval = ConfigManager.GeneralConfig.SwitchMinSecondsFixed * 1000 + R.Next(ConfigManager.GeneralConfig.SwitchMinSecondsDynamic * 1000);
+
             if (ComputeDeviceManager.Group.ContainsAMD_GPUs)
             {
                 SMAMinerCheck.Interval = (ConfigManager.GeneralConfig.SwitchMinSecondsAMD + ConfigManager.GeneralConfig.SwitchMinSecondsFixed) * 1000 + R.Next(ConfigManager.GeneralConfig.SwitchMinSecondsDynamic * 1000);
@@ -435,16 +438,16 @@
             if (Globals.IsFirstNetworkCheckTimeout)
             {
                 while (!Helpers.WebRequestTestGoogle() && Globals.FirstNetworkCheckTimeoutTries > 0)
-                {
                     --Globals.FirstNetworkCheckTimeoutTries;
-                }
             }
-            string ghv = CryptoStats.GetVersion("");
-            //Helpers.ConsolePrint("GITHUB", ghv);
+
+            var ghv = CryptoStats.GetVersion("");
+            // Helpers.ConsolePrint("GITHUB", ghv);
             if (ghv != null)
             {
                 CryptoStats.SetVersion(ghv);
             }
+
             LoadingScreen.IncreaseLoadCounterAndMessage(International.GetText("Form_Main_loadtext_GetBTCRate"));
 
             BitcoinExchangeCheck = new Timer();
@@ -461,6 +464,7 @@
             Helpers.DisableWindowsErrorReporting(ConfigManager.GeneralConfig.DisableWindowsErrorReporting);
 
             LoadingScreen.IncreaseLoadCounter();
+
             if (ConfigManager.GeneralConfig.NVIDIAP0State)
             {
                 LoadingScreen.SetInfoMsg(International.GetText("Form_Main_loadtext_NVIDIAP0State"));
@@ -472,30 +476,32 @@
             if (Globals.CryptoMiner937Data == null && ConfigManager.ApiCache.CryptoMiner937Data != null)
             {
                 Globals.CryptoMiner937Data = ConfigManager.ApiCache.CryptoMiner937Data;
-                groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
+                groupBox1.Text = string.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
             }
 
-            bool runVCRed = !MinersExistanceChecker.IsMinersBinsInit() && !ConfigManager.GeneralConfig.DownloadInit;
+            var runVCRed = !MinersExistanceChecker.IsMinersBinsInit() && !ConfigManager.GeneralConfig.DownloadInit;
             // standard miners check scope
             {
                 // check if download needed
                 if (!MinersExistanceChecker.IsMinersBinsInit() && !ConfigManager.GeneralConfig.DownloadInit)
                 {
-                    Form_Loading downloadUnzipForm = new Form_Loading(new MinersDownloader(MinersDownloadManager.StandardDlSetup));
+                    var downloadUnzipForm = new Form_Loading(new MinersDownloader(MinersDownloadManager.StandardDlSetup));
                     SetChildFormCenter(downloadUnzipForm);
                     downloadUnzipForm.ShowDialog();
                 }
+
                 // check if files are mising
                 if (!MinersExistanceChecker.IsMinersBinsInit())
                 {
                     var result = MessageBox.Show(International.GetText("Form_Main_bins_folder_files_missing"),
                         International.GetText("Warning_with_Exclamation"),
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
                     if (result == DialogResult.Yes)
                     {
                         ConfigManager.GeneralConfig.DownloadInit = false;
                         ConfigManager.GeneralConfigFileCommit();
-                        Process PHandle = new Process();
+                        var PHandle = new Process();
                         PHandle.StartInfo.FileName = Application.ExecutablePath;
                         PHandle.Start();
                         Close();
@@ -516,21 +522,23 @@
                 {
                     if (!MinersExistanceChecker.IsMiners3rdPartyBinsInit() && !ConfigManager.GeneralConfig.DownloadInit3rdParty)
                     {
-                        Form_Loading download3rdPartyUnzipForm = new Form_Loading(new MinersDownloader(MinersDownloadManager.ThirdPartyDlSetup));
+                        var download3rdPartyUnzipForm = new Form_Loading(new MinersDownloader(MinersDownloadManager.ThirdPartyDlSetup));
                         SetChildFormCenter(download3rdPartyUnzipForm);
                         download3rdPartyUnzipForm.ShowDialog();
                     }
+
                     // check if files are mising
                     if (!MinersExistanceChecker.IsMiners3rdPartyBinsInit())
                     {
                         var result = MessageBox.Show(International.GetText("Form_Main_bins_folder_files_missing"),
                             International.GetText("Warning_with_Exclamation"),
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
                         if (result == DialogResult.Yes)
                         {
                             ConfigManager.GeneralConfig.DownloadInit3rdParty = false;
                             ConfigManager.GeneralConfigFileCommit();
-                            Process PHandle = new Process();
+                            var PHandle = new Process();
                             PHandle.StartInfo.FileName = Application.ExecutablePath;
                             PHandle.Start();
                             Close();
@@ -546,15 +554,13 @@
                 }
             }
 
-            if (runVCRed)
-            {
-                Helpers.InstallVcRedist();
-            }
+            if (runVCRed) Helpers.InstallVcRedist();
 
             if (ConfigManager.GeneralConfig.AutoStartMining)
             {
                 // well this is started manually as we want it to start at runtime
                 IsManuallyStarted = true;
+
                 if (StartMining(true) != StartMiningReturnType.StartMining)
                 {
                     IsManuallyStarted = false;
@@ -566,6 +572,7 @@
         private void DeviceStatsCheck_Tick(object sender, EventArgs e)
         {
             devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
+
             if (MiningSession.DONATION_SESSION)
             {
                 labelDevfeeStatus.Text = "Mining For: Developer";
@@ -573,7 +580,7 @@
             }
             else
             {
-                //labelDevfeeStatus.Text = "Mining For: User";
+                // labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.Text = "Mining For: User";
                 labelDevfeeStatus.ForeColor = Color.LightGreen;
             }
@@ -597,10 +604,12 @@
         private void Form_Main_Shown(object sender, EventArgs e)
         {
             // general loading indicator
-            int TotalLoadSteps = 11;
+            var TotalLoadSteps = 11;
+
             LoadingScreen = new Form_Loading(this,
                 International.GetText("Form_Loading_label_LoadingText"),
                 International.GetText("Form_Main_loadtext_CPU"), TotalLoadSteps);
+
             SetChildFormCenter(LoadingScreen);
             LoadingScreen.Show();
 
@@ -618,6 +627,7 @@
         private async void SMAMinerCheck_Tick(object sender, EventArgs e)
         {
             SMAMinerCheck.Interval = ConfigManager.GeneralConfig.SwitchMinSecondsFixed * 1000 + R.Next(ConfigManager.GeneralConfig.SwitchMinSecondsDynamic * 1000);
+
             if (ComputeDeviceManager.Group.ContainsAMD_GPUs)
             {
                 SMAMinerCheck.Interval = (ConfigManager.GeneralConfig.SwitchMinSecondsAMD + ConfigManager.GeneralConfig.SwitchMinSecondsFixed) * 1000 + R.Next(ConfigManager.GeneralConfig.SwitchMinSecondsDynamic * 1000);
@@ -631,6 +641,7 @@
                 isSMAUpdated = false;
                 await MinersManager.SwichMostProfitableGroupUpMethod(Globals.CryptoMiner937Data);
             }
+
             groupBox1.Text = updateText;
         }
 
@@ -656,10 +667,11 @@
                 // less GPUs than before, ACT!
                 try
                 {
-                    ProcessStartInfo onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat")
+                    var onGPUsLost = new ProcessStartInfo(Directory.GetCurrentDirectory() + "\\OnGPUsLost.bat")
                     {
                         WindowStyle = ProcessWindowStyle.Minimized
                     };
+
                     System.Diagnostics.Process.Start(onGPUsLost);
                 }
                 catch (Exception ex)
@@ -684,6 +696,7 @@
                     {
                         Visible = false
                     };
+
                     flowLayoutPanelRates.Controls.Add(newGroupProfitControl);
                 }
             }
@@ -708,22 +721,25 @@
             {
                 flowLayoutPanelVisibleCount = groupCount;
                 // hide some Controls
-                int hideIndex = 0;
+                var hideIndex = 0;
+
                 foreach (var control in flowLayoutPanelRates.Controls)
                 {
                     ((GroupProfitControl)control).Visible = hideIndex < groupCount ? true : false;
                     ++hideIndex;
                 }
             }
+
             flowLayoutPanelRatesIndex = 0;
-            int visibleGroupCount = 1;
+            var visibleGroupCount = 1;
             if (groupCount > 0) visibleGroupCount += groupCount;
 
-            int groupBox1Height = EmtpyGroupPanelHeight;
+            var groupBox1Height = EmtpyGroupPanelHeight;
+
             if (flowLayoutPanelRates.Controls != null && flowLayoutPanelRates.Controls.Count > 0)
             {
                 var control = flowLayoutPanelRates.Controls[0];
-                float panelHeight = ((GroupProfitControl)control).Size.Height * 1.2f;
+                var panelHeight = ((GroupProfitControl)control).Size.Height * 1.2f;
                 groupBox1Height = (int)((visibleGroupCount) * panelHeight);
             }
 
@@ -742,12 +758,13 @@
         /// <param name="isApiGetException">The <see cref="bool"/></param>
         public void AddRateInfo(string groupName, string deviceStringInfo, ApiData iAPIData, double paying, bool isApiGetException)
         {
-            string ApiGetExceptionString = isApiGetException ? "**" : "";
+            var ApiGetExceptionString = isApiGetException ? "**" : "";
 
-            string speedString = Helpers.FormatDualSpeedOutput(iAPIData.AlgorithmID, iAPIData.Speed, iAPIData.SecondarySpeed) + iAPIData.AlgorithmName + ApiGetExceptionString;
-            string rateBTCString = FormatPayingOutput(paying);
-            string rateCurrencyString = ExchangeRateAPI.ConvertToActiveCurrency(paying * Globals.BitcoinUSDRate * factorTimeUnit).ToString("F2", CultureInfo.InvariantCulture)
-                + String.Format(" {0}/", ExchangeRateAPI.ActiveDisplayCurrency) + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
+            var speedString = Helpers.FormatDualSpeedOutput(iAPIData.AlgorithmID, iAPIData.Speed, iAPIData.SecondarySpeed) + iAPIData.AlgorithmName + ApiGetExceptionString;
+            var rateBTCString = FormatPayingOutput(paying);
+
+            var rateCurrencyString = ExchangeRateAPI.ConvertToActiveCurrency(paying * Globals.BitcoinUSDRate * factorTimeUnit).ToString("F2", CultureInfo.InvariantCulture)
+                + string.Format(" {0}/", ExchangeRateAPI.ActiveDisplayCurrency) + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
 
             try
             {  // flowLayoutPanelRatesIndex may be OOB, so catch
@@ -802,7 +819,7 @@
         /// </summary>
         private void UpdateGlobalRate()
         {
-            double TotalRate = MinersManager.GetTotalRate();
+            var TotalRate = MinersManager.GetTotalRate();
 
             if (ConfigManager.GeneralConfig.AutoScaleBTCValues && TotalRate < 0.1)
             {
@@ -827,7 +844,8 @@
         private void BalanceCallback(object sender, EventArgs e)
         {
             Helpers.ConsolePrint("Hash-Kings", "Balance update");
-            double Balance = CryptoStats.Balance;
+            var Balance = CryptoStats.Balance;
+
             if (Balance > 0)
             {
                 if (ConfigManager.GeneralConfig.AutoScaleBTCValues && Balance < 0.1)
@@ -841,8 +859,8 @@
                     toolStripStatusLabelBalanceBTCValue.Text = Balance.ToString("F6", CultureInfo.InvariantCulture);
                 }
 
-                //Helpers.ConsolePrint("CurrencyConverter", "Using CurrencyConverter" + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
-                double Amount = (Balance * Globals.BitcoinUSDRate);
+                // Helpers.ConsolePrint("CurrencyConverter", "Using CurrencyConverter" + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
+                var Amount = (Balance * Globals.BitcoinUSDRate);
                 Amount = ExchangeRateAPI.ConvertToActiveCurrency(Amount);
                 toolStripStatusLabelBalanceDollarText.Text = Amount.ToString("F2", CultureInfo.InvariantCulture);
                 toolStripStatusLabelBalanceDollarValue.Text = $"({ExchangeRateAPI.ActiveDisplayCurrency})";
@@ -858,8 +876,9 @@
         {
             Helpers.ConsolePrint("Hash-Kings", "Bitcoin rate get");
             ExchangeRateAPI.UpdateAPI(textBoxWorkerName.Text.Trim());
-            double BR = ExchangeRateAPI.GetUSDExchangeRate();
+            var BR = ExchangeRateAPI.GetUSDExchangeRate();
             var currencyRate = International.GetText("BenchmarkRatioRateN_A");
+
             if (BR > 0)
             {
                 Globals.BitcoinUSDRate = BR;
@@ -880,6 +899,7 @@
         {
             Helpers.ConsolePrint("Hash-Kings", "API Update");
             isSMAUpdated = true;
+
             if (CryptoStats.AlgorithmRates != null)
             {
                 Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates; Globals.CryptoMiner937Data = CryptoStats.AlgorithmRates;
@@ -887,9 +907,9 @@
                 ConfigManager.ApiCache.CryptoMiner937Data = CryptoStats.AlgorithmRates;
                 ConfigManager.ApiCache.CryptoMiner937DataTimeStamp = DateTime.Now;
                 ConfigManager.ApiCacheFileCommit();
-                //Helpers.ConsolePrint("Hash-Kings", "API Update from Null Value");
-                //groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
-                updateText = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
+                // Helpers.ConsolePrint("Hash-Kings", "API Update from Null Value");
+                // groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
+                updateText = string.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
             }
             else
             {
@@ -898,9 +918,9 @@
                 ConfigManager.ApiCache.CryptoMiner937Data = CryptoStats.AlgorithmRates;
                 ConfigManager.ApiCache.CryptoMiner937DataTimeStamp = DateTime.Now;
                 ConfigManager.ApiCacheFileCommit();
-                //Helpers.ConsolePrint("Hash-Kings", "API Update Existing Values");
-                //groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
-                updateText = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
+                // Helpers.ConsolePrint("Hash-Kings", "API Update Existing Values");
+                // groupBox1.Text = String.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.GeneralConfig.CryptoMiner937DataTimeStamp);
+                updateText = string.Format(International.GetText("Form_Main_Group_Device_Rates"), ConfigManager.ApiCache.CryptoMiner937DataTimeStamp);
             }
         }
 
@@ -914,9 +934,11 @@
             BeginInvoke((Action)(() =>
             {
                 StopMining();
+
                 if (BenchmarkForm != null)
                     BenchmarkForm.StopBenchmark();
-                DialogResult dialogResult = MessageBox.Show(e.Message, International.GetText("Error_with_Exclamation"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                var dialogResult = MessageBox.Show(e.Message, International.GetText("Error_with_Exclamation"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }));
         }
@@ -931,12 +953,12 @@
             if (Globals.CryptoMiner937Data == null && ConfigManager.GeneralConfig.ShowInternetConnectionWarning && ShowWarningNiceHashData)
             {
                 ShowWarningNiceHashData = false;
-                DialogResult dialogResult = MessageBox.Show(International.GetText("Form_Main_msgbox_NoInternetMsg"),
+
+                var dialogResult = MessageBox.Show(International.GetText("Form_Main_msgbox_NoInternetMsg"),
                                                             International.GetText("Form_Main_msgbox_NoInternetTitle"),
                                                             MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 
-                if (dialogResult == DialogResult.Yes)
-                    return;
+                if (dialogResult == DialogResult.Yes) return;
                 else if (dialogResult == DialogResult.No)
                     System.Windows.Forms.Application.Exit();
             }
@@ -963,29 +985,30 @@
             var ver = CryptoStats.Version.Replace(".", ",");
             var ver2 = CryptoStats.Version;
             if (ver == null) return;
-            //var programVersion = "Fork_Fix_"+ConfigManager.GeneralConfig.ForkFixVersion.ToString().Replace(",",".");
+            // var programVersion = "Fork_Fix_"+ConfigManager.GeneralConfig.ForkFixVersion.ToString().Replace(",",".");
             var programVersion = ConfigManager.GeneralConfig.ConfigFileVersion.ToString().Replace(".", ",");
-            //Helpers.ConsolePrint("Program version: ", programVersion);
-            //var ret = programVersion.CompareTo(ver);
+            // Helpers.ConsolePrint("Program version: ", programVersion);
+            // var ret = programVersion.CompareTo(ver);
             if (ver.Length < 1)
             {
                 return;
             }
+
             ver = ver.Replace("-Beta", "");
             ver2 = ver2.Replace("-Beta", "");
             ver = ver.Replace("-Alpha", "");
             ver2 = ver2.Replace("-Alpha", "");
-            //Helpers.ConsolePrint("Github version: ", ver);
-            double programVersionn = double.Parse(programVersion, CultureInfo.InvariantCulture);
-            //Helpers.ConsolePrint("Program version: ", programVersionn.ToString());
-            double vern = double.Parse(ver, CultureInfo.InvariantCulture);
-            //Helpers.ConsolePrint("Github version: ", vern.ToString());
-            //if (ret < 0 || (ret == 0 && BetaAlphaPostfixString != ""))
+            // Helpers.ConsolePrint("Github version: ", ver);
+            var programVersionn = double.Parse(programVersion, CultureInfo.InvariantCulture);
+            // Helpers.ConsolePrint("Program version: ", programVersionn.ToString());
+            var vern = double.Parse(ver, CultureInfo.InvariantCulture);
+            // Helpers.ConsolePrint("Github version: ", vern.ToString());
+            // if (ret < 0 || (ret == 0 && BetaAlphaPostfixString != ""))
             if (programVersionn < vern)
             {
                 Helpers.ConsolePrint("Old version detected. Update needed.", "");
                 SetVersionLabel(string.Format(International.GetText("Form_Main_new_version_released").Replace("v{0}", "{0}"), "V " + ver2));
-                //_visitUrlNew = Links.VisitUrlNew + ver;
+                // _visitUrlNew = Links.VisitUrlNew + ver;
                 VisitURLNew = Links.VisitURLNew;
             }
         }
@@ -1004,7 +1027,7 @@
         {
             if (LinkLabelUpdate.InvokeRequired)
             {
-                SetVersionLabelCallback d = new SetVersionLabelCallback(SetVersionLabel);
+                var d = new SetVersionLabelCallback(SetVersionLabel);
                 Invoke(d, new object[] { text });
             }
             else
@@ -1022,7 +1045,7 @@
         {
             if (!BitcoinAddress.ValidateBitcoinAddress(textBoxBTCAddress.Text.Trim()) && ShowError)
             {
-                DialogResult result = MessageBox.Show(International.GetText("Form_Main_msgbox_InvalidBTCAddressMsg"),
+                var result = MessageBox.Show(International.GetText("Form_Main_msgbox_InvalidBTCAddressMsg"),
                                                       International.GetText("Error_with_Exclamation"),
                                                       MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 
@@ -1034,7 +1057,7 @@
             }
             else if (!BitcoinAddress.ValidateWorkerName(textBoxWorkerName.Text.Trim()) && ShowError)
             {
-                DialogResult result = MessageBox.Show(International.GetText("Form_Main_msgbox_InvalidWorkerNameMsg"),
+                var result = MessageBox.Show(International.GetText("Form_Main_msgbox_InvalidWorkerNameMsg"),
                                                       International.GetText("Error_with_Exclamation"),
                                                       MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -1101,10 +1124,11 @@
             BenchmarkForm = new Form_Benchmark();
             SetChildFormCenter(BenchmarkForm);
             BenchmarkForm.ShowDialog();
-            bool startMining = BenchmarkForm.StartMining;
+            var startMining = BenchmarkForm.StartMining;
             BenchmarkForm = null;
 
             InitMainConfigGUIData();
+
             if (startMining)
             {
                 ButtonStartMining_Click(null, null);
@@ -1118,7 +1142,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonSettings_Click(object sender, EventArgs e)
         {
-            Form_Settings Settings = new Form_Settings();
+            var Settings = new Form_Settings();
             SetChildFormCenter(Settings);
             Settings.ShowDialog();
 
@@ -1128,7 +1152,8 @@
                     International.GetText("Form_Main_Restart_Required_Msg"),
                     International.GetText("Form_Main_Restart_Required_Title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Process PHandle = new Process();
+
+                var PHandle = new Process();
                 PHandle.StartInfo.FileName = Application.ExecutablePath;
                 PHandle.Start();
                 Close();
@@ -1148,10 +1173,12 @@
         private void ButtonStartMining_Click(object sender, EventArgs e)
         {
             IsManuallyStarted = true;
+
             if (StartMining(true) == StartMiningReturnType.ShowNoMining)
             {
                 IsManuallyStarted = false;
                 StopMining();
+
                 MessageBox.Show(International.GetText("Form_Main_StartMiningReturnedFalse"),
                                 International.GetText("Warning_with_Exclamation"),
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1176,7 +1203,7 @@
         /// <returns>The <see cref="string"/></returns>
         private string FormatPayingOutput(double paying)
         {
-            string ret = "";
+            var ret = "";
 
             if (ConfigManager.GeneralConfig.AutoScaleBTCValues && paying < 0.1)
                 ret = (paying * 1000 * factorTimeUnit).ToString("F5", CultureInfo.InvariantCulture) + " mBTC/" + International.GetText(ConfigManager.GeneralConfig.TimeUnit.ToString());
@@ -1193,7 +1220,7 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ButtonLogo_Click(object sender, EventArgs e)
         {
-            //System.Diagnostics.Process.Start(Links.VisitURL);
+            // System.Diagnostics.Process.Start(Links.VisitURL);
         }
 
         /// <summary>
@@ -1251,6 +1278,7 @@
                     // Reset credentials
                     CryptoStats.SetCredentials(textBoxBTCAddress.Text.Trim(), textBoxWorkerName.Text.Trim());
                 }
+
                 // Commit to config.json
                 ConfigManager.GeneralConfig.BitcoinAddress = textBoxBTCAddress.Text.Trim();
                 ConfigManager.GeneralConfig.WorkerName = textBoxWorkerName.Text.Trim();
@@ -1290,7 +1318,7 @@
             notifyIcon1.Visible = false;
         }
 
-        ///////////////////////////////////////
+        // /////////////////////////////////////
         // Miner control functions
         /// <summary>
         /// Defines the StartMiningReturnType
@@ -1324,7 +1352,7 @@
             {
                 if (showWarnings)
                 {
-                    DialogResult result = MessageBox.Show(International.GetText("Form_Main_DemoModeMsg"),
+                    var result = MessageBox.Show(International.GetText("Form_Main_DemoModeMsg"),
                                                       International.GetText("Form_Main_DemoModeTitle"),
                                                       MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -1354,12 +1382,14 @@
                                 International.GetText("Error_with_Exclamation"),
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
                 return StartMiningReturnType.IgnoreMsg;
             }
 
             // Check if there are unbenchmakred algorithms
-            bool isBenchInit = true;
-            bool hasAnyAlgoEnabled = false;
+            var isBenchInit = true;
+            var hasAnyAlgoEnabled = false;
+
             foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cdev.Enabled)
@@ -1369,6 +1399,7 @@
                         if (algo.Enabled == true)
                         {
                             hasAnyAlgoEnabled = true;
+
                             if (algo.BenchmarkSpeed == 0)
                             {
                                 isBenchInit = false;
@@ -1378,21 +1409,25 @@
                     }
                 }
             }
+
             // Check if the user has run benchmark first
             if (!isBenchInit)
             {
-                DialogResult result = DialogResult.No;
+                var result = DialogResult.No;
+
                 if (showWarnings)
                 {
                     result = MessageBox.Show(International.GetText("EnabledUnbenchmarkedAlgorithmsWarning"),
                                                               International.GetText("Warning_with_Exclamation"),
                                                               MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 }
+
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     BenchmarkForm = new Form_Benchmark(
                         BenchmarkPerformanceType.Standard,
                         true);
+
                     SetChildFormCenter(BenchmarkForm);
                     BenchmarkForm.ShowDialog();
                     BenchmarkForm = null;
@@ -1405,7 +1440,8 @@
                     {
                         if (cdev.Enabled)
                         {
-                            bool Enabled = false;
+                            var Enabled = false;
+
                             foreach (var algo in cdev.GetAlgorithmSettings())
                             {
                                 if (algo.BenchmarkSpeed > 0)
@@ -1414,6 +1450,7 @@
                                     break;
                                 }
                             }
+
                             cdev.Enabled = Enabled;
                         }
                     }
@@ -1485,7 +1522,7 @@
                 needRestart = false;
                 restartProgram();
             }
-            //devicesListViewEnableControl1.SetComputeDevicesStatus(ComputeDeviceManager.Available.Devices);
+            // devicesListViewEnableControl1.SetComputeDevicesStatus(ComputeDeviceManager.Available.Devices);
         }
 
         /// <summary>
@@ -1495,6 +1532,7 @@
         {
             MinerStatsCheck.Stop();
             SMAMinerCheck.Stop();
+
             if (ComputeDevicesCheckTimer != null)
                 ComputeDevicesCheckTimer.Stop();
 
@@ -1528,12 +1566,12 @@
 
         private void tempLower_ValueChanged(object sender, EventArgs e)
         {
-            ConfigManager.GeneralConfig.tempLowThreshold = Decimal.ToInt32(tempLower.Value);
+            ConfigManager.GeneralConfig.tempLowThreshold = decimal.ToInt32(tempLower.Value);
         }
 
         private void tempUpper_ValueChanged(object sender, EventArgs e)
         {
-            ConfigManager.GeneralConfig.tempHighThreshold = Decimal.ToInt32(tempUpper.Value);
+            ConfigManager.GeneralConfig.tempHighThreshold = decimal.ToInt32(tempUpper.Value);
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)

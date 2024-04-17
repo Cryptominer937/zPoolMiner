@@ -106,10 +106,10 @@
         public static readonly ulong MEMORY_3GB = 3221225472;
 
         // sgminer extra quickfix
-        //public readonly bool IsOptimizedVersion;
+        // public readonly bool IsOptimizedVersion;
 
         // sgminer extra quickfix
-        //public readonly bool IsOptimizedVersion;
+        // public readonly bool IsOptimizedVersion;
         /// <summary>
         /// Gets or sets the Codename
         /// </summary>
@@ -185,7 +185,7 @@
             DeviceType = DeviceType.CPU;
             DeviceGroupType = DeviceGroupType.NONE;
             IsEtherumCapale = false;
-            //IsOptimizedVersion = false;
+            // IsOptimizedVersion = false;
             Codename = "fake";
             UUID = GetUUID(ID, GroupNames.GetGroupName(DeviceGroupType, ID), Name, DeviceGroupType);
             GpuRam = 0;
@@ -210,7 +210,7 @@
             Enabled = true;
             DeviceGroupType = DeviceGroupType.CPU;
             DeviceType = DeviceType.CPU;
-            NameCount = String.Format(International.GetText("ComputeDevice_Short_Name_CPU"), CPUCount);
+            NameCount = string.Format(International.GetText("ComputeDevice_Short_Name_CPU"), CPUCount);
             UUID = GetUUID(ID, GroupNames.GetGroupName(DeviceGroupType, ID), Name, DeviceGroupType);
             AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
             IsEtherumCapale = false;
@@ -244,19 +244,10 @@
             DeviceGroupType = group;
             IsEtherumCapale = cudaDevice.IsEtherumCapable();
             DeviceType = DeviceType.NVIDIA;
-            NameCount = String.Format(International.GetText("ComputeDevice_Short_Name_NVIDIA_GPU"), GPUCount);
+            NameCount = string.Format(International.GetText("ComputeDevice_Short_Name_NVIDIA_GPU"), GPUCount);
             UUID = cudaDevice.UUID;
             AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
             GpuRam = cudaDevice.DeviceGlobalMemory;
-        }
-
-        /// <summary>
-        /// The IsSM50
-        /// </summary>
-        /// <returns>The <see cref="bool"/></returns>
-        public bool IsSM50()
-        {
-            return _SM_major == 5 && _SM_minor == 0;
         }
 
         // GPU AMD
@@ -275,7 +266,8 @@
             Enabled = true;
             IsEtherumCapale = amdDevice.IsEtherumCapable();
             DeviceType = DeviceType.AMD;
-            NameCount = String.Format(International.GetText("ComputeDevice_Short_Name_AMD_GPU"), GPUCount);
+            NameCount = string.Format(International.GetText("ComputeDevice_Short_Name_AMD_GPU"), GPUCount);
+
             if (isDetectionFallback)
             {
                 UUID = GetUUID(ID, GroupNames.GetGroupName(DeviceGroupType, ID), Name, DeviceGroupType);
@@ -285,13 +277,19 @@
                 UUID = amdDevice.UUID;
             }
             // sgminer extra
-            //IsOptimizedVersion = amdDevice.UseOptimizedVersion;
+            // IsOptimizedVersion = amdDevice.UseOptimizedVersion;
             Codename = amdDevice.Codename;
             InfSection = amdDevice.InfSection;
             AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
             DriverDisableAlgos = amdDevice.DriverDisableAlgos;
             GpuRam = amdDevice.DeviceGlobalMemory;
         }
+
+        /// <summary>
+        /// The IsSM50
+        /// </summary>
+        /// <returns>The <see cref="bool"/></returns>
+        public bool IsSM50() => _SM_major == 5 && _SM_minor == 0;
 
         // combines long and short name
         /// <summary>
@@ -300,7 +298,7 @@
         /// <returns>The <see cref="string"/></returns>
         public string GetFullName()
         {
-            return String.Format(International.GetText("ComputeDevice_Full_Device_Name"), NameCount, Name);
+            return string.Format(International.GetText("ComputeDevice_Full_Device_Name"), NameCount, Name);
         }
 
         /// <summary>
@@ -312,21 +310,23 @@
         /// <returns>The <see cref="Algorithm"/></returns>
         public Algorithm GetAlgorithm(MinerBaseType MinerBaseType, AlgorithmType AlgorithmType, AlgorithmType SecondaryAlgorithmType)
         {
-            int toSetIndex = AlgorithmSettings.FindIndex((a) => a.CryptoMiner937ID == AlgorithmType && a.MinerBaseType == MinerBaseType && a.SecondaryCryptoMiner937ID == SecondaryAlgorithmType);
+            var toSetIndex = AlgorithmSettings.FindIndex((a) => a.CryptoMiner937ID == AlgorithmType && a.MinerBaseType == MinerBaseType && a.SecondaryCryptoMiner937ID == SecondaryAlgorithmType);
+
             if (toSetIndex > -1)
             {
                 return AlgorithmSettings[toSetIndex];
             }
+
             return null;
         }
 
-        //public Algorithm GetAlgorithm(string algoID) {
+        // public Algorithm GetAlgorithm(string algoID) {
         //    int toSetIndex = this.AlgorithmSettings.FindIndex((a) => a.AlgorithmStringID == algoID);
         //    if (toSetIndex > -1) {
         //        return this.AlgorithmSettings[toSetIndex];
         //    }
         //    return null;
-        //}
+        // }
         /// <summary>
         /// The CopyBenchmarkSettingsFrom
         /// </summary>
@@ -336,6 +336,7 @@
             foreach (var copyFromAlgo in copyBenchCDev.AlgorithmSettings)
             {
                 var setAlgo = GetAlgorithm(copyFromAlgo.MinerBaseType, copyFromAlgo.CryptoMiner937ID, copyFromAlgo.SecondaryCryptoMiner937ID);
+
                 if (setAlgo != null)
                 {
                     setAlgo.BenchmarkSpeed = copyFromAlgo.BenchmarkSpeed;
@@ -369,9 +370,11 @@
             if (config != null && config.DeviceUUID == UUID && config.AlgorithmSettings != null)
             {
                 AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
+
                 foreach (var conf in config.AlgorithmSettings)
                 {
                     var setAlgo = GetAlgorithm(conf.MinerBaseType, conf.CryptoMiner937ID, conf.SecondaryCryptoMiner937ID);
+
                     if (setAlgo != null)
                     {
                         setAlgo.BenchmarkSpeed = conf.BenchmarkSpeed;
@@ -391,12 +394,13 @@
         /// <returns>The <see cref="ComputeDeviceConfig"/></returns>
         public ComputeDeviceConfig GetComputeDeviceConfig()
         {
-            ComputeDeviceConfig ret = new ComputeDeviceConfig
+            var ret = new ComputeDeviceConfig
             {
                 Enabled = Enabled,
                 Name = Name,
                 UUID = UUID
             };
+
             return ret;
         }
 
@@ -406,7 +410,7 @@
         /// <returns>The <see cref="DeviceBenchmarkConfig"/></returns>
         public DeviceBenchmarkConfig GetAlgorithmDeviceConfig()
         {
-            DeviceBenchmarkConfig ret = new DeviceBenchmarkConfig
+            var ret = new DeviceBenchmarkConfig
             {
                 DeviceName = Name,
                 DeviceUUID = UUID
@@ -415,7 +419,7 @@
             foreach (var algo in AlgorithmSettings)
             {
                 // create/setup
-                AlgorithmConfig conf = new AlgorithmConfig
+                var conf = new AlgorithmConfig
                 {
                     Name = algo.AlgorithmStringID,
                     CryptoMiner937ID = algo.CryptoMiner937ID,
@@ -431,6 +435,7 @@
                 // insert
                 ret.AlgorithmSettings.Add(conf);
             }
+
             return ret;
         }
 
@@ -467,10 +472,12 @@
         {
             // hello state
             var algosTmp = GetAlgorithmSettings();
-            Dictionary<AlgorithmType, Algorithm> sortDict = new Dictionary<AlgorithmType, Algorithm>();
+            var sortDict = new Dictionary<AlgorithmType, Algorithm>();
+
             foreach (var algo in algosTmp)
             {
                 var algoKey = algo.CryptoMiner937ID;
+
                 if (sortDict.ContainsKey(algoKey))
                 {
                     if (sortDict[algoKey].BenchmarkSpeed < algo.BenchmarkSpeed)
@@ -483,11 +490,11 @@
                     sortDict[algoKey] = algo;
                 }
             }
-            List<Algorithm> retAlgos = new List<Algorithm>();
+
+            var retAlgos = new List<Algorithm>();
+
             foreach (var fastestAlgo in sortDict.Values)
-            {
                 retAlgos.Add(fastestAlgo);
-            }
 
             return retAlgos;
         }
@@ -503,6 +510,7 @@
             {
                 return AlgorithmSettings;
             }
+
             var third_party_miners = new List<MinerBaseType>() { };
 
             return AlgorithmSettings.FindAll((a) => third_party_miners.IndexOf(a.MinerBaseType) == -1);
@@ -521,12 +529,12 @@
         {
             var SHA256 = new SHA256Managed();
             var hash = new StringBuilder();
-            string mixedAttr = id.ToString() + group + name + ((int)deviceGroupType).ToString();
-            byte[] hashedBytes = SHA256.ComputeHash(Encoding.UTF8.GetBytes(mixedAttr), 0, Encoding.UTF8.GetByteCount(mixedAttr));
+            var mixedAttr = id.ToString() + group + name + ((int)deviceGroupType).ToString();
+            var hashedBytes = SHA256.ComputeHash(Encoding.UTF8.GetBytes(mixedAttr), 0, Encoding.UTF8.GetByteCount(mixedAttr));
+
             foreach (var b in hashedBytes)
-            {
                 hash.Append(b.ToString("x2"));
-            }
+
             // GEN indicates the UUID has been generated and cannot be presumed to be immutable
             return "GEN-" + hash.ToString();
         }
@@ -535,9 +543,6 @@
         /// The IsAlgorithmSettingsInitialized
         /// </summary>
         /// <returns>The <see cref="bool"/></returns>
-        internal bool IsAlgorithmSettingsInitialized()
-        {
-            return AlgorithmSettings != null;
-        }
+        internal bool IsAlgorithmSettingsInitialized() => AlgorithmSettings != null;
     }
 }

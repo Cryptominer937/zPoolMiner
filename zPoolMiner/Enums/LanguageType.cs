@@ -2,7 +2,7 @@
 {
     public enum LanguageType : int
     {
-        //NONE = -1,
+        // NONE = -1,
         En = 0,
 
         Ru,

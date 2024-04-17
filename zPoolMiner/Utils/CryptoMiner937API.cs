@@ -58,6 +58,7 @@
         {
             recentPaying = new Dictionary<AlgorithmType, List<double>>();
             var sma = new Dictionary<AlgorithmType, CryptoMiner937API>();
+
             foreach (AlgorithmType algo in Enum.GetValues(typeof(AlgorithmType)))
             {
                 if (algo >= 0)
@@ -71,9 +72,11 @@
                         algo = (int)algo,
                         paying = 0
                     };
+
                     recentPaying[algo] = new List<double> { 0 };
                 }
             }
+
             currentSMA = sma;
         }
 
@@ -85,6 +88,7 @@
         {
             recentPaying = new Dictionary<AlgorithmType, List<double>>();
             var sma = new Dictionary<AlgorithmType, CryptoMiner937API>();
+
             foreach (var algo in data)
             {
                 sma[(AlgorithmType)algo.NiceHashAlgoId()] = new CryptoMiner937API
@@ -96,8 +100,10 @@
                     algo = algo.NiceHashAlgoId(),
                     paying = 0
                 };
+
                 recentPaying[(AlgorithmType)algo.NiceHashAlgoId()] = new List<double> { 0 };
             }
+
             currentSMA = sma;
         }
 
@@ -114,6 +120,7 @@
                 {
                     recentPaying[algo].RemoveAt(0);
                 }
+
                 recentPaying[algo].Add(paying);
             }
         }
@@ -141,12 +148,14 @@
                         if (current > (IQR * ConfigManager.GeneralConfig.IQROverFactor) + TQ)
                         {  // result is deviant over
                             var norm = (IQR * ConfigManager.GeneralConfig.IQRNormalizeFactor) + TQ;
-                            Helpers.ConsolePrint("PROFITNORM", String.Format("Algorithm {0} profit deviant, {1} IQRs over ({2} actual, {3} 3Q). Normalizing to {4}",
+
+                            Helpers.ConsolePrint("PROFITNORM", string.Format("Algorithm {0} profit deviant, {1} IQRs over ({2} actual, {3} 3Q). Normalizing to {4}",
                                 currentSMA[algo].name,
                                 (current - TQ) / IQR,
                                 current,
                                 TQ,
                                 norm));
+
                             currentSMA[algo].paying = (norm) * (.9);
                         }
                         else
@@ -173,6 +182,7 @@
         {
             if (recentPaying.ContainsKey(algo))
                 return recentPaying[algo].LastOrDefault();
+
             return 0;
         }
     }

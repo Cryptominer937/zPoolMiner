@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="name">The <see cref="string"/></param>
         public MinerOptionPackageFile(string name)
-            : base(FOLDERS.INTERNALS, String.Format("{0}.json", name), String.Format("{0}.json", name))
+            : base(FOLDERS.INTERNALS, string.Format("{0}.json", name), string.Format("{0}.json", name))
         {
         }
     }
@@ -559,9 +559,10 @@
         {
             foreach (var pack in DEFAULTS)
             {
-                var packageName = String.Format("MinerOptionPackage_{0}", pack.Name);
+                var packageName = string.Format("MinerOptionPackage_{0}", pack.Name);
                 var packageFile = new MinerOptionPackageFile(packageName);
                 var readPack = packageFile.ReadFile();
+
                 if (readPack == null)
                 { // read has failed
                     Helpers.ConsolePrint("ExtraLaunchParameters", "Creating internal params config " + packageName);
@@ -575,15 +576,17 @@
                     MinerOptionPackages.Add(readPack);
                 }
             }
+
             var defaultKeys = DEFAULTS.ConvertAll((p) => p.Type);
             // extra check if DEFAULTS is missing a key
             for (var type = (MinerType.NONE + 1); type < MinerType.END; ++type)
             {
                 if (defaultKeys.Contains(type) == false)
                 {
-                    var packageName = String.Format("MinerOptionPackage_{0}", Enum.GetName(typeof(MinerType), type));
+                    var packageName = string.Format("MinerOptionPackage_{0}", Enum.GetName(typeof(MinerType), type));
                     var packageFile = new MinerOptionPackageFile(packageName);
                     var readPack = packageFile.ReadFile();
+
                     if (readPack != null)
                     { // read has failed
                         Helpers.ConsolePrint("ExtraLaunchParameters", "Creating internal params config " + packageName);
@@ -600,11 +603,8 @@
         /// <returns>The <see cref="MinerOptionPackage"/></returns>
         public static MinerOptionPackage GetMinerOptionPackageForMinerType(MinerType type)
         {
-            int index = MinerOptionPackages.FindIndex((p) => p.Type == type);
-            if (index > -1)
-            {
-                return MinerOptionPackages[index];
-            }
+            var index = MinerOptionPackages.FindIndex((p) => p.Type == type);
+            if (index > -1) return MinerOptionPackages[index];
             // if none found
             return new MinerOptionPackage(MinerType.NONE, new List<MinerOption>(), new List<MinerOption>());
         }

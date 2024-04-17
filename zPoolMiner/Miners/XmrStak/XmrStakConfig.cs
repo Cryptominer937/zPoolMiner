@@ -18,7 +18,7 @@
          * tls_secure_algo - Use only secure algorithms. This will make us quit with an error if we can't negotiate a secure algo.
          * tls_fingerprint - Server's SHA256 fingerprint. If this string is non-empty then we will check the server's cert against it.
          */
-        public readonly bool use_tls = false;
+        public readonly bool use_tls;
         public readonly bool tls_secure_algo = true;
         public readonly string tls_fingerprint = "";
 
@@ -47,7 +47,7 @@
          */
         public int call_timeout = 10;
         public int retry_time = 10;
-        public int giveup_limit = 0;
+        public int giveup_limit;
 
         /*
          * Output control.
@@ -78,7 +78,7 @@
          * If you are running the process in the background and you don't need the keyboard reports, set this to true.
          * This should solve the hashrate problems on some emulated terminals.
          */
-        public bool daemon_mode = false;
+        public bool daemon_mode;
 
         /*
          * Output file

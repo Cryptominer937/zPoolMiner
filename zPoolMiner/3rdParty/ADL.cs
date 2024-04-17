@@ -29,6 +29,7 @@ using System;
 using System.Runtime.InteropServices;
 using FARPROC = System.IntPtr;
 using HMODULE = System.IntPtr;
+
 // ReSharper disable All
 #pragma warning disable
 
@@ -47,7 +48,7 @@ namespace ATI.ADL
     // ///// <summary> ADL Create Function to create ADL Data</summary>
     /// <param name="callback">Call back functin pointer which is ised to allocate memeory </param>
     /// <param name="enumConnectedAdapters">If it is 1, then ADL will only retuen the physical exist adapters </param>
-    ///// <returns> retrun ADL Error Code</returns>
+    // /// <returns> retrun ADL Error Code</returns>
     internal delegate int ADL_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters);
 
     internal delegate int ADL2_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters, ref IntPtr context);
@@ -141,7 +142,6 @@ namespace ATI.ADL
         internal int OSDisplayIndex;
     }
 
-
     /// <summary> ADLAdapterInfo Array</summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLAdapterInfoArray
@@ -151,7 +151,6 @@ namespace ATI.ADL
         internal ADLAdapterInfo[] ADLAdapterInfo;
     }
     #endregion ADLAdapterInfo
-
 
     #region ADLDisplayInfo
     /// <summary> ADLDisplayID Structure</summary>
@@ -267,7 +266,7 @@ namespace ATI.ADL
 
         #region Class ADLImport
         /// <summary> ADLImport class</summary>
-        private static class ADLImport
+        static class ADLImport
         {
             #region Internal Constant
             /// <summary> Atiadlxx_FileName </summary>
@@ -331,15 +330,15 @@ namespace ATI.ADL
 
         #region Class ADLCheckLibrary
         /// <summary> ADLCheckLibrary class</summary>
-        private class ADLCheckLibrary
+        class ADLCheckLibrary
         {
             #region Private Members
-            private HMODULE ADLLibrary = System.IntPtr.Zero;
+            HMODULE ADLLibrary = System.IntPtr.Zero;
             #endregion Private Members
 
             #region Static Members
             /// <summary> new a private instance</summary>
-            private static ADLCheckLibrary ADLCheckLibrary_ = new ADLCheckLibrary();
+            static ADLCheckLibrary ADLCheckLibrary_ = new ADLCheckLibrary();
             #endregion Static Members
 
             #region Constructor
@@ -376,7 +375,8 @@ namespace ATI.ADL
             /// <returns>return true, if function exists</returns>
             internal static bool IsFunctionValid(string functionName)
             {
-                bool result = false;
+                var result = false;
+
                 if (System.IntPtr.Zero != ADLCheckLibrary_.ADLLibrary)
                 {
                     if (1 == ADLImport.ADL_Main_Control_IsFunctionValid(ADLCheckLibrary_.ADLLibrary, functionName))
@@ -384,8 +384,10 @@ namespace ATI.ADL
                         result = true;
                     }
                 }
+
                 return result;
             }
+
             #endregion Static IsFunctionValid
 
             #region Static GetProcAddress
@@ -394,11 +396,13 @@ namespace ATI.ADL
             /// <returns>return function pointer, if function exists</returns>
             internal static FARPROC GetProcAddress(string functionName)
             {
-                FARPROC result = System.IntPtr.Zero;
+                var result = System.IntPtr.Zero;
+
                 if (System.IntPtr.Zero != ADLCheckLibrary_.ADLLibrary)
                 {
                     result = ADLImport.ADL_Main_Control_GetProcAddress(ADLCheckLibrary_.ADLLibrary, functionName);
                 }
+
                 return result;
             }
             #endregion Static GetProcAddress
@@ -413,11 +417,12 @@ namespace ATI.ADL
         /// <summary> Build in memory allocation function</summary>
         /// <param name="size">input size</param>
         /// <returns>return the memory buffer</returns>
-        private static IntPtr ADL_Main_Memory_Alloc_(int size)
+        static IntPtr ADL_Main_Memory_Alloc_(int size)
         {
-            IntPtr result = Marshal.AllocCoTaskMem(size);
+            var result = Marshal.AllocCoTaskMem(size);
             return result;
         }
+
         #endregion ADL_Main_Memory_Alloc
 
         #region ADL_Main_Memory_Free
@@ -430,6 +435,7 @@ namespace ATI.ADL
                 Marshal.FreeCoTaskMem(buffer);
             }
         }
+
         #endregion ADL_Main_Memory_Free
 
         #region ADL_Main_Control_Create
@@ -441,18 +447,20 @@ namespace ATI.ADL
                 if (!ADL_Main_Control_Create_Check && null == ADL_Main_Control_Create_)
                 {
                     ADL_Main_Control_Create_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Create"))
                     {
                         ADL_Main_Control_Create_ = ADLImport.ADL_Main_Control_Create;
                     }
                 }
+
                 return ADL_Main_Control_Create_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Main_Control_Create ADL_Main_Control_Create_ = null;
+        static ADL_Main_Control_Create ADL_Main_Control_Create_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Main_Control_Create_Check = false;
+        static bool ADL_Main_Control_Create_Check;
         /// <summary> ADL_Main_Control_Create Delegates</summary>
         internal static ADL2_Main_Control_Create ADL2_Main_Control_Create
         {
@@ -461,18 +469,20 @@ namespace ATI.ADL
                 if (!ADL2_Main_Control_Create_Check && null == ADL2_Main_Control_Create_)
                 {
                     ADL2_Main_Control_Create_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Create"))
                     {
                         ADL2_Main_Control_Create_ = ADLImport.ADL2_Main_Control_Create;
                     }
                 }
+
                 return ADL2_Main_Control_Create_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL2_Main_Control_Create ADL2_Main_Control_Create_ = null;
+        static ADL2_Main_Control_Create ADL2_Main_Control_Create_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Main_Control_Create_Check = false;
+        static bool ADL2_Main_Control_Create_Check;
         #endregion ADL_Main_Control_Create
 
         #region ADL_Main_Control_Destroy
@@ -484,18 +494,20 @@ namespace ATI.ADL
                 if (!ADL_Main_Control_Destroy_Check && null == ADL_Main_Control_Destroy_)
                 {
                     ADL_Main_Control_Destroy_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Destroy"))
                     {
                         ADL_Main_Control_Destroy_ = ADLImport.ADL_Main_Control_Destroy;
                     }
                 }
+
                 return ADL_Main_Control_Destroy_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Main_Control_Destroy ADL_Main_Control_Destroy_ = null;
+        static ADL_Main_Control_Destroy ADL_Main_Control_Destroy_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Main_Control_Destroy_Check = false;
+        static bool ADL_Main_Control_Destroy_Check;
         internal static ADL2_Main_Control_Destroy ADL2_Main_Control_Destroy
         {
             get
@@ -503,18 +515,20 @@ namespace ATI.ADL
                 if (!ADL2_Main_Control_Destroy_Check && null == ADL2_Main_Control_Destroy_)
                 {
                     ADL2_Main_Control_Destroy_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Destroy"))
                     {
                         ADL2_Main_Control_Destroy_ = ADLImport.ADL2_Main_Control_Destroy;
                     }
                 }
+
                 return ADL2_Main_Control_Destroy_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL2_Main_Control_Destroy ADL2_Main_Control_Destroy_ = null;
+        static ADL2_Main_Control_Destroy ADL2_Main_Control_Destroy_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Main_Control_Destroy_Check = false;
+        static bool ADL2_Main_Control_Destroy_Check;
         #endregion ADL_Main_Control_Destroy
 
         #region ADL_Adapter_NumberOfAdapters_Get
@@ -526,18 +540,20 @@ namespace ATI.ADL
                 if (!ADL_Adapter_NumberOfAdapters_Get_Check && null == ADL_Adapter_NumberOfAdapters_Get_)
                 {
                     ADL_Adapter_NumberOfAdapters_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_NumberOfAdapters_Get"))
                     {
                         ADL_Adapter_NumberOfAdapters_Get_ = ADLImport.ADL_Adapter_NumberOfAdapters_Get;
                     }
                 }
+
                 return ADL_Adapter_NumberOfAdapters_Get_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get_ = null;
+        static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_NumberOfAdapters_Get_Check = false;
+        static bool ADL_Adapter_NumberOfAdapters_Get_Check;
         #endregion ADL_Adapter_NumberOfAdapters_Get
 
         #region ADL_Adapter_AdapterInfo_Get
@@ -549,18 +565,20 @@ namespace ATI.ADL
                 if (!ADL_Adapter_AdapterInfo_Get_Check && null == ADL_Adapter_AdapterInfo_Get_)
                 {
                     ADL_Adapter_AdapterInfo_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_AdapterInfo_Get"))
                     {
                         ADL_Adapter_AdapterInfo_Get_ = ADLImport.ADL_Adapter_AdapterInfo_Get;
                     }
                 }
+
                 return ADL_Adapter_AdapterInfo_Get_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get_ = null;
+        static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_AdapterInfo_Get_Check = false;
+        static bool ADL_Adapter_AdapterInfo_Get_Check;
 
         /// <summary> ADL_Adapter_AdapterInfo_Get Delegates</summary>
         internal static ADL2_Adapter_AdapterInfo_Get ADL2_Adapter_AdapterInfo_Get
@@ -570,18 +588,20 @@ namespace ATI.ADL
                 if (!ADL2_Adapter_AdapterInfo_Get_Check && null == ADL2_Adapter_AdapterInfo_Get_)
                 {
                     ADL2_Adapter_AdapterInfo_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_AdapterInfo_Get"))
                     {
                         ADL2_Adapter_AdapterInfo_Get_ = ADLImport.ADL2_Adapter_AdapterInfo_Get;
                     }
                 }
+
                 return ADL2_Adapter_AdapterInfo_Get_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL2_Adapter_AdapterInfo_Get ADL2_Adapter_AdapterInfo_Get_ = null;
+        static ADL2_Adapter_AdapterInfo_Get ADL2_Adapter_AdapterInfo_Get_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Adapter_AdapterInfo_Get_Check = false;
+        static bool ADL2_Adapter_AdapterInfo_Get_Check;
         #endregion ADL_Adapter_AdapterInfo_Get
 
         #region ADL_Adapter_Active_Get
@@ -593,18 +613,20 @@ namespace ATI.ADL
                 if (!ADL_Adapter_Active_Get_Check && null == ADL_Adapter_Active_Get_)
                 {
                     ADL_Adapter_Active_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_Active_Get"))
                     {
                         ADL_Adapter_Active_Get_ = ADLImport.ADL_Adapter_Active_Get;
                     }
                 }
+
                 return ADL_Adapter_Active_Get_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_Active_Get ADL_Adapter_Active_Get_ = null;
+        static ADL_Adapter_Active_Get ADL_Adapter_Active_Get_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_Active_Get_Check = false;
+        static bool ADL_Adapter_Active_Get_Check;
         #endregion ADL_Adapter_Active_Get
 
         #region ADL_Display_DisplayInfo_Get
@@ -616,18 +638,20 @@ namespace ATI.ADL
                 if (!ADL_Display_DisplayInfo_Get_Check && null == ADL_Display_DisplayInfo_Get_)
                 {
                     ADL_Display_DisplayInfo_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Display_DisplayInfo_Get"))
                     {
                         ADL_Display_DisplayInfo_Get_ = ADLImport.ADL_Display_DisplayInfo_Get;
                     }
                 }
+
                 return ADL_Display_DisplayInfo_Get_;
             }
         }
         /// <summary> Private Delegate</summary>
-        private static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get_ = null;
+        static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get_;
         /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Display_DisplayInfo_Get_Check = false;
+        static bool ADL_Display_DisplayInfo_Get_Check;
         #endregion ADL_Display_DisplayInfo_Get
 
         internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get
@@ -637,16 +661,18 @@ namespace ATI.ADL
                 if (!ADL_Overdrive5_CurrentActivity_Get_Check && null == ADL_Overdrive5_CurrentActivity_Get_)
                 {
                     ADL_Overdrive5_CurrentActivity_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_CurrentActivity_Get"))
                     {
                         ADL_Overdrive5_CurrentActivity_Get_ = ADLImport.ADL_Overdrive5_CurrentActivity_Get;
                     }
                 }
+
                 return ADL_Overdrive5_CurrentActivity_Get_;
             }
         }
-        private static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get_ = null;
-        private static bool ADL_Overdrive5_CurrentActivity_Get_Check = false;
+        static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get_;
+        static bool ADL_Overdrive5_CurrentActivity_Get_Check;
 
         internal static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get
         {
@@ -655,16 +681,18 @@ namespace ATI.ADL
                 if (!ADL_Overdrive5_Temperature_Get_Check && null == ADL_Overdrive5_Temperature_Get_)
                 {
                     ADL_Overdrive5_Temperature_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_Temperature_Get"))
                     {
                         ADL_Overdrive5_Temperature_Get_ = ADLImport.ADL_Overdrive5_Temperature_Get;
                     }
                 }
+
                 return ADL_Overdrive5_Temperature_Get_;
             }
         }
-        private static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get_ = null;
-        private static bool ADL_Overdrive5_Temperature_Get_Check = false;
+        static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get_;
+        static bool ADL_Overdrive5_Temperature_Get_Check;
 
         internal static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get
         {
@@ -673,16 +701,18 @@ namespace ATI.ADL
                 if (!ADL_Overdrive5_FanSpeed_Get_Check && null == ADL_Overdrive5_FanSpeed_Get_)
                 {
                     ADL_Overdrive5_FanSpeed_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_FanSpeed_Get"))
                     {
                         ADL_Overdrive5_FanSpeed_Get_ = ADLImport.ADL_Overdrive5_FanSpeed_Get;
                     }
                 }
+
                 return ADL_Overdrive5_FanSpeed_Get_;
             }
         }
-        private static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get_ = null;
-        private static bool ADL_Overdrive5_FanSpeed_Get_Check = false;
+        static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get_;
+        static bool ADL_Overdrive5_FanSpeed_Get_Check;
 
         internal static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get
         {
@@ -691,6 +721,7 @@ namespace ATI.ADL
                 if (!ADL2_Overdrive6_CurrentPower_Get_Check && null == ADL2_Overdrive6_CurrentPower_Get_)
                 {
                     ADL2_Overdrive6_CurrentPower_Get_Check = true;
+
                     if (ADLCheckLibrary.IsFunctionValid("ADL2_Overdrive6_CurrentPower_Get"))
                     {
                         ADL2_Overdrive6_CurrentPower_Get_ = ADLImport.ADL2_Overdrive6_CurrentPower_Get;
@@ -701,12 +732,11 @@ namespace ATI.ADL
             }
         }
 
-        private static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get_ = null;
-        private static bool ADL2_Overdrive6_CurrentPower_Get_Check = false;
+        static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get_;
+        static bool ADL2_Overdrive6_CurrentPower_Get_Check;
 
         #endregion Export Functions
     }
     #endregion ADL Class
 }
-
 #endregion ATI.ADL

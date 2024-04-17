@@ -12,8 +12,8 @@ namespace zPoolMiner.PInvoke
             [Out] out bool wow64Process
         );
 
-        [DllImportAttribute("kernel32.dll", EntryPoint = "AllocConsole")]
-        [return: MarshalAsAttribute(UnmanagedType.Bool)]
+        [DllImport("kernel32.dll", EntryPoint = "AllocConsole")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
 
         [DllImport("wininet.dll")]
@@ -34,7 +34,7 @@ namespace zPoolMiner.PInvoke
 
         #region Prevent going to sleep
 
-        [FlagsAttribute]
+        [Flags]
         public enum EXECUTION_STATE : uint
         {
             ES_AWAYMODE_REQUIRED = 0x00000040,

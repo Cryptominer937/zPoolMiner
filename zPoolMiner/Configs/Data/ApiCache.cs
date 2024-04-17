@@ -14,7 +14,7 @@ namespace zPoolMiner.Configs.Data
         // SMA data        /// <summary>
         /// Defines the CryptoMiner937Data
         /// </summary>
-        public Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data = null;
+        public Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data;
 
         /// <summary>
         /// Defines the CryptoMiner937DataTimeStamp

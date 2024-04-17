@@ -88,6 +88,7 @@
             {
                 return speed / _div[type];
             }
+
             return speed; // should never happen
         }
     }

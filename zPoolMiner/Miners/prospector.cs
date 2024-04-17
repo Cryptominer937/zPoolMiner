@@ -25,13 +25,7 @@
         /// <summary>
         /// Gets a value indicating whether IsInit
         /// </summary>
-        public static bool IsInit
-        {
-            get
-            {
-                return NVPlatform >= 0 || AMDPlatform >= 0;
-            }
-        }
+        public static bool IsInit => NVPlatform >= 0 || AMDPlatform >= 0;
 
         /// <summary>
         /// Defines the NVPlatform
@@ -55,6 +49,7 @@
                 if (type == DeviceType.NVIDIA) return NVPlatform;
                 if (type == DeviceType.AMD) return AMDPlatform;
             }
+
             return -1;
         }
     }
@@ -244,6 +239,7 @@
         private string deviceIDString(int id, DeviceType type)
         {
             var platform = 0;
+
             if (InitPlatforms())
             {
                 platform = ProspectorPlatforms.PlatformForDeviceType(type);
@@ -251,10 +247,12 @@
             else
             {  // fallback
                 Helpers.ConsolePrint(MinerTag(), "Failed to get platforms, falling back");
+
                 if (ComputeDeviceManager.Available.HasNVIDIA && type != DeviceType.NVIDIA)
                     platform = 1;
             }
-            return String.Format("{0}-{1}", platform, id);
+
+            return string.Format("{0}-{1}", platform, id);
         }
 
         /// <summary>
@@ -263,7 +261,7 @@
         /// <returns>The <see cref="string"/></returns>
         private string GetConfigFileName()
         {
-            return String.Format("config_{0}.toml", MiningSetup.MiningPairs[0].Device.ID);
+            return string.Format("config_{0}.toml", MiningSetup.MiningPairs[0].Device.ID);
         }
 
         /// <summary>
@@ -285,36 +283,43 @@
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("ahashpool.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("hashrefinery.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("nicehash.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("zergpool.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("blockmasters.co"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("blazepool.com"))
                         {
                             wallet = Globals.DemoUser;
                             worker = "c=DOGE,ID=Donation";
                         }
+
                         if (pool.Contains("miningpoolhub.com"))
                         {
                             wallet = "cryptominer.Devfee";
@@ -332,62 +337,71 @@
                             wallet = zPoolMiner.Globals.GetzpoolUser();
                             worker = zPoolMiner.Globals.GetzpoolWorker();
                         }
+
                         if (pool.Contains("ahashpool.com"))
                         {
                             wallet = zPoolMiner.Globals.GetahashUser();
                             worker = zPoolMiner.Globals.GetahashWorker();
                         }
+
                         if (pool.Contains("hashrefinery.com"))
                         {
                             wallet = zPoolMiner.Globals.GethashrefineryUser();
                             worker = zPoolMiner.Globals.GethashrefineryWorker();
                         }
+
                         if (pool.Contains("nicehash.com"))
                         {
                             wallet = zPoolMiner.Globals.GetnicehashUser();
                             worker = zPoolMiner.Globals.GetnicehashWorker();
                         }
+
                         if (pool.Contains("zergpool.com"))
                         {
                             wallet = zPoolMiner.Globals.GetzergUser();
                             worker = zPoolMiner.Globals.GetzergWorker();
                         }
+
                         if (pool.Contains("minemoney.co"))
                         {
                             wallet = zPoolMiner.Globals.GetminemoneyUser();
                             worker = zPoolMiner.Globals.GetminemoneyWorker();
                         }
+
                         if (pool.Contains("blazepool.com"))
                         {
                             wallet = zPoolMiner.Globals.GetblazepoolUser();
                             worker = zPoolMiner.Globals.GetblazepoolWorker();
                         }
+
                         if (pool.Contains("blockmasters.co"))
                         {
                             wallet = zPoolMiner.Globals.GetblockmunchUser();
                             worker = zPoolMiner.Globals.GetblockmunchWorker();
                         }
+
                         if (pool.Contains("miningpoolhub.com"))
                         {
                             wallet = zPoolMiner.Globals.GetMPHUser();
                             worker = zPoolMiner.Globals.GetMPHWorker();
                         }
                     }
+
                     var sb = new StringBuilder();
 
                     sb.AppendLine("[general]");
-                    sb.AppendLine(String.Format("gpu-coin = \"{0}\"", MiningSetup.MinerName));
-                    sb.AppendLine(String.Format("default-username = \"{0}\"", wallet));
-                    sb.AppendLine(String.Format("default-password = \"{0}\"", worker + ""));
+                    sb.AppendLine(string.Format("gpu-coin = \"{0}\"", MiningSetup.MinerName));
+                    sb.AppendLine(string.Format("default-username = \"{0}\"", wallet));
+                    sb.AppendLine(string.Format("default-password = \"{0}\"", worker + ""));
 
-                    sb.AppendLine(String.Format("[pools.{0}]", MiningSetup.MinerName));
-                    sb.AppendLine(String.Format("url = \"{0}\"", pool));
+                    sb.AppendLine(string.Format("[pools.{0}]", MiningSetup.MinerName));
+                    sb.AppendLine(string.Format("url = \"{0}\"", pool));
 
                     foreach (var dev in MiningSetup.MiningPairs)
                     {
-                        sb.AppendLine(String.Format("[gpus.{0}]", deviceIDString(dev.Device.ID, dev.Device.DeviceType)));
+                        sb.AppendLine(string.Format("[gpus.{0}]", deviceIDString(dev.Device.ID, dev.Device.DeviceType)));
                         sb.AppendLine("enabled = true");
-                        sb.AppendLine(String.Format("label = \"{0}\"", dev.Device.Name));
+                        sb.AppendLine(string.Format("label = \"{0}\"", dev.Device.Name));
                     }
 
                     sb.AppendLine("[cpu]");
@@ -418,29 +432,34 @@
 
             try
             {
-                string latestLogFile = "";
+                var latestLogFile = "";
                 var dirInfo = new DirectoryInfo(WorkingDirectory + "logs\\");
+
                 foreach (var file in dirInfo.GetFiles())
                 {
                     latestLogFile = file.Name;
                     break;
                 }
+
                 if (File.Exists(dirInfo + latestLogFile))
                 {
                     var lines = File.ReadAllLines(dirInfo + latestLogFile);
+
                     foreach (var line in lines)
                     {
                         if (line != null)
                         {
-                            string lineLowered = line.ToLower();
+                            var lineLowered = line.ToLower();
+
                             if (lineLowered.Contains(platformStart))
                             {
-                                int platStart = lineLowered.IndexOf(platformStart);
-                                string plat = lineLowered.Substring(platStart, line.Length - platStart);
+                                var platStart = lineLowered.IndexOf(platformStart);
+                                var plat = lineLowered.Substring(platStart, line.Length - platStart);
                                 plat = plat.Replace(platformStart, "");
                                 plat = plat.Substring(0, plat.IndexOf(platformEnd));
 
-                                int platIndex = -1;
+                                var platIndex = -1;
+
                                 if (int.TryParse(plat, out platIndex))
                                 {
                                     if (lineLowered.Contains("nvidia"))
@@ -475,12 +494,11 @@
             try
             {
                 var dirInfo = new DirectoryInfo(WorkingDirectory + "logs\\");
+
                 if (dirInfo != null && dirInfo.Exists)
                 {
                     foreach (FileInfo file in dirInfo.GetFiles())
-                    {
                         file.Delete();
-                    }
                 }
             }
             catch { }
@@ -528,16 +546,17 @@
         public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
 
-            WebClient client = new WebClient();
+            var client = new WebClient();
             HashrateApiResponse[] resp = null;
+
             try
             {
-                string url = String.Format("http://localhost:{0}/api/v0/hashrates", apiPort);
-                Stream data = client.OpenRead(url);
-                StreamReader reader = new StreamReader(data);
-                string s = await reader.ReadToEndAsync();
+                var url = string.Format("http://localhost:{0}/api/v0/hashrates", apiPort);
+                var data = client.OpenRead(url);
+                var reader = new StreamReader(data);
+                var s = await reader.ReadToEndAsync();
                 data.Close();
                 reader.Close();
 
@@ -551,6 +570,7 @@
             if (resp != null)
             {
                 ad.Speed = 0;
+
                 foreach (var response in resp)
                 {
                     if (response.coin == MiningSetup.MinerName)
@@ -559,6 +579,7 @@
                         CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                     }
                 }
+
                 if (ad.Speed == 0)
                 {
                     CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
@@ -581,6 +602,7 @@
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
+
             LastCommandLine = GetStartupCommand(url, btcAddress, worker);
 
             ProcessHandle = _Start();
@@ -595,7 +617,7 @@
         /// <returns>The <see cref="string"/></returns>
         private string GetStartupCommand(string url, string btcAddress, string worker)
         {
-            string username = GetUsername(btcAddress, worker);
+            var username = GetUsername(btcAddress, worker);
             prepareConfigFile(url, username, worker);
             return "--config " + GetConfigFileName();
         }
@@ -611,7 +633,7 @@
             // Prospector can take a very long time to start up
             benchmarkTimeWait = time + 60;
             // network stub
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             return GetStartupCommand(url, Globals.GetBitcoinUser(), ConfigManager.GeneralConfig.WorkerName.Trim());
         }
 
@@ -652,20 +674,21 @@
                 Helpers.ConsolePrint("BENCHMARK", "Benchmark starts");
                 Helpers.ConsolePrint(MinerTag(), "Benchmark should end in : " + benchmarkTimeWait + " seconds");
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
-                Stopwatch _benchmarkTimer = new Stopwatch();
+                var _benchmarkTimer = new Stopwatch();
                 _benchmarkTimer.Reset();
                 _benchmarkTimer.Start();
-                //BenchmarkThreadRoutineStartSettup();
+                // BenchmarkThreadRoutineStartSettup();
                 // wait a little longer then the benchmark routine if exit false throw
-                //var timeoutTime = BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds);
-                //var exitSucces = BenchmarkHandle.WaitForExit(timeoutTime * 1000);
+                // var timeoutTime = BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds);
+                // var exitSucces = BenchmarkHandle.WaitForExit(timeoutTime * 1000);
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
-                bool keepRunning = true;
+                var keepRunning = true;
+
                 while (keepRunning && IsActiveProcess(BenchmarkHandle.Id))
                 {
-                    //string outdata = BenchmarkHandle.StandardOutput.ReadLine();
-                    //BenchmarkOutputErrorDataReceivedImpl(outdata);
+                    // string outdata = BenchmarkHandle.StandardOutput.ReadLine();
+                    // BenchmarkOutputErrorDataReceivedImpl(outdata);
                     // terminate process situations
                     if (_benchmarkTimer.Elapsed.TotalSeconds >= (benchmarkTimeWait + 2)
                         || BenchmarkSignalQuit
@@ -674,25 +697,26 @@
                         || BenchmarkSignalTimedout
                         || BenchmarkException != null)
                     {
-                        string imageName = MinerExeName.Replace(".exe", "");
+                        var imageName = MinerExeName.Replace(".exe", "");
                         // maybe will have to KILL process
                         KillProspectorClaymoreMinerBase(imageName);
+
                         if (BenchmarkSignalTimedout)
                         {
                             throw new Exception("Benchmark timedout");
                         }
+
                         if (BenchmarkException != null)
                         {
                             throw BenchmarkException;
                         }
+
                         if (BenchmarkSignalQuit)
                         {
                             throw new Exception("Termined by user request");
                         }
-                        if (BenchmarkSignalFinnished)
-                        {
-                            break;
-                        }
+
+                        if (BenchmarkSignalFinnished) break;
                         keepRunning = false;
                         break;
                     }
@@ -702,6 +726,7 @@
                         Thread.Sleep(1000);
                     }
                 }
+
                 BenchmarkHandle.WaitForExit(20 * 1000);  // Wait up to 20s for exit
             }
             catch (Exception ex)
@@ -723,6 +748,7 @@
 
                 var session = database.LastSession();
                 var sessionStart = Convert.ToDateTime(session.start);
+
                 if (sessionStart < startTime)
                 {
                     throw new Exception("Session not recorded!");
@@ -731,7 +757,8 @@
                 var hashrates = database.QuerySpeedsForSession(session.id);
 
                 double speed = 0;
-                int speedRead = 0;
+                var speedRead = 0;
+
                 foreach (var hashrate in hashrates)
                 {
                     if (hashrate.coin == MiningSetup.MinerName && hashrate.rate > 0)

@@ -80,7 +80,7 @@
         /// </summary>
         Claymorecryptonight,
 
-        //ClaymoreNeoScrypt,
+        // ClaymoreNeoScrypt,
 
         /// <summary>
         /// Defines the OptiminerZcash
@@ -123,7 +123,7 @@
         /// <summary>
         /// Defines the Palgin_HSR
         /// </summary>
-        //Palgin_HSR,
+        // Palgin_HSR,
         mkxminer,
 
         /// <summary>

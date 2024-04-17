@@ -21,7 +21,7 @@ namespace zPoolMiner.Miners
         private int TotalCount = 2;
         private const int TotalDelim = 2;
         private double speed = 0;
-        private int count = 0;
+        private int count;
 
         public SRBMineramd() : base("SRBMineramd")
         {
@@ -43,7 +43,7 @@ namespace zPoolMiner.Miners
 
         public override void Start(string url, string btcAdress, string worker)
         {
-            //IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.SRBMiner;
+            // IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.SRBMiner;
 
             LastCommandLine = GetStartCommand(url, btcAdress, worker);
             ProcessHandle = _Start();
@@ -56,11 +56,14 @@ namespace zPoolMiner.Miners
             var port = "3367";
             var variant = " --ccryptonighttype normalv8";
             url = url.Replace("stratum+tcp://", "");
+
             if (File.Exists("bin_3rdparty\\SRBMiner\\poolsV8.txt"))
                 File.Delete("bin_3rdparty\\SRBMiner\\poolsV8.txt");
+
             var str1 = "{\r\n" +
                        "\"pools\" :\r\n" +
                        "[\r\n";
+
             var str2 = "        {\r\n" +
                 "                \"pool\" : \"cryptonightv8.hk.nicehash.com:3367\",\r\n" +
                 "                \"wallet\" : \"" + btcAdress + "." + worker + "\",\r\n" +
@@ -86,12 +89,14 @@ namespace zPoolMiner.Miners
                 "                \"wallet\" : \"" + btcAdress + "." + worker + "\",\r\n" +
                 "                \"password\" : \"x\"\r\n" +
                 "        }\r\n";
+
             var str3 = "]\r\n" +
                        "}";
+
             try
             {
-                FileStream fs = new FileStream("bin_3rdparty\\SRBMiner\\poolsV8.txt", FileMode.Create, FileAccess.Write);
-                StreamWriter w = new StreamWriter(fs);
+                var fs = new FileStream("bin_3rdparty\\SRBMiner\\poolsV8.txt", FileMode.Create, FileAccess.Write);
+                var w = new StreamWriter(fs);
                 w.WriteAsync(str1 + str2 + str3);
                 w.Flush();
                 w.Close();
@@ -106,11 +111,14 @@ namespace zPoolMiner.Miners
                 algo = "cryptonightheavy";
                 port = "3364";
                 variant = " --ccryptonighttype heavy";
+
                 if (File.Exists("bin_3rdparty\\SRBMiner\\poolsH.txt"))
                     File.Delete("bin_3rdparty\\SRBMiner\\poolsH.txt");
+
                 var strh1 = "{\r\n" +
                            "\"pools\" :\r\n" +
                            "[\r\n";
+
                 var strh2 = "        {\r\n" +
                     "                \"pool\" : \"cryptonightheavy.hk.nicehash.com:3364\",\r\n" +
                     "                \"wallet\" : \"" + btcAdress + "." + worker + "\",\r\n" +
@@ -136,12 +144,14 @@ namespace zPoolMiner.Miners
                     "                \"wallet\" : \"" + btcAdress + "." + worker + "\",\r\n" +
                     "                \"password\" : \"x\"\r\n" +
                     "        }\r\n";
+
                 var strh3 = "]\r\n" +
                            "}";
+
                 try
                 {
-                    FileStream fs = new FileStream("bin_3rdparty\\SRBMiner\\poolsH.txt", FileMode.Create, FileAccess.Write);
-                    StreamWriter w = new StreamWriter(fs);
+                    var fs = new FileStream("bin_3rdparty\\SRBMiner\\poolsH.txt", FileMode.Create, FileAccess.Write);
+                    var w = new StreamWriter(fs);
                     w.WriteAsync(strh1 + strh2 + strh3);
                     w.Flush();
                     w.Close();
@@ -150,6 +160,7 @@ namespace zPoolMiner.Miners
                 {
                     Helpers.ConsolePrint("poolsH.txt write error:", e.ToString());
                 }
+
                 return $" {variant} --cgpuid {GetDevicesCommandString().TrimStart()} {extras} --cnicehash true --apienable --apiport {ApiPort} --cpool {url} --cwallet {btcAdress}.{worker} --cpassword x --pools poolsH.txt";
             }
 
@@ -165,6 +176,7 @@ namespace zPoolMiner.Miners
             url = url.Replace("stratum+tcp://", "");
 
             Thread.Sleep(500);
+
             if (MiningSetup.CurrentAlgorithmType.Equals(AlgorithmType.cryptonight_gpu))
             {
                 algo = "cryptonightheavy";
@@ -190,26 +202,27 @@ namespace zPoolMiner.Miners
         {
             var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
             string ResponseFromSRBMiner;
+
             try
             {
-                HttpWebRequest WR = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + ApiPort.ToString());
+                var WR = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + ApiPort.ToString());
                 WR.UserAgent = "GET / HTTP/1.1\r\n\r\n";
                 WR.Timeout = 30 * 1000;
                 WR.Credentials = CredentialCache.DefaultCredentials;
-                WebResponse Response = WR.GetResponse();
-                Stream SS = Response.GetResponseStream();
+                var Response = WR.GetResponse();
+                var SS = Response.GetResponseStream();
                 SS.ReadTimeout = 20 * 1000;
-                StreamReader Reader = new StreamReader(SS);
+                var Reader = new StreamReader(SS);
                 ResponseFromSRBMiner = await Reader.ReadToEndAsync();
-                //Helpers.ConsolePrint("API...........", ResponseFromSRBMiner);
-                //if (ResponseFromSRBMiner.Length == 0 || (ResponseFromSRBMiner[0] != '{' && ResponseFromSRBMiner[0] != '['))
+                // Helpers.ConsolePrint("API...........", ResponseFromSRBMiner);
+                // if (ResponseFromSRBMiner.Length == 0 || (ResponseFromSRBMiner[0] != '{' && ResponseFromSRBMiner[0] != '['))
                 //    throw new Exception("Not JSON!");
                 Reader.Close();
                 Response.Close();
             }
             catch (Exception ex)
             {
-                //Helpers.ConsolePrint("API", ex.Message);
+                // Helpers.ConsolePrint("API", ex.Message);
                 return null;
             }
 
@@ -218,9 +231,10 @@ namespace zPoolMiner.Miners
             if (resp != null)
             {
                 int totals = resp.hashrate_total_now;
-                //Helpers.ConsolePrint("API hashrate...........", totals.ToString());
+                // Helpers.ConsolePrint("API hashrate...........", totals.ToString());
 
                 ad.Speed = totals;
+
                 if (ad.Speed == 0)
                 {
                     CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
@@ -371,10 +385,9 @@ namespace zPoolMiner.Miners
                     var st = lineLowered.IndexOf("Total: ".ToLower());
                     var e = lineLowered.IndexOf("/s".ToLower());
                     var parse = lineLowered.Substring(st + 7, e - st - 9).Trim().Replace(",", ".");
-                    speed = Double.Parse(parse, CultureInfo.InvariantCulture);
+                    speed = double.Parse(parse, CultureInfo.InvariantCulture);
 
-                    if (lineLowered.Contains("kh/s"))
-                        speed *= 1000;
+                    if (lineLowered.Contains("kh/s")) speed *= 1000;
                     else if (lineLowered.Contains("mh/s"))
                         speed *= 1000000;
 

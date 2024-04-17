@@ -28,7 +28,7 @@
         /// <summary>
         /// Defines the DebugConsole
         /// </summary>
-        public bool DebugConsole = false;
+        public bool DebugConsole;
 
         /// <summary>
         /// Defines the BitcoinAddress
@@ -78,40 +78,40 @@
         /// <summary>
         /// Defines the ServiceLocation
         /// </summary>
-        public int ServiceLocation = 0;
+        public int ServiceLocation;
 
         /// <summary>
         /// Defines the AutoStartMining
         /// </summary>
-        public bool AutoStartMining = false;
+        public bool AutoStartMining;
 
-        public bool zpoolenabled = false;
-        public bool ahashenabled = false;
-        public bool nicehashenabled = false;
-        public bool hashrefineryenabled = false;
+        public bool zpoolenabled;
+        public bool ahashenabled;
+        public bool nicehashenabled;
+        public bool hashrefineryenabled;
         public bool zergenabled = true;
-        public bool minemoneyenabled = false;
-        public bool starpoolenabled = false;
-        public bool blockmunchenabled = false;
-        public bool blazepoolenabled = false;
-        public bool MPHenabled = false;
-        public bool devapi = false;
-        public bool monitoring = false;
+        public bool minemoneyenabled;
+        public bool starpoolenabled;
+        public bool blockmunchenabled;
+        public bool blazepoolenabled;
+        public bool MPHenabled;
+        public bool devapi;
+        public bool monitoring;
 
         /// <summary>
         /// Defines the HideMiningWindows
         /// </summary>
-        public bool HideMiningWindows = false;
+        public bool HideMiningWindows;
 
         /// <summary>
         /// Defines the MinimizeToTray
         /// </summary>
-        public bool MinimizeToTray = false;
+        public bool MinimizeToTray;
 
         /// <summary>
         /// Defines the MinimizeMiningWindows
         /// </summary>
-        public bool MinimizeMiningWindows = false;
+        public bool MinimizeMiningWindows;
 
         /// <summary>
         /// Defines the LessThreads
@@ -172,17 +172,17 @@
         /// <summary>
         /// Defines the DisableDefaultOptimizations
         /// </summary>
-        public bool DisableDefaultOptimizations = false;
+        public bool DisableDefaultOptimizations;
 
         /// <summary>
         /// Defines the AutoScaleBTCValues
         /// </summary>
-        public bool AutoScaleBTCValues = false;
+        public bool AutoScaleBTCValues;
 
         /// <summary>
         /// Defines the StartMiningWhenIdle
         /// </summary>
-        public bool StartMiningWhenIdle = false;
+        public bool StartMiningWhenIdle;
 
         /// <summary>
         /// Defines the MinIdleSeconds
@@ -192,7 +192,7 @@
         /// <summary>
         /// Defines the LogToFile
         /// </summary>
-        public bool LogToFile = false;
+        public bool LogToFile;
 
         // in bytes
         // in bytes        /// <summary>
@@ -218,7 +218,7 @@
         /// <summary>
         /// Defines the NVIDIAP0State
         /// </summary>
-        public bool NVIDIAP0State = false;
+        public bool NVIDIAP0State;
 
         /// <summary>
         /// Defines the ethminerDefaultBlockHeight
@@ -248,19 +248,19 @@
         /// <summary>
         /// Defines the UseIFTTT
         /// </summary>
-        public bool UseIFTTT = false;
+        public bool UseIFTTT;
 
         /// <summary>
         /// Defines the DownloadInit
         /// </summary>
-        public bool DownloadInit = false;
+        public bool DownloadInit;
 
         /// <summary>
         /// Defines the RunScriptOnCUDA_GPU_Lost
         /// </summary>
-        public bool RunScriptOnCUDA_GPU_Lost = false;
+        public bool RunScriptOnCUDA_GPU_Lost;
 
-        public bool Group_same_devices = false;
+        public bool Group_same_devices;
 
         // 3rd party miners
         // 3rd party miners        /// <summary>
@@ -271,7 +271,7 @@
         /// <summary>
         /// Defines the DownloadInit3rdParty
         /// </summary>
-        public bool DownloadInit3rdParty = false;
+        public bool DownloadInit3rdParty;
 
         /// <summary>
         /// Defines the AllowMultipleInstances
@@ -293,7 +293,7 @@
         /// <summary>
         /// Defines the agreedWithTOS
         /// </summary>
-        public int agreedWithTOS = 0;
+        public int agreedWithTOS;
 
         // normalization stuff
         // normalization stuff        /// <summary>
@@ -309,7 +309,7 @@
         /// <summary>
         /// Defines the IQRNormalizeFactor
         /// </summary>
-        public double IQRNormalizeFactor = 0.0;
+        public double IQRNormalizeFactor;
 
         /// <summary>
         /// Defines the CoolDownCheckEnabled
@@ -406,7 +406,7 @@
             MinimumProfit = 0;
             EthminerDagGenerationType = DagGenerationType.SingleKeep;
             DownloadInit = false;
-            //ContinueMiningIfNoInternetAccess = false;
+            // ContinueMiningIfNoInternetAccess = false;
             IdleWhenNoInternetAccess = true;
             Use3rdPartyMiners = Use3rdPartyMiners.NOT_SET;
             DownloadInit3rdParty = false;
@@ -430,64 +430,68 @@
         public void FixSettingBounds()
         {
             ConfigFileVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
             if (string.IsNullOrEmpty(DisplayCurrency)
-                || String.IsNullOrWhiteSpace(DisplayCurrency))
+                || string.IsNullOrWhiteSpace(DisplayCurrency))
             {
                 DisplayCurrency = "USD";
             }
+
             if (SwitchMinSecondsFixed <= 0)
             {
                 SwitchMinSecondsFixed = 90;
             }
+
             if (SwitchMinSecondsDynamic <= 0)
             {
                 SwitchMinSecondsDynamic = 30;
             }
+
             if (SwitchMinSecondsAMD <= 0)
             {
                 SwitchMinSecondsAMD = 60;
             }
+
             if (MinerAPIQueryInterval <= 0)
             {
                 MinerAPIQueryInterval = 5;
             }
+
             if (MinerRestartDelayMS <= 0)
             {
                 MinerRestartDelayMS = 500;
             }
-            if (MinIdleSeconds <= 0)
-            {
-                MinIdleSeconds = 60;
-            }
-            if (LogMaxFileSize <= 0)
-            {
-                LogMaxFileSize = 1048576;
-            }
+
+            if (MinIdleSeconds <= 0) MinIdleSeconds = 60;
+            if (LogMaxFileSize <= 0) LogMaxFileSize = 1048576;
             // check port start number, leave about 2000 ports pool size, huge yea!
             if (ApiBindPortPoolStart > (65535 - 2000))
             {
                 ApiBindPortPoolStart = 5100;
             }
+
             if (BenchmarkTimeLimits == null)
             {
                 BenchmarkTimeLimits = new BenchmarkTimeLimitsConfig();
             }
+
             if (DeviceDetection == null)
             {
                 DeviceDetection = new DeviceDetectionConfig();
             }
+
             if (LastDevicesSettup == null)
             {
                 LastDevicesSettup = new List<ComputeDeviceConfig>();
             }
-            if (IQROverFactor < 0)
-            {
-                IQROverFactor = 3.0;
-            }
+
+            if (IQROverFactor < 0) IQROverFactor = 3.0;
+
             if (NormalizedProfitHistory < 0)
             {
                 NormalizedProfitHistory = 5;
             }
+
             if (IQRNormalizeFactor < 0)
             {
                 IQRNormalizeFactor = 4.0;

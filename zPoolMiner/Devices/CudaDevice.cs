@@ -24,9 +24,10 @@ namespace zPoolMiner.Devices
         {
             if (VendorName == "UNKNOWN")
             {
-                VendorName = String.Format(International.GetText("ComputeDevice_UNKNOWN_VENDOR_REPLACE"), VendorID);
+                VendorName = string.Format(International.GetText("ComputeDevice_UNKNOWN_VENDOR_REPLACE"), VendorID);
             }
-            return String.Format("{0} {1}", VendorName, DeviceName);
+
+            return string.Format("{0} {1}", VendorName, DeviceName);
         }
 
         public bool IsEtherumCapable()
@@ -37,6 +38,7 @@ namespace zPoolMiner.Devices
                 Helpers.ConsolePrint("CudaDevice", "GTX 750Ti found! By default this device will be disabled for ethereum as it is generally too slow to mine on it.");
                 return false;
             }
+
             return DeviceGlobalMemory >= ComputeDevice.MEMORY_3GB && SM_major >= 3;
         }
     }

@@ -53,10 +53,7 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<ApiData> GetSummaryAsync()
-        {
-            return await GetSummaryCPUAsync("api.json", true);
-        }
+        public override Task<ApiData> GetSummaryAsync() => GetSummaryCPUAsync("api.json", true);
 
         /// <summary>
         /// The IsApiEof
@@ -83,7 +80,8 @@
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAddress, worker);
+
+            var username = GetUsername(btcAddress, worker);
             LastCommandLine = GetConfigFileName();
 
             PrepareConfigFile(url, username);
@@ -99,7 +97,7 @@
         /// <returns>The <see cref="string"/></returns>
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             PrepareConfigFile(url, Globals.DemoUser);
             return "benchmark_mode " + GetConfigFileName();
         }
@@ -113,8 +111,9 @@
         {
             if (outdata.Contains("Total:"))
             {
-                string toParse = outdata.Substring(outdata.IndexOf("Total:")).Replace("Total:", "").Trim();
+                var toParse = outdata.Substring(outdata.IndexOf("Total:")).Replace("Total:", "").Trim();
                 var strings = toParse.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
                 foreach (var s in strings)
                 {
                     if (double.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out double lastSpeed))
@@ -125,6 +124,7 @@
                     }
                 }
             }
+
             return false;
         }
 

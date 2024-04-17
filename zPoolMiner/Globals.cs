@@ -33,7 +33,7 @@ namespace zPoolMiner
         // Variables        /// <summary>
         /// Defines the CryptoMiner937Data
         /// </summary>
-        public static Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data = null;
+        public static Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data;
 
         /// <summary>
         /// Defines the BitcoinUSDRate
@@ -43,7 +43,7 @@ namespace zPoolMiner
         /// <summary>
         /// Defines the JsonSettings
         /// </summary>
-        public static JsonSerializerSettings JsonSettings = null;
+        public static JsonSerializerSettings JsonSettings;
 
         /// <summary>
         /// Defines the ThreadsPerCPU
@@ -77,32 +77,36 @@ namespace zPoolMiner
         {
             if (Globals.CryptoMiner937Data != null && Globals.CryptoMiner937Data.ContainsKey(AlgorithmType))
             {
-                string name = Globals.CryptoMiner937Data[AlgorithmType].name;
-                string url = Globals.CryptoMiner937Data[AlgorithmType].url;
-                int n_port = Globals.CryptoMiner937Data[AlgorithmType].port;
-                int ssl_port = 30000 + n_port;
+                var name = Globals.CryptoMiner937Data[AlgorithmType].name;
+                var url = Globals.CryptoMiner937Data[AlgorithmType].url;
+                var n_port = Globals.CryptoMiner937Data[AlgorithmType].port;
+                var ssl_port = 30000 + n_port;
 
                 // NHMConectionType.NONE
-                string prefix = "";
-                int port = n_port;
+                var prefix = "";
+                var port = n_port;
+
                 if (NHMConectionType.LOCKED == ConectionType)
                 {
                     return miningLocation;
                 }
+
                 if (NHMConectionType.STRATUM_TCP == ConectionType)
                 {
                     prefix = "stratum+tcp://";
                 }
+
                 if (NHMConectionType.STRATUM_SSL == ConectionType)
                 {
                     throw new NotImplementedException("zPool does not support stratum+ssl");
-                    //prefix = "stratum+ssl://";
-                    //port = ssl_port;
+                    // prefix = "stratum+ssl://";
+                    // port = ssl_port;
                 }
 
                 return prefix
                         + url;
             }
+
             return "";
         }
 
@@ -114,7 +118,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.BitcoinAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "Main Address");
+                // Helpers.ConsolePrint("Address Get", "Main Address");
                 return Configs.ConfigManager.GeneralConfig.BitcoinAddress.Trim();
             }
             else
@@ -127,7 +131,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zpoolAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "zpool Address");
+                // Helpers.ConsolePrint("Address Get", "zpool Address");
                 return Configs.ConfigManager.GeneralConfig.zpoolAddress.Trim();
             }
             else
@@ -140,7 +144,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.ahashAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "ahash Address");
+                // Helpers.ConsolePrint("Address Get", "ahash Address");
                 return Configs.ConfigManager.GeneralConfig.ahashAddress.Trim();
             }
             else
@@ -153,7 +157,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.hashrefineryAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "hashrefinery Address");
+                // Helpers.ConsolePrint("Address Get", "hashrefinery Address");
                 return Configs.ConfigManager.GeneralConfig.hashrefineryAddress.Trim();
             }
             else
@@ -179,7 +183,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.zergAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "zergpool Address");
+                // Helpers.ConsolePrint("Address Get", "zergpool Address");
                 return Configs.ConfigManager.GeneralConfig.zergAddress.Trim();
             }
             else
@@ -192,7 +196,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.MPHAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "MPH Address");
+                // Helpers.ConsolePrint("Address Get", "MPH Address");
                 return Configs.ConfigManager.GeneralConfig.MPHAddress.Trim();
             }
             else
@@ -205,7 +209,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.minemoneyAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "MineMoney Address");
+                // Helpers.ConsolePrint("Address Get", "MineMoney Address");
                 return Configs.ConfigManager.GeneralConfig.minemoneyAddress.Trim();
             }
             else
@@ -218,7 +222,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.starpoolAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "starpool Address");
+                // Helpers.ConsolePrint("Address Get", "starpool Address");
                 return Configs.ConfigManager.GeneralConfig.starpoolAddress.Trim();
             }
             else
@@ -231,7 +235,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blockmunchAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "blockmunch Address");
+                // Helpers.ConsolePrint("Address Get", "blockmunch Address");
                 return Configs.ConfigManager.GeneralConfig.blockmunchAddress.Trim();
             }
             else
@@ -244,7 +248,7 @@ namespace zPoolMiner
         {
             if (BitcoinAddress.ValidateBitcoinAddress((Configs.ConfigManager.GeneralConfig.blazepoolAddress.Trim())))
             {
-                //Helpers.ConsolePrint("Address Get", "blazepool Address");
+                // Helpers.ConsolePrint("Address Get", "blazepool Address");
                 return Configs.ConfigManager.GeneralConfig.blazepoolAddress.Trim();
             }
             else

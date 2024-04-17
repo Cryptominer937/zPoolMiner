@@ -34,6 +34,7 @@
         public void Inti_cpu_threads_conf(bool low_power_mode, bool no_prefetch, bool affine_to_cpu, bool isHyperThreading)
         {
             cpu_threads_conf = new List<JObject>();
+
             if (isHyperThreading)
             {
                 for (int i_cpu = 0; i_cpu < cpu_thread_num; ++i_cpu)
@@ -66,10 +67,10 @@
                  * Number of threads. You can configure them below. cryptonight uses 2MB of memory, so the optimal setting
                  * here is the size of your L3 cache divided by 2. Intel mid-to-high end desktop processors have 2MB of L3
                  * cache per physical core. Low end cpus can have 1.5 or 1 MB while Xeons can have 2, 2.5 or 3MB per core.
-                 */        /// <summary>
+                 *//// <summary>
 
-                           /// Defines the cpu_thread_num
-                           /// </summary>
+                   /// Defines the cpu_thread_num
+                   /// </summary>
         public readonly int cpu_thread_num;
 
         /*
@@ -103,16 +104,16 @@
                  *                  even or odd numbered cpu numbers. For Linux it will be usually the lower CPU numbers, so for a 4
                  *                  physical core CPU you should select cpu numbers 0-3.
                  *
-                 */        /// <summary>
+                 *//// <summary>
 
-                           /// Defines the cpu_threads_conf
-                           /// </summary>
+                   /// Defines the cpu_threads_conf
+                   /// </summary>
         public List<JObject> cpu_threads_conf;
 
-        //"cpu_threads_conf" : [
+        // "cpu_threads_conf" : [
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 0 },
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 1 },
-        //],
+        // ],
 
         /*
          * LARGE PAGE SUPPORT
@@ -155,10 +156,10 @@
          *           It will never use slow memory, but it won't attempt to mlock
          * never   - If we fail to allocate large pages we will print an error and exit.
          */
-        //"cpu_threads_conf" : [
+        // "cpu_threads_conf" : [
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 0 },
         //    { "low_power_mode" : false, "no_prefetch" : false, "affine_to_cpu" : 1 },
-        //],
+        // ],
 
         /*
          * LARGE PAGE SUPPORT
@@ -200,10 +201,10 @@
          * no_mlck - This option is only relevant on Linux, where we can use large pages without locking memory.
          *           It will never use slow memory, but it won't attempt to mlock
          * never   - If we fail to allocate large pages we will print an error and exit.
-         */        /// <summary>
+         *//// <summary>
 
-                   /// Defines the use_slow_memory
-                   /// </summary>
+           /// Defines the use_slow_memory
+           /// </summary>
         public string use_slow_memory = "warn";
 
         /*
@@ -217,10 +218,10 @@
                  * nicehash_nonce - Limit the noce to 3 bytes as required by nicehash. This cuts all the safety margins, and
                  *                  if a block isn't found within 30 minutes then you might run into nonce collisions. Number
                  *                  of threads in this mode is hard-limited to 32.
-                 */        /// <summary>
+                 *//// <summary>
 
-                           /// Defines the nicehash_nonce
-                           /// </summary>
+                   /// Defines the nicehash_nonce
+                   /// </summary>
         public readonly bool nicehash_nonce = true;//
 
         /*
@@ -238,11 +239,11 @@
                  * to false to force disable AES or null to let the miner decide if AES is used.
                  *
                  * WARNING: setting this to true on a CPU that doesn't support hardware AES will crash the miner.
-                 */        /// <summary>
+                 *//// <summary>
 
-                           /// Defines the aes_override
-                           /// </summary>
-        public readonly bool? aes_override = null;
+                   /// Defines the aes_override
+                   /// </summary>
+        public readonly bool? aes_override;
     }
 
     /// <summary>
@@ -280,20 +281,17 @@
             {
                 try
                 {
-                    bool IsHyperThreadingEnabled = MiningSetup.MiningPairs[0].CurrentExtraLaunchParameters.Contains("enable_ht=true");
-                    int numTr = ExtraLaunchParametersParser.GetThreadsNumber(MiningSetup.MiningPairs[0]);
-                    if (IsHyperThreadingEnabled)
-                    {
-                        numTr /= 2;
-                    }
+                    var IsHyperThreadingEnabled = MiningSetup.MiningPairs[0].CurrentExtraLaunchParameters.Contains("enable_ht=true");
+                    var numTr = ExtraLaunchParametersParser.GetThreadsNumber(MiningSetup.MiningPairs[0]);
+                    if (IsHyperThreadingEnabled) numTr /= 2;
                     var config = new XmrStackCPUMinerConfig(numTr, pool, wallet, ApiPort);
                     var no_prefetch = ExtraLaunchParametersParser.GetNoPrefetch(MiningSetup.MiningPairs[0]);
-                    //config.Inti_cpu_threads_conf(false, false, true, ComputeDeviceManager.Avaliable.IsHyperThreadingEnabled);
+                    // config.Inti_cpu_threads_conf(false, false, true, ComputeDeviceManager.Avaliable.IsHyperThreadingEnabled);
                     config.Inti_cpu_threads_conf(false, no_prefetch, false, IsHyperThreadingEnabled);
                     var confJson = JObject.FromObject(config);
-                    string writeStr = confJson.ToString();
-                    int start = writeStr.IndexOf("{");
-                    int end = writeStr.LastIndexOf("}");
+                    var writeStr = confJson.ToString();
+                    var start = writeStr.IndexOf("{");
+                    var end = writeStr.LastIndexOf("}");
                     writeStr = writeStr.Substring(start + 1, end - 1);
                     System.IO.File.WriteAllText(WorkingDirectory + GetConfigFileName(), writeStr);
                 }
@@ -309,9 +307,10 @@
         /// <returns>The <see cref="HashKingsProcess"/></returns>
         protected override HashKingsProcess _Start()
         {
-            HashKingsProcess P = base._Start();
+            var P = base._Start();
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
+
             if (AffinityMask != 0 && P != null)
                 CPUID.AdjustAffinity(P.Id, AffinityMask);
 
@@ -325,9 +324,10 @@
         /// <returns>The <see cref="Process"/></returns>
         protected override Process BenchmarkStartProcess(string CommandLine)
         {
-            Process BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
+            var BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
+
             if (AffinityMask != 0 && BenchmarkHandle != null)
                 CPUID.AdjustAffinity(BenchmarkHandle.Id, AffinityMask);
 

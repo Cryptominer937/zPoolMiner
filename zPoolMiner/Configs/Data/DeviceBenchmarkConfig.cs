@@ -9,7 +9,7 @@ namespace zPoolMiner.Configs.Data
         public string DeviceUUID = "";
         public string DeviceName = "";
 
-        //public int TimeLimit { get; set; }
+        // public int TimeLimit { get; set; }
         public List<AlgorithmConfig> AlgorithmSettings = new List<AlgorithmConfig>();
     }
 }

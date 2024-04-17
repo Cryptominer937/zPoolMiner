@@ -24,11 +24,11 @@ namespace zPoolMiner.Forms.Components
         private const int POWER = 4;
         public static Color EnabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
 
-        //public static Color DisabledColor = ConfigManager.GeneralConfig.ColorProfileIndex != 0 ? Color.FromArgb(Form_Main._backColor.ToArgb() + 40 * 256 * 256 * 256 + 40 * 256 * 256 + 40 * 256 + 40) : Color.DarkGray;
+        // public static Color DisabledColor = ConfigManager.GeneralConfig.ColorProfileIndex != 0 ? Color.FromArgb(Form_Main._backColor.ToArgb() + 40 * 256 * 256 * 256 + 40 * 256 * 256 + 40 * 256 + 40) : Color.DarkGray;
         public static Color DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
 
         public static Color DisabledForeColor = Color.Gray;
-        //public static Color DisabledColor = SystemColors.ControlLight;
+        // public static Color DisabledColor = SystemColors.ControlLight;
 
         public class DefaultDevicesColorSeter : IListItemCheckColorSetter
         {
@@ -90,8 +90,8 @@ namespace zPoolMiner.Forms.Components
             }
         }
 
-        public bool IsBenchmarkForm = false;
-        public bool IsSettingsCopyEnabled = false;
+        public bool IsBenchmarkForm;
+        public bool IsSettingsCopyEnabled;
 
         public string FirstColumnText
         {
@@ -113,7 +113,7 @@ namespace zPoolMiner.Forms.Components
             SaveToGeneralConfig = false;
             // intialize ListView callbacks
             listViewDevices.ItemChecked += ListViewDevicesItemChecked;
-            this.listViewDevices.ItemCheck += new ItemCheckEventHandler(listViewDevices_ItemCheck);
+            listViewDevices.ItemCheck += new ItemCheckEventHandler(listViewDevices_ItemCheck);
 
             IsMining = false;
             BenchmarkCalculation = null;
@@ -133,9 +133,7 @@ namespace zPoolMiner.Forms.Components
         public void ResetListItemColors()
         {
             foreach (ListViewItem lvi in listViewDevices.Items)
-            {
                 _listItemCheckColorSetter?.LviSetColor(lvi);
-            }
         }
 
         public void SetComputeDevices(List<ComputeDevice> computeDevices)
@@ -145,7 +143,7 @@ namespace zPoolMiner.Forms.Components
             SaveToGeneralConfig = false;
             listViewDevices.BeginUpdate();
             listViewDevices.Items.Clear();
-            string addInfo = "";
+            var addInfo = "";
             // set devices
             foreach (var computeDevice in computeDevices)
             {
@@ -153,13 +151,14 @@ namespace zPoolMiner.Forms.Components
                 {
                     addInfo = " (" + computeDevice.GpuRam / 1024000000 + " GB)";
                 }
+
                 var lvi = new ListViewItem
                 {
                     Checked = computeDevice.Enabled,
                     Text = computeDevice.GetFullName() + addInfo,
                     Tag = computeDevice
                 };
-                //lvi.SubItems.Add(computeDevice.Name);
+                // lvi.SubItems.Add(computeDevice.Name);
                 listViewDevices.Items.Add(lvi);
                 lvi.SubItems.Add("");
                 lvi.SubItems.Add("");
@@ -167,17 +166,19 @@ namespace zPoolMiner.Forms.Components
                 lvi.SubItems.Add("");
                 _listItemCheckColorSetter.LviSetColor(lvi);
             }
-            int index = 0;
+
+            var index = 0;
+
             foreach (var computeDevice in computeDevices)
             {
-                string cTemp = Math.Truncate(computeDevice.Temp).ToString() + "°C";
-                string cLoad = Math.Truncate(computeDevice.Load).ToString() + "%";
-                string cFanSpeed = computeDevice.FanSpeed.ToString();
-                if (computeDevice.Temp == 0)
-                { cTemp = "N/A"; }
+                var cTemp = Math.Truncate(computeDevice.Temp).ToString() + "°C";
+                var cLoad = Math.Truncate(computeDevice.Load).ToString() + "%";
+                var cFanSpeed = computeDevice.FanSpeed.ToString();
+                if (computeDevice.Temp == 0) cTemp = "N/A";
                 cFanSpeed += "%";
 
-                string cPowerUsage = Math.Truncate(computeDevice.PowerUsage).ToString();
+                var cPowerUsage = Math.Truncate(computeDevice.PowerUsage).ToString();
+
                 if (Math.Truncate(computeDevice.PowerUsage) == 0)
                 {
                     cPowerUsage = "-1";
@@ -192,6 +193,7 @@ namespace zPoolMiner.Forms.Components
                     listViewDevices.Items[index].SubItems[3].Text = cFanSpeed.Contains("-1") ? "--" : cFanSpeed;
                     listViewDevices.Items[index].SubItems[4].Text = cPowerUsage.Contains("-1") ? "--" : cPowerUsage;
                 }
+
                 index++;
                 /*Form_Main form = (Form_Main)ParentForm;
 
@@ -217,16 +219,18 @@ namespace zPoolMiner.Forms.Components
 
         public void SetComputeDevicesStatus(List<ComputeDevice> computeDevices)
         {
-            int index = 0;
+            var index = 0;
+
             foreach (var computeDevice in computeDevices)
             {
-                string cTemp = Math.Truncate(computeDevice.Temp).ToString() + "°C";
-                string cLoad = Math.Truncate(computeDevice.Load).ToString() + "%";
-                string cFanSpeed = computeDevice.FanSpeed.ToString();
+                var cTemp = Math.Truncate(computeDevice.Temp).ToString() + "°C";
+                var cLoad = Math.Truncate(computeDevice.Load).ToString() + "%";
+                var cFanSpeed = computeDevice.FanSpeed.ToString();
 
                 cFanSpeed += "%";
 
-                string cPowerUsage = Math.Truncate(computeDevice.PowerUsage).ToString();
+                var cPowerUsage = Math.Truncate(computeDevice.PowerUsage).ToString();
+
                 if (Math.Truncate(computeDevice.PowerUsage) == 0)
 
                     cPowerUsage = "-1";
@@ -240,6 +244,7 @@ namespace zPoolMiner.Forms.Components
                     listViewDevices.Items[index].SubItems[3].Text = cFanSpeed.Contains("-1") ? "--" : cFanSpeed;
                     listViewDevices.Items[index].SubItems[4].Text = cPowerUsage.Contains("-1") ? "--" : cPowerUsage;
                 }
+
                 index++;
             }
         }
@@ -249,15 +254,17 @@ namespace zPoolMiner.Forms.Components
             SetComputeDevices(computeDevices);
         }
 
-        //List view header formatters
+        // List view header formatters
         public static void colorListViewHeader(ref ListView list, Color backColor, Color foreColor)
         {
             list.OwnerDraw = true;
+
             list.DrawColumnHeader +=
             new DrawListViewColumnHeaderEventHandler
             (
             (sender, e) => headerDraw(sender, e, backColor, foreColor)
             );
+
             list.DrawItem += new DrawListViewItemEventHandler(bodyDraw);
             list.Columns[TEMP].TextAlign = HorizontalAlignment.Center; //не работает
         }
@@ -265,13 +272,12 @@ namespace zPoolMiner.Forms.Components
         private static void headerDraw(object sender, DrawListViewColumnHeaderEventArgs e, Color backColor, Color foreColor)
         {
             using (SolidBrush backBrush = new SolidBrush(backColor))
-            {
                 e.Graphics.FillRectangle(backBrush, e.Bounds);
-            }
 
             using (SolidBrush foreBrush = new SolidBrush(foreColor))
             {
-                StringFormat sf = new StringFormat();
+                var sf = new StringFormat();
+
                 if ((e.ColumnIndex == 0))
                 {
                     sf.LineAlignment = StringAlignment.Center;
@@ -282,6 +288,7 @@ namespace zPoolMiner.Forms.Components
                     sf.LineAlignment = StringAlignment.Center;
                     sf.Alignment = StringAlignment.Center;
                 }
+
                 e.Graphics.DrawString(e.Header.Text, e.Font, foreBrush, e.Bounds, sf);
             }
         }
@@ -289,12 +296,10 @@ namespace zPoolMiner.Forms.Components
         private static void bodyDraw(object sender, DrawListViewItemEventArgs e)
         {
             e.DrawDefault = true;
-            //lvi.BackColor = cdvo.Enabled ? EnabledColor : DisabledColor;
+            // lvi.BackColor = cdvo.Enabled ? EnabledColor : DisabledColor;
 
             using (SolidBrush backBrush = new SolidBrush(SystemColors.ControlLightLight))
-            {
                 e.Graphics.FillRectangle(backBrush, e.Bounds);
-            }
         }
 
         public void InitLocale()
@@ -303,11 +308,11 @@ namespace zPoolMiner.Forms.Components
             var _foreColor = System.Drawing.Color.White;
             var _textColor = System.Drawing.Color.White;
 
-            foreach (var lbl in this.Controls.OfType<ListView>()) lbl.BackColor = SystemColors.ControlLightLight;
+            foreach (var lbl in Controls.OfType<ListView>()) lbl.BackColor = SystemColors.ControlLightLight;
             listViewDevices.BackColor = _backColor;
             listViewDevices.ForeColor = _textColor;
 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
 
             listViewDevices.Columns[ENABLED].Text = " " + International.GetText("ListView_Device");
 
@@ -325,13 +330,14 @@ namespace zPoolMiner.Forms.Components
                 listViewDevices.Columns[FAN].Text = "Fan";
                 listViewDevices.Columns[POWER].Text = "Power";
             }
+
             listViewDevices.Columns[TEMP].Width = 78;
             listViewDevices.Columns[TEMP].TextAlign = HorizontalAlignment.Center; //не работает
             listViewDevices.Columns[LOAD].Width = 65;
             listViewDevices.Columns[FAN].Width = 59;
             listViewDevices.Columns[POWER].Width = 110;
-            //listViewDevices.Columns[0].Width = Width - 4 - SystemInformation.VerticalScrollBarWidth;
-            //listViewDevices.Columns[0].Width = Width - SystemInformation.VerticalScrollBarWidth;
+            // listViewDevices.Columns[0].Width = Width - 4 - SystemInformation.VerticalScrollBarWidth;
+            // listViewDevices.Columns[0].Width = Width - SystemInformation.VerticalScrollBarWidth;
             listViewDevices.Columns[0].Width = Width - 316;
         }
 
@@ -345,13 +351,14 @@ namespace zPoolMiner.Forms.Components
             // listViewDevices.ForeColor = _textColor;
             // this.BackColor = _backColor;
 
-            foreach (var lbl in this.Controls.OfType<ListView>()) lbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            foreach (var lbl in Controls.OfType<ListView>()) lbl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             listViewDevices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             listViewDevices.ForeColor = System.Drawing.Color.White;
 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
 
             listViewDevices.Columns[ENABLED].Text = " " + International.GetText("ListView_Device");
+
             if (ConfigManager.GeneralConfig.Language == LanguageType.Ru)
             {
                 listViewDevices.Columns[TEMP].Text = "Температура";
@@ -398,9 +405,11 @@ namespace zPoolMiner.Forms.Components
                 {
                     ConfigManager.GeneralConfigFileCommit();
                 }
+
                 if (e.Item is ListViewItem lvi) _listItemCheckColorSetter.LviSetColor(lvi);
                 _algorithmsListView?.RepaintStatus(cDevice.Enabled, cDevice.UUID);
             }
+
             BenchmarkCalculation?.CalcBenchmarkDevicesAlgorithmQueue();
         }
 
@@ -413,22 +422,25 @@ namespace zPoolMiner.Forms.Components
         {
             if (IsInBenchmark) return;
             if (IsMining) return;
+
             if (e.Button == MouseButtons.Right)
             {
                 if (listViewDevices.FocusedItem.Bounds.Contains(e.Location))
                 {
                     contextMenuStrip1.Items.Clear();
+
                     if (IsSettingsCopyEnabled)
                     {
                         if (listViewDevices.FocusedItem.Tag is ComputeDevice cDevice)
                         {
                             var sameDevTypes =
                                 ComputeDeviceManager.Available.GetSameDevicesTypeAsDeviceWithUUID(cDevice.UUID);
+
                             if (sameDevTypes.Count > 0)
                             {
                                 var copyBenchItem = new ToolStripMenuItem();
                                 var copyTuningItem = new ToolStripMenuItem();
-                                //copyBenchItem.DropDownItems
+                                // copyBenchItem.DropDownItems
                                 foreach (var cDev in sameDevTypes)
                                 {
                                     if (cDev.Enabled)
@@ -438,6 +450,7 @@ namespace zPoolMiner.Forms.Components
                                             Text = "GPU#" + cDev.Index.ToString() + " " + cDev.Name,
                                             Checked = cDev.UUID == cDevice.BenchmarkCopyUUID
                                         };
+
                                         copyBenchDropDownItem.Click += ToolStripMenuItemCopySettings_Click;
                                         copyBenchDropDownItem.Tag = cDev.UUID;
                                         copyBenchItem.DropDownItems.Add(copyBenchDropDownItem);
@@ -447,18 +460,20 @@ namespace zPoolMiner.Forms.Components
                                              Text = "GPU#" + cDev.Index.ToString() + " " + cDev.Name
                                              //Checked = cDev.UUID == CDevice.TuningCopyUUID
                                          };*/
-                                        //copyTuningDropDownItem.Click += ToolStripMenuItemCopyTuning_Click;
-                                        //copyTuningDropDownItem.Tag = cDev.UUID;
-                                        //copyTuningItem.DropDownItems.Add(copyTuningDropDownItem);
+                                        // copyTuningDropDownItem.Click += ToolStripMenuItemCopyTuning_Click;
+                                        // copyTuningDropDownItem.Tag = cDev.UUID;
+                                        // copyTuningItem.DropDownItems.Add(copyTuningDropDownItem);
                                     }
                                 }
+
                                 copyBenchItem.Text = International.GetText("DeviceListView_ContextMenu_CopySettings");
-                                //copyTuningItem.Text = International.GetText("DeviceListView_ContectMenu_CopyTuning");
+                                // copyTuningItem.Text = International.GetText("DeviceListView_ContectMenu_CopyTuning");
                                 contextMenuStrip1.Items.Add(copyBenchItem);
-                                //contextMenuStrip1.Items.Add(copyTuningItem);
+                                // contextMenuStrip1.Items.Add(copyTuningItem);
                             }
                         }
                     }
+
                     contextMenuStrip1.Show(Cursor.Position);
                 }
             }
@@ -477,6 +492,7 @@ namespace zPoolMiner.Forms.Components
                         copyBenchCDev.GetFullName(), CDevice.GetFullName()),
                     International.GetText("DeviceListView_ContextMenu_CopySettings_Confirm_Dialog_Title"),
                     MessageBoxButtons.YesNo);
+
                 if (result == DialogResult.Yes)
                 {
                     CDevice.BenchmarkCopyUUID = uuid;
@@ -504,7 +520,7 @@ namespace zPoolMiner.Forms.Components
 
         private void DevicesListViewEnableControl_Resize(object sender, EventArgs e)
         {
-            //ResizeColumn();
+            // ResizeColumn();
             listViewDevices.BeginUpdate();
             ResizeAutoSizeColumn(listViewDevices, 0);
             listViewDevices.EndUpdate();
@@ -601,10 +617,12 @@ namespace zPoolMiner.Forms.Components
             {
                 ResizeAutoSizeColumn(listViewDevices, 0);
             }
+
             if (e.ColumnIndex == 0)
             {
                 ResizeAutoSizeColumn(listViewDevices, 4);
             }
+
             //  ResizeAutoSizeColumn(listViewDevices, 0);
             listViewDevices.EndUpdate();
 
@@ -625,17 +643,19 @@ namespace zPoolMiner.Forms.Components
             // Do some rudimentary (parameter) validation.
             if (listView == null) throw new ArgumentNullException("listView");
             if (listView.View != View.Details || listView.Columns.Count <= 0 || autoSizeColumnIndex < 0) return;
+
             if (autoSizeColumnIndex >= listView.Columns.Count)
                 throw new IndexOutOfRangeException("Parameter autoSizeColumnIndex is outside the range of column indices in the ListView.");
 
             // Sum up the width of all columns except the auto-resizing one.
-            int otherColumnsWidth = 0;
+            var otherColumnsWidth = 0;
+
             foreach (ColumnHeader header in listView.Columns)
                 if (header.Index != autoSizeColumnIndex)
                     otherColumnsWidth += header.Width;
 
             // Calculate the (possibly) new width of the auto-resizable column.
-            int autoSizeColumnWidth = listView.ClientRectangle.Width - otherColumnsWidth;
+            var autoSizeColumnWidth = listView.ClientRectangle.Width - otherColumnsWidth;
 
             // Finally set the new width of the auto-resizing column, if it has changed.
             if (listView.Columns[autoSizeColumnIndex].Width != autoSizeColumnWidth)
@@ -676,7 +696,7 @@ namespace zPoolMiner.Forms.Components
     {
         public static void DoubleBuffer(this Control control)
         {
-            System.Reflection.PropertyInfo dbProp = typeof(System.Windows.Forms.Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var dbProp = typeof(System.Windows.Forms.Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             dbProp.SetValue(control, true, null);
         }
     }

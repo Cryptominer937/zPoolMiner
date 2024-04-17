@@ -13,23 +13,23 @@
         /// <summary>
         /// Defines the _computeDevice
         /// </summary>
-        private ComputeDevice _computeDevice = null;
+        private ComputeDevice _computeDevice;
 
         /// <summary>
         /// Defines the _currentlySelectedAlgorithm
         /// </summary>
-        private Algorithm _currentlySelectedAlgorithm = null;
+        private Algorithm _currentlySelectedAlgorithm;
 
         /// <summary>
         /// Defines the _currentlySelectedLvi
         /// </summary>
-        private ListViewItem _currentlySelectedLvi = null;
+        private ListViewItem _currentlySelectedLvi;
 
         // winform crappy event workarond
         // winform crappy event workarond        /// <summary>
         /// Defines the _selected
         /// </summary>
-        private bool _selected = false;
+        private bool _selected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlgorithmSettingsControl"/> class.
@@ -53,8 +53,10 @@
         public void Deselect()
         {
             _selected = false;
-            groupBoxSelectedAlgorithmSettings.Text = String.Format(International.GetText("AlgorithmsListView_GroupBox"),
+
+            groupBoxSelectedAlgorithmSettings.Text = string.Format(International.GetText("AlgorithmsListView_GroupBox"),
                 International.GetText("AlgorithmsListView_GroupBox_NONE"));
+
             Enabled = false;
             fieldBoxBenchmarkSpeed.EntryText = "";
             secondaryFieldBoxBenchmarkSpeed.EntryText = "";
@@ -71,12 +73,15 @@
             field_LessThreads.InitLocale(toolTip1,
                 International.GetText("Form_Settings_General_CPU_LessThreads") + ":",
                 International.GetText("Form_Settings_ToolTip_CPU_LessThreads"));
+
             fieldBoxBenchmarkSpeed.InitLocale(toolTip1,
                 International.GetText("Form_Settings_Algo_BenchmarkSpeed") + ":",
                 International.GetText("Form_Settings_ToolTip_AlgoBenchmarkSpeed"));
+
             secondaryFieldBoxBenchmarkSpeed.InitLocale(toolTip1,
                 International.GetText("Form_Settings_Algo_SecondaryBenchmarkSpeed") + ":",
                 International.GetText("Form_Settings_ToolTip_AlgoSecondaryBenchmarkSpeed"));
+
             groupBoxExtraLaunchParameters.Text = International.GetText("Form_Settings_General_ExtraLaunchParameters");
             toolTip1.SetToolTip(groupBoxExtraLaunchParameters, International.GetText("Form_Settings_ToolTip_AlgoExtraLaunchParameters"));
             toolTip1.SetToolTip(pictureBox1, International.GetText("Form_Settings_ToolTip_AlgoExtraLaunchParameters"));
@@ -87,20 +92,14 @@
         /// </summary>
         /// <param name="value">The <see cref="string"/></param>
         /// <returns>The <see cref="string"/></returns>
-        private string ParseStringDefault(string value)
-        {
-            return value ?? "";
-        }
+        private string ParseStringDefault(string value) => value ?? "";
 
         /// <summary>
         /// The ParseDoubleDefault
         /// </summary>
         /// <param name="value">The <see cref="double"/></param>
         /// <returns>The <see cref="string"/></returns>
-        private string ParseDoubleDefault(double value)
-        {
-            return value <= 0 ? "" : value.ToString();
-        }
+        private string ParseDoubleDefault(double value) => value <= 0 ? "" : value.ToString();
 
         /// <summary>
         /// The SetCurrentlySelected
@@ -113,6 +112,7 @@
             if (lvi == null) return;
 
             _computeDevice = computeDevice;
+
             if (lvi.Tag is Algorithm algorithm)
             {
                 _selected = true;
@@ -120,10 +120,12 @@
                 _currentlySelectedLvi = lvi;
                 Enabled = lvi.Checked;
 
-                groupBoxSelectedAlgorithmSettings.Text = String.Format(International.GetText("AlgorithmsListView_GroupBox"),
-                String.Format("{0} ({1})", algorithm.AlgorithmName, algorithm.MinerBaseTypeName)); ;
+                groupBoxSelectedAlgorithmSettings.Text = string.Format(International.GetText("AlgorithmsListView_GroupBox"),
+                string.Format("{0} ({1})", algorithm.AlgorithmName, algorithm.MinerBaseTypeName));
+                ;
 
                 field_LessThreads.Enabled = _computeDevice.DeviceGroupType == DeviceGroupType.CPU;
+
                 if (field_LessThreads.Enabled)
                 {
                     field_LessThreads.EntryText = algorithm.LessThreads.ToString();
@@ -132,6 +134,7 @@
                 {
                     field_LessThreads.EntryText = "";
                 }
+
                 fieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.BenchmarkSpeed);
                 richTextBoxExtraLaunchParameters.Text = ParseStringDefault(algorithm.ExtraLaunchParameters);
                 secondaryFieldBoxBenchmarkSpeed.EntryText = ParseDoubleDefault(algorithm.SecondaryBenchmarkSpeed);
@@ -150,7 +153,7 @@
         /// <param name="lvi">The <see cref="ListViewItem"/></param>
         public void HandleCheck(ListViewItem lvi)
         {
-            if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
+            if (object.ReferenceEquals(_currentlySelectedLvi, lvi))
             {
                 Enabled = lvi.Checked;
             }
@@ -162,7 +165,7 @@
         /// <param name="lvi">The <see cref="ListViewItem"/></param>
         public void ChangeSpeed(ListViewItem lvi)
         {
-            if (Object.ReferenceEquals(_currentlySelectedLvi, lvi))
+            if (object.ReferenceEquals(_currentlySelectedLvi, lvi))
             {
                 if (lvi.Tag is Algorithm algorithm)
                 {
@@ -176,10 +179,7 @@
         /// The CanEdit
         /// </summary>
         /// <returns>The <see cref="bool"/></returns>
-        private bool CanEdit()
-        {
-            return _currentlySelectedAlgorithm != null && _selected;
-        }
+        private bool CanEdit() => _currentlySelectedAlgorithm != null && _selected;
 
         /// <summary>
         /// The TextChangedBenchmarkSpeed
@@ -189,10 +189,12 @@
         private void TextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
             if (!CanEdit()) return;
-            if (Double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out double value))
+
+            if (double.TryParse(fieldBoxBenchmarkSpeed.EntryText, out double value))
             {
                 _currentlySelectedAlgorithm.BenchmarkSpeed = value;
             }
+
             UpdateSpeedText();
         }
 
@@ -203,10 +205,11 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void SecondaryTextChangedBenchmarkSpeed(object sender, EventArgs e)
         {
-            if (Double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
+            if (double.TryParse(secondaryFieldBoxBenchmarkSpeed.EntryText, out double secondaryValue))
             {
                 _currentlySelectedAlgorithm.SecondaryBenchmarkSpeed = secondaryValue;
             }
+
             UpdateSpeedText();
         }
 
@@ -230,8 +233,9 @@
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void LessThreads_Leave(object sender, EventArgs e)
         {
-            TextBox txtbox = (TextBox)sender;
-            if (Int32.TryParse(txtbox.Text, out int val))
+            var txtbox = (TextBox)sender;
+
+            if (int.TryParse(txtbox.Text, out int val))
             {
                 if (Globals.ThreadsPerCPU - val < 1)
                 {
@@ -243,6 +247,7 @@
                 {
                     _currentlySelectedAlgorithm.LessThreads = val;
                 }
+
                 txtbox.Text = _currentlySelectedAlgorithm.LessThreads.ToString();
             }
             else
@@ -250,6 +255,7 @@
                 MessageBox.Show(International.GetText("Form_Settings_LessThreadWarningMsg"),
                                 International.GetText("Form_Settings_LessThreadWarningTitle"),
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 txtbox.Text = _currentlySelectedAlgorithm.LessThreads.ToString();
                 txtbox.Focus();
             }

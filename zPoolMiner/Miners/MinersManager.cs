@@ -43,6 +43,7 @@
             {
                 return CurMiningSession.GetActiveMinersGroup();
             }
+
             // if no session it is idle
             return "IDLE";
         }
@@ -57,6 +58,7 @@
             {
                 return CurMiningSession.ActiveDeviceIndexes;
             }
+
             return new List<int>();
         }
 

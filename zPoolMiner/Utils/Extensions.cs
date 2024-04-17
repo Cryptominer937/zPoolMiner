@@ -8,10 +8,11 @@ namespace zPoolMiner
     {
         public static double GetMedian(this IEnumerable<double> source)
         {
-            double[] temp = source.ToArray();
+            var temp = source.ToArray();
             Array.Sort(temp);
 
             var count = temp.Length;
+
             if (count == 0)
             {
                 throw new InvalidOperationException("Empty collection");
@@ -32,10 +33,10 @@ namespace zPoolMiner
 
         public static Tuple<double, double, double> Quartiles(this IEnumerable<double> source)
         {
-            double[] afVal = source.ToArray();
+            var afVal = source.ToArray();
             Array.Sort(afVal);
-            int iSize = afVal.Length;
-            int iMid = iSize / 2; //this is the mid from a zero based index, eg mid of 7 = 3;
+            var iSize = afVal.Length;
+            var iMid = iSize / 2; //this is the mid from a zero based index, eg mid of 7 = 3;
 
             double fQ1 = 0;
             double fQ2 = 0;
@@ -43,13 +44,13 @@ namespace zPoolMiner
 
             if (iSize % 2 == 0)
             {
-                //================ EVEN NUMBER OF POINTS: =====================
-                //even between low and high point
+                // ================ EVEN NUMBER OF POINTS: =====================
+                // even between low and high point
                 fQ2 = (afVal[iMid - 1] + afVal[iMid]) / 2;
 
-                int iMidMid = iMid / 2;
+                var iMidMid = iMid / 2;
 
-                //easy split
+                // easy split
                 if (iMid % 2 == 0)
                 {
                     fQ1 = (afVal[iMidMid - 1] + afVal[iMidMid]) / 2;
@@ -63,27 +64,27 @@ namespace zPoolMiner
             }
             else if (iSize == 1)
             {
-                //================= special case, sorry ================
+                // ================= special case, sorry ================
                 fQ1 = afVal[0];
                 fQ2 = afVal[0];
                 fQ3 = afVal[0];
             }
             else
             {
-                //odd number so the median is just the midpoint in the array.
+                // odd number so the median is just the midpoint in the array.
                 fQ2 = afVal[iMid];
 
                 if ((iSize - 1) % 4 == 0)
                 {
-                    //======================(4n-1) POINTS =========================
-                    int n = (iSize - 1) / 4;
+                    // ======================(4n-1) POINTS =========================
+                    var n = (iSize - 1) / 4;
                     fQ1 = (afVal[n - 1] * .25) + (afVal[n] * .75);
                     fQ3 = (afVal[3 * n] * .75) + (afVal[3 * n + 1] * .25);
                 }
                 else if ((iSize - 3) % 4 == 0)
                 {
-                    //======================(4n-3) POINTS =========================
-                    int n = (iSize - 3) / 4;
+                    // ======================(4n-3) POINTS =========================
+                    var n = (iSize - 3) / 4;
 
                     fQ1 = (afVal[n] * .75) + (afVal[n + 1] * .25);
                     fQ3 = (afVal[3 * n + 1] * .25) + (afVal[3 * n + 2] * .75);

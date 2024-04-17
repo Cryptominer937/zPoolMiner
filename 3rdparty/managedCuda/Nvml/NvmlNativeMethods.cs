@@ -1,35 +1,32 @@
-﻿//	Copyright (c) 2016, Michael Kunz. All rights reserved.
-//	http://kunzmi.github.io/managedCuda
+﻿// 	Copyright (c) 2016, Michael Kunz. All rights reserved.
+// 	http://kunzmi.github.io/managedCuda
 //
-//	This file is part of ManagedCuda.
+// 	This file is part of ManagedCuda.
 //
-//	ManagedCuda is free software: you can redistribute it and/or modify
-//	it under the terms of the GNU Lesser General Public License as 
-//	published by the Free Software Foundation, either version 2.1 of the 
-//	License, or (at your option) any later version.
+// 	ManagedCuda is free software: you can redistribute it and/or modify
+// 	it under the terms of the GNU Lesser General Public License as
+// 	published by the Free Software Foundation, either version 2.1 of the
+// 	License, or (at your option) any later version.
 //
-//	ManagedCuda is distributed in the hope that it will be useful,
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//	GNU Lesser General Public License for more details.
+// 	ManagedCuda is distributed in the hope that it will be useful,
+// 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// 	GNU Lesser General Public License for more details.
 //
-//	You should have received a copy of the GNU Lesser General Public
-//	License along with this library; if not, write to the Free Software
-//	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//	MA 02110-1301  USA, http://www.gnu.org/licenses/.
-
+// 	You should have received a copy of the GNU Lesser General Public
+// 	License along with this library; if not, write to the Free Software
+// 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+// 	MA 02110-1301  USA, http://www.gnu.org/licenses/.
 
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-
 
 namespace ManagedCuda.Nvml
 {
     public static class NvmlNativeMethods
     {
         internal const string NVML_API_DLL_NAME = "nvml";
-
 
         /// <summary>
         /// Initialize NVML, but don't initialize any GPUs yet.
@@ -58,7 +55,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlInit_v2")]
         public static extern nvmlReturn nvmlInit();
 
-
         /// <summary>
         /// Shut down NVML by releasing all GPU resources previously allocated with \ref nvmlInit().
         /// 
@@ -77,7 +73,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlShutdown();
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlErrorString")]
         internal static extern IntPtr nvmlErrorStringInternal(nvmlReturn result);
 
@@ -91,12 +86,11 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static string nvmlErrorString(nvmlReturn result)
         {
-            IntPtr ptr = nvmlErrorStringInternal(result);
+            var ptr = nvmlErrorStringInternal(result);
             string error;
             error = Marshal.PtrToStringAnsi(ptr);
             return error.Replace("\0", "");
         }
-
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlSystemGetDriverVersion")]
         public static extern nvmlReturn nvmlSystemGetDriverVersionInternal(byte[] version, uint length);
@@ -118,19 +112,21 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlSystemGetDriverVersion(out string name)
         {
-            byte[] temp = new byte[NVMLConstants.SystemDriverVersionBufferSize];
-            nvmlReturn ret = nvmlSystemGetDriverVersionInternal(temp, NVMLConstants.SystemDriverVersionBufferSize);
+            var temp = new byte[NVMLConstants.SystemDriverVersionBufferSize];
+            var ret = nvmlSystemGetDriverVersionInternal(temp, NVMLConstants.SystemDriverVersionBufferSize);
             name = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlSystemGetNVMLVersion")]
         internal static extern nvmlReturn nvmlSystemGetNVMLVersionInternal(byte[] version, uint length);
+
         /// <summary>
         /// Retrieves the version of the NVML library.
         /// 
@@ -147,16 +143,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlSystemGetNVMLVersion(out string name)
         {
-            byte[] temp = new byte[NVMLConstants.SystemNVMLVersionBufferSize];
-            nvmlReturn ret = nvmlSystemGetNVMLVersionInternal(temp, NVMLConstants.SystemNVMLVersionBufferSize);
+            var temp = new byte[NVMLConstants.SystemNVMLVersionBufferSize];
+            var ret = nvmlSystemGetNVMLVersionInternal(temp, NVMLConstants.SystemNVMLVersionBufferSize);
             name = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlSystemGetProcessName")]
         internal static extern nvmlReturn nvmlSystemGetProcessNameInternal(uint pid, byte[] name, uint length);
@@ -180,16 +177,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlSystemGetProcessName(uint pid, out string name)
         {
-            byte[] temp = new byte[2048];
-            nvmlReturn ret = nvmlSystemGetProcessNameInternal(pid, temp, 2048);
+            var temp = new byte[2048];
+            var ret = nvmlSystemGetProcessNameInternal(pid, temp, 2048);
             name = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         /// <summary>
         /// Retrieves the number of units in the system.
@@ -205,7 +203,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetCount(ref uint unitCount);
-
 
         /// <summary>
         /// Acquire the handle for a particular unit, based on its index.
@@ -226,7 +223,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetHandleByIndex(uint index, ref nvmlUnit unit);
 
-
         /// <summary>
         /// Retrieves the static information associated with a unit.
         /// For S-class products.
@@ -242,7 +238,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetUnitInfo(nvmlUnit unit, ref nvmlUnitInfo info);
-
 
         /// <summary>
         /// Retrieves the LED state associated with this unit.
@@ -264,7 +259,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetLedState(nvmlUnit unit, ref nvmlLedState state);
 
-
         /// <summary>
         /// Retrieves the PSU stats for the unit.
         /// For S-class products.
@@ -282,7 +276,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetPsuInfo(nvmlUnit unit, ref nvmlPSUInfo psu);
-
 
         /// <summary>
         /// Retrieves the temperature readings for the unit, in degrees C.
@@ -304,7 +297,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetTemperature(nvmlUnit unit, uint type, ref uint temp);
 
-
         /// <summary>
         /// Retrieves the fan speed readings for the unit.
         /// For S-class products.
@@ -322,7 +314,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetFanSpeedInfo(nvmlUnit unit, ref nvmlUnitFanSpeeds fanSpeeds);
-
 
         /// <summary>
         /// Retrieves the set of GPU devices that are attached to the specified unit.
@@ -343,7 +334,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitGetDevices(nvmlUnit unit, ref uint deviceCount, nvmlDevice[] devices);
 
-
         /// <summary>
         /// Retrieves the IDs and firmware versions for any Host Interface Cards (HICs) in the system.
         /// 
@@ -362,7 +352,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlSystemGetHicVersion(ref uint hwbcCount, nvmlHwbcEntry[] hwbcEntries);
-
 
         /// <summary>
         /// Retrieves the number of compute devices in the system. A compute device is a single GPU.
@@ -385,7 +374,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetCount_v2")]
         public static extern nvmlReturn nvmlDeviceGetCount(ref uint deviceCount);
-
 
         /// <summary>
         /// Acquire the handle for a particular device, based on its index.
@@ -430,7 +418,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetHandleByIndex_v2")]
         public static extern nvmlReturn nvmlDeviceGetHandleByIndex(uint index, ref nvmlDevice device);
 
-
         /// <summary>
         /// Acquire the handle for a particular device, based on its globally unique immutable UUID associated with each device.
         /// For all products.
@@ -451,7 +438,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetHandleByUUID([MarshalAs(UnmanagedType.LPStr)] string uuid, ref nvmlDevice device);
-
 
         /// <summary>
         /// Acquire the handle for a particular device, based on its PCI bus id.
@@ -481,7 +467,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetHandleByPciBusId_v2")]
         public static extern nvmlReturn nvmlDeviceGetHandleByPciBusId([MarshalAs(UnmanagedType.LPStr)] string pciBusId, ref nvmlDevice device);
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetName")]
         internal static extern nvmlReturn nvmlDeviceGetNameInternal(nvmlDevice device, byte[] name, uint length);
 
@@ -506,16 +491,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetName(nvmlDevice device, out string name)
         {
-            byte[] temp = new byte[NVMLConstants.DeviceNameBufferSize];
-            nvmlReturn ret = nvmlDeviceGetNameInternal(device, temp, NVMLConstants.DeviceNameBufferSize);
+            var temp = new byte[NVMLConstants.DeviceNameBufferSize];
+            var ret = nvmlDeviceGetNameInternal(device, temp, NVMLConstants.DeviceNameBufferSize);
             name = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         /// <summary>
         /// Retrieves the brand of this device.
@@ -534,7 +520,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetBrand(nvmlDevice device, ref nvmlBrandType type);
-
 
         /// <summary>
         /// Retrieves the NVML index of this device.
@@ -563,7 +548,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetIndex(nvmlDevice device, ref uint index);
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetSerial")]
         internal static extern nvmlReturn nvmlDeviceGetSerialInternal(nvmlDevice device, byte[] serial, uint length);
 
@@ -588,16 +572,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetSerial(nvmlDevice device, out string serial)
         {
-            byte[] temp = new byte[NVMLConstants.DeviceSerialBufferSize];
-            nvmlReturn ret = nvmlDeviceGetSerialInternal(device, temp, NVMLConstants.DeviceSerialBufferSize);
+            var temp = new byte[NVMLConstants.DeviceSerialBufferSize];
+            var ret = nvmlDeviceGetSerialInternal(device, temp, NVMLConstants.DeviceSerialBufferSize);
             serial = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 serial = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         /// <summary>
         /// Retrieves an array of uints (sized to cpuSetSize) of bitmasks with the ideal CPU affinity for the device
@@ -621,7 +606,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetCpuAffinity(nvmlDevice device, uint cpuSetSize, ulong[] cpuSet);
 
-
         /// <summary>
         /// Sets the ideal affinity for the calling thread and device using the guidelines 
         /// given in nvmlDeviceGetCpuAffinity().  Note, this is a change as of version 8.0.  
@@ -643,7 +627,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetCpuAffinity(nvmlDevice device);
 
-
         /// <summary>
         /// Clear all affinity bindings for the calling thread.  Note, this is a change as of version
         /// 8.0 as older versions cleared the affinity for a calling process and all children.
@@ -660,7 +643,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceClearCpuAffinity(nvmlDevice device);
-
 
         /// <summary>
         /// Retrieve the common ancestor for two devices
@@ -679,7 +661,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetTopologyCommonAncestor(nvmlDevice device1, nvmlDevice device2, ref nvmlGpuTopologyLevel pathInfo);
-
 
         /// <summary>
         /// Retrieve the set of GPUs that are nearest to a given device at a specific interconnectivity level
@@ -700,7 +681,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetTopologyNearestGpus(nvmlDevice device, nvmlGpuTopologyLevel level, ref uint count, nvmlDevice[] deviceArray);
 
-
         /// <summary>
         /// Retrieve the set of GPUs that have a CPU affinity with the given CPU number
         /// For all products.
@@ -718,7 +698,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlSystemGetTopologyGpuSet(uint cpuNumber, ref uint count, nvmlDevice[] deviceArray);
-
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetUUID")]
         internal static extern nvmlReturn nvmlDeviceGetUUIDInternal(nvmlDevice device, byte[] uuid, uint length);
@@ -745,16 +724,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetUUID(nvmlDevice device, out string uuid)
         {
-            byte[] temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
-            nvmlReturn ret = nvmlDeviceGetUUIDInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
+            var temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
+            var ret = nvmlDeviceGetUUIDInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
             uuid = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 uuid = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         /// <summary>
         /// Retrieves minor number for the device. The minor number for the device is such that the Nvidia device node file for 
@@ -776,7 +756,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMinorNumber(nvmlDevice device, ref uint minorNumber);
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetBoardPartNumber")]
         internal static extern nvmlReturn nvmlDeviceGetBoardPartNumberInternal(nvmlDevice device, byte[] partNumber, uint length);
 
@@ -797,16 +776,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetBoardPartNumber(nvmlDevice device, out string partNumber)
         {
-            byte[] temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
-            nvmlReturn ret = nvmlDeviceGetBoardPartNumberInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
+            var temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
+            var ret = nvmlDeviceGetBoardPartNumberInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
             partNumber = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 partNumber = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetInforomVersion")]
         internal static extern nvmlReturn nvmlDeviceGetInforomVersionInternal(nvmlDevice device, nvmlInforomObject IRobject, byte[] version, uint length);
@@ -836,16 +816,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetInforomVersion(nvmlDevice device, nvmlInforomObject IRobject, out string version)
         {
-            byte[] temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetInforomVersionInternal(device, IRobject, temp, NVMLConstants.DeviceInformVersionBufferSize);
+            var temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
+            var ret = nvmlDeviceGetInforomVersionInternal(device, IRobject, temp, NVMLConstants.DeviceInformVersionBufferSize);
             version = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetInforomImageVersion")]
         internal static extern nvmlReturn nvmlDeviceGetInforomImageVersionInternal(nvmlDevice device, byte[] version, uint length);
@@ -873,13 +854,15 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetInforomImageVersion(nvmlDevice device, out string version)
         {
-            byte[] temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetInforomImageVersionInternal(device, temp, NVMLConstants.DeviceInformVersionBufferSize);
+            var temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
+            var ret = nvmlDeviceGetInforomImageVersionInternal(device, temp, NVMLConstants.DeviceInformVersionBufferSize);
             version = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
 
@@ -905,7 +888,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetInforomConfigurationChecksum(nvmlDevice device, ref uint checksum);
 
-
         /// <summary>
         /// Reads the infoROM from the flash and verifies the checksums.
         /// For all products with an inforom.
@@ -922,7 +904,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceValidateInforom(nvmlDevice device);
-
 
         /// <summary>
         /// Retrieves the display mode for the device.
@@ -945,7 +926,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetDisplayMode(nvmlDevice device, ref nvmlEnableState display);
 
-
         /// <summary>
         /// Retrieves the display active state for the device.
         /// For all products.
@@ -967,7 +947,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetDisplayActive(nvmlDevice device, ref nvmlEnableState isActive);
-
 
         /// <summary>
         /// Retrieves the persistence mode associated with this device.
@@ -992,7 +971,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPersistenceMode(nvmlDevice device, ref nvmlEnableState mode);
 
-
         /// <summary>
         /// Retrieves the PCI attributes of this device.
         /// 
@@ -1011,7 +989,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetPciInfo_v2")]
         public static extern nvmlReturn nvmlDeviceGetPciInfo(nvmlDevice device, ref nvmlPciInfo pci);
-
 
         /// <summary>
         /// Retrieves the maximum PCIe link generation possible with this device and system
@@ -1034,7 +1011,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMaxPcieLinkGeneration(nvmlDevice device, ref uint maxLinkGen);
 
-
         /// <summary>
         /// Retrieves the maximum PCIe link width possible with this device and system
         /// I.E. for a device with a 16x PCIe bus width attached to a 8x PCIe system bus this function will report
@@ -1056,7 +1032,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMaxPcieLinkWidth(nvmlDevice device, ref uint maxLinkWidth);
 
-
         /// <summary>
         /// Retrieves the current PCIe link generation
         /// 
@@ -1076,7 +1051,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetCurrPcieLinkGeneration(nvmlDevice device, ref uint currLinkGen);
 
-
         /// <summary>
         /// Retrieves the current PCIe link width
         /// 
@@ -1095,7 +1069,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetCurrPcieLinkWidth(nvmlDevice device, ref uint currLinkWidth);
-
 
         /// <summary>
         /// Retrieve PCIe utilization information.
@@ -1119,7 +1092,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPcieThroughput(nvmlDevice device, nvmlPcieUtilCounter counter, ref uint value);
 
-
         /// <summary>
         /// Retrieve the PCIe replay counter.
         /// For Kepler or newer fully supported devices.
@@ -1137,7 +1109,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPcieReplayCounter(nvmlDevice device, ref uint value);
-
 
         /// <summary>
         /// Retrieves the current clock speeds for the device.
@@ -1158,7 +1129,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
-
 
         /// <summary>
         /// Retrieves the maximum clock speeds for the device.
@@ -1182,7 +1152,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMaxClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
 
-
         /// <summary>
         /// Retrieves the current setting of a clock that applications will use unless an overspec situation occurs.
         /// Can be changed using \ref nvmlDeviceSetApplicationsClocks.
@@ -1202,7 +1171,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
-
 
         /// <summary>
         /// Retrieves the default applications clock that GPU boots with or 
@@ -1225,7 +1193,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetDefaultApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
 
-
         /// <summary>
         /// Resets the application clock to the default value
         /// This is the applications clock that will be used after system reboot or driver reload.
@@ -1247,7 +1214,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceResetApplicationsClocks(nvmlDevice device);
 
-
         /// <summary>
         /// Retrieves the clock speed for the clock specified by the clock type and clock ID.
         /// For Kepler or newer fully supported devices.
@@ -1268,7 +1234,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetClock(nvmlDevice device, nvmlClockType clockType, nvmlClockId clockId, ref uint clockMHz);
 
-
         /// <summary>
         /// Retrieves the customer defined maximum boost clock speed specified by the given clock type.
         /// For newer than Maxwell fully supported devices.
@@ -1287,7 +1252,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMaxCustomerBoostClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
-
 
         /// <summary>
         /// Retrieves the list of possible memory clocks that can be used as an argument for \ref nvmlDeviceSetApplicationsClocks.
@@ -1311,7 +1275,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetSupportedMemoryClocks(nvmlDevice device, ref uint count, uint[] clocksMHz);
-
 
         /// <summary>
         /// Retrieves the list of possible graphics clocks that can be used as an argument for \ref nvmlDeviceSetApplicationsClocks.
@@ -1337,7 +1300,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetSupportedGraphicsClocks(nvmlDevice device, uint memoryClockMHz, ref uint count, uint[] clocksMHz);
 
-
         /// <summary>
         /// Retrieve the current state of auto boosted clocks on a device and store it in \a isEnabled
         /// For Kepler or newer fully supported devices.
@@ -1358,7 +1320,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAutoBoostedClocksEnabled(nvmlDevice device, ref nvmlEnableState isEnabled, ref nvmlEnableState defaultIsEnabled);
-
 
         /// <summary>
         /// Try to set the current state of auto boosted clocks on a device.
@@ -1383,7 +1344,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled);
-
 
         /// <summary>
         /// Try to set the default state of auto boosted clocks on a device. This is the default state that auto boosted clocks will
@@ -1410,7 +1370,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetDefaultAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled, uint flags);
 
-
         /// <summary>
         /// Retrieves the intended operating speed of the device's fan.
         /// Note: The reported speed is the intended fan speed.  If the fan is physically blocked and unable to spin, the
@@ -1433,7 +1392,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetFanSpeed(nvmlDevice device, ref uint speed);
 
-
         /// <summary>
         /// Retrieves the current temperature readings for the device, in degrees C. 
         /// 
@@ -1455,7 +1413,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetTemperature(nvmlDevice device, nvmlTemperatureSensors sensorType, ref uint temp);
 
-
         /// <summary>
         /// Retrieves the temperature threshold for the GPU with the specified threshold type in degrees C.
         /// For Kepler or newer fully supported devices.
@@ -1476,7 +1433,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetTemperatureThreshold(nvmlDevice device, nvmlTemperatureThresholds thresholdType, ref uint temp);
 
-
         /// <summary>
         /// Retrieves the current performance state for the device. 
         /// For Fermi or newer fully supported devices.
@@ -1495,7 +1451,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPerformanceState(nvmlDevice device, ref nvmlPstates pState);
-
 
         /// <summary>
         /// Retrieves current clocks throttling reasons.
@@ -1518,7 +1473,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetCurrentClocksThrottleReasons(nvmlDevice device, ref ulong clocksThrottleReasons);
 
-
         /// <summary>
         /// Retrieves bitmask of supported clocks throttle reasons that can be returned by 
         /// \ref nvmlDeviceGetCurrentClocksThrottleReasons
@@ -1539,7 +1493,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetSupportedClocksThrottleReasons(nvmlDevice device, ref ulong supportedClocksThrottleReasons);
-
 
         /// <summary>
         /// Retrieves the power management limit associated with this device.
@@ -1563,7 +1516,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPowerManagementLimit(nvmlDevice device, ref uint limit);
 
-
         /// <summary>
         /// Retrieves information about possible values of power management limits on this device.
         /// For Kepler or newer fully supported devices.
@@ -1584,7 +1536,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPowerManagementLimitConstraints(nvmlDevice device, ref uint minLimit, ref uint maxLimit);
 
-
         /// <summary>
         /// Retrieves default power management limit on this device, in milliwatts.
         /// Default power management limit is a power management limit that the device boots with.
@@ -1603,7 +1554,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPowerManagementDefaultLimit(nvmlDevice device, ref uint defaultLimit);
-
 
         /// <summary>
         /// Retrieves power usage for this GPU in milliwatts and its associated circuitry (e.g. memory)
@@ -1625,7 +1575,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetPowerUsage(nvmlDevice device, ref uint power);
 
-
         /// <summary>
         /// Get the effective power limit that the driver enforces after taking into account all limiters
         /// Note: This can be different from the \ref nvmlDeviceGetPowerManagementLimit if other limits are set elsewhere
@@ -1645,7 +1594,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetEnforcedPowerLimit(nvmlDevice device, ref uint limit);
-
 
         /// <summary>
         /// Retrieves the current GOM and pending GOM (the one that GPU will switch to after reboot).
@@ -1670,7 +1618,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetGpuOperationMode(nvmlDevice device, ref nvmlGpuOperationMode current, ref nvmlGpuOperationMode pending);
 
-
         /// <summary>
         /// Retrieves the amount of used, free and total memory available on the device, in bytes.
         /// 
@@ -1694,7 +1641,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMemoryInfo(nvmlDevice device, ref nvmlMemory memory);
 
-
         /// <summary>
         /// Retrieves the current compute mode for the device.
         /// For all products.
@@ -1714,7 +1660,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetComputeMode(nvmlDevice device, ref nvmlComputeMode mode);
-
 
         /// <summary>
         /// Retrieves the current and pending ECC modes for the device.
@@ -1741,7 +1686,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetEccMode(nvmlDevice device, ref nvmlEnableState current, ref nvmlEnableState pending);
 
-
         /// <summary>
         /// Retrieves the device boardId from 0-N.
         /// Devices with the same boardId indicate GPUs connected to the same PLX.  Use in conjunction with 
@@ -1767,7 +1711,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetBoardId(nvmlDevice device, ref uint boardId);
 
-
         /// <summary>
         /// Retrieves whether the device is on a Multi-GPU Board
         /// Devices that are on multi-GPU boards will set \a multiGpuBool to a non-zero value.
@@ -1786,7 +1729,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMultiGpuBoard(nvmlDevice device, ref uint multiGpuBool);
-
 
         /// <summary>
         /// Retrieves the total ECC error counts for the device.
@@ -1815,8 +1757,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetTotalEccErrors(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, ref ulong eccCounts);
-
-
 
         /// <summary>
         /// Retrieves the requested memory error counter for the device.
@@ -1847,7 +1787,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetMemoryErrorCounter(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, nvmlMemoryLocation locationType, ref ulong count);
 
-
         /// <summary>
         /// Retrieves the current utilization rates for the device's major subsystems.
         /// For Fermi or newer fully supported devices.
@@ -1869,7 +1808,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetUtilizationRates(nvmlDevice device, ref nvmlUtilization utilization);
 
-
         /// <summary>
         /// Retrieves the current utilization and sampling size in microseconds for the Encoder
         /// For Kepler or newer fully supported devices.
@@ -1889,7 +1827,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetEncoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
 
-
         /// <summary>
         /// Retrieves the current utilization and sampling size in microseconds for the Decoder
         /// For Kepler or newer fully supported devices.
@@ -1908,7 +1845,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetDecoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
-
 
         /// <summary>
         /// Retrieves the current and pending driver model for the device.
@@ -1935,7 +1871,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetDriverModel(nvmlDevice device, ref nvmlDriverModel current, ref nvmlDriverModel pending);
 
-
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetVbiosVersion")]
         internal static extern nvmlReturn nvmlDeviceGetVbiosVersionInternal(nvmlDevice device, byte[] version, uint length);
 
@@ -1958,16 +1893,17 @@ namespace ManagedCuda.Nvml
         /// </returns>
         public static nvmlReturn nvmlDeviceGetVbiosVersion(nvmlDevice device, out string version)
         {
-            byte[] temp = new byte[NVMLConstants.DeviceVBIOSVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetVbiosVersionInternal(device, temp, NVMLConstants.DeviceVBIOSVersionBufferSize);
+            var temp = new byte[NVMLConstants.DeviceVBIOSVersionBufferSize];
+            var ret = nvmlDeviceGetVbiosVersionInternal(device, temp, NVMLConstants.DeviceVBIOSVersionBufferSize);
             version = string.Empty;
+
             if (ret == nvmlReturn.Success)
             {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
             }
+
             return ret;
         }
-
 
         /// <summary>
         /// Get Bridge Chip Information for all the bridge chips on the board.
@@ -1989,7 +1925,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetBridgeChipInfo(nvmlDevice device, ref nvmlBridgeChipHierarchy bridgeHierarchy);
-
 
         /// <summary>
         /// Get information about processes with a compute context on a device
@@ -2021,7 +1956,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetComputeRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
 
-
         /// <summary>
         /// Get information about processes with a graphics context on a device
         /// For Kepler or newer fully supported devices.
@@ -2052,7 +1986,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
 
-
         /// <summary>
         /// Check if the GPU devices are on the same physical board.
         /// For all fully supported products.
@@ -2071,7 +2004,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceOnSameBoard(nvmlDevice device1, nvmlDevice device2, ref int onSameBoard);
-
 
         /// <summary>
         /// Retrieves the root/admin permissions on the target API. See \a nvmlRestrictedAPI for the list of supported APIs.
@@ -2095,7 +2027,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, ref nvmlEnableState isRestricted);
-
 
         /// <summary>
         /// Gets recent samples for the GPU.
@@ -2139,7 +2070,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetSamples(nvmlDevice device, nvmlSamplingType type, ulong lastSeenTimeStamp, ref nvmlValueType sampleValType, ref uint sampleCount, nvmlSample[] samples);
 
-
         /// <summary>
         /// Gets Total, Available and Used size of BAR1 memory.
         /// 
@@ -2161,7 +2091,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetBAR1MemoryInfo(nvmlDevice device, ref nvmlBAR1Memory bar1Memory);
-
 
         /// <summary>
         /// Gets the duration of time during which the device was throttled (lower than requested clocks) due to power 
@@ -2186,7 +2115,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetViolationStatus(nvmlDevice device, nvmlPerfPolicyType perfPolicyType, ref nvmlViolationTime violTime);
 
-
         /// <summary>
         /// Queries the state of per process accounting mode.
         /// For Kepler or newer fully supported devices.
@@ -2205,7 +2133,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAccountingMode(nvmlDevice device, ref nvmlEnableState mode);
-
 
         /// <summary>
         /// Queries process's accounting stats.
@@ -2241,7 +2168,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAccountingStats(nvmlDevice device, uint pid, ref nvmlAccountingStats stats);
 
-
         /// <summary>
         /// Queries list of processes that can be queried for accounting stats. The list of processes returned 
         /// can be in running or terminated state.
@@ -2269,7 +2195,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAccountingPids(nvmlDevice device, ref uint count, uint[] pids);
 
-
         /// <summary>
         /// Returns the number of processes that the circular buffer with accounting pids can hold.
         /// For Kepler or newer fully supported devices.
@@ -2291,7 +2216,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetAccountingBufferSize(nvmlDevice device, ref uint bufferSize);
-
 
         /// <summary>
         /// Returns the list of retired pages by source, including pages that are pending retirement
@@ -2319,7 +2243,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetRetiredPages(nvmlDevice device, nvmlPageRetirementCause cause, ref uint pageCount, ulong[] addresses);
 
-
         /// <summary>
         /// Check if any pages are pending retirement and need a reboot to fully retire.
         /// For Kepler or newer fully supported devices.
@@ -2337,7 +2260,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetRetiredPagesPendingStatus(nvmlDevice device, ref nvmlEnableState isPending);
-
 
         /// <summary>
         /// Set the LED state for the unit. The LED can be either green (0) or amber (1).
@@ -2364,7 +2286,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlUnitSetLedState(nvmlUnit unit, nvmlLedColor color);
-
 
         /// <summary>
         /// Set the persistence mode for the device.
@@ -2393,7 +2314,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetPersistenceMode(nvmlDevice device, nvmlEnableState mode);
 
-
         /// <summary>
         /// Set the compute mode for the device.
         /// For all products.
@@ -2421,7 +2341,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetComputeMode(nvmlDevice device, nvmlComputeMode mode);
 
-
         /// <summary>
         /// Set the ECC mode for the device.
         /// For Kepler or newer fully supported devices.
@@ -2447,7 +2366,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetEccMode(nvmlDevice device, nvmlEnableState ecc);
-
 
         /// <summary>
         /// Clear the ECC error and other memory error counts for the device.
@@ -2478,7 +2396,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceClearEccErrorCounts(nvmlDevice device, nvmlEccCounterType counterType);
-
 
         /// <summary>
         /// Set the driver model for the device.
@@ -2516,7 +2433,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetDriverModel(nvmlDevice device, nvmlDriverModel driverModel, uint flags);
 
-
         /// <summary>
         /// Set clocks that applications will lock to.
         /// Sets the clocks that compute and graphics applications will be running at.
@@ -2548,7 +2464,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetApplicationsClocks(nvmlDevice device, uint memClockMHz, uint graphicsClockMHz);
 
-
         /// <summary>
         /// Set new power limit of this device.
         /// 
@@ -2573,7 +2488,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetPowerManagementLimit(nvmlDevice device, uint limit);
-
 
         /// <summary>
         /// Sets new GOM. See \a nvmlGpuOperationMode for details.
@@ -2604,7 +2518,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetGpuOperationMode(nvmlDevice device, nvmlGpuOperationMode mode);
 
-
         /// <summary>
         /// Changes the root/admin restructions on certain APIs. See \a nvmlRestrictedAPI for the list of supported APIs.
         /// This method can be used by a root/admin user to give non-root/admin access to certain otherwise-restricted APIs.
@@ -2633,7 +2546,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, nvmlEnableState isRestricted);
 
-
         /// <summary>
         /// Enables or disables per process accounting.
         /// For Kepler or newer fully supported devices.
@@ -2661,7 +2573,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetAccountingMode(nvmlDevice device, nvmlEnableState mode);
 
-
         /// <summary>
         /// Clears accounting information about all processes that have already terminated.
         /// For Kepler or newer fully supported devices.
@@ -2683,7 +2594,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceClearAccountingPids(nvmlDevice device);
 
-
         /// <summary>
         /// Retrieves the state of the device's NvLink for the link specified
         /// For newer than Maxwell fully supported devices.
@@ -2702,7 +2612,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkState(nvmlDevice device, uint link, ref nvmlEnableState isActive);
 
-
         /// <summary>
         /// Retrieves the version of the device's NvLink for the link specified
         /// For newer than Maxwell fully supported devices.
@@ -2720,7 +2629,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkVersion(nvmlDevice device, uint link, ref uint version);
-
 
         /// <summary>
         /// Retrieves the requested capability from the device's NvLink for the link specified
@@ -2743,7 +2651,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkCapability(nvmlDevice device, uint link, nvmlNvLinkCapability capability, ref uint capResult);
 
-
         /// <summary>
         /// Retrieves the PCI information for the remote node on a NvLink link 
         /// Note: pciSubSystemId is not filled in this function and is indeterminate
@@ -2762,7 +2669,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkRemotePciInfo(nvmlDevice device, uint link, ref nvmlPciInfo pci);
-
 
         /// <summary>
         /// Retrieves the specified error counter value
@@ -2784,7 +2690,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkErrorCounter(nvmlDevice device, uint link, nvmlNvLinkErrorCounter counter, ref ulong counterValue);
 
-
         /// <summary>
         /// Resets all error counters to zero
         /// Please refer to \a nvmlNvLinkErrorCounter for the list of error counters that are reset
@@ -2802,7 +2707,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceResetNvLinkErrorCounters(nvmlDevice device, uint link);
-
 
         /// <summary>
         /// Set the NVLINK utilization counter control information for the specified counter, 0 or 1.
@@ -2826,7 +2730,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceSetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control, uint reset);
 
-
         /// <summary>
         /// Get the NVLINK utilization counter control information for the specified counter, 0 or 1.
         /// Please refer to \a nvmlNvLinkUtilizationControl for the structure definition
@@ -2846,7 +2749,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control);
-
 
         /// <summary>
         /// Retrieve the NVLINK utilization counter based on the current control for a specified counter.
@@ -2870,7 +2772,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, ref ulong rxcounter, ref ulong txcounter);
 
-
         /// <summary>
         /// Freeze the NVLINK utilization counters 
         /// Both the receive and transmit counters are operated on by this function
@@ -2891,7 +2792,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceFreezeNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, nvmlEnableState freeze);
 
-
         /// <summary>
         /// Reset the NVLINK utilization counters 
         /// Both the receive and transmit counters are operated on by this function
@@ -2911,7 +2811,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceResetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter);
 
-
         /// <summary>
         /// Create an empty set of events.
         /// Event set should be freed by \ref nvmlEventSetFree
@@ -2929,7 +2828,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlEventSetCreate(ref nvmlEventSet set);
-
 
         /// <summary>
         /// Starts recording of events on a specified devices and add the events to specified \ref nvmlEventSet
@@ -2965,7 +2863,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceRegisterEvents(nvmlDevice device, ulong eventTypes, nvmlEventSet set);
 
-
         /// <summary>
         /// Returns information about events supported on device
         /// For Fermi or newer fully supported devices.
@@ -2986,7 +2883,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceGetSupportedEventTypes(nvmlDevice device, ref ulong eventTypes);
-
 
         /// <summary>
         /// Waits on events and delivers events
@@ -3018,7 +2914,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlEventSetWait(nvmlEventSet set, ref nvmlEventData data, uint timeoutms);
 
-
         /// <summary>
         /// Releases events in the set
         /// For Fermi or newer fully supported devices.
@@ -3034,7 +2929,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlEventSetFree(nvmlEventSet set);
-
 
         /// <summary>
         /// Modify the drain state of a GPU.  This method forces a GPU to no longer accept new incoming requests.
@@ -3060,7 +2954,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceModifyDrainState(uint nvmlIndex, nvmlEnableState newState);
 
-
         /// <summary>
         /// Query the drain state of a GPU.  This method is used to check if a GPU is in a currently draining
         /// state.
@@ -3081,7 +2974,6 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceQueryDrainState(uint nvmlIndex, ref nvmlEnableState currentState);
-
 
         /// <summary>
         /// This method will remove the specified GPU from the view of both NVML and the NVIDIA kernel driver
@@ -3111,7 +3003,6 @@ namespace ManagedCuda.Nvml
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceRemoveGpu(uint nvmlIndex);
 
-
         /// <summary>
         /// Request the OS and the NVIDIA kernel driver to rediscover a portion of the PCI subsystem looking for GPUs that
         /// were previously removed. The portion of the PCI tree can be narrowed by specifying a domain, bus, and device.  
@@ -3138,8 +3029,5 @@ namespace ManagedCuda.Nvml
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
         public static extern nvmlReturn nvmlDeviceDiscoverGpus(ref nvmlPciInfo spciInfo);
-
-
-
     }
 }

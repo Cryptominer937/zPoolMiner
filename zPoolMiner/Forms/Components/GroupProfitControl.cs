@@ -16,7 +16,7 @@ namespace zPoolMiner.Forms.Components
         public void UpdateProfitStats(string groupName, string deviceStringInfo,
             string speedString, string btcRateString, string currencyRateString)
         {
-            groupBoxMinerGroup.Text = String.Format(International.GetText("Form_Main_MiningDevices"), deviceStringInfo);
+            groupBoxMinerGroup.Text = string.Format(International.GetText("Form_Main_MiningDevices"), deviceStringInfo);
             labelSpeedValue.Text = speedString;
             labelBTCRateValue.Text = btcRateString;
             labelCurentcyPerDayVaue.Text = currencyRateString;

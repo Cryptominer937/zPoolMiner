@@ -30,10 +30,7 @@ namespace zPoolMiner.Configs.Data
         private int[] _benchmarkTimeLimitsNVIDIA = MemoryHelper.DeepClone(DEFAULT_CPU_NVIDIA);
         private int[] _benchmarkTimeLimitsAMD = MemoryHelper.DeepClone(DEFAULT_AMD);
 
-        private bool IsValid(int[] value)
-        {
-            return value != null && value.Length == SIZE;
-        }
+        private bool IsValid(int[] value) => value != null && value.Length == SIZE;
 
         #endregion PRIVATES
 
@@ -95,6 +92,7 @@ namespace zPoolMiner.Configs.Data
             {
                 return CPU[(int)benchmarkPerformanceType];
             }
+
             if (deviceGroupType == DeviceGroupType.AMD_OpenCL)
             {
                 return AMD[(int)benchmarkPerformanceType];

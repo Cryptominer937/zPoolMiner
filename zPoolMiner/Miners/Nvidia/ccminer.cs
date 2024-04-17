@@ -26,7 +26,7 @@
         // cryptonight benchmark exception        /// <summary>
         /// Defines the _cryptonightTotalCount
         /// </summary>
-        private int _cryptonightTotalCount = 0;
+        private int _cryptonightTotalCount;
 
         /// <summary>
         /// Defines the _cryptonightTotal
@@ -41,13 +41,7 @@
         /// <summary>
         /// Gets a value indicating whether BenchmarkException
         /// </summary>
-        private bool BenchmarkException
-        {
-            get
-            {
-                return MiningSetup.MinerPath == MinerPaths.Data.NONE;
-            }
-        }
+        private bool BenchmarkException => MiningSetup.MinerPath == MinerPaths.Data.NONE;
 
         /// <summary>
         /// The GET_MAX_CooldownTimeInMilliseconds
@@ -73,36 +67,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -120,58 +121,69 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker() + "";
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAddress, worker);
+
+            var username = GetUsername(btcAddress, worker);
 
             IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.NONE;
 
-            string algo = "";
-            string apiBind = "";
+            var algo = "";
+            var apiBind = "";
+
             if (!IsApiReadException)
             {
                 algo = "--algo=" + MiningSetup.MinerName;
@@ -204,8 +216,9 @@
         /// <returns>The <see cref="string"/></returns>
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            string timeLimit = (BenchmarkException) ? "" : " --time-limit " + time.ToString();
-            string CommandLine = " --algo=" + algorithm.MinerName +
+            var timeLimit = (BenchmarkException) ? "" : " --time-limit " + time.ToString();
+
+            var CommandLine = " --algo=" + algorithm.MinerName +
                               " --benchmark" +
                               timeLimit + " " +
                               ExtraLaunchParametersParser.ParseForMiningSetup(
@@ -232,39 +245,40 @@
             // cryptonight exception
             if (BenchmarkException)
             {
-                int speedLength = (BenchmarkAlgorithm.CryptoMiner937ID == AlgorithmType.cryptonight) ? 6 : 8;
+                var speedLength = (BenchmarkAlgorithm.CryptoMiner937ID == AlgorithmType.cryptonight) ? 6 : 8;
+
                 if (outdata.Contains("Total: "))
                 {
-                    int st = outdata.IndexOf("Total:") + 7;
-                    int len = outdata.Length - speedLength - st;
+                    var st = outdata.IndexOf("Total:") + 7;
+                    var len = outdata.Length - speedLength - st;
 
-                    string parse = outdata.Substring(st, len).Trim();
-                    Double.TryParse(parse, NumberStyles.Any, CultureInfo.InvariantCulture, out double tmp);
+                    var parse = outdata.Substring(st, len).Trim();
+                    double.TryParse(parse, NumberStyles.Any, CultureInfo.InvariantCulture, out double tmp);
 
                     // save speed
-                    int i = outdata.IndexOf("Benchmark:");
-                    int k = outdata.IndexOf("/s");
-                    string hashspeed = outdata.Substring(i + 11, k - i - 9);
-                    int b = hashspeed.IndexOf(" ");
-                    if (hashspeed.Contains("kH/s"))
-                        tmp *= 1000;
-                    else if (hashspeed.Contains("MH/s"))
-                        tmp *= 1000000;
-                    else if (hashspeed.Contains("GH/s"))
-                        tmp *= 1000000000;
+                    var i = outdata.IndexOf("Benchmark:");
+                    var k = outdata.IndexOf("/s");
+                    var hashspeed = outdata.Substring(i + 11, k - i - 9);
+                    var b = hashspeed.IndexOf(" ");
+
+                    if (hashspeed.Contains("kH/s")) tmp *= 1000;
+                    else if (hashspeed.Contains("MH/s")) tmp *= 1000000;
+                    else if (hashspeed.Contains("GH/s")) tmp *= 1000000000;
 
                     _cryptonightTotal += tmp;
                     _cryptonightTotalCount--;
                 }
+
                 if (_cryptonightTotalCount <= 0)
                 {
-                    double spd = _cryptonightTotal / (BenchmarkTimeInSeconds / _cryptonightTotalDelim);
+                    var spd = _cryptonightTotal / (BenchmarkTimeInSeconds / _cryptonightTotalDelim);
                     BenchmarkAlgorithm.BenchmarkSpeed = (spd) * (1.0 - DevFee * 0.01);
                     BenchmarkSignalFinnished = true;
                 }
             }
 
-            double lastSpeed = BenchmarkParseLine_cpu_ccminer_extra(outdata);
+            var lastSpeed = BenchmarkParseLine_cpu_ccminer_extra(outdata);
+
             if (lastSpeed > 0.0d)
             {
                 BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
@@ -276,6 +290,7 @@
                 BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
+
             return false;
         }
 
@@ -304,6 +319,7 @@
                     Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Could not read data from cryptonight Proccess is null");
                     return null;
                 }
+
                 try
                 {
                     var runningProcess = Process.GetProcessById(ProcessHandle.Id);
@@ -322,24 +338,28 @@
                 }
 
                 var totalSpeed = 0.0d;
+
                 foreach (var miningPair in MiningSetup.MiningPairs)
                 {
                     var algo = miningPair.Device.GetAlgorithm(MinerBaseType.ccminer, AlgorithmType.cryptonight, AlgorithmType.NONE);
+
                     if (algo != null)
                     {
                         totalSpeed += algo.BenchmarkSpeed;
                     }
                 }
 
-                ApiData cryptonightData = new ApiData(MiningSetup.CurrentAlgorithmType)
+                var cryptonightData = new ApiData(MiningSetup.CurrentAlgorithmType)
                 {
                     Speed = totalSpeed
                 };
+
                 CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                 // check if speed zero
                 if (cryptonightData.Speed == 0) CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
                 return cryptonightData;
             }
+
             return await GetSummaryCPU_CCMINERAsync();
         }
     }

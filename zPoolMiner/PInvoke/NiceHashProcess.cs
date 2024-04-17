@@ -64,12 +64,12 @@
             /// <summary>
             /// Defines the ProcessId
             /// </summary>
-            public Int32 ProcessId;
+            public int ProcessId;
 
             /// <summary>
             /// Defines the ThreadId
             /// </summary>
-            public Int32 ThreadId;
+            public int ThreadId;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@
             /// <summary>
             /// Defines the cb
             /// </summary>
-            public Int32 cb;
+            public int cb;
 
             /// <summary>
             /// Defines the lpReserved
@@ -123,52 +123,52 @@
             /// <summary>
             /// Defines the dwX
             /// </summary>
-            public Int32 dwX;
+            public int dwX;
 
             /// <summary>
             /// Defines the dwY
             /// </summary>
-            public Int32 dwY;
+            public int dwY;
 
             /// <summary>
             /// Defines the dwXSize
             /// </summary>
-            public Int32 dwXSize;
+            public int dwXSize;
 
             /// <summary>
             /// Defines the dwYSize
             /// </summary>
-            public Int32 dwYSize;
+            public int dwYSize;
 
             /// <summary>
             /// Defines the dwXCountChars
             /// </summary>
-            public Int32 dwXCountChars;
+            public int dwXCountChars;
 
             /// <summary>
             /// Defines the dwYCountChars
             /// </summary>
-            public Int32 dwYCountChars;
+            public int dwYCountChars;
 
             /// <summary>
             /// Defines the dwFillAttribute
             /// </summary>
-            public Int32 dwFillAttribute;
+            public int dwFillAttribute;
 
             /// <summary>
             /// Defines the dwFlags
             /// </summary>
-            public Int32 dwFlags;
+            public int dwFlags;
 
             /// <summary>
             /// Defines the wShowWindow
             /// </summary>
-            public Int16 wShowWindow;
+            public short wShowWindow;
 
             /// <summary>
             /// Defines the cbReserved2
             /// </summary>
-            public Int16 cbReserved2;
+            public short cbReserved2;
 
             /// <summary>
             /// Defines the lpReserved2
@@ -190,6 +190,11 @@
             /// </summary>
             public IntPtr hStdError;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HashKingsProcess"/> class.
+        /// </summary>
+        public HashKingsProcess() => StartInfo = new ProcessStartInfo();
 
         /// <summary>
         /// The CreateProcess
@@ -254,7 +259,7 @@
         /// <param name="dwMilliseconds">The <see cref="UInt32"/></param>
         /// <returns>The <see cref="UInt32"/></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+        private static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
 
         /// <summary>
         /// The GetStdHandle
@@ -314,8 +319,8 @@
         /// The AllocConsole
         /// </summary>
         /// <returns>The <see cref="bool"/></returns>
-        [DllImportAttribute("kernel32.dll", EntryPoint = "AllocConsole")]
-        [return: MarshalAsAttribute(UnmanagedType.Bool)]
+        [DllImport("kernel32.dll", EntryPoint = "AllocConsole")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
 
         /// <summary>
@@ -407,27 +412,20 @@
         private IntPtr pHandle;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HashKingsProcess"/> class.
-        /// </summary>
-        public HashKingsProcess()
-        {
-            StartInfo = new ProcessStartInfo();
-        }
-
-        /// <summary>
         /// The Start
         /// </summary>
         /// <returns>The <see cref="bool"/></returns>
         public bool Start()
         {
-            PROCESS_INFORMATION pInfo = new PROCESS_INFORMATION();
-            STARTUPINFO sInfo = new STARTUPINFO();
-            SECURITY_ATTRIBUTES pSec = new SECURITY_ATTRIBUTES();
-            SECURITY_ATTRIBUTES tSec = new SECURITY_ATTRIBUTES();
+            var pInfo = new PROCESS_INFORMATION();
+            var sInfo = new STARTUPINFO();
+            var pSec = new SECURITY_ATTRIBUTES();
+            var tSec = new SECURITY_ATTRIBUTES();
             pSec.nLength = Marshal.SizeOf(pSec);
             tSec.nLength = Marshal.SizeOf(tSec);
 
             uint sflags = 0;
+
             if (StartInfo.CreateNoWindow)
             {
                 sflags = CREATE_NO_WINDOW;
@@ -444,10 +442,11 @@
             }
 
             string workDir = null;
+
             if (StartInfo.WorkingDirectory != null && StartInfo.WorkingDirectory.Length > 0)
                 workDir = StartInfo.WorkingDirectory;
 
-            bool res = CreateProcess(StartInfo.FileName,
+            var res = CreateProcess(StartInfo.FileName,
                 " " + StartInfo.Arguments,
                 ref pSec,
                 ref tSec,
@@ -460,7 +459,7 @@
 
             if (!res)
             {
-                int err = Marshal.GetLastWin32Error();
+                var err = Marshal.GetLastWin32Error();
                 throw new Exception("Failed to start process, err=" + err.ToString());
             }
 
@@ -527,11 +526,11 @@
         /// <returns>The <see cref="bool"/></returns>
         private bool SignalCtrl(uint thisConsoleId, uint dwProcessId, CtrlTypes dwCtrlEvent)
         {
-            bool success = false;
-            //uint thisConsoleId = GetCurrentProcessId();
+            var success = false;
+            // uint thisConsoleId = GetCurrentProcessId();
             // Leave current console if it exists
             // (otherwise AttachConsole will return ERROR_ACCESS_DENIED)
-            bool consoleDetached = (FreeConsole() != false);
+            var consoleDetached = (FreeConsole() != false);
 
             if (AttachConsole(dwProcessId) != false)
             {
@@ -549,14 +548,17 @@
                 // Create a new console if previous was deleted by OS
                 if (AttachConsole(thisConsoleId) == false)
                 {
-                    uint errorCode = GetLastError();
+                    var errorCode = GetLastError();
+
                     if (errorCode == 31)
                     { // 31=ERROR_GEN_FAILURE
                         AllocConsole();
                     }
                 }
+
                 SetConsoleCtrlHandler(null, false);
             }
+
             return success;
         }
 
@@ -573,6 +575,7 @@
                 bRunning = false;
                 tHandle.Join();
             }
+
             SignalCtrl(thisConsoleId, (uint)Id, CtrlTypes.CTRL_C_EVENT);
             pHandle = IntPtr.Zero;
         }
@@ -587,6 +590,7 @@
                 if (WaitForSingleObject(pHandle, 10) == 0)
                 {
                     GetExitCodeProcess(pHandle, out ExitCode);
+
                     if (ExitCode != STILL_ACTIVE)
                     {
                         CloseHandle(pHandle);

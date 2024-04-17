@@ -23,23 +23,16 @@ namespace zPoolMiner.Devices
             {
                 return _names[(int)type];
             }
+
             return "UnknownGroup";
         }
 
         public static string GetNameGeneral(DeviceType type)
         {
-            if (DeviceType.CPU == type)
-            {
-                return "CPU";
-            }
-            else if (DeviceType.NVIDIA == type)
-            {
-                return "NVIDIA";
-            }
-            else if (DeviceType.AMD == type)
-            {
-                return "AMD";
-            }
+            if (DeviceType.CPU == type) return "CPU";
+            else if (DeviceType.NVIDIA == type) return "NVIDIA";
+            else if (DeviceType.AMD == type) return "AMD";
+
             return "UnknownDeviceType";
         }
     }

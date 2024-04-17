@@ -17,8 +17,8 @@
     {
         private const double DevFee = 6.0;
 
-        //ComputeDevice
-        //ComputeDevice        /// <summary>
+        // ComputeDevice
+        // ComputeDevice        /// <summary>
         /// Defines the DaggerHashimotoGenerateDevice
         /// </summary>
         protected ComputeDevice DaggerHashimotoGenerateDevice;
@@ -36,7 +36,7 @@
         /// <summary>
         /// Defines the IsPaused
         /// </summary>
-        protected bool IsPaused = false;
+        protected bool IsPaused;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinerEtherum"/> class.
@@ -80,22 +80,24 @@
         /// <returns>The <see cref="string"/></returns>
         protected override string GetDevicesCommandString()
         {
-            string deviceStringCommand = " ";
+            var deviceStringCommand = " ";
 
-            List<string> ids = new List<string>();
+            var ids = new List<string>();
+
             foreach (var mPair in MiningSetup.MiningPairs)
-            {
                 ids.Add(mPair.Device.ID.ToString());
-            }
-            deviceStringCommand += String.Join(" ", ids);
+
+            deviceStringCommand += string.Join(" ", ids);
             // set dag load mode
-            deviceStringCommand += String.Format(" --dag-load-mode {0} ", GetDagGenerationString(DagGenerationType));
+            deviceStringCommand += string.Format(" --dag-load-mode {0} ", GetDagGenerationString(DagGenerationType));
+
             if (DagGenerationType == DagGenerationType.Single
                 || DagGenerationType == DagGenerationType.SingleKeep)
             {
                 // set dag generation device
                 deviceStringCommand += DaggerHashimotoGenerateDevice.ID.ToString();
             }
+
             return deviceStringCommand;
         }
 
@@ -120,6 +122,7 @@
                 case DagGenerationType.SingleKeep:
                     return "singlekeep";
             }
+
             return "singlekeep";
         }
 
@@ -139,36 +142,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -186,66 +196,77 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker() + "";
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
+
             foreach (var ethminer in usedMiners)
             {
                 if (ethminer.MINER_ID != MINER_ID && (ethminer.IsRunning || ethminer.IsPaused))
                 {
-                    Helpers.ConsolePrint(MinerTag(), String.Format("Will end {0} {1}", ethminer.MinerTag(), ethminer.ProcessTag()));
+                    Helpers.ConsolePrint(MinerTag(), string.Format("Will end {0} {1}", ethminer.MinerTag(), ethminer.ProcessTag()));
                     ethminer.End();
                     System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
                 }
             }
 
             IsPaused = false;
+
             if (ProcessHandle == null)
             {
-                string username = GetUsername(btcAddress, worker);
+                var username = GetUsername(btcAddress, worker);
                 LastCommandLine = GetStartCommandStringPart(url, username) + GetDevicesCommandString();
                 ProcessHandle = _Start();
             }
@@ -265,7 +286,7 @@
         /// <returns>The <see cref="string"/></returns>
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            string CommandLine = GetBenchmarkCommandStringPart(algorithm) + GetDevicesCommandString();
+            var CommandLine = GetBenchmarkCommandStringPart(algorithm) + GetDevicesCommandString();
             Ethereum.GetCurrentBlock(CurrentBlockString);
             CommandLine += " --benchmark " + Ethereum.CurrentBlockNum;
 
@@ -280,10 +301,12 @@
         {
             base.InitMiningSetup(miningSetup);
             // now find the fastest for DAG generation
-            double fastestSpeed = double.MinValue;
+            var fastestSpeed = double.MinValue;
+
             foreach (var mPair in MiningSetup.MiningPairs)
             {
-                double compareSpeed = mPair.Algorithm.AvaragedSpeed;
+                var compareSpeed = mPair.Algorithm.AvaragedSpeed;
+
                 if (fastestSpeed < compareSpeed)
                 {
                     DaggerHashimotoGenerateDevice = mPair.Device;
@@ -298,9 +321,10 @@
         /// <returns>The <see cref="Task{APIData}"/></returns>
         public override Task<ApiData> GetSummaryAsync()
         {
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             var getSpeedStatus = GetSpeed(out bool ismining, out ad.Speed);
+
             if (GetSpeedStatus.GOT == getSpeedStatus)
             {
                 // fix MH/s
@@ -318,8 +342,8 @@
             }
             // else if (GetSpeedStatus.EXCEPTION == getSpeedStatus) {
             // we don't restart unles not responding for long time check cooldown logic in Miner
-            //Helpers.ConsolePrint(MinerTAG(), "ethminer is not running.. restarting..");
-            //IsRunning = false;
+            // Helpers.ConsolePrint(MinerTAG(), "ethminer is not running.. restarting..");
+            // IsRunning = false;
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
             return Task.FromResult<ApiData>(null);
         }
@@ -353,9 +377,11 @@
             {
                 Helpers.ConsolePrint(MinerTag(), ProcessTag() + " Shutting down miner");
             }
+
             if ((willswitch == MinerStopType.FORCE_END || willswitch == MinerStopType.END) && ProcessHandle != null)
             {
                 IsPaused = false; // shutting down means it is not paused
+
                 try
                 {
                     ProcessHandle.Kill();
@@ -380,9 +406,9 @@
         {
             if (outdata.Contains("min/mean/max:"))
             {
-                string[] splt = outdata.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                int index = Array.IndexOf(splt, "mean");
-                double avg_spd = Convert.ToDouble(splt[index + 2]);
+                var splt = outdata.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                var index = Array.IndexOf(splt, "mean");
+                var avg_spd = Convert.ToDouble(splt[index + 2]);
                 Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + avg_spd + "H/s");
 
                 BenchmarkAlgorithm.BenchmarkSpeed = (avg_spd) * (1.0 - DevFee * 0.01);
@@ -465,7 +491,7 @@
 
             SendUDP(3);
 
-            DateTime start = DateTime.Now;
+            var start = DateTime.Now;
 
             while ((DateTime.Now - start) < TimeSpan.FromMilliseconds(2000))
             {
@@ -474,12 +500,14 @@
                     // read
                     try
                     {
-                        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), m_port);
-                        byte[] data = m_client.Receive(ref ipep);
+                        var ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), m_port);
+                        var data = m_client.Receive(ref ipep);
                         if (data.Length != 8) return GetSpeedStatus.NONE;
                         speed = BitConverter.ToDouble(data, 0);
+
                         if (speed >= 0) ismining = true;
                         else speed = 0;
+
                         return GetSpeedStatus.GOT;
                     }
                     catch
@@ -511,7 +539,7 @@
         /// <param name="code">The <see cref="int"/></param>
         private void SendUDP(int code)
         {
-            byte[] data = new byte[1];
+            var data = new byte[1];
             data[0] = (byte)code;
             m_client.Send(data, data.Length);
         }

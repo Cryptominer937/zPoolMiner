@@ -7,7 +7,7 @@ namespace zPoolMiner.Utils
     internal class CommandLineParser
     {
         // keep it simple only two parameters for now
-        public readonly bool IsLang = false;
+        public readonly bool IsLang;
 
         public readonly LanguageType LangValue = 0;
 
@@ -17,11 +17,12 @@ namespace zPoolMiner.Utils
             {
                 Helpers.ConsolePrint("CommandLineParser", "-config parameter has been deprecated, run setting from GUI");
             }
+
             if (ParseCommandLine(argv, "-lang", out tmpString))
             {
                 IsLang = true;
                 // if parsing fails set to default
-                if (Int32.TryParse(tmpString, out int tmp))
+                if (int.TryParse(tmpString, out int tmp))
                 {
                     LangValue = (LanguageType)tmp;
                 }

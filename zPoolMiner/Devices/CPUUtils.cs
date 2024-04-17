@@ -26,14 +26,15 @@ namespace zPoolMiner.Devices
                 default: // CPUExtensionType.Automatic
                     break;
             }
+
             return false;
         }
 
-        ///// <summary>
-        ///// Returns most performant CPU extension based on settings.
-        ///// Returns automatic if NO extension is avaliable
-        ///// </summary>
-        ///// <returns></returns>
+        // /// <summary>
+        // /// Returns most performant CPU extension based on settings.
+        // /// Returns automatic if NO extension is avaliable
+        // /// </summary>
+        // /// <returns></returns>
         public static CPUExtensionType GetMostOptimized()
         {
             if (ConfigManager.GeneralConfig.ForceCPUExtension == CPUExtensionType.Automatic)
@@ -50,6 +51,7 @@ namespace zPoolMiner.Devices
             {
                 return ConfigManager.GeneralConfig.ForceCPUExtension;
             }
+
             return CPUExtensionType.Automatic;
         }
 
@@ -57,9 +59,6 @@ namespace zPoolMiner.Devices
         /// Checks if CPU mining is capable, CPU must have AES support
         /// </summary>
         /// <returns></returns>
-        public static bool IsCPUMiningCapable()
-        {
-            return CPUExtensionType.Automatic != GetMostOptimized();
-        }
+        public static bool IsCPUMiningCapable() => CPUExtensionType.Automatic != GetMostOptimized();
     }
 }

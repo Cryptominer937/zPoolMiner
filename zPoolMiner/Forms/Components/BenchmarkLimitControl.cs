@@ -29,10 +29,9 @@ namespace zPoolMiner.Forms.Components
                 if (value != null)
                 {
                     _timeLimits = value;
+
                     for (int indexKey = 0; indexKey < _timeLimits.Length; ++indexKey)
-                    {
                         _textBoxes[(int)indexKey].Text = _timeLimits[indexKey].ToString();
-                    }
                 }
             }
         }
@@ -47,15 +46,15 @@ namespace zPoolMiner.Forms.Components
             textBoxStandard.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
             textBoxPrecise.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.TextBoxIntsOnly_KeyPress);
             _textBoxes = new TextBox[] { textBoxQuick, textBoxStandard, textBoxPrecise };
-            //InitLocale();
+            // InitLocale();
         }
 
         public void SetToolTip(ref ToolTip toolTip, string groupTypeName)
         {
             // TODO old implementation has textBox tooltips that don't work
-            toolTip.SetToolTip(labelQuick, String.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Quick"), groupTypeName) + ".");
-            toolTip.SetToolTip(labelStandard, String.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Standard"), groupTypeName) + ".");
-            toolTip.SetToolTip(labelPrecise, String.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Standard"), groupTypeName) + ".");
+            toolTip.SetToolTip(labelQuick, string.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Quick"), groupTypeName) + ".");
+            toolTip.SetToolTip(labelStandard, string.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Standard"), groupTypeName) + ".");
+            toolTip.SetToolTip(labelPrecise, string.Format(International.GetText("Form_Settings_ToolTip_BenchmarkTimeLimits"), International.GetText("Standard"), groupTypeName) + ".");
         }
 
         public void InitLocale()
@@ -89,7 +88,8 @@ namespace zPoolMiner.Forms.Components
         private void SetTimeLimit(BenchmarkPerformanceType type, string numString)
         {
             if (_timeLimits == null) return;
-            if (Int32.TryParse(numString, out int value))
+
+            if (int.TryParse(numString, out int value))
             {
                 _timeLimits[(int)type] = value;
             }

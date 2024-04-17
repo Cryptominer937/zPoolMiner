@@ -19,21 +19,19 @@ namespace ComputeDeviceCPU
         public static int GetTemperaturesInCelsius()
         {
             // _computer = new Computer { CPUEnabled = true };
-            int _ret = -1;
+            var _ret = -1;
             _computer.Open();
             var coreAndTemperature = new Dictionary<string, float>();
 
             foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update(); //use hardware.Name to get CPU model
+
                 foreach (var sensor in hardware.Sensors)
                 {
                     if (sensor.SensorType == SensorType.Temperature && sensor.Value.HasValue)
                     {
-                        //  if (sensor.Name == "Package")
-                        {
-                            _ret = (int)sensor.Value.Value;
-                        }
+                        _ret = (int)sensor.Value.Value;
                     }
                 }
             }
@@ -44,18 +42,19 @@ namespace ComputeDeviceCPU
         public static int GetPower()
         {
             // _computer = new Computer { CPUEnabled = true };
-            int _ret = -1;
+            var _ret = -1;
             _computer.Open();
             var coreAndTemperature = new Dictionary<string, float>();
 
             foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update(); //use hardware.Name to get CPU model
+
                 foreach (var sensor in hardware.Sensors)
                 {
                     if (sensor.SensorType == SensorType.Power && sensor.Value.HasValue)
                     {
-                        //Helpers.ConsolePrint("CPU", sensor.Name + " " + sensor.Value.ToString());
+                        // Helpers.ConsolePrint("CPU", sensor.Name + " " + sensor.Value.ToString());
                         if (sensor.Name == "Package")
                         {
                             _ret = (int)sensor.Value.Value;
@@ -70,50 +69,47 @@ namespace ComputeDeviceCPU
         public static int GetFan()
         {
             // _computer = new Computer { CPUEnabled = true };
-            int _ret = -1;
+            var _ret = -1;
             _computer.Open();
             var coreAndTemperature = new Dictionary<string, float>();
 
             foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update(); //use hardware.Name to get CPU model
+
                 foreach (var sensor in hardware.Sensors)
                 {
                     if (sensor.SensorType == SensorType.Fan && sensor.Value.HasValue)
                     {
-                        //Helpers.ConsolePrint("CPU", sensor.Name + " " + sensor.Value.ToString());
-                        // if (sensor.Name == "Package")
-                        {
-                            _ret = (int)sensor.Value.Value;
-                        }
+                        _ret = (int)sensor.Value.Value;
                     }
                 }
             }
+
             return _ret;
         }
 
         public static int GetLoad()
         {
             // _computer = new Computer { CPUEnabled = true };
-            int _ret = -1;
+            var _ret = -1;
             _computer.Open();
             var coreAndTemperature = new Dictionary<string, float>();
 
             foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update(); //use hardware.Name to get CPU model
+
                 foreach (var sensor in hardware.Sensors)
                 {
                     if (sensor.SensorType == SensorType.Load && sensor.Value.HasValue)
                     {
                         Helpers.ConsolePrint("CPU", sensor.Name + " " + sensor.Value.ToString());
-                        // if (sensor.Name == "Package")
-                        {
-                            _ret = (int)sensor.Value.Value;
-                        }
+                        _ret = (int)sensor.Value.Value;
                     }
                 }
             }
+
             return _ret;
         }
 
@@ -125,7 +121,7 @@ namespace ComputeDeviceCPU
             }
             catch (Exception)
             {
-                //ignore closing errors
+                // ignore closing errors
             }
         }
     }

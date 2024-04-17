@@ -20,17 +20,17 @@
             /// <summary>
             /// Gets or sets the algorithms
             /// </summary>
-            public Object algorithms { get; set; }
+            public object algorithms { get; set; }
 
             /// <summary>
             /// Gets or sets the servers
             /// </summary>
-            public Object servers { get; set; }
+            public object servers { get; set; }
 
             /// <summary>
             /// Gets or sets the idealratios
             /// </summary>
-            public Object idealratios { get; set; }
+            public object idealratios { get; set; }
 
             /// <summary>
             /// Gets or sets the exchanges
@@ -67,7 +67,7 @@
         /// <summary>
         /// Defines the exchanges_fiat
         /// </summary>
-        private static Dictionary<string, double> exchanges_fiat = null;
+        private static Dictionary<string, double> exchanges_fiat;
 
         /// <summary>
         /// Defines the USD_BTC_rate
@@ -82,10 +82,7 @@
         /// <summary>
         /// Gets a value indicating whether ConverterActive
         /// </summary>
-        private static bool ConverterActive
-        {
-            get { return ConfigManager.GeneralConfig.DisplayCurrency != "USD"; }
-        }
+        private static bool ConverterActive => ConfigManager.GeneralConfig.DisplayCurrency != "USD";
 
         /// <summary>
         /// The ConvertToActiveCurrency
@@ -94,10 +91,7 @@
         /// <returns>The <see cref="double"/></returns>
         public static double ConvertToActiveCurrency(double amount)
         {
-            if (!ConverterActive)
-            {
-                return amount;
-            }
+            if (!ConverterActive) return amount;
 
             // if we are still null after an update something went wrong. just use USD hopefully itll update next tick
             if (exchanges_fiat == null || ActiveDisplayCurrency == "USD")
@@ -106,8 +100,9 @@
                 return amount;
             }
 
-            //Helpers.ConsolePrint("CurrencyConverter", "Current Currency: " + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
-            double usdExchangeRate = 1.0;
+            // Helpers.ConsolePrint("CurrencyConverter", "Current Currency: " + ConfigManager.Instance.GeneralConfig.DisplayCurrency);
+            var usdExchangeRate = 1.0;
+
             if (exchanges_fiat.TryGetValue(ActiveDisplayCurrency, out usdExchangeRate))
                 return amount * usdExchangeRate;
             else
@@ -124,10 +119,7 @@
         /// <returns>The <see cref="double"/></returns>
         public static double GetUSDExchangeRate()
         {
-            if (USD_BTC_rate > 0)
-            {
-                return USD_BTC_rate;
-            }
+            if (USD_BTC_rate > 0) return USD_BTC_rate;
             return 0.0;
         }
 
@@ -140,28 +132,34 @@
             try
             {
                 ServicePointManager.Expect100Continue = true;
+
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                        | SecurityProtocolType.Tls11
                        | SecurityProtocolType.Tls12
                        | SecurityProtocolType.Ssl3;
+
                 var WR = (HttpWebRequest)WebRequest.Create("https://blockchain.info/ticker");
                 var Response = WR.GetResponse();
                 var SS = Response.GetResponseStream();
                 SS.ReadTimeout = 20 * 1000;
                 var Reader = new StreamReader(SS);
                 var ResponseFromServer = Reader.ReadToEnd();
+
                 if (ResponseFromServer.Length == 0 || ResponseFromServer[0] != '{')
                     throw new Exception("Not JSON!");
+
                 Reader.Close();
                 Response.Close();
 
                 dynamic fiat_rates = JObject.Parse(ResponseFromServer);
+
                 try
                 {
-                    //USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates[ConfigManager.GeneralConfig.DisplayCurrency]["last"]);
+                    // USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates[ConfigManager.GeneralConfig.DisplayCurrency]["last"]);
                     USD_BTC_rate = Helpers.ParseDouble((string)fiat_rates["USD"]["last"]);
 
                     exchanges_fiat = new Dictionary<string, double>();
+
                     foreach (var c in _supportedCurrencies)
                         exchanges_fiat.Add(c, Helpers.ParseDouble((string)fiat_rates[c]["last"]) / USD_BTC_rate);
                 }
@@ -178,9 +176,9 @@
                     {
                         using (var reader = new StreamReader(errorResponse.GetResponseStream()))
                         {
-                            string error = reader.ReadToEnd();
-                            //TODO: use JSON.net to parse this string and look at the error message
+                            var error = reader.ReadToEnd();
                         }
+                        // TODO: use JSON.net to parse this string and look at the error message
                     }
                 }
             }

@@ -1,5 +1,4 @@
 ﻿using ATI.ADL;
-using System;
 using zPoolMiner.Enums;
 
 namespace zPoolMiner.Devices
@@ -16,11 +15,14 @@ namespace zPoolMiner.Devices
                 {
                     SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
+
                 var result = ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf);
+
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    //Helpers.ConsolePrint("ADL", "ADL fan getting failed with error code " + result);
+                    // Helpers.ConsolePrint("ADL", "ADL fan getting failed with error code " + result);
                 }
+
                 return (int)adlf.FanSpeed;
             }
         }
@@ -31,10 +33,12 @@ namespace zPoolMiner.Devices
             {
                 var adlt = new ADLTemperature();
                 var result = ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt);
+
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    //Helpers.ConsolePrint("ADL", "ADL temp getting failed with error code " + result);
+                    // Helpers.ConsolePrint("ADL", "ADL temp getting failed with error code " + result);
                 }
+
                 return adlt.Temperature * 0.001f;
             }
         }
@@ -45,10 +49,12 @@ namespace zPoolMiner.Devices
             {
                 var adlp = new ADLPMActivity();
                 var result = ADL.ADL_Overdrive5_CurrentActivity_Get(adapterIndex, ref adlp);
+
                 if (result != ADL.ADL_SUCCESS)
                 {
-                    //Helpers.ConsolePrint("ADL", "ADL load getting failed with error code " + result);
+                    // Helpers.ConsolePrint("ADL", "ADL load getting failed with error code " + result);
                 }
+
                 return adlp.ActivityPercent;
             }
         }
@@ -60,7 +66,7 @@ namespace zPoolMiner.Devices
                   DeviceGroupType.AMD_OpenCL,
                   amdDevice.IsEtherumCapable(),
                   DeviceType.AMD,
-                  String.Format(International.GetText("ComputeDevice_Short_Name_AMD_GPU"), GPUCount),
+                  string.Format(International.GetText("ComputeDevice_Short_Name_AMD_GPU"), GPUCount),
                   amdDevice.DeviceGlobalMemory)
         {
             if (isDetectionFallback)
@@ -71,6 +77,7 @@ namespace zPoolMiner.Devices
             {
                 UUID = amdDevice.UUID;
             }
+
             BusID = amdDevice.BusID;
             Codename = amdDevice.Codename;
             InfSection = amdDevice.InfSection;

@@ -97,7 +97,7 @@
         /// <summary>
         /// Defines the Bitcore
         /// </summary>
-        //Bitcore = 0,
+        // Bitcore = 0,
 
         /// <summary>
         /// Defines the Blake2s
@@ -124,11 +124,11 @@
         /// </summary>
         Groestl = 5,
 
-        //hmq1725 = 37,
+        // hmq1725 = 37,
         /// <summary>
         /// Defines the Hsr
         /// </summary>
-        //Hsr = 6,
+        // Hsr = 6,
 
         /// <summary>
         /// Defines the Keccak
@@ -213,7 +213,7 @@
         /// <summary>
         /// Defines the Tribus
         /// </summary>
-        //Tribus = 23,
+        // Tribus = 23,
 
         /// <summary>
         /// Defines the Veltor
@@ -243,19 +243,19 @@
         /// <summary>
         /// Defines the X17
         /// </summary>
-        //X17 = 29,
+        // X17 = 29,
 
         /// <summary>
         /// Defines the Xevan
         /// </summary>
-        //Xevan = 30,
+        // Xevan = 30,
 
         /// <summary>
         /// Defines the yescrypt
         /// </summary>
         yescrypt = 31,
 
-        //M7M = 32,
+        // M7M = 32,
         lyra2z = 36,
 
         yescryptr16 = 38,
@@ -263,22 +263,22 @@
         Decred = 40,
         Pascal = 41,
 
-        //K/eccakc = 42,
+        // K/eccakc = 42,
         Sha256t = 43,
 
         cryptonightv7 = 44,
         x16r = 45,
         randomxmonero = 46,
 
-        //randomarq = 47,
+        // randomarq = 47,
         randomx = 48,
 
-        //randomsfx = 49,
-        //cryptonight_heavy = 50,
+        // randomsfx = 49,
+        // cryptonight_heavy = 50,
         cryptonight_heavyx = 51,
 
-        //cryptonight_saber = 52,
-        //cryptonight_fast = 53,
+        // cryptonight_saber = 52,
+        // cryptonight_fast = 53,
         cryptonight_haven = 54,
 
         cryptonight_upx = 55,
@@ -286,31 +286,31 @@
         cpupower = 57,
         power2b = 58,
 
-        //yescryptr8g = 59,
-        //yespoweriots = 60,
-        //chukwa = 61,
+        // yescryptr8g = 59,
+        // yespoweriots = 60,
+        // chukwa = 61,
         yescryptr32 = 62,
 
-        //x16s = 63,
-        //sonoa = 64,
+        // x16s = 63,
+        // sonoa = 64,
         bcd = 65,
 
-        //phi2 = 66,
+        // phi2 = 66,
         hex = 67,
 
         allium = 68,
 
-        //lyra2v3 = 69,
+        // lyra2v3 = 69,
         cryptonight_gpu = 70,
 
-        //cryptonight_xeq = 71,
-        //cryptonight_conceal = 72,
+        // cryptonight_xeq = 71,
+        // cryptonight_conceal = 72,
         equihash144 = 73,
 
         equihash125 = 74,
         equihash192 = 75,
 
-        //equihash96 = 76,
+        // equihash96 = 76,
         scryptn2 = 77,
 
         karlsenhash = 78,

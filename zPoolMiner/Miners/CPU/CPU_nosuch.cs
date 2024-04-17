@@ -20,10 +20,7 @@
         /// Initializes a new instance of the <see cref="CPU_rplant"/> class.
         /// </summary>
         public CPU_rplant()
-            : base("CPU_rplant")
-        {
-            IsNeverHideMiningWindow = true;
-        }
+            : base("CPU_rplant") => IsNeverHideMiningWindow = true;
 
         /// <summary>
         /// The GET_MAX_CooldownTimeInMilliseconds
@@ -49,36 +46,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -96,53 +100,63 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAddress, worker);
+
+            var username = GetUsername(btcAddress, worker);
 
             LastCommandLine = "--algo=" + MiningSetup.MinerName +
                               " --url=" + url +
@@ -159,10 +173,7 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override Task<ApiData> GetSummaryAsync()
-        {
-            return GetSummaryCPU_CCMINERAsync();
-        }
+        public override Task<ApiData> GetSummaryAsync() => GetSummaryCPU_CCMINERAsync();
 
         /// <summary>
         /// The _Stop
@@ -179,9 +190,10 @@
         /// <returns>The <see cref="HashKingsProcess"/></returns>
         protected override HashKingsProcess _Start()
         {
-            HashKingsProcess P = base._Start();
+            var P = base._Start();
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
+
             if (AffinityMask != 0 && P != null)
                 CPUID.AdjustAffinity(P.Id, AffinityMask);
 
@@ -212,9 +224,10 @@
         /// <returns>The <see cref="Process"/></returns>
         protected override Process BenchmarkStartProcess(string CommandLine)
         {
-            Process BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
+            var BenchmarkHandle = base.BenchmarkStartProcess(CommandLine);
 
             var AffinityMask = MiningSetup.MiningPairs[0].Device.AffinityMask;
+
             if (AffinityMask != 0 && BenchmarkHandle != null)
                 CPUID.AdjustAffinity(BenchmarkHandle.Id, AffinityMask);
 
@@ -233,6 +246,7 @@
                 BenchmarkAlgorithm.BenchmarkSpeed = (lastSpeed) * (1.0 - DevFee * 0.01);
                 return true;
             }
+
             return false;
         }
 

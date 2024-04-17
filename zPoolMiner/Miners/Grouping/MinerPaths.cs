@@ -1,6 +1,5 @@
 ﻿namespace zPoolMiner.Miners.Grouping
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using zPoolMiner.Configs.ConfigJsonFile;
@@ -17,7 +16,7 @@
         /// </summary>
         /// <param name="name">The <see cref="string"/></param>
         public MinerPathPackageFile(string name)
-            : base(FOLDERS.INTERNALS, String.Format("{0}.json", name), String.Format("{0}_old.json", name))
+            : base(FOLDERS.INTERNALS, string.Format("{0}.json", name), string.Format("{0}_old.json", name))
         {
         }
     }
@@ -140,88 +139,88 @@
             /// <summary>
             /// ccminers
             /// </summary>
-            //public const string ccminer_22 = _bin + @"\ccminer_22\ccminer.exe";
-            //public const string ccminer_ocminer = _bin + @"\ccminer_ocminer\ccminer.exe";
+            // public const string ccminer_22 = _bin + @"\ccminer_22\ccminer.exe";
+            // public const string ccminer_ocminer = _bin + @"\ccminer_ocminer\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_alexis_hsr
             /// </summary>
-            //public const string ccminer_alexis_hsr = _bin + @"\ccminer_alexis_hsr\ccminer.exe";
+            // public const string ccminer_alexis_hsr = _bin + @"\ccminer_alexis_hsr\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_alexis78
             /// </summary>
-            //public const string ccminer_alexis78 = _bin + @"\ccminer_alexis78\ccminer.exe";
+            // public const string ccminer_alexis78 = _bin + @"\ccminer_alexis78\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_cryptonight
             /// </summary>
-            //public const string ccminer_cryptonight = _bin + @"\ccminer_cryptonight\ccminer.exe";
+            // public const string ccminer_cryptonight = _bin + @"\ccminer_cryptonight\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_decred
             /// </summary>
-            //public const string ccminer_decred = _bin + @"\ccminer_decred\ccminer.exe";
+            // public const string ccminer_decred = _bin + @"\ccminer_decred\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_klaust
             /// </summary>
-            //public const string ccminer_klaust = _bin + @"\ccminer_klaust\ccminer.exe";
+            // public const string ccminer_klaust = _bin + @"\ccminer_klaust\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_klaust818
             /// </summary>
-            //public const string ccminer_klaust818 = _bin + @"\ccminer_klaust818\ccminer.exe";
+            // public const string ccminer_klaust818 = _bin + @"\ccminer_klaust818\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_nanashi
             /// </summary>
-            //public const string ccminer_nanashi = _bin + @"\ccminer_nanashi\ccminer.exe";
+            // public const string ccminer_nanashi = _bin + @"\ccminer_nanashi\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_neoscrypt
             /// </summary>
-            //public const string ccminer_neoscrypt = _bin + @"\ccminer_neoscrypt\ccminer.exe";
+            // public const string ccminer_neoscrypt = _bin + @"\ccminer_neoscrypt\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_palgin
             /// </summary>
-            //public const string ccminer_palgin = _bin + @"\ccminer_palgin\ccminer.exe";
+            // public const string ccminer_palgin = _bin + @"\ccminer_palgin\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_polytimos
             /// </summary>
-            //public const string ccminer_polytimos = _bin + @"\ccminer_polytimos\ccminer.exe";
+            // public const string ccminer_polytimos = _bin + @"\ccminer_polytimos\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_skunkkrnlx
             /// </summary>
-            //public const string ccminer_skunkkrnlx = _bin + @"\ccminer_skunkkrnlx\ccminer.exe";
+            // public const string ccminer_skunkkrnlx = _bin + @"\ccminer_skunkkrnlx\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_sp
             /// </summary>
-            //public const string ccminer_sp = _bin + @"\ccminer_sp\ccminer.exe";
+            // public const string ccminer_sp = _bin + @"\ccminer_sp\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_tpruvot
             /// </summary>
-            //public const string ccminer_tpruvot = _bin + @"\ccminer_tpruvot\ccminer.exe";
+            // public const string ccminer_tpruvot = _bin + @"\ccminer_tpruvot\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_tpruvot2
             /// </summary>
-            //public const string ccminer_tpruvot2 = _bin + @"\ccminer_tpruvot2\ccminer.exe";
+            // public const string ccminer_tpruvot2 = _bin + @"\ccminer_tpruvot2\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_x11gost
             /// </summary>
-            //public const string ccminer_x11gost = _bin + @"\ccminer_x11gost\ccminer.exe";
+            // public const string ccminer_x11gost = _bin + @"\ccminer_x11gost\ccminer.exe";
 
             /// <summary>
             /// Defines the ccminer_xevan
             /// </summary>
-            //public const string ccminer_xevan = _bin + @"\ccminer_xevan\ccminer.exe";
+            // public const string ccminer_xevan = _bin + @"\ccminer_xevan\ccminer.exe";
 
             public const string lolMinerAmd = _bin + @"\lolMiner\lolMiner.exe";
             public const string lolMinerNvidia = _bin + @"\lolMiner\lolMiner.exe";
@@ -239,48 +238,48 @@
             /// <summary>
             /// ethminers
             /// </summary>
-            //public const string ethminer = _bin + @"\ethminer\ethminer.exe";
+            // public const string ethminer = _bin + @"\ethminer\ethminer.exe";
 
             /// <summary>
             /// sgminers
             /// </summary>
-            //public const string sgminer_5_6_0_general = _bin + @"\AMD\sgminer-5-6-0-general\sgminer.exe";
+            // public const string sgminer_5_6_0_general = _bin + @"\AMD\sgminer-5-6-0-general\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_gm
             /// </summary>
-            //public const string sgminer_gm = _bin + @"\AMD\sgminer-gm\sgminer.exe";
+            // public const string sgminer_gm = _bin + @"\AMD\sgminer-gm\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_HSR
             /// </summary>
-            //public const string sgminer_HSR = _bin + @"\AMD\sgminer-HSR\sgminer.exe";
+            // public const string sgminer_HSR = _bin + @"\AMD\sgminer-HSR\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Phi
             /// </summary>
-            //public const string sgminer_Phi = _bin + @"\AMD\sgminer-Phi\sgminer.exe";
+            // public const string sgminer_Phi = _bin + @"\AMD\sgminer-Phi\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Bitcore
             /// </summary
-            //public const string sgminer_Bitcore = _bin + @"\AMD\sgminer-Bitcore\sgminer.exe";
+            // public const string sgminer_Bitcore = _bin + @"\AMD\sgminer-Bitcore\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Skein
             /// </summary>
-            //public const string sgminer_Skein = _bin + @"\AMD\sgminer-Skein\sgminer.exe";
+            // public const string sgminer_Skein = _bin + @"\AMD\sgminer-Skein\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Tribus
             /// </summary>
-            //public const string sgminer_Tribus = _bin + @"\AMD\sgminer-Tribus\sgminer.exe";
+            // public const string sgminer_Tribus = _bin + @"\AMD\sgminer-Tribus\sgminer.exe";
 
             /// <summary>
             /// Defines the sgminer_Xevan
             /// </summary>
-            //public const string sgminer_Xevan = _bin + @"\AMD\sgminer-Xevan\sgminer.exe";
-            //public const string sgminer_aceneun = _bin + @"\AMD\sgminer-aceneun\sgminer.exe";
+            // public const string sgminer_Xevan = _bin + @"\AMD\sgminer-Xevan\sgminer.exe";
+            // public const string sgminer_aceneun = _bin + @"\AMD\sgminer-aceneun\sgminer.exe";
 
             /// <summary>
             /// Defines the glg
@@ -290,27 +289,27 @@
             /// <summary>
             /// Defines the nheqminer
             /// </summary>
-            //public const string nheqminer = _bin + @"\nheqminer_v0.4b\nheqminer.exe";
+            // public const string nheqminer = _bin + @"\nheqminer_v0.4b\nheqminer.exe";
 
             /// <summary>
             /// Defines the excavator
             /// </summary>
-            //public const string excavator = _bin + @"\excavator\excavator.exe";
+            // public const string excavator = _bin + @"\excavator\excavator.exe";
 
             /// <summary>
             /// Defines the XmrStackCPUMiner
             /// </summary>
-            //public const string XmrStackCPUMiner = _bin + @"\xmr-stak-cpu\xmr-stak-cpu.exe";
+            // public const string XmrStackCPUMiner = _bin + @"\xmr-stak-cpu\xmr-stak-cpu.exe";
 
             /// <summary>
             /// Defines the XmrStakAMD
             /// </summary>
-            //public const string XmrStakAMD = _bin + @"\xmr-stak-amd\xmr-stak-amd.exe";
+            // public const string XmrStakAMD = _bin + @"\xmr-stak-amd\xmr-stak-amd.exe";
 
             /// <summary>
             /// Defines the Xmrig
             /// </summary>
-            //public const string Xmrig = _bin + @"\xmrig\xmrig.exe";
+            // public const string Xmrig = _bin + @"\xmrig\xmrig.exe";
 
             public const string CPU_cpuminerOptBF = _bin + @"\CPU\CPU-cpuminerOptBF\cpuminer-aes-sse42.exe";
             public const string CPU_Cpupower = _bin + @"\CPU\CPU-Cpupower\cpuminer-aes-sse42.exe";
@@ -329,29 +328,29 @@
             public const string CryptoDredge25 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge25\CryptoDredge.exe";
             public const string CryptoDredge26 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge26\CryptoDredge.exe";
             public const string ZEnemy = _bin + @"\NVIDIA\NVIDIA-zealotenemy\z-enemy.exe";
-            //public const string ClaymoreZcashMiner = _bin + @"\AMD_NVIDIA\claymore_zcash\ZecMiner64.exe";
+            // public const string ClaymoreZcashMiner = _bin + @"\AMD_NVIDIA\claymore_zcash\ZecMiner64.exe";
 
-            //public const string ClaymoreNeoscryptMiner = _bin + @"\AMD_NVIDIA\claymore_neoscrypt\NeoScryptMiner.exe";
+            // public const string ClaymoreNeoscryptMiner = _bin + @"\AMD_NVIDIA\claymore_neoscrypt\NeoScryptMiner.exe";
 
             /// <summary>
             /// Defines the ClaymorecryptonightMiner
             /// </summary>
-            //public const string ClaymorecryptonightMiner = _bin + @"\AMD_NVIDIA\claymore_cryptonight\NsGpuCNMiner.exe";
+            // public const string ClaymorecryptonightMiner = _bin + @"\AMD_NVIDIA\claymore_cryptonight\NsGpuCNMiner.exe";
 
             /// <summary>
             /// Defines the ClaymorecryptonightMiner_old
             /// </summary>
-            //public const string ClaymorecryptonightMiner_old = _bin + @"\AMD_NVIDIA\claymore_cryptonight_old\NsGpuCNMiner.exe";
+            // public const string ClaymorecryptonightMiner_old = _bin + @"\AMD_NVIDIA\claymore_cryptonight_old\NsGpuCNMiner.exe";
 
             /// <summary>
             /// Defines the OptiminerZcashMiner
             /// </summary>
-            //public const string OptiminerZcashMiner = _bin + @"\AMD\optiminer_zcash_win\Optiminer.exe";
+            // public const string OptiminerZcashMiner = _bin + @"\AMD\optiminer_zcash_win\Optiminer.exe";
 
             /// <summary>
             /// Defines the ClaymoreDual
             /// </summary>
-            //public const string ClaymoreDual = _bin + @"\AMD_NVIDIA\claymore_dual\EthDcrMiner64.exe";
+            // public const string ClaymoreDual = _bin + @"\AMD_NVIDIA\claymore_dual\EthDcrMiner64.exe";
 
             /// <summary>
             /// Defines the mkxminer
@@ -375,11 +374,11 @@
         }
 
         // NEW START
-        ////////////////////////////////////////////
+        // //////////////////////////////////////////
         // Pure functions
-        //public static bool IsMinerAlgorithmAvaliable(List<Algorithm> algos, MinerBaseType minerBaseType, AlgorithmType algorithmType) {
+        // public static bool IsMinerAlgorithmAvaliable(List<Algorithm> algos, MinerBaseType minerBaseType, AlgorithmType algorithmType) {
         //    return algos.FindIndex((a) => a.MinerBaseType == minerBaseType && a.CryptoMiner937ID == algorithmType) > -1;
-        //}
+        // }
         /// <summary>
         /// The GetPathFor
         /// </summary>
@@ -396,6 +395,7 @@
                 var path = minerPathPackages.Find(p => p.DeviceType == devGroupType)
                     .MinerTypes.Find(p => p.Type == minerBaseType)
                     .Algorithms.Find(p => p.Algorithm == algoType);
+
                 if (path != null)
                 {
                     if (File.Exists(path.Path))
@@ -404,10 +404,11 @@
                     }
                     else
                     {
-                        Helpers.ConsolePrint("PATHS", String.Format("Path {0} not found, using defaults", path.Path));
+                        Helpers.ConsolePrint("PATHS", string.Format("Path {0} not found, using defaults", path.Path));
                     }
                 }
             }
+
             switch (minerBaseType)
             {
                 case MinerBaseType.cpuminer:
@@ -476,6 +477,7 @@
                 case MinerBaseType.lolMinerNvidia:
                     return AMD_GROUP.lolMinerAmd(algoType);
             }
+
             return Data.NONE;
         }
 
@@ -534,7 +536,7 @@
 
         // NEW END
 
-        ////// private stuff from here on
+        // //// private stuff from here on
         /// <summary>
         /// Defines the <see cref="NVIDIA_GROUPS" />
         /// </summary>
@@ -556,34 +558,42 @@
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.pyrinhash == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.ethash == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.nexapow == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.sha512256d == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.equihash144 == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 if (AlgorithmType.equihash192 == type)
                 {
                     return Data.lolMinerNvidia;
                 }
+
                 return Data.NONE;
             }
 
@@ -614,11 +624,13 @@
                 {
                     return Data.trex;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.trex; ;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -630,11 +642,13 @@
                 {
                     return Data.MiniZ;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.MiniZ; ;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -646,11 +660,13 @@
                 {
                     return Data.ZEnemy;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.ZEnemy; ;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -662,11 +678,13 @@
                 {
                     return Data.CryptoDredge16;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.CryptoDredge16;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -678,11 +696,13 @@
                 {
                     return Data.CryptoDredge25;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.CryptoDredge25;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -694,11 +714,13 @@
                 {
                     return Data.CryptoDredge26;
                 }
+
                 // sm5x and sm6x have same settings otherwise
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                     return Data.CryptoDredge26;
                 }
+
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
@@ -717,10 +739,12 @@
                 {
                     return Data.NONE;
                 }
+
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x)
                 {
                     return Data.NONE;
                 }
+
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
                 }
@@ -818,11 +842,12 @@
             {
                 if (AlgorithmType.cryptonight == type || AlgorithmType.DaggerHashimoto == type)
                 {
-                    //return Data.sgminer_gm;
+                    // return Data.sgminer_gm;
                 }
+
                 if (AlgorithmType.Skein == type)
                 {
-                    //return Data.sgminer_Skein;
+                    // return Data.sgminer_Skein;
                 }
                 /*if (AlgorithmType.Bitcore == type)
                 {
@@ -866,30 +891,37 @@
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.pyrinhash == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.ethash == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.equihash192 == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.nexapow == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.sha512256d == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.equihash144 == type)
                 {
                     return Data.lolMinerAmd;
@@ -910,6 +942,7 @@
                 {
                     return Data.glg;
                 }
+
                 return Data.NONE;
             }
 
@@ -919,34 +952,42 @@
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.pyrinhash == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.ethash == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.ethashb3 == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.nexapow == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.sha512256d == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.equihash144 == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 if (AlgorithmType.equihash192 == type)
                 {
                     return Data.lolMinerAmd;
                 }
+
                 return Data.NONE;
             }
 
@@ -1016,6 +1057,7 @@
                 {
                     return NVIDIA_GROUPS.Ccminer_path(algoType, devGroupType);
                 }
+
                 return Data.NONE; // should not happen
             }
         }
@@ -1039,22 +1081,27 @@
         public static void InitializePackages()
         {
             var defaults = new List<MinerPathPackage>();
+
             for (var i = DeviceGroupType.NONE + 1; i < DeviceGroupType.LAST; i++)
             {
                 var minerTypePaths = new List<MinerTypePath>();
                 var package = GroupAlgorithms.CreateDefaultsForGroup(i);
+
                 foreach (var type in configurableMiners)
                 {
                     if (package.ContainsKey(type))
                     {
                         var minerPaths = new List<MinerPath>();
+
                         foreach (var algo in package[type])
                         {
                             minerPaths.Add(new MinerPath(algo.CryptoMiner937ID, GetPathFor(type, algo.CryptoMiner937ID, i, 0, true)));
                         }
+
                         minerTypePaths.Add(new MinerTypePath(type, minerPaths));
                     }
                 }
+
                 if (minerTypePaths.Count > 0)
                 {
                     defaults.Add(new MinerPathPackage(i, minerTypePaths));
@@ -1063,9 +1110,10 @@
 
             foreach (var pack in defaults)
             {
-                var packageName = String.Format("MinerPathPackage_{0}", pack.Name);
+                var packageName = string.Format("MinerPathPackage_{0}", pack.Name);
                 var packageFile = new MinerPathPackageFile(packageName);
                 var readPack = packageFile.ReadFile();
+
                 if (readPack == null)
                 {   // read has failed
                     Helpers.ConsolePrint("MinerPaths", "Creating internal paths config " + packageName);
@@ -1076,16 +1124,18 @@
                 {
                     Helpers.ConsolePrint("MinerPaths", "Loading internal paths config " + packageName);
                     var isChange = false;
+
                     foreach (var miner in pack.MinerTypes)
                     {
                         var readMiner = readPack.MinerTypes.Find(x => x.Type == miner.Type);
+
                         if (readMiner != null)
                         {  // file contains miner type
                             foreach (var algo in miner.Algorithms)
                             {
                                 if (!readMiner.Algorithms.Exists(x => x.Algorithm == algo.Algorithm))
                                 {  // file does not contain algo on this miner
-                                    Helpers.ConsolePrint("PATHS", String.Format("Algorithm {0} not found in miner {1} on device {2}. Adding default", algo.Name, miner.Name, pack.Name));
+                                    Helpers.ConsolePrint("PATHS", string.Format("Algorithm {0} not found in miner {1} on device {2}. Adding default", algo.Name, miner.Name, pack.Name));
                                     readMiner.Algorithms.Add(algo);
                                     isChange = true;
                                 }
@@ -1093,11 +1143,12 @@
                         }
                         else
                         {  // file does not contain miner type
-                            Helpers.ConsolePrint("PATHS", String.Format("Miner {0} not found on device {1}", miner.Name, pack.Name));
+                            Helpers.ConsolePrint("PATHS", string.Format("Miner {0} not found on device {1}", miner.Name, pack.Name));
                             readPack.MinerTypes.Add(miner);
                             isChange = true;
                         }
                     }
+
                     minerPathPackages.Add(readPack);
                     if (isChange) packageFile.Commit(readPack);
                 }

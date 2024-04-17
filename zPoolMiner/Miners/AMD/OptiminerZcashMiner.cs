@@ -37,7 +37,7 @@ namespace zPoolMiner.Miners.equihash
         }
 
         // give some time or else it will crash
-        private Stopwatch _startAPI = null;
+        private Stopwatch _startAPI;
 
         private bool _skipAPICheck = true;
         private int waitSeconds = 30;
@@ -51,36 +51,43 @@ namespace zPoolMiner.Miners.equihash
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -98,48 +105,57 @@ namespace zPoolMiner.Miners.equihash
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
-            string username = GetUsername(btcAddress, worker);
+
+            var username = GetUsername(btcAddress, worker);
             LastCommandLine = " " + GetDevicesCommandString() + " -m " + ApiPort + " -s " + url + " -u " + username + " -p " + worker;
             ProcessHandle = _Start();
 
@@ -160,15 +176,15 @@ namespace zPoolMiner.Miners.equihash
 
         protected override string GetDevicesCommandString()
         {
-            string extraParams = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
-            string deviceStringCommand = " -c " + ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
+            var extraParams = ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.AMD);
+            var deviceStringCommand = " -c " + ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
             deviceStringCommand += " ";
-            List<string> ids = new List<string>();
+            var ids = new List<string>();
+
             foreach (var mPair in MiningSetup.MiningPairs)
-            {
                 ids.Add("-d " + mPair.Device.ID.ToString());
-            }
-            deviceStringCommand += String.Join(" ", ids);
+
+            deviceStringCommand += string.Join(" ", ids);
 
             return deviceStringCommand + extraParams;
         }
@@ -176,25 +192,28 @@ namespace zPoolMiner.Miners.equihash
         public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             if (_skipAPICheck == false)
             {
                 JsonApiResponse resp = null;
+
                 try
                 {
-                    string DataToSend = GetHttpRequestNHMAgentStrin("");
-                    string respStr = await GetAPIDataAsync(ApiPort, DataToSend, true);
+                    var DataToSend = GetHttpRequestNHMAgentStrin("");
+                    var respStr = await GetAPIDataAsync(ApiPort, DataToSend, true);
+
                     if (respStr != null && respStr.Contains("{"))
                     {
-                        int start = respStr.IndexOf("{");
+                        var start = respStr.IndexOf("{");
+
                         if (start > -1)
                         {
-                            string respStrJSON = respStr.Substring(start);
+                            var respStrJSON = respStr.Substring(start);
                             resp = JsonConvert.DeserializeObject<JsonApiResponse>(respStrJSON.Trim(), Globals.JsonSettings);
                         }
                     }
-                    //Helpers.ConsolePrint("OptiminerZcashMiner API back:", respStr);
+                    // Helpers.ConsolePrint("OptiminerZcashMiner API back:", respStr);
                 }
                 catch (Exception ex)
                 {
@@ -203,18 +222,21 @@ namespace zPoolMiner.Miners.equihash
 
                 if (resp != null && resp.solution_rate != null)
                 {
-                    //Helpers.ConsolePrint("OptiminerZcashMiner API back:", "resp != null && resp.error == null");
+                    // Helpers.ConsolePrint("OptiminerZcashMiner API back:", "resp != null && resp.error == null");
                     const string total_key = "Total";
                     const string _5s_key = "5s";
+
                     if (resp.solution_rate.ContainsKey(total_key))
                     {
                         var total_solution_rate_dict = resp.solution_rate[total_key];
+
                         if (total_solution_rate_dict != null && total_solution_rate_dict.ContainsKey(_5s_key))
                         {
                             ad.Speed = total_solution_rate_dict[_5s_key];
                             CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                         }
                     }
+
                     if (ad.Speed == 0)
                     {
                         CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
@@ -234,8 +256,8 @@ namespace zPoolMiner.Miners.equihash
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-            int t = time / 9; // sgminer needs 9 times more than this miner so reduce benchmark speed
-            string ret = " " + GetDevicesCommandString() + " --benchmark " + t;
+            var t = time / 9; // sgminer needs 9 times more than this miner so reduce benchmark speed
+            var ret = " " + GetDevicesCommandString() + " --benchmark " + t;
             return ret;
         }
 
@@ -247,11 +269,13 @@ namespace zPoolMiner.Miners.equihash
         protected override bool BenchmarkParseLine(string outdata)
         {
             const string FIND = "Benchmark:";
+
             if (outdata.Contains(FIND))
             {
-                int start = outdata.IndexOf("Benchmark:") + FIND.Length;
-                string itersAndVars = outdata.Substring(start).Trim();
+                var start = outdata.IndexOf("Benchmark:") + FIND.Length;
+                var itersAndVars = outdata.Substring(start).Trim();
                 var ar = itersAndVars.Split(new char[] { ' ' });
+
                 if (ar.Length >= 4)
                 {
                     // gets sols/s
@@ -259,6 +283,7 @@ namespace zPoolMiner.Miners.equihash
                     return true;
                 }
             }
+
             return false;
         }
     }

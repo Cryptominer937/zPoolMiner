@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace zPoolMiner.Utils
 {
@@ -9,12 +8,13 @@ namespace zPoolMiner.Utils
         {
             foreach (var filePath in Bins_Data.ALL_FILES_BINS)
             {
-                if (!File.Exists(String.Format("bin{0}", filePath)))
+                if (!File.Exists(string.Format("bin{0}", filePath)))
                 {
                     Helpers.ConsolePrint("MinersExistanceChecker", $"bin{filePath} doesn't exist! Warning");
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -22,18 +22,19 @@ namespace zPoolMiner.Utils
         {
             foreach (var filePath in Bins_Data_3rd.ALL_FILES_BINS)
             {
-                if (!File.Exists(String.Format("bin_3rdparty{0}", filePath)))
+                if (!File.Exists(string.Format("bin_3rdparty{0}", filePath)))
                 {
                     Helpers.ConsolePrint("MinersExistanceChecker", $"bin_3rdparty{filePath} doesn't exist! Warning");
                     return false;
                 }
             }
+
             return true;
         }
 
         public static bool IsMinersBinsInit()
         {
-            //return isOk;
+            // return isOk;
             return IsMinersBins_ALL_Init();
         }
     }

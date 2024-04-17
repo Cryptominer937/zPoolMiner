@@ -26,6 +26,7 @@ namespace zPoolMiner
             // Set working directory to exe
             var pathSet = false;
             var path = Path.GetDirectoryName(Application.ExecutablePath);
+
             if (path != null)
             {
                 Environment.CurrentDirectory = path;
@@ -36,7 +37,7 @@ namespace zPoolMiner
             Application.SetCompatibleTextRenderingDefault(false);
 
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
-            //Console.OutputEncoding = System.Text.Encoding.Unicode;
+            // Console.OutputEncoding = System.Text.Encoding.Unicode;
             // #0 set this first so data parsing will work correctly
             Globals.JsonSettings = new JsonSerializerSettings
             {
@@ -49,12 +50,14 @@ namespace zPoolMiner
             ConfigManager.InitializeConfig();
 
             // #2 check if multiple instances are allowed
-            bool startProgram = true;
+            var startProgram = true;
+
             if (ConfigManager.GeneralConfig.AllowMultipleInstances == false)
             {
                 try
                 {
-                    Process current = Process.GetCurrentProcess();
+                    var current = Process.GetCurrentProcess();
+
                     foreach (Process process in Process.GetProcessesByName(current.ProcessName))
                     {
                         if (process.Id != current.Id)
@@ -73,9 +76,8 @@ namespace zPoolMiner
                     {
                         Helpers.AllocConsole();
                     }
-                {
-                    Logger.ConfigureWithFile();
-                }
+
+                Logger.ConfigureWithFile();
 
                 if (ConfigManager.GeneralConfig.DebugConsole)
                 {
@@ -89,11 +91,14 @@ namespace zPoolMiner
                 var commandLineArgs = new CommandLineParser(argv);
 
                 log.Info("Starting up zPoolMiner v" + Application.ProductVersion);
+
                 if (!pathSet)
                 {
                     Helpers.ConsolePrint("HashKings", "Path not set to executable");
                 }
+
                 var tosChecked = ConfigManager.GeneralConfig.agreedWithTOS == Globals.CURRENT_TOS_VER;
+
                 if (!tosChecked || !ConfigManager.GeneralConfigIsFileExist() && !commandLineArgs.IsLang)
                 {
                     log.Warn("No config file found. Running zPool Miner for the first time. Choosing a default language.");
@@ -109,6 +114,7 @@ namespace zPoolMiner
                     International.Initialize(commandLineArgs.LangValue);
                     ConfigManager.GeneralConfig.Language = commandLineArgs.LangValue;
                 }
+
                 if (argv.Any(a => a == "--disable-donation"))
                     MiningSession.DonationStart = DateTime.MaxValue;
                 // check WMI

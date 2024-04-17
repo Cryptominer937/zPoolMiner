@@ -19,20 +19,21 @@ namespace NVIDIA
 {
     internal static class PInvokeDelegateFactory
     {
-        private static readonly ModuleBuilder moduleBuilder =
+        static readonly ModuleBuilder moduleBuilder =
           AppDomain.CurrentDomain.DefineDynamicAssembly(
             new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
             AssemblyBuilderAccess.Run).DefineDynamicModule(
             "PInvokeDelegateFactoryInternalModule");
 
-        private static readonly IDictionary<Tuple<DllImportAttribute, Type>, Type> wrapperTypes =
+        static readonly IDictionary<Tuple<DllImportAttribute, Type>, Type> wrapperTypes =
           new Dictionary<Tuple<DllImportAttribute, Type>, Type>();
 
         public static void CreateDelegate<T>(DllImportAttribute dllImportAttribute,
           out T newDelegate) where T : class
         {
-            Tuple<DllImportAttribute, Type> key =
+            var key =
               new Tuple<DllImportAttribute, Type>(dllImportAttribute, typeof(T));
+
             wrapperTypes.TryGetValue(key, out Type wrapperType);
 
             if (wrapperType == null)
@@ -45,22 +46,23 @@ namespace NVIDIA
               dllImportAttribute.EntryPoint) as T;
         }
 
-        private static Type CreateWrapperType(Type delegateType,
+        static Type CreateWrapperType(Type delegateType,
           DllImportAttribute dllImportAttribute)
         {
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
+            var typeBuilder = moduleBuilder.DefineType(
               "PInvokeDelegateFactoryInternalWrapperType" + wrapperTypes.Count);
 
-            MethodInfo methodInfo = delegateType.GetMethod("Invoke");
+            var methodInfo = delegateType.GetMethod("Invoke");
 
-            ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-            int parameterCount = parameterInfos.GetLength(0);
+            var parameterInfos = methodInfo.GetParameters();
+            var parameterCount = parameterInfos.GetLength(0);
 
-            Type[] parameterTypes = new Type[parameterCount];
+            var parameterTypes = new Type[parameterCount];
+
             for (int i = 0; i < parameterCount; i++)
                 parameterTypes[i] = parameterInfos[i].ParameterType;
 
-            MethodBuilder methodBuilder = typeBuilder.DefinePInvokeMethod(
+            var methodBuilder = typeBuilder.DefinePInvokeMethod(
               dllImportAttribute.EntryPoint, dllImportAttribute.Value,
               MethodAttributes.Public | MethodAttributes.Static |
               MethodAttributes.PinvokeImpl, CallingConventions.Standard,

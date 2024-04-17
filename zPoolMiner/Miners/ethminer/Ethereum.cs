@@ -1,10 +1,9 @@
-﻿using System;
-using zPoolMiner.Configs;
+﻿using zPoolMiner.Configs;
 
 namespace zPoolMiner
 {
-    //public class EthminerReader
-    //{
+    // public class EthminerReader
+    // {
     //    /// <summary>
     //    /// Initialize ethminer instance that listens on certain UDP port for speed and DAG progress reports. You may have multiple instances,
     //    /// but each one must be listening on another port!
@@ -122,25 +121,22 @@ namespace zPoolMiner
     //    }
 
     //    #endregion
-    //}
+    // }
 
     public static class Ethereum
     {
-        //public static string EtherMinerPath;
+        // public static string EtherMinerPath;
         public static string CurrentBlockNum;
 
-        static Ethereum()
-        {
-            CurrentBlockNum = "";
-        }
+        static Ethereum() => CurrentBlockNum = "";
 
         public static void GetCurrentBlock(string worker)
         {
-            string ret = CryptoStats.GetCryptominerAPIData("https://etherchain.org/api/blocks/count", worker);
+            var ret = CryptoStats.GetCryptominerAPIData("https://etherchain.org/api/blocks/count", worker);
 
             if (ret == null)
             {
-                Helpers.ConsolePrint(worker, String.Format("Failed to obtain current block, using default {0}.", ConfigManager.GeneralConfig.ethminerDefaultBlockHeight));
+                Helpers.ConsolePrint(worker, string.Format("Failed to obtain current block, using default {0}.", ConfigManager.GeneralConfig.ethminerDefaultBlockHeight));
                 CurrentBlockNum = ConfigManager.GeneralConfig.ethminerDefaultBlockHeight.ToString();
             }
             else

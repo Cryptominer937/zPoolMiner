@@ -33,17 +33,17 @@
         /// <summary>
         /// Defines the nheqminer
         /// </summary>
-        //nheqminer,
+        // nheqminer,
 
         /// <summary>
         /// Defines the eqm
         /// </summary>
-        //eqm,
+        // eqm,
 
         /// <summary>
         /// Defines the ethminer
         /// </summary>
-        //ethminer,
+        // ethminer,
 
         /// <summary>
         /// Defines the Claymore
@@ -58,17 +58,17 @@
         /// <summary>
         /// Defines the excavator
         /// </summary>
-        //excavator,
+        // excavator,
 
         /// <summary>
         /// Defines the XmrStackCPU
         /// </summary>
-        //XmrStackCPU,
+        // XmrStackCPU,
 
         /// <summary>
         /// Defines the ccminer_alexis
         /// </summary>
-        //ccminer_alexis,
+        // ccminer_alexis,
 
         /// <summary>
         /// Defines the ccminer_alexis78
@@ -176,12 +176,12 @@
         /// <summary>
         /// Defines the Palgin_Neoscrypt
         /// </summary>
-        //Palgin_Neoscrypt,
+        // Palgin_Neoscrypt,
 
         /// <summary>
         /// Defines the Palgin_HSR
         /// </summary>
-        //Palgin_HSR,
+        // Palgin_HSR,
         mkxminer,
 
         CPU_cpuminerOptBF,

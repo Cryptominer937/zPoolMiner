@@ -58,17 +58,18 @@
             if (BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling)
             {
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Killing;
+
                 try
                 {
-                    Helpers.ConsolePrint("BENCHMARK", String.Format("Trying to kill benchmark process {0} algorithm {1}", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
+                    Helpers.ConsolePrint("BENCHMARK", string.Format("Trying to kill benchmark process {0} algorithm {1}", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
                     Killglg();
                 }
                 catch { }
                 finally
                 {
                     BenchmarkProcessStatus = BenchmarkProcessStatus.DoneKilling;
-                    Helpers.ConsolePrint("BENCHMARK", String.Format("Benchmark process {0} algorithm {1} KILLED", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
-                    //BenchmarkHandle = null;
+                    Helpers.ConsolePrint("BENCHMARK", string.Format("Benchmark process {0} algorithm {1} KILLED", BenchmarkProcessPath, BenchmarkAlgorithm.AlgorithmName));
+                    // BenchmarkHandle = null;
                 }
             }
         }
@@ -106,36 +107,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -153,53 +161,63 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             if (!IsInit)
             {
                 Helpers.ConsolePrint(MinerTag(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAddress, worker);
+
+            var username = GetUsername(btcAddress, worker);
 
             LastCommandLine = " --gpu-platform " + GPUPlatformNumber +
                               " -k " + MiningSetup.MinerName +
@@ -230,10 +248,10 @@
         {
             string CommandLine;
 
-            string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
+            var url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
 
             // demo for benchmark
-            string username = Globals.DemoUser;
+            var username = Globals.DemoUser;
 
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += "." + ConfigManager.GeneralConfig.WorkerName.Trim();
@@ -270,38 +288,43 @@
         protected override bool BenchmarkParseLine(string outdata)
         {
             //  Helpers.ConsolePrint("BENCHMARK", out);
-            string hashSpeed = "";
-            int kspeed = 1;
+            var hashSpeed = "";
+            var kspeed = 1;
+
             if (outdata.Contains("Terminating execution as planned"))
             {
                 return true;
             }
+
             if (outdata.Contains("(avg)") && outdata.Contains("h/s") && BenchmarkAlgorithm.CryptoMiner937ID != AlgorithmType.DaggerHashimoto)
             {
-                int i = outdata.IndexOf("(avg):");
-                int k = outdata.IndexOf("h/s");
+                var i = outdata.IndexOf("(avg):");
+                var k = outdata.IndexOf("h/s");
 
                 if (outdata.Contains("h/s"))
                 {
                     hashSpeed = outdata.Substring(i + 6, k - i - 6);
                     kspeed = 1;
                 }
+
                 if (outdata.Contains("Kh/s"))
                 {
                     hashSpeed = outdata.Substring(i + 6, k - i - 7);
                     kspeed = 1000;
                 }
+
                 if (outdata.Contains("Mh/s"))
                 {
                     hashSpeed = outdata.Substring(i + 6, k - i - 7);
                     kspeed = 1000000;
                 }
 
-                double speed = Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                var speed = double.Parse(hashSpeed, CultureInfo.InvariantCulture);
                 Helpers.ConsolePrint("BENCHMARK", "Final Speed: " + hashSpeed);
                 BenchmarkAlgorithm.BenchmarkSpeed = (speed * kspeed) * (1.0 - DevFee * 0.01);
                 return false;
             }
+
             return false;
         }
 
@@ -311,7 +334,7 @@
         protected override void BenchmarkThreadRoutineStartSettup()
         {
             // sgminer extra settings
-            AlgorithmType NHDataIndex = BenchmarkAlgorithm.CryptoMiner937ID;
+            var NHDataIndex = BenchmarkAlgorithm.CryptoMiner937ID;
 
             if (Globals.CryptoMiner937Data == null)
             {
@@ -341,9 +364,10 @@
         {
             if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds)
             {
-                string resp = GetAPIDataAsync(ApiPort, "quit").Result.TrimEnd(new char[] { (char)0 });
+                var resp = GetAPIDataAsync(ApiPort, "quit").Result.TrimEnd(new char[] { (char)0 });
                 Helpers.ConsolePrint("BENCHMARK", "gatelessgate Response: " + resp);
             }
+
             if (_benchmarkTimer.Elapsed.TotalSeconds >= BenchmarkTimeInSeconds + 2)
             {
                 _benchmarkTimer.Stop();
@@ -351,6 +375,7 @@
                 Killglg();
                 BenchmarkSignalHanged = true;
             }
+
             if (!BenchmarkSignalFinnished && outdata != null)
             {
                 CheckOutdata(outdata);
@@ -368,6 +393,7 @@
                 Helpers.ConsolePrint("gatelessgate_GetFinalBenchmarkString", International.GetText("gatelessgate_precise_try"));
                 return International.GetText("gatelessgate_precise_try");
             }
+
             return base.GetFinalBenchmarkString();
         }
 
@@ -390,13 +416,14 @@
                 BenchmarkHandle = BenchmarkStartProcess((string)CommandLine);
                 BenchmarkThreadRoutineStartSettup();
                 // wait a little longer then the benchmark routine if exit false throw
-                //var timeoutTime = BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds);
-                //var exitSucces = BenchmarkHandle.WaitForExit(timeoutTime * 1000);
+                // var timeoutTime = BenchmarkTimeoutInSeconds(BenchmarkTimeInSeconds);
+                // var exitSucces = BenchmarkHandle.WaitForExit(timeoutTime * 1000);
                 // don't use wait for it breaks everything
                 BenchmarkProcessStatus = BenchmarkProcessStatus.Running;
+
                 while (true)
                 {
-                    string outdata = BenchmarkHandle.StandardOutput.ReadLine();
+                    var outdata = BenchmarkHandle.StandardOutput.ReadLine();
                     BenchmarkOutputErrorDataReceivedImpl(outdata);
                     // terminate process situations
                     if (BenchmarkSignalQuit
@@ -405,29 +432,31 @@
                         || BenchmarkSignalTimedout
                         || BenchmarkException != null)
                     {
-                        //EndBenchmarkProcces();
+                        // EndBenchmarkProcces();
                         // this is safe in a benchmark
                         Killglg();
+
                         if (BenchmarkSignalTimedout)
                         {
                             throw new Exception("Benchmark timedout");
                         }
+
                         if (BenchmarkException != null)
                         {
                             throw BenchmarkException;
                         }
+
                         if (BenchmarkSignalQuit)
                         {
                             throw new Exception("Termined by user request");
                         }
+
                         if (BenchmarkSignalHanged)
                         {
                             throw new Exception("gatelessgate is not responding");
                         }
-                        if (BenchmarkSignalFinnished)
-                        {
-                            break;
-                        }
+
+                        if (BenchmarkSignalFinnished) break;
                     }
                     else
                     {
@@ -454,30 +483,32 @@
         public override async Task<ApiData> GetSummaryAsync()
         {
             string resp;
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             resp = await GetAPIDataAsync(ApiPort, "summary");
+
             if (resp == null)
             {
                 CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                 return null;
             }
-            //// sgminer debug log
-            //Helpers.ConsolePrint("sgminer-DEBUG_resp", resp);
+            // // sgminer debug log
+            // Helpers.ConsolePrint("sgminer-DEBUG_resp", resp);
 
             try
             {
                 // Checks if all the GPUs are Alive first
-                string resp2 = await GetAPIDataAsync(ApiPort, "devs");
+                var resp2 = await GetAPIDataAsync(ApiPort, "devs");
+
                 if (resp2 == null)
                 {
                     CurrentMinerReadStatus = MinerApiReadStatus.NONE;
                     return null;
                 }
-                //// sgminer debug log
-                //Helpers.ConsolePrint("sgminer-DEBUG_resp2", resp2);
+                // // sgminer debug log
+                // Helpers.ConsolePrint("sgminer-DEBUG_resp2", resp2);
 
-                string[] checkGPUStatus = resp2.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                var checkGPUStatus = resp2.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
                 for (int i = 1; i < checkGPUStatus.Length - 1; i++)
                 {
@@ -489,18 +520,18 @@
                     }
                 }
 
-                string[] resps = resp.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                var resps = resp.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (resps[1].Contains("SUMMARY"))
                 {
-                    string[] data = resps[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    var data = resps[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Get miner's current total speed
-                    string[] speed = data[4].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    var speed = data[4].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     // Get miner's current total MH
-                    double total_mh = Double.Parse(data[18].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[1], new CultureInfo("en-US"));
+                    var total_mh = double.Parse(data[18].Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[1], new CultureInfo("en-US"));
 
-                    ad.Speed = Double.Parse(speed[1]) * 1000;
+                    ad.Speed = double.Parse(speed[1]) * 1000;
 
                     if (total_mh <= PreviousTotalMH)
                     {

@@ -1,6 +1,5 @@
 ﻿namespace zPoolMiner.Miners.Grouping
 {
-    using System;
     using System.Collections.Generic;
     using zPoolMiner.Configs;
     using zPoolMiner.Enums;
@@ -66,26 +65,30 @@
             DevicesInfoString = "N/A";
             CurrentRate = 0;
             Key = key;
+
             if (miningPairs.Count > 0)
             {
                 // sort pairs by device id
                 miningPairs.Sort((a, b) => a.Device.ID - b.Device.ID);
                 // init name scope and IDs
                 {
-                    List<string> deviceNames = new List<string>();
+                    var deviceNames = new List<string>();
                     DevIndexes = new List<int>();
+
                     foreach (var pair in miningPairs)
                     {
                         deviceNames.Add(pair.Device.NameCount);
                         DevIndexes.Add(pair.Device.Index);
                     }
-                    DevicesInfoString = "{ " + String.Join(", ", deviceNames) + " }";
+
+                    DevicesInfoString = "{ " + string.Join(", ", deviceNames) + " }";
                 }
                 // init miner
                 {
                     var mPair = miningPairs[0];
                     DeviceType = mPair.Device.DeviceType;
                     Miner = MinerFactory.CreateMiner(mPair.Device, mPair.Algorithm);
+
                     if (Miner != null)
                     {
                         Miner.InitMiningSetup(new MiningSetup(miningPairs));
@@ -107,6 +110,7 @@
                 // wait before going on
                 System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
             }
+
             CurrentRate = 0;
         }
 
@@ -115,10 +119,7 @@
         /// </summary>
         public void End()
         {
-            if (Miner != null)
-            {
-                Miner.End();
-            }
+            if (Miner != null) Miner.End();
             CurrentRate = 0;
         }
 
@@ -130,13 +131,11 @@
         /// <param name="worker">The <see cref="string"/></param>
         public void Start(string miningLocation, string btcAddress, string worker)
         {
-            if (Miner.IsRunning)
-            {
-                return;
-            }
+            if (Miner.IsRunning) return;
             // Wait before new start
             System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
-            string locationURL = Globals.GetLocationURL(AlgorithmType, miningLocation, Miner.ConectionType);
+            var locationURL = Globals.GetLocationURL(AlgorithmType, miningLocation, Miner.ConectionType);
+
             if (MiningSession.DONATION_SESSION)
             {
                 if (locationURL.Contains("zpool.ca"))
@@ -144,36 +143,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("zergpool.com"))
                 {
                     btcAddress = "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66";
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (locationURL.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -191,47 +197,56 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (locationURL.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (locationURL.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (locationURL.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (locationURL.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (locationURL.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (locationURL.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (locationURL.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (locationURL.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             Miner.Start(locationURL, btcAddress, worker);
         }
     }

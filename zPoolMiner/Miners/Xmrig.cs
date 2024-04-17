@@ -48,36 +48,43 @@
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
                     worker = "c=DOGE,ID=Donation";
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = "cryptominer.Devfee";
@@ -95,47 +102,56 @@
                     btcAddress = zPoolMiner.Globals.GetzpoolUser();
                     worker = zPoolMiner.Globals.GetzpoolWorker();
                 }
+
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
                 }
+
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
                 }
+
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
                 }
+
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
                 }
+
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
                 }
+
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblazepoolUser();
                     worker = zPoolMiner.Globals.GetblazepoolWorker();
                 }
+
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetblockmunchUser();
                     worker = zPoolMiner.Globals.GetblockmunchWorker();
                 }
+
                 if (url.Contains("miningpoolhub.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetMPHUser();
                     worker = zPoolMiner.Globals.GetMPHWorker();
                 }
             }
+
             LastCommandLine = GetStartCommand(url, btcAddress, worker);
             ProcessHandle = _Start();
         }
@@ -175,10 +191,7 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<ApiData> GetSummaryAsync()
-        {
-            return await GetSummaryCPUAsync();
-        }
+        public override Task<ApiData> GetSummaryAsync() => GetSummaryCPUAsync();
 
         /// <summary>
         /// The IsApiEof
@@ -203,49 +216,59 @@
             var server = Globals.GetLocationURL(algorithm.CryptoMiner937ID,
                 Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation],
                 ConectionType);
+
             _benchmarkTimeWait = time;
-            string btcAddress = "";
-            string worker = "";
+            var btcAddress = "";
+            var worker = "";
+
             if (server.Contains("zpool.ca"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("ahashpool.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("blazepool.com"))
             {
                 btcAddress = Globals.DemoUser;
                 worker = "c=DOGE,ID=Donation";
             }
+
             if (server.Contains("miningpoolhub.com"))
             {
                 btcAddress = "cryptominer.Devfee";
                 worker = "x";
             }
+
             return GetStartCommand(server, btcAddress, worker)
                 + " -l benchmark_log.txt --print-time=2";
         }
@@ -276,9 +299,11 @@
             {
                 BenchLines.Add(line);
                 var lineLowered = line.ToLower();
+
                 if (lineLowered.Contains(_lookForStart))
                 {
                     var speeds = Regex.Match(lineLowered, $"{_lookForStart} (.+?) {_lookForEnd}").Groups[1].Value.Split();
+
                     if (double.TryParse(speeds[1], out var sixtySecSpeed))
                     {
                         sixtySecTotal += sixtySecSpeed;

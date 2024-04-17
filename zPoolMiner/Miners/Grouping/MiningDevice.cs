@@ -55,15 +55,18 @@
         public MiningDevice(ComputeDevice device)
         {
             Device = device;
+
             foreach (var algo in Device.GetAlgorithmSettings())
             {
-                bool isAlgoMiningCapable = GroupSetupUtils.IsAlgoMiningCapable(algo);
-                bool isValidMinerPath = MinerPaths.IsValidMinerPath(algo.MinerBinaryPath);
+                var isAlgoMiningCapable = GroupSetupUtils.IsAlgoMiningCapable(algo);
+                var isValidMinerPath = MinerPaths.IsValidMinerPath(algo.MinerBinaryPath);
+
                 if (isAlgoMiningCapable && isValidMinerPath)
                 {
                     Algorithms.Add(algo);
                 }
             }
+
             MostProfitableAlgorithmType = AlgorithmType.NONE;
             MostProfitableMinerBaseType = MinerBaseType.NONE;
         }
@@ -138,11 +141,13 @@
         {
             get
             {
-                int mostProfitableIndex = GetMostProfitableIndex();
+                var mostProfitableIndex = GetMostProfitableIndex();
+
                 if (mostProfitableIndex > -1)
                 {
                     return Algorithms[mostProfitableIndex].CurrentProfit;
                 }
+
                 return 0;
             }
         }
@@ -154,11 +159,13 @@
         {
             get
             {
-                int mostProfitableIndex = GetPrevProfitableIndex();
+                var mostProfitableIndex = GetPrevProfitableIndex();
+
                 if (mostProfitableIndex > -1)
                 {
                     return Algorithms[mostProfitableIndex].CurrentProfit;
                 }
+
                 return 0;
             }
         }
@@ -176,10 +183,7 @@
         /// The HasProfitableAlgo
         /// </summary>
         /// <returns>The <see cref="bool"/></returns>
-        public bool HasProfitableAlgo()
-        {
-            return GetMostProfitableIndex() > -1;
-        }
+        public bool HasProfitableAlgo() => GetMostProfitableIndex() > -1;
 
         /// <summary>
         /// The RestoreOldProfitsState
@@ -218,12 +222,14 @@
             // calculate new profits
             foreach (var algo in Algorithms)
             {
-                AlgorithmType key = algo.CryptoMiner937ID;
-                AlgorithmType secondaryKey = algo.SecondaryCryptoMiner937ID;
+                var key = algo.CryptoMiner937ID;
+                var secondaryKey = algo.SecondaryCryptoMiner937ID;
+
                 if (CryptoMiner937Data.ContainsKey(key))
                 {
                     algo.CurNhmSMADataVal = CryptoMiner937Data[key].paying;
                     algo.CurrentProfit = algo.CurNhmSMADataVal * algo.AvaragedSpeed * 0.000000001;
+
                     if (CryptoMiner937Data.ContainsKey(secondaryKey))
                     {
                         algo.SecondaryCurNhmSMADataVal = CryptoMiner937Data[secondaryKey].paying;
@@ -235,8 +241,10 @@
                     algo.CurrentProfit = 0;
                 }
             }
+
             // find max paying value and save key
             double maxProfit = 0;
+
             foreach (var algo in Algorithms)
             {
                 if (maxProfit < algo.CurrentProfit)

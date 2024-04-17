@@ -1,4 +1,4 @@
-﻿//using LibreHardwareMonitor.Collections;
+﻿// using LibreHardwareMonitor.Collections;
 using LibreHardwareMonitor.Hardware;
 using System;
 using System.Diagnostics;
@@ -20,6 +20,7 @@ namespace zPoolMiner.Devices
                     if (cpuCounter != null) return cpuCounter.NextValue();
                 }
                 catch (Exception e) { Helpers.ConsolePrint("CPUDIAG", e.ToString()); }
+
                 return 0;
             }
         }
@@ -32,6 +33,7 @@ namespace zPoolMiner.Devices
                 {
                     h.Update();
                     float highest = 0;
+
                     foreach (ISensor s in h.Sensors)
                     {
                         if (s.SensorType == SensorType.Temperature && s.Name == "Package")
@@ -40,14 +42,13 @@ namespace zPoolMiner.Devices
                         }
                         else if (s.SensorType == SensorType.Temperature)
                         {
-                            if (highest < s.Value)
-                            {
-                                highest = s.Value ?? -1;
-                            }
+                            if (highest < s.Value) highest = s.Value ?? -1;
                         }
                     }
+
                     return highest;
                 }
+
                 return 0;
             }
         }
@@ -59,7 +60,7 @@ namespace zPoolMiner.Devices
                   DeviceGroupType.CPU,
                   false,
                   DeviceType.CPU,
-                  String.Format(International.GetText("ComputeDevice_Short_Name_CPU"), CPUCount),
+                  string.Format(International.GetText("ComputeDevice_Short_Name_CPU"), CPUCount),
                   0)
         {
             Threads = threads;
@@ -69,6 +70,7 @@ namespace zPoolMiner.Devices
             Index = ID;  // Don't increment for CPU
             c.IsCpuEnabled = true;
             c.Open();
+
             cpuCounter = new PerformanceCounter
             {
                 CategoryName = "Processor",

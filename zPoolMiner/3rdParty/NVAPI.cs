@@ -107,7 +107,7 @@ namespace NVIDIA.NVAPI
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvPhysicalGpuHandle
     {
-        private readonly IntPtr ptr;
+        readonly IntPtr ptr;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -182,9 +182,9 @@ namespace NVIDIA.NVAPI
 
         internal delegate NvStatus NvAPI_GPU_GetThermalSettingsDelegate(NvPhysicalGpuHandle gpuHandle, int sensorIndex, ref NvGPUThermalSettings nvGPUThermalSettings);
 
-        private static readonly nvapi_QueryInterfaceDelegate nvapi_QueryInterface;
-        private static readonly NvAPI_InitializeDelegate NvAPI_Initialize;
-        private static readonly bool available;
+        static readonly nvapi_QueryInterfaceDelegate nvapi_QueryInterface;
+        static readonly NvAPI_InitializeDelegate NvAPI_Initialize;
+        static readonly bool available;
 
         internal static readonly NvAPI_EnumPhysicalGPUsDelegate NvAPI_EnumPhysicalGPUs;
         internal static readonly NvAPI_GPU_GetBusIdDelegate NvAPI_GPU_GetBusID;
@@ -194,10 +194,11 @@ namespace NVIDIA.NVAPI
 
         #endregion Delegates
 
-        private static void GetDelegate<T>(uint id, out T newDelegate)
+        static void GetDelegate<T>(uint id, out T newDelegate)
             where T : class
         {
-            IntPtr ptr = nvapi_QueryInterface(id);
+            var ptr = nvapi_QueryInterface(id);
+
             if (ptr != IntPtr.Zero)
             {
                 newDelegate = Marshal.GetDelegateForFunctionPointer(ptr, typeof(T)) as T;
@@ -210,12 +211,13 @@ namespace NVIDIA.NVAPI
 
         static NVAPI()
         {
-            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll")
+            var attribute = new DllImportAttribute("nvapi64.dll")
             {
                 CallingConvention = CallingConvention.Cdecl,
                 PreserveSig = true,
                 EntryPoint = "nvapi_QueryInterface"
             };
+
             PInvokeDelegateFactory.CreateDelegate(attribute, out nvapi_QueryInterface);
 
             try
@@ -240,6 +242,6 @@ namespace NVIDIA.NVAPI
             available = true;
         }
 
-        public static bool IsAvailable { get { return available; } }
+        public static bool IsAvailable => available;
     }
 }

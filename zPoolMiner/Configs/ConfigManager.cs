@@ -11,19 +11,19 @@ namespace zPoolMiner.Configs
         public static GeneralConfig GeneralConfig = new GeneralConfig();
         public static ApiCache ApiCache = new ApiCache();
 
-        //public static MagnitudeConfigFile MagnitudeConfig = new MagnitudeConfigFile();
+        // public static MagnitudeConfigFile MagnitudeConfig = new MagnitudeConfigFile();
         // helper variables
-        private static bool IsGeneralConfigFileInit = false;
+        private static bool IsGeneralConfigFileInit;
 
-        private static bool IsApiCacheFileInit = false;
+        private static bool IsApiCacheFileInit;
 
-        private static bool IsNewVersion = false;
+        private static bool IsNewVersion;
 
         // for loading and saving
         private static GeneralConfigFile GeneralConfigFile = new GeneralConfigFile();
 
         private static ApiCacheFile ApiCacheFile = new ApiCacheFile();
-        //private static MagnitudeConfigFile MagnitudeConfigFile = new MagnitudeConfigFile();
+        // private static MagnitudeConfigFile MagnitudeConfigFile = new MagnitudeConfigFile();
 
         private static Dictionary<string, DeviceBenchmarkConfigFile> BenchmarkConfigFiles = new Dictionary<string, DeviceBenchmarkConfigFile>();
 
@@ -31,7 +31,7 @@ namespace zPoolMiner.Configs
         private static GeneralConfig GeneralConfigBackup = new GeneralConfig();
 
         private static ApiCache ApiCacheBackup = new ApiCache();
-        //private static MagnitudeConfigFile MagnitudeBackup = new MagnitudeConfigFile();
+        // private static MagnitudeConfigFile MagnitudeBackup = new MagnitudeConfigFile();
 
         private static Dictionary<string, DeviceBenchmarkConfig> BenchmarkConfigsBackup = new Dictionary<string, DeviceBenchmarkConfig>();
 
@@ -44,27 +44,31 @@ namespace zPoolMiner.Configs
             ConfigManager.GeneralConfig.hwid = Helpers.GetCpuID();
             // if exists load file
             GeneralConfig fromFile = null;
+
             if (GeneralConfigFile.IsFileExists())
             {
                 fromFile = GeneralConfigFile.ReadFile();
             }
+
             ApiCache fromFileapi = null;
+
             if (ApiCacheFile.IsFileExists())
             {
                 fromFileapi = ApiCacheFile.ReadFile();
             }
 
-            //MagnitudeConfigFile fromFileMagnitude = null;
-            //if (fromFileMagnitude.IsFileExists())
-            //{
+            // MagnitudeConfigFile fromFileMagnitude = null;
+            // if (fromFileMagnitude.IsFileExists())
+            // {
             //    fromFileMagnitude = MagnitudeConfigFile.ReadFile();
-            //}
+            // }
             // just in case
             if (fromFile != null)
             {
                 // set config loaded from file
                 IsGeneralConfigFileInit = true;
                 ConfigManager.GeneralConfig = fromFile;
+
                 if (ConfigManager.GeneralConfig.ConfigFileVersion == null
                     || ConfigManager.GeneralConfig.ConfigFileVersion.CompareTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version) != 0)
                 {
@@ -73,21 +77,25 @@ namespace zPoolMiner.Configs
                         Helpers.ConsolePrint(TAG, "Loaded Config file no version detected falling back to defaults.");
                         ConfigManager.GeneralConfig.SetDefaults();
                     }
+
                     Helpers.ConsolePrint(TAG, "Config file is from an older version of zPoolMiner..");
                     IsNewVersion = true;
                     GeneralConfigFile.CreateBackup();
                 }
+
                 ConfigManager.GeneralConfig.FixSettingBounds();
             }
             else
             {
                 GeneralConfigFileCommit();
             }
+
             if (fromFileapi != null)
             {
                 // set config loaded from file
                 IsApiCacheFileInit = true;
                 ConfigManager.ApiCache = fromFileapi;
+
                 if (ConfigManager.ApiCache.ConfigFileVersionapi == null
                     || ConfigManager.ApiCache.ConfigFileVersionapi.CompareTo(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version) != 0)
                 {
@@ -96,10 +104,12 @@ namespace zPoolMiner.Configs
                         Helpers.ConsolePrint(TAG, "Loaded API Config file no version detected falling back to defaults.");
                         ConfigManager.ApiCache.SetDefaults();
                     }
+
                     Helpers.ConsolePrint(TAG, "API Config file is from an older version of zPoolMiner..");
                     IsNewVersion = true;
                     ApiCacheFile.CreateBackup();
                 }
+
                 ConfigManager.ApiCache.FixSettingBounds();
             }
             else
@@ -108,40 +118,33 @@ namespace zPoolMiner.Configs
             }
         }
 
-        public static bool GeneralConfigIsFileExist()
-        {
-            return IsGeneralConfigFileInit;
-        }
+        public static bool GeneralConfigIsFileExist() => IsGeneralConfigFileInit;
 
-        public static bool ApiCacheIsFileExist()
-        {
-            return IsApiCacheFileInit;
-        }
+        public static bool ApiCacheIsFileExist() => IsApiCacheFileInit;
 
         public static void CreateBackup()
         {
             GeneralConfigBackup = MemoryHelper.DeepClone(ConfigManager.GeneralConfig);
             BenchmarkConfigsBackup = new Dictionary<string, DeviceBenchmarkConfig>();
+
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
-            {
                 BenchmarkConfigsBackup[CDev.UUID] = CDev.GetAlgorithmDeviceConfig();
-            }
         }
 
         public static void RestoreBackup()
         {
             // restore general
             GeneralConfig = GeneralConfigBackup;
+
             if (GeneralConfig.LastDevicesSettup != null)
             {
                 foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     foreach (var conf in GeneralConfig.LastDevicesSettup)
-                    {
                         CDev.SetFromComputeDeviceConfig(conf);
-                    }
                 }
             }
+
             // restore benchmarks
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
@@ -176,20 +179,20 @@ namespace zPoolMiner.Configs
         public static void GeneralConfigFileCommit()
         {
             GeneralConfig.LastDevicesSettup.Clear();
+
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
-            {
                 GeneralConfig.LastDevicesSettup.Add(CDev.GetComputeDeviceConfig());
-            }
+
             GeneralConfigFile.Commit(GeneralConfig);
         }
 
         public static void ApiCacheFileCommit()
         {
             ApiCache.LastDevicesSettup.Clear();
+
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
-            {
                 ApiCache.LastDevicesSettup.Add(CDev.GetComputeDeviceConfig());
-            }
+
             ApiCacheFile.Commit(ApiCache);
         }
 
@@ -197,7 +200,8 @@ namespace zPoolMiner.Configs
         {
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
-                string devUUID = CDev.UUID;
+                var devUUID = CDev.UUID;
+
                 if (BenchmarkConfigFiles.ContainsKey(devUUID))
                 {
                     BenchmarkConfigFiles[devUUID].Commit(CDev.GetAlgorithmDeviceConfig());
@@ -214,7 +218,8 @@ namespace zPoolMiner.Configs
         {
             // extra check (probably will never happen but just in case)
             {
-                List<ComputeDevice> invalidDevices = new List<ComputeDevice>();
+                var invalidDevices = new List<ComputeDevice>();
+
                 foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (CDev.IsAlgorithmSettingsInitialized() == false)
@@ -223,32 +228,33 @@ namespace zPoolMiner.Configs
                         invalidDevices.Add(CDev);
                     }
                 }
+
                 // remove invalids
                 foreach (var invalid in invalidDevices)
-                {
                     ComputeDeviceManager.Available.AllAvaliableDevices.Remove(invalid);
-                }
             }
+
             // set enabled/disabled devs
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var devConf in GeneralConfig.LastDevicesSettup)
-                {
                     CDev.SetFromComputeDeviceConfig(devConf);
-                }
             }
+
             // create/init device benchmark configs files and configs
             foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
-                string keyUUID = CDev.UUID;
+                var keyUUID = CDev.UUID;
                 BenchmarkConfigFiles[keyUUID] = new DeviceBenchmarkConfigFile(keyUUID);
                 // init
                 {
                     DeviceBenchmarkConfig currentConfig = null;
+
                     if (BenchmarkConfigFiles[keyUUID].IsFileExists())
                     {
                         currentConfig = BenchmarkConfigFiles[keyUUID].ReadFile();
                     }
+
                     // config exists and file load success set from file
                     if (currentConfig != null)
                     {
@@ -266,6 +272,7 @@ namespace zPoolMiner.Configs
                     }
                 }
             }
+
             // save settings
             GeneralConfigFileCommit();
         }

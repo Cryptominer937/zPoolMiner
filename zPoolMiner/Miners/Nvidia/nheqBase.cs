@@ -21,8 +21,8 @@ namespace zPoolMiner.Miners
         // extra benchmark stuff
         protected double curSpeed = 0;
 
-        protected static readonly String Iter_PER_SEC = "I/s";
-        protected static readonly String Sols_PER_SEC = "Sols/s";
+        protected static readonly string Iter_PER_SEC = "I/s";
+        protected static readonly string Sols_PER_SEC = "Sols/s";
         protected const double SolMultFactor = 1.9;
 
         private class Result
@@ -50,24 +50,28 @@ namespace zPoolMiner.Miners
         public override void InitMiningSetup(MiningSetup miningSetup)
         {
             base.InitMiningSetup(miningSetup);
-            List<MiningPair> CPUs = new List<MiningPair>();
-            List<MiningPair> NVIDIAs = new List<MiningPair>();
-            List<MiningPair> AMDs = new List<MiningPair>();
+            var CPUs = new List<MiningPair>();
+            var NVIDIAs = new List<MiningPair>();
+            var AMDs = new List<MiningPair>();
+
             foreach (var pairs in MiningSetup.MiningPairs)
             {
                 if (pairs.Device.DeviceType == DeviceType.CPU)
                 {
                     CPUs.Add(pairs);
                 }
+
                 if (pairs.Device.DeviceType == DeviceType.NVIDIA)
                 {
                     NVIDIAs.Add(pairs);
                 }
+
                 if (pairs.Device.DeviceType == DeviceType.AMD)
                 {
                     AMDs.Add(pairs);
                 }
             }
+
             // reinit
             CPU_Setup = new MiningSetup(CPUs);
             NVIDIA_Setup = new MiningSetup(NVIDIAs);
@@ -77,26 +81,27 @@ namespace zPoolMiner.Miners
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
             // TODO nvidia extras
-            String ret = "-b " + GetDevicesCommandString();
+            var ret = "-b " + GetDevicesCommandString();
             return ret;
         }
 
         public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             TcpClient client = null;
             JsonApiResponse resp = null;
+
             try
             {
-                byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes("status\n");
+                var bytesToSend = ASCIIEncoding.ASCII.GetBytes("status\n");
                 client = new TcpClient("127.0.0.1", ApiPort);
-                NetworkStream nwStream = client.GetStream();
+                var nwStream = client.GetStream();
                 await nwStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
-                byte[] bytesToRead = new byte[client.ReceiveBufferSize];
-                int bytesRead = await nwStream.ReadAsync(bytesToRead, 0, client.ReceiveBufferSize);
-                string respStr = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
+                var bytesToRead = new byte[client.ReceiveBufferSize];
+                var bytesRead = await nwStream.ReadAsync(bytesToRead, 0, client.ReceiveBufferSize);
+                var respStr = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
                 resp = JsonConvert.DeserializeObject<JsonApiResponse>(respStr, Globals.JsonSettings);
                 client.Close();
             }
@@ -109,6 +114,7 @@ namespace zPoolMiner.Miners
             {
                 ad.Speed = resp.Result.Speed_sps;
                 CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
+
                 if (ad.Speed == 0)
                 {
                     CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
@@ -132,16 +138,17 @@ namespace zPoolMiner.Miners
         {
             try
             {
-                int speedStart = outdata.IndexOf(startF);
-                String speed = outdata.Substring(speedStart, outdata.Length - speedStart);
+                var speedStart = outdata.IndexOf(startF);
+                var speed = outdata.Substring(speedStart, outdata.Length - speedStart);
                 speed = speed.Replace(startF, "");
                 speed = speed.Replace(remF, "");
                 speed = speed.Trim();
-                return Double.Parse(speed, CultureInfo.InvariantCulture);
+                return double.Parse(speed, CultureInfo.InvariantCulture);
             }
             catch
             {
             }
+
             return 0;
         }
 

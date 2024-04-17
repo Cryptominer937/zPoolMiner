@@ -58,7 +58,7 @@ namespace zPoolMiner.Forms.Components
         private IListItemCheckColorSetter _listItemCheckColorSetter = new DefaultAlgorithmColorSeter();
 
         // disable checkboxes when in benchmark mode
-        private bool _isInBenchmark = false;
+        private bool _isInBenchmark;
 
         // helper for benchmarking logic
         public bool IsInBenchmark
@@ -102,12 +102,13 @@ namespace zPoolMiner.Forms.Components
             _computeDevice = computeDevice;
             listViewAlgorithms.BeginUpdate();
             listViewAlgorithms.Items.Clear();
+
             foreach (var alg in computeDevice.GetAlgorithmSettings())
             {
-                ListViewItem lvi = new ListViewItem();
-                ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
+                var lvi = new ListViewItem();
+                var sub = lvi.SubItems.Add(string.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
 
-                //sub.Tag = alg.Value;
+                // sub.Tag = alg.Value;
                 lvi.SubItems.Add(alg.BenchmarkSpeedString());
                 lvi.SubItems.Add(alg.CurPayingRatio);
                 lvi.SubItems.Add(alg.CurPayingRate);
@@ -115,6 +116,7 @@ namespace zPoolMiner.Forms.Components
                 lvi.Checked = alg.Enabled;
                 listViewAlgorithms.Items.Add(lvi);
             }
+
             listViewAlgorithms.EndUpdate();
             Enabled = isEnabled;
         }
@@ -125,10 +127,11 @@ namespace zPoolMiner.Forms.Components
             {
                 foreach (ListViewItem lvi in listViewAlgorithms.Items)
                 {
-                    Algorithm algo = lvi.Tag as Algorithm;
+                    var algo = lvi.Tag as Algorithm;
                     lvi.SubItems[SPEED].Text = algo.BenchmarkSpeedString();
                     _listItemCheckColorSetter.LviSetColor(lvi);
                 }
+
                 Enabled = isEnabled;
             }
         }
@@ -150,14 +153,17 @@ namespace zPoolMiner.Forms.Components
                 e.Item.Checked = !e.Item.Checked;
                 return;
             }
+
             if (e.Item.Tag is Algorithm algo)
             {
                 algo.Enabled = e.Item.Checked;
             }
+
             if (ComunicationInterface != null)
             {
                 ComunicationInterface.HandleCheck(e.Item);
             }
+
             var lvi = e.Item as ListViewItem;
             _listItemCheckColorSetter.LviSetColor(lvi);
             // update benchmark status data
@@ -205,6 +211,7 @@ namespace zPoolMiner.Forms.Components
         private void ListViewAlgorithms_MouseClick(object sender, MouseEventArgs e)
         {
             if (IsInBenchmark) return;
+
             if (e.Button == MouseButtons.Right)
             {
                 contextMenuStrip1.Items.Clear();
@@ -214,6 +221,7 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_DisableAll")
                     };
+
                     disableAllItems.Click += ToolStripMenuItemDisableAll_Click;
                     contextMenuStrip1.Items.Add(disableAllItems);
                 }
@@ -223,6 +231,7 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_EnableAll")
                     };
+
                     enableAllItems.Click += ToolStripMenuItemEnableAll_Click;
                     contextMenuStrip1.Items.Add(enableAllItems);
                 }
@@ -232,9 +241,11 @@ namespace zPoolMiner.Forms.Components
                     {
                         Text = International.GetText("AlgorithmsListView_ContextMenu_ClearItem")
                     };
+
                     clearItem.Click += ToolStripMenuItemClear_Click;
                     contextMenuStrip1.Items.Add(clearItem);
                 }
+
                 contextMenuStrip1.Show(Cursor.Position);
             }
         }
@@ -242,17 +253,13 @@ namespace zPoolMiner.Forms.Components
         private void ToolStripMenuItemEnableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
-            {
                 lvi.Checked = true;
-            }
         }
 
         private void ToolStripMenuItemDisableAll_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in listViewAlgorithms.Items)
-            {
                 lvi.Checked = false;
-            }
         }
 
         private void ToolStripMenuItemClear_Click(object sender, EventArgs e)
