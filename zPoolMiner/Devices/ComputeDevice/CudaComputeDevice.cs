@@ -223,7 +223,7 @@ namespace zPoolMiner.Devices
             SMMinor = cudaDevice.SM_minor;
             UUID = cudaDevice.UUID;
             AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
-            Index = ID + ComputeDeviceManager.Avaliable.AvailCPUs; // increment by CPU count
+            Index = ID + ComputeDeviceManager.Available.AvailCPUs; // increment by CPU count
 
             _nvHandle = nvHandle;
             nvmlDevice = nvmlHandle;

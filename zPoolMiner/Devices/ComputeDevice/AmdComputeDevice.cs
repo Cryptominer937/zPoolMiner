@@ -76,7 +76,7 @@ namespace zPoolMiner.Devices
             InfSection = amdDevice.InfSection;
             AlgorithmSettings = GroupAlgorithms.CreateForDeviceList(this);
             DriverDisableAlgos = amdDevice.DriverDisableAlgos;
-            Index = ID + ComputeDeviceManager.Avaliable.AvailCPUs + ComputeDeviceManager.Avaliable.AvailNVGPUs;
+            Index = ID + ComputeDeviceManager.Available.AvailCPUs + ComputeDeviceManager.Available.AvailNVGPUs;
             adapterIndex = amdDevice.AdapterIndex;
         }
     }

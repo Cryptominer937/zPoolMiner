@@ -44,7 +44,7 @@ namespace zPoolMiner.Miners
         public NheqBase(string minerDeviceName)
             : base(minerDeviceName)
         {
-            AMD_OCL_PLATFORM = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
+            AMD_OCL_PLATFORM = ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
         }
 
         public override void InitMiningSetup(MiningSetup miningSetup)
@@ -81,10 +81,10 @@ namespace zPoolMiner.Miners
             return ret;
         }
 
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             TcpClient client = null;
             JsonApiResponse resp = null;

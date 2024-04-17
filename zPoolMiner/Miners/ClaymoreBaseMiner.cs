@@ -62,10 +62,10 @@ namespace zPoolMiner.Miners
             public object Error { get; set; }
         }
 
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
 
             TcpClient client = null;
             JsonApiResponse resp = null;
@@ -225,7 +225,7 @@ namespace zPoolMiner.Miners
             {
                 if (line != null)
                 {
-                    bench_lines.Add(line);
+                    BenchLines.Add(line);
                     string lineLowered = line.ToLower();
                     if (lineLowered.Contains(LOOK_FOR_START))
                     {

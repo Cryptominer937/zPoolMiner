@@ -114,10 +114,10 @@ namespace zPoolMiner.Miners
             catch { }
         }
 
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             string resp;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("h");
 

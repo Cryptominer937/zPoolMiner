@@ -288,7 +288,7 @@
 
             if (_isDeviceDetectionInitialized)
             {
-                devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+                devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
             }
         }
 
@@ -394,7 +394,7 @@
             LoadingScreen.IncreaseLoadCounterAndMessage(International.GetText("Form_Main_loadtext_SaveConfig"));
 
             // All devices settup should be initialized in AllDevices
-            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
             // set properties after
             devicesListViewEnableControl1.SaveToGeneralConfig = true;
 
@@ -405,7 +405,7 @@
             MinerStatsCheck.Interval = ConfigManager.GeneralConfig.MinerAPIQueryInterval * 1000;
 
 
-            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
             devicesListViewEnableControl1.SaveToGeneralConfig = false;
             devicesListViewEnableControl1.IsMining = true;
             DeviceStatsCheck = new Timer();
@@ -566,7 +566,7 @@
 
         private void DeviceStatsCheck_Tick(object sender, EventArgs e)
         {
-            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            devicesListViewEnableControl1.ResetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
             if (MiningSession.DONATION_SESSION)
             {
                 labelDevfeeStatus.Text = "Mining For: Developer";
@@ -678,7 +678,7 @@
         {
             flowLayoutPanelRates.Controls.Clear();
             // add for every cdev a
-            foreach (var cdev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cdev.Enabled)
                 {
@@ -739,10 +739,10 @@
         /// </summary>
         /// <param name="groupName">The <see cref="string"/></param>
         /// <param name="deviceStringInfo">The <see cref="string"/></param>
-        /// <param name="iAPIData">The <see cref="APIData"/></param>
+        /// <param name="iAPIData">The <see cref="ApiData"/></param>
         /// <param name="paying">The <see cref="double"/></param>
         /// <param name="isApiGetException">The <see cref="bool"/></param>
-        public void AddRateInfo(string groupName, string deviceStringInfo, APIData iAPIData, double paying, bool isApiGetException)
+        public void AddRateInfo(string groupName, string deviceStringInfo, ApiData iAPIData, double paying, bool isApiGetException)
         {
             string ApiGetExceptionString = isApiGetException ? "**" : "";
 
@@ -1362,7 +1362,7 @@
             // Check if there are unbenchmakred algorithms
             bool isBenchInit = true;
             bool hasAnyAlgoEnabled = false;
-            foreach (var cdev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cdev.Enabled)
                 {
@@ -1403,7 +1403,7 @@
                 else if (result == System.Windows.Forms.DialogResult.No)
                 {
                     // check devices without benchmarks
-                    foreach (var cdev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                    foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
                     {
                         if (cdev.Enabled)
                         {

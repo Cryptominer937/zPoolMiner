@@ -113,9 +113,9 @@
             //algorithmsListView1.RemoveRatioRates();
 
             // set first device selected {
-            if (ComputeDeviceManager.Avaliable.AllAvaliableDevices.Count > 0)
+            if (ComputeDeviceManager.Available.AllAvaliableDevices.Count > 0)
             {
-                _selectedComputeDevice = ComputeDeviceManager.Avaliable.AllAvaliableDevices[0];
+                _selectedComputeDevice = ComputeDeviceManager.Available.AllAvaliableDevices[0];
                 algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
                 groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
             }
@@ -538,7 +538,7 @@
 
 
                 // here we want all devices
-                devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+                devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
                 devicesListViewEnableControl1.SetAlgorithmsListView(algorithmsListView1);
                 devicesListViewEnableControl1.IsSettingsCopyEnabled = true;
             }
@@ -652,7 +652,7 @@
             // indicate there has been a change
             IsChange = true;
             ConfigManager.GeneralConfig.DisableAMDTempControl = checkBox_AMD_DisableAMDTempControl.Checked;
-            foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cDev.DeviceType == DeviceType.AMD)
                 {
@@ -683,7 +683,7 @@
             ConfigManager.GeneralConfig.DisableDefaultOptimizations = checkBox_DisableDefaultOptimizations.Checked;
             if (ConfigManager.GeneralConfig.DisableDefaultOptimizations)
             {
-                foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     foreach (var algorithm in cDev.GetAlgorithmSettings())
                     {
@@ -699,7 +699,7 @@
             }
             else
             {
-                foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (cDev.DeviceType == DeviceType.CPU) continue; // cpu has no defaults
                     var deviceDefaultsAlgoSettings = GroupAlgorithms.CreateForDeviceList(cDev);
@@ -861,7 +861,7 @@
         {
             algorithmSettingsControl1.Deselect();
             // show algorithms
-            _selectedComputeDevice = ComputeDeviceManager.Avaliable.GetCurrentlySelectedComputeDevice(e.ItemIndex, ShowUniqueDeviceList);
+            _selectedComputeDevice = ComputeDeviceManager.Available.GetCurrentlySelectedComputeDevice(e.ItemIndex, ShowUniqueDeviceList);
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
             groupBoxAlgorithmSettings.Text = String.Format(International.GetText("FormSettings_AlgorithmsSettings"), _selectedComputeDevice.Name);
         }
@@ -900,7 +900,7 @@
         {
             var url = Links.NHM_Profit_Check + "CUSTOM";
             Dictionary<AlgorithmType, double> total = new Dictionary<AlgorithmType, double>();
-            foreach (var curCDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var curCDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algorithm in curCDev.GetAlgorithmSettingsFastest())
                 {
@@ -1075,7 +1075,7 @@
         private void TabControlGeneral_Selected(object sender, TabControlEventArgs e)
         {
             // set first device selected {
-            if (ComputeDeviceManager.Avaliable.AllAvaliableDevices.Count > 0)
+            if (ComputeDeviceManager.Available.AllAvaliableDevices.Count > 0)
             {
                 algorithmSettingsControl1.Deselect();
             }

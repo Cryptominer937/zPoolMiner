@@ -472,7 +472,7 @@
             StartMining = false;
 
             // clear prev pending statuses
-            foreach (var dev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var dev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algo in dev.GetAlgorithmSettings())
                 {
@@ -484,7 +484,7 @@
 
             // benchmark only unique devices
             devicesListViewEnableControl1.SetIListItemCheckColorSetter(this);
-            devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Avaliable.AllAvaliableDevices);
+            devicesListViewEnableControl1.SetComputeDevices(ComputeDeviceManager.Available.AllAvaliableDevices);
 
             // use this to track miner benchmark statuses
             _benchmarkMiners = new List<Miner>();
@@ -527,9 +527,9 @@
             algorithmsListView1.BenchmarkCalculation = this;
 
             // set first device selected {
-            if (ComputeDeviceManager.Avaliable.AllAvaliableDevices.Count > 0)
+            if (ComputeDeviceManager.Available.AllAvaliableDevices.Count > 0)
             {
-                var firstComputedevice = ComputeDeviceManager.Avaliable.AllAvaliableDevices[0];
+                var firstComputedevice = ComputeDeviceManager.Available.AllAvaliableDevices[0];
                 algorithmsListView1.SetAlgorithms(firstComputedevice, firstComputedevice.Enabled);
             }
 
@@ -546,12 +546,12 @@
         private void CopyBenchmarks()
         {
             Helpers.ConsolePrint("CopyBenchmarks", "Checking for benchmarks to copy");
-            foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 // check if copy
                 if (!cDev.Enabled && cDev.BenchmarkCopyUUID != null)
                 {
-                    var copyCdevSettings = ComputeDeviceManager.Avaliable.GetDeviceWithUUID(cDev.BenchmarkCopyUUID);
+                    var copyCdevSettings = ComputeDeviceManager.Available.GetDeviceWithUUID(cDev.BenchmarkCopyUUID);
                     if (copyCdevSettings != null)
                     {
                         Helpers.ConsolePrint("CopyBenchmarks", String.Format("Copy from {0} to {1}", cDev.UUID, cDev.BenchmarkCopyUUID));
@@ -696,7 +696,7 @@
             // device selection check scope
             {
                 bool noneSelected = true;
-                foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (cDev.Enabled)
                     {
@@ -765,7 +765,7 @@
             _benchmarkAlgorithmsCount = 0;
             _benchmarkDevicesAlgorithmStatus = new Dictionary<string, BenchmarkSettingsStatus>();
             _benchmarkDevicesAlgorithmQueue = new List<Tuple<ComputeDevice, Queue<Algorithm>>>();
-            foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 var algorithmQueue = new Queue<Algorithm>();
                 foreach (var algo in cDev.GetAlgorithmSettings())
@@ -1135,7 +1135,7 @@
             }
 
             // disable all pending benchmark
-            foreach (var cDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var algorithm in cDev.GetAlgorithmSettings())
                 {
@@ -1146,7 +1146,7 @@
             // save already benchmarked algorithms
             ConfigManager.CommitBenchmarks();
             // check devices without benchmarks
-            foreach (var cdev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (cdev.Enabled)
                 {
@@ -1173,7 +1173,7 @@
         {
             //algorithmSettingsControl1.Deselect();
             // show algorithms
-            var _selectedComputeDevice = ComputeDeviceManager.Avaliable.GetCurrentlySelectedComputeDevice(e.ItemIndex, true);
+            var _selectedComputeDevice = ComputeDeviceManager.Available.GetCurrentlySelectedComputeDevice(e.ItemIndex, true);
             algorithmsListView1.SetAlgorithms(_selectedComputeDevice, _selectedComputeDevice.Enabled);
         }
 

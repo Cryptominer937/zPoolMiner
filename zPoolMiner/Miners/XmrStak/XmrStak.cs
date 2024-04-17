@@ -53,7 +53,7 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             return await GetSummaryCPUAsync("api.json", true);
         }

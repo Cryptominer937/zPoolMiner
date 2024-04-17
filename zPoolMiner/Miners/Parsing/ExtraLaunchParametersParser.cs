@@ -303,7 +303,7 @@ namespace zPoolMiner.Miners.Parsing
             {
                 return MinerType.Palgin_Neoscrypt;
             }*/
-            if (MinerBaseType.Claymore == minerBaseType)
+            /*if (MinerBaseType.Claymore == minerBaseType)
             {
                 if (AlgorithmType.cryptonight == algorithmType)
                 {
@@ -321,7 +321,7 @@ namespace zPoolMiner.Miners.Parsing
                 {
                     return MinerType.ClaymoreDual;
                 }
-            }
+            }*/
 
             if (MinerBaseType.CPU_XMRig == minerBaseType)
             {

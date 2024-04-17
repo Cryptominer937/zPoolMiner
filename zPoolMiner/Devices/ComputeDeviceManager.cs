@@ -278,7 +278,7 @@ namespace zPoolMiner.Devices
                 }
 
                 // no devices found
-                if (Avaliable.AllAvaliableDevices.Count <= 0)
+                if (Available.AllAvaliableDevices.Count <= 0)
                 {
                     DialogResult result = MessageBox.Show(International.GetText("Compute_Device_Query_Manager_No_Devices"),
                                                           International.GetText("Compute_Device_Query_Manager_No_Devices_Title"),
@@ -290,14 +290,14 @@ namespace zPoolMiner.Devices
                 }
 
                 // create AMD bus ordering for Claymore
-                var amdDevices = Avaliable.AllAvaliableDevices.FindAll((a) => a.DeviceType == DeviceType.AMD);
+                var amdDevices = Available.AllAvaliableDevices.FindAll((a) => a.DeviceType == DeviceType.AMD);
                 amdDevices.Sort((a, b) => a.BusID.CompareTo(b.BusID));
                 for (var i = 0; i < amdDevices.Count; i++)
                 {
                     amdDevices[i].IDByBus = i;
                 }
                 //create NV bus ordering for Claymore
-                var nvDevices = Avaliable.AllAvaliableDevices.FindAll((a) => a.DeviceType == DeviceType.NVIDIA);
+                var nvDevices = Available.AllAvaliableDevices.FindAll((a) => a.DeviceType == DeviceType.NVIDIA);
                 nvDevices.Sort((a, b) => a.BusID.CompareTo(b.BusID));
                 for (var i = 0; i < nvDevices.Count; i++)
                 {
@@ -306,21 +306,21 @@ namespace zPoolMiner.Devices
 
                 // get GPUs RAM sum
                 // bytes
-                Avaliable.NVIDIA_RAM_SUM = 0;
-                Avaliable.AMD_RAM_SUM = 0;
-                foreach (var dev in Avaliable.AllAvaliableDevices)
+                Available.NVIDIA_RAM_SUM = 0;
+                Available.AMD_RAM_SUM = 0;
+                foreach (var dev in Available.AllAvaliableDevices)
                 {
                     if (dev.DeviceType == DeviceType.NVIDIA)
                     {
-                        Avaliable.NVIDIA_RAM_SUM += dev.GpuRam;
+                        Available.NVIDIA_RAM_SUM += dev.GpuRam;
                     }
                     else if (dev.DeviceType == DeviceType.AMD)
                     {
-                        Avaliable.AMD_RAM_SUM += dev.GpuRam;
+                        Available.AMD_RAM_SUM += dev.GpuRam;
                     }
                 }
                 // Make gpu ram needed not larger than 4GB per GPU
-                double total_GPU_RAM = Math.Min((Avaliable.NVIDIA_RAM_SUM + Avaliable.AMD_RAM_SUM) * 0.6 / 1024, (double)Avaliable.AvailGPUs * 4 * 1024 * 1024);
+                double total_GPU_RAM = Math.Min((Available.NVIDIA_RAM_SUM + Available.AMD_RAM_SUM) * 0.6 / 1024, (double)Available.AvailGPUs * 4 * 1024 * 1024);
                 double total_Sys_RAM = SystemSpecs.FreePhysicalMemory + SystemSpecs.FreeVirtualMemory;
                 // check
                 if (ConfigManager.GeneralConfig.ShowDriverVersionWarning && total_Sys_RAM < total_GPU_RAM)
@@ -452,28 +452,28 @@ namespace zPoolMiner.Devices
                 {
                     Helpers.ConsolePrint(TAG, "QueryCPUs START");
                     // get all CPUs
-                    Avaliable.CPUsCount = CPUID.GetPhysicalProcessorCount();
-                    Avaliable.IsHyperThreadingEnabled = CPUID.IsHypeThreadingEnabled();
+                    Available.CPUsCount = CPUID.GetPhysicalProcessorCount();
+                    Available.IsHyperThreadingEnabled = CPUID.IsHypeThreadingEnabled();
 
-                    Helpers.ConsolePrint(TAG, Avaliable.IsHyperThreadingEnabled ? "HyperThreadingEnabled = TRUE" : "HyperThreadingEnabled = FALSE");
+                    Helpers.ConsolePrint(TAG, Available.IsHyperThreadingEnabled ? "HyperThreadingEnabled = TRUE" : "HyperThreadingEnabled = FALSE");
 
                     // get all cores (including virtual - HT can benefit mining)
-                    int ThreadsPerCPU = CPUID.GetVirtualCoresCount() / Avaliable.CPUsCount;
+                    int ThreadsPerCPU = CPUID.GetVirtualCoresCount() / Available.CPUsCount;
 
                     if (!Helpers.Is64BitOperatingSystem)
                     {
                         MessageBox.Show(International.GetText("Form_Main_msgbox_CPUMining64bitMsg"),
                                         International.GetText("Warning_with_Exclamation"),
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        Avaliable.CPUsCount = 0;
+                        Available.CPUsCount = 0;
                     }
 
-                    if (ThreadsPerCPU * Avaliable.CPUsCount > 64)
+                    if (ThreadsPerCPU * Available.CPUsCount > 64)
                     {
                         MessageBox.Show(International.GetText("Form_Main_msgbox_CPUMining64CoresMsg"),
                                         International.GetText("Warning_with_Exclamation"),
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        Avaliable.CPUsCount = 0;
+                        Available.CPUsCount = 0;
                     }
 
                     // TODO important move this to settings
@@ -482,17 +482,17 @@ namespace zPoolMiner.Devices
 
                     if (CPUUtils.IsCPUMiningCapable())
                     {
-                        if (Avaliable.CPUsCount == 1)
+                        if (Available.CPUsCount == 1)
                         {
-                            Avaliable.AllAvaliableDevices.Add(
+                            Available.AllAvaliableDevices.Add(
                                 new CPUComputeDevice(0, "CPU0", CPUID.GetCPUName().Trim(), ThreadsPerCPU, (ulong)0, ++CPUCount)
                             );
                         }
-                        else if (Avaliable.CPUsCount > 1)
+                        else if (Available.CPUsCount > 1)
                         {
-                            for (int i = 0; i < Avaliable.CPUsCount; i++)
+                            for (int i = 0; i < Available.CPUsCount; i++)
                             {
-                                Avaliable.AllAvaliableDevices.Add(
+                                Available.AllAvaliableDevices.Add(
                                     new CPUComputeDevice(i, "CPU" + i, CPUID.GetCPUName().Trim(), ThreadsPerCPU, CPUID.CreateAffinityMask(i, ThreadsPerCPUMask), ++CPUCount)
                                 );
                             }
@@ -529,7 +529,7 @@ namespace zPoolMiner.Devices
 
                     if (CUDA_Devices != null && CUDA_Devices.Count != 0)
                     {
-                        Avaliable.HasNVIDIA = true;
+                        Available.HasNVIDIA = true;
                         StringBuilder stringBuilder = new StringBuilder();
                         stringBuilder.AppendLine("");
                         stringBuilder.AppendLine("CudaDevicesDetection:");
@@ -645,7 +645,7 @@ namespace zPoolMiner.Devices
                                 }
 
                                 idHandles.TryGetValue(cudaDev.pciBusID, out var handle);
-                                Avaliable.AllAvaliableDevices.Add(
+                                Available.AllAvaliableDevices.Add(
                                     new CudaComputeDevice(cudaDev, group, ++GPUCount, handle, nvmlHandle)
                                 );
                             }
@@ -876,11 +876,11 @@ namespace zPoolMiner.Devices
                             {
                                 amdPlatformNumFound = true;
                                 AMDOpenCLPlatformStringKey = oclEl.PlatformName;
-                                Avaliable.AMDOpenCLPlatformNum = oclEl.PlatformNum;
+                                Available.AmdOpenCLPlatformNum = oclEl.PlatformNum;
                                 amdOCLDevices = oclEl.Devices;
                                 Helpers.ConsolePrint(TAG, String.Format("AMD platform found: Key: {0}, Num: {1}",
                                     AMDOpenCLPlatformStringKey,
-                                    Avaliable.AMDOpenCLPlatformNum.ToString()));
+                                    Available.AmdOpenCLPlatformNum.ToString()));
                                 break;
                             }
                         }
@@ -1082,7 +1082,7 @@ namespace zPoolMiner.Devices
                                     stringBuilder.AppendLine("QueryAMD [DEFAULT query] devices: ");
                                     for (int i_id = 0; i_id < AMD_Devices.Count; ++i_id)
                                     {
-                                        Avaliable.HasAMD = true;
+                                        Available.HasAMD = true;
 
                                         int busID = AMD_Devices[i_id].AMD_BUS_ID;
                                         if (busID != -1 && _busIdsInfo.ContainsKey(busID))
@@ -1099,7 +1099,7 @@ namespace zPoolMiner.Devices
                                             string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";
                                             string etherumCapableStr = newAmdDev.IsEtherumCapable() ? "YES" : "NO";
 
-                                            Avaliable.AllAvaliableDevices.Add(
+                                            Available.AllAvaliableDevices.Add(
                                                 new AmdComputeDevice(newAmdDev, ++GPUCount, false));
                                             // just in case
                                             try
@@ -1147,7 +1147,7 @@ namespace zPoolMiner.Devices
 
                                     for (int i = 0; i < minCount; ++i)
                                     {
-                                        Avaliable.HasAMD = true;
+                                        Available.HasAMD = true;
 
                                         var deviceName = AMDVideoControllers[i].Name;
                                         if (AMDVideoControllers[i].InfSection == null) AMDVideoControllers[i].InfSection = "";
@@ -1161,7 +1161,7 @@ namespace zPoolMiner.Devices
                                         string isDisabledGroupStr = isDisabledGroup ? " (AMD group disabled)" : "";
                                         string etherumCapableStr = newAmdDev.IsEtherumCapable() ? "YES" : "NO";
 
-                                        Avaliable.AllAvaliableDevices.Add(
+                                        Available.AllAvaliableDevices.Add(
                                             new AmdComputeDevice(newAmdDev, ++GPUCount, true));
                                         // just in case
                                         try
@@ -1253,7 +1253,7 @@ namespace zPoolMiner.Devices
             }
         }
 
-        public static class Avaliable
+        public static class Available
         {
             public static bool HasNVIDIA = false;
             public static bool HasAMD = false;
@@ -1292,7 +1292,7 @@ namespace zPoolMiner.Devices
                 }
             }
 
-            public static int AMDOpenCLPlatformNum = -1;
+            public static int AmdOpenCLPlatformNum = -1;
             public static bool IsHyperThreadingEnabled = false;
 
             public static ulong NVIDIA_RAM_SUM = 0;
@@ -1332,7 +1332,7 @@ namespace zPoolMiner.Devices
             public static int GetCountForType(DeviceType type)
             {
                 int count = 0;
-                foreach (var device in Avaliable.AllAvaliableDevices)
+                foreach (var device in Available.AllAvaliableDevices)
                 {
                     if (device.DeviceType == type)
                     {
@@ -1347,7 +1347,7 @@ namespace zPoolMiner.Devices
         {
             public static void DisableCpuGroup()
             {
-                foreach (var device in Avaliable.AllAvaliableDevices)
+                foreach (var device in Available.AllAvaliableDevices)
                 {
                     if (device.DeviceType == DeviceType.CPU)
                     {
@@ -1360,7 +1360,7 @@ namespace zPoolMiner.Devices
             {
                 get
                 {
-                    foreach (var device in Avaliable.AllAvaliableDevices)
+                    foreach (var device in Available.AllAvaliableDevices)
                     {
                         if (device.DeviceType == DeviceType.AMD)
                         {
@@ -1375,7 +1375,7 @@ namespace zPoolMiner.Devices
             {
                 get
                 {
-                    foreach (var device in Avaliable.AllAvaliableDevices)
+                    foreach (var device in Available.AllAvaliableDevices)
                     {
                         if (device.DeviceType == DeviceType.NVIDIA
                             || device.DeviceType == DeviceType.AMD)

@@ -118,7 +118,7 @@ namespace zPoolMiner.Configs
         {
             GeneralConfigBackup = MemoryHelper.DeepClone(ConfigManager.GeneralConfig);
             BenchmarkConfigsBackup = new Dictionary<string, DeviceBenchmarkConfig>();
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 BenchmarkConfigsBackup[CDev.UUID] = CDev.GetAlgorithmDeviceConfig();
             }
@@ -130,7 +130,7 @@ namespace zPoolMiner.Configs
             GeneralConfig = GeneralConfigBackup;
             if (GeneralConfig.LastDevicesSettup != null)
             {
-                foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     foreach (var conf in GeneralConfig.LastDevicesSettup)
                     {
@@ -139,7 +139,7 @@ namespace zPoolMiner.Configs
                 }
             }
             // restore benchmarks
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 if (BenchmarkConfigsBackup != null && BenchmarkConfigsBackup.ContainsKey(CDev.UUID))
                 {
@@ -172,7 +172,7 @@ namespace zPoolMiner.Configs
         public static void GeneralConfigFileCommit()
         {
             GeneralConfig.LastDevicesSettup.Clear();
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 GeneralConfig.LastDevicesSettup.Add(CDev.GetComputeDeviceConfig());
             }
@@ -182,7 +182,7 @@ namespace zPoolMiner.Configs
         public static void ApiCacheFileCommit()
         {
             ApiCache.LastDevicesSettup.Clear();
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 ApiCache.LastDevicesSettup.Add(CDev.GetComputeDeviceConfig());
             }
@@ -190,7 +190,7 @@ namespace zPoolMiner.Configs
         }
         public static void CommitBenchmarks()
         {
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 string devUUID = CDev.UUID;
                 if (BenchmarkConfigFiles.ContainsKey(devUUID))
@@ -210,7 +210,7 @@ namespace zPoolMiner.Configs
             // extra check (probably will never happen but just in case)
             {
                 List<ComputeDevice> invalidDevices = new List<ComputeDevice>();
-                foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (CDev.IsAlgorithmSettingsInitialized() == false)
                     {
@@ -221,11 +221,11 @@ namespace zPoolMiner.Configs
                 // remove invalids
                 foreach (var invalid in invalidDevices)
                 {
-                    ComputeDeviceManager.Avaliable.AllAvaliableDevices.Remove(invalid);
+                    ComputeDeviceManager.Available.AllAvaliableDevices.Remove(invalid);
                 }
             }
             // set enabled/disabled devs
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 foreach (var devConf in GeneralConfig.LastDevicesSettup)
                 {
@@ -233,7 +233,7 @@ namespace zPoolMiner.Configs
                 }
             }
             // create/init device benchmark configs files and configs
-            foreach (var CDev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+            foreach (var CDev in ComputeDeviceManager.Available.AllAvaliableDevices)
             {
                 string keyUUID = CDev.UUID;
                 BenchmarkConfigFiles[keyUUID] = new DeviceBenchmarkConfigFile(keyUUID);

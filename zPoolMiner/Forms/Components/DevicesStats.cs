@@ -222,7 +222,7 @@ namespace zPoolMiner.Forms.Components
                     if (IsSettingsCopyEnabled)
                     {
                         var CDevice = listViewDevices.FocusedItem.Tag as ComputeDevice;
-                        var sameDevTypes = ComputeDeviceManager.Avaliable.GetSameDevicesTypeAsDeviceWithUUID(CDevice.UUID);
+                        var sameDevTypes = ComputeDeviceManager.Available.GetSameDevicesTypeAsDeviceWithUUID(CDevice.UUID);
                         if (sameDevTypes.Count > 0)
                         {
                             var copyBenchItem = new ToolStripMenuItem();
@@ -257,7 +257,7 @@ namespace zPoolMiner.Forms.Components
             {
                 if (item.Tag is string uuid)
                 {
-                    var copyBenchCDev = ComputeDeviceManager.Avaliable.GetDeviceWithUUID(uuid);
+                    var copyBenchCDev = ComputeDeviceManager.Available.GetDeviceWithUUID(uuid);
                     CDevice.BenchmarkCopyUUID = uuid;
 
                     var result = MessageBox.Show(
