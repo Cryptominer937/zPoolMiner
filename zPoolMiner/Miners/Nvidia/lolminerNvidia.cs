@@ -19,20 +19,19 @@ using zPoolMiner.Miners.Parsing;
 
 namespace NiceHashMiner.Miners
 {
-    class lolMinerNvidia : Miner
+    internal class lolMinerNvidia : Miner
     {
         private readonly int GPUPlatformNumber;
-        Stopwatch _benchmarkTimer = new Stopwatch();
-        int count = 0;
-        double speed = 0;
+        private Stopwatch _benchmarkTimer = new Stopwatch();
+        private int count = 0;
+        private double speed = 0;
 
         public lolMinerNvidia()
             : base("lolMiner_Nvidia")
         {
-            GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
+            GPUPlatformNumber = ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
             IsKillAllUsedMinerProcs = true;
             IsNeverHideMiningWindow = true;
-
         }
 
         protected override int GetMaxCooldownTimeInMilliseconds()
@@ -42,7 +41,7 @@ namespace NiceHashMiner.Miners
 
         protected override void _Stop(MinerStopType willswitch)
         {
-            Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
+            ProcessHandle.SendCtrlC((uint)Process.GetCurrentProcess().Id);
         }
 
         public override void Start(string url, string btcAddress, string worker)
@@ -53,42 +52,37 @@ namespace NiceHashMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -111,31 +105,26 @@ namespace NiceHashMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -160,7 +149,7 @@ namespace NiceHashMiner.Miners
             }
             string username = GetUsername(btcAddress, worker);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup,DeviceType.NVIDIA);
+                LastCommandLine = " --algo KARLSEN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
                 LastCommandLine = " --algo PYRIN" + " --pool=" + url + " --user=" + username + " --pass " + worker + " --devices NVIDIA --watchdog exit" + apiBind + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
@@ -182,6 +171,7 @@ namespace NiceHashMiner.Miners
         }
 
         // new decoupled benchmarking routines
+
         #region Decoupled benchmarking routines
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
@@ -196,46 +186,45 @@ namespace NiceHashMiner.Miners
             if (ConfigManager.GeneralConfig.WorkerName.Length > 0)
                 username += ":" + ConfigManager.GeneralConfig.WorkerName.Trim();
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.karlsenhash)
-                CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo KARLSEN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.pyrinhash)
-                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo PYRIN --pool " + url + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
-                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo ETHASH --pool " + "stratum+tcp://ethash.mine.zergpool.com:9999" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethashb3)
-                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo ETHASHB3 --pool " + "stratum+tcp://ethashb3.mine.zergpool.com:9996" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.nexapow)
-                CommandLine = "--algo NEXA --pool " + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 270" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo NEXA --pool " + "stratum+tcp://nexapow.mine.zergpool.com:3004" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 120" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.sha512256d)
-                CommandLine = "--algo sha512256d --pool " + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --shortstats 270 --apihost 127.0.0.1 --apiport " + ApiPort + "" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo sha512256d --pool " + "stratum+tcp://sha512256d.mine.zergpool.com:7086" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --shortstats 120 --apihost 127.0.0.1 --apiport " + ApiPort + "" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash144)
-                CommandLine = "--algo EQUI144_5 --pers AUTO --pool " + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 250" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo EQUI144_5 --pers AUTO --pool " + "stratum+tcp://equihash144.mine.zergpool.com:2146" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 110" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             if (MiningSetup.CurrentAlgorithmType == AlgorithmType.equihash192)
-                CommandLine = "--algo EQUI192_7 --pers AUTO --pool " + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 250" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
+                CommandLine = "--algo EQUI192_7 --pers AUTO --pool " + "stratum+tcp://equihash192.mine.zergpool.com:2144" + " --user " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66 --pass Benchmark " + "--devices NVIDIA --watchdog exit --apihost 127.0.0.1 --apiport " + ApiPort + " --shortstats 110" + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA);
 
             CommandLine += GetDevicesCommandString(); //amd карты перечисляются первыми
 
             return CommandLine;
-
         }
 
         protected override bool BenchmarkParseLine(string outdata)
         {
             string hashSpeed = "";
-            //Average speed (30s): 25.5 sol/s 
+            //Average speed (30s): 25.5 sol/s
             //GPU 3: Share accepted (45 ms)
-            if (outdata.Contains("Average speed (270s):"))
+            if (outdata.Contains("Average speed (120s):"))
             {
-                int i = outdata.IndexOf("Average speed (270s):");
+                int i = outdata.IndexOf("Average speed (120s):");
                 int k = outdata.IndexOf("Mh/s");
                 hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
                 try
                 {
-                    speed = speed * 1000000 + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
+                    speed = speed * 1000000 * 1.2 + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
                 }
                 catch
                 {
@@ -246,16 +235,15 @@ namespace NiceHashMiner.Miners
                 }
                 count++;
             }
-            if (outdata.Contains("Average speed (250s):"))
+            if (outdata.Contains("Average speed (110s):"))
             {
-
-                int i = outdata.IndexOf("Average speed (250s):");
+                int i = outdata.IndexOf("Average speed (110s):");
                 int k = outdata.IndexOf("sol/s");
                 hashSpeed = outdata.Substring(i + 21, k - i - 22).Trim();
                 try
                 {
                     speed = speed + Double.Parse(hashSpeed, CultureInfo.InvariantCulture);
-                    BenchmarkAlgorithm.BenchmarkSpeed = speed;
+                    BenchmarkAlgorithm.BenchmarkSpeed = speed / count;
                     BenchmarkSignalFinnished = true;
                     return true;
                 }
@@ -277,17 +265,14 @@ namespace NiceHashMiner.Miners
             }
 
             return false;
-
         }
-
 
         protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata)
         {
             CheckOutdata(outdata);
         }
 
-
-        #endregion // Decoupled benchmarking routines
+        #endregion Decoupled benchmarking routines
 
         public class lolResponse
         {
@@ -298,10 +283,11 @@ namespace NiceHashMiner.Miners
         {
             public double sol_ps { get; set; } = 0;
         }
+
         // TODO _currentMinerReadStatus
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
-            var ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
             string ResponseFromlolMiner;
             try
             {
@@ -361,7 +347,6 @@ namespace NiceHashMiner.Miners
                         }
                     }
 
-                    
                     /*if (MiningSetup.CurrentAlgorithmType == AlgorithmType.ethash)
                     {
                         mult = 1000000;
@@ -370,13 +355,12 @@ namespace NiceHashMiner.Miners
                     {
                         mult = 1;
                     }*/
-                    
+
                     ad.Speed = totals;
                     if (Num_Workers > 0)
                     {
                         int dev = 0;
                         var sortedMinerPairs = MiningSetup.MiningPairs.OrderBy(pair => pair.Device.BusID).ToList();
-
 
                         if (ad.Speed == 0)
                         {
@@ -387,7 +371,6 @@ namespace NiceHashMiner.Miners
                             CurrentMinerReadStatus = MinerApiReadStatus.GOT_READ;
                         }
                     }
-
                 }
             }
             catch (Exception e)

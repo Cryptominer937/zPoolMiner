@@ -81,7 +81,7 @@
         public static bool StartInitialize(IMainFormRatesComunication mainFormRatesComunication,
             string miningLocation, string worker, string btcAddress)
         {
-            CurMiningSession = new MiningSession(ComputeDeviceManager.Avaliable.AllAvaliableDevices,
+            CurMiningSession = new MiningSession(ComputeDeviceManager.Available.AllAvaliableDevices,
                 mainFormRatesComunication, miningLocation, worker, btcAddress);
 
             return CurMiningSession.IsMiningEnabled;
@@ -104,7 +104,7 @@
         /// <param name="CryptoMiner937Data"></param>
         public static async Task SwichMostProfitableGroupUpMethod(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data)
         {
-            if (CurMiningSession != null) await CurMiningSession.SwichMostProfitableGroupUpMethod(CryptoMiner937Data);
+            if (CurMiningSession != null) await CurMiningSession.SwitchMostProfitableGroupUpMethod(CryptoMiner937Data);
         }
 
         /// <summary>

@@ -33,7 +33,7 @@
         // divide factor to mirror web values        /// <summary>
         /// Defines the _div
         /// </summary>
-        readonly static private Dictionary<AlgorithmType, double> _div = new Dictionary<AlgorithmType, double>()
+        private static readonly Dictionary<AlgorithmType, double> _div = new Dictionary<AlgorithmType, double>()
         {
             { AlgorithmType.INVALID , 1 },
             { AlgorithmType.NONE , 1 },

@@ -16,15 +16,18 @@ namespace zPoolMiner.Miners
     {
         public ZEnemy() : base("Z-Enemy_NVIDIA")
         { }
+
         private int TotalCount = 0;
         private double Total = 0;
         private double speed;
         private const int TotalDelim = 2;
         private bool _benchmarkException => MiningSetup.MinerPath == MinerPaths.Data.ZEnemy;
+
         protected override int GetMaxCooldownTimeInMilliseconds()
         {
             return 60 * 1000 * 8;
         }
+
         //protected override int GET_MAX_CoolUpTimeInMilliseconds()
         //{
         //    return 60 * 1000 * 8;
@@ -36,42 +39,37 @@ namespace zPoolMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -94,31 +92,26 @@ namespace zPoolMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -153,12 +146,16 @@ namespace zPoolMiner.Miners
                ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " ";
             ProcessHandle = _Start();
         }
+
         protected override void _Stop(MinerStopType willswitch)
         {
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
+
         // new decoupled benchmarking routines
+
         #region Decoupled benchmarking routines
+
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
             string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
@@ -166,7 +163,7 @@ namespace zPoolMiner.Miners
             string alg = url.Substring(url.IndexOf("://") + 3, url.IndexOf(".") - url.IndexOf("://") - 3);
             string port = url.Substring(url.IndexOf(".com:") + 5, url.Length - url.IndexOf(".com:") - 5);
             var username = Globals.DemoUser;
-            var worker = " -p c=BTC,Benchmark ";
+            var worker = " -p c=DOGE,Benchmark ";
             var timeLimit = (_benchmarkException) ? "" : " --time-limit 300";
             var commandLine = " -a " + algorithm.MinerName + " -o " + url + " -u " + username + " " + worker +
                               timeLimit + " " +
@@ -179,11 +176,11 @@ namespace zPoolMiner.Miners
             Total = 0.0d;
             return commandLine;
         }
+
         protected override bool BenchmarkParseLine(string outdata)
         {
             int count = 0;
             double tmp = 0;
-
 
             if (_benchmarkException)
             {
@@ -192,7 +189,6 @@ namespace zPoolMiner.Miners
                 //GPU#4: ASUS GTX 1060 3GB - 8765.76kH/s [T:41C, F:54%, P:111W, E:0.079MH/W]
                 //GPU#4: ASUS GTX 1060 3GB - 25.58MH/s [T:32C, F:42%, P:103W, E:0.25MH/W]
                 {
-
                     var st = outdata.IndexOf("- ");
                     var e = outdata.IndexOf("/s [");
                     try
@@ -239,10 +235,12 @@ namespace zPoolMiner.Miners
             */
             return false;
         }
+
         protected override void BenchmarkOutputErrorDataReceivedImpl(string outdata)
         {
             CheckOutdata(outdata);
         }
+
         protected override void BenchmarkThreadRoutine(object CommandLine)
         {
             BenchmarkSignalQuit = false;
@@ -288,8 +286,10 @@ namespace zPoolMiner.Miners
                 BenchmarkThreadRoutineFinish();
             }
         }
-        #endregion // Decoupled benchmarking routines
-        public override async Task<APIData> GetSummaryAsync()
+
+        #endregion Decoupled benchmarking routines
+
+        public override async Task<ApiData> GetSummaryAsync()
         {
             if (!IsApiReadException) return await GetSummaryCPU_CCMINERAsync();
             // check if running
@@ -319,7 +319,7 @@ namespace zPoolMiner.Miners
                .Select(miningPair =>
                    miningPair.Device.GetAlgorithm(MinerBaseType.ZEnemy, AlgorithmType.x16r, AlgorithmType.NONE))
                .Where(algo => algo != null).Sum(algo => algo.BenchmarkSpeed);
-            var zenemyData = new APIData(MiningSetup.CurrentAlgorithmType)
+            var zenemyData = new ApiData(MiningSetup.CurrentAlgorithmType)
             {
                 Speed = totalSpeed
             };

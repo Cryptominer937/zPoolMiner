@@ -19,12 +19,15 @@ namespace zPoolMiner.Miners
 
     public class MiningSession
     {
-
         // Donation stats
-        //protected static TimeSpan DonationTime = TimeSpan.FromMinutes(5); //testing only
-        //public static TimeSpan DonateEvery = TimeSpan.FromMinutes(10); // testing only
-        protected static TimeSpan DonationTime = TimeSpan.FromMinutes(24);
+#if DEBUG
+        protected static TimeSpan DonationTime = TimeSpan.FromMinutes(1); //debug only
+        public static TimeSpan DonateEvery = TimeSpan.FromMinutes(1); // debug only
+
+#else
+        protected static TimeSpan DonationTime = TimeSpan.FromMinutes(30);
         public static TimeSpan DonateEvery = TimeSpan.FromHours(24);
+#endif
         public static DateTime DonationStart = DateTime.UtcNow.Add(DonateEvery);
         public static bool SHOULD_START_DONATING => DateTime.UtcNow > DonationStart;
         public static bool SHOULD_STOP_DONATING => DateTime.UtcNow > DonationStart.Add(DonationTime);
@@ -34,7 +37,7 @@ namespace zPoolMiner.Miners
         private const string TAG = "MiningSession";
         private const string DOUBLE_FORMAT = "F12";
 
-        // session varibles fixed
+        // session variables fixed
         private string _miningLocation = "";
 
         private string _btcAddress = "";
@@ -42,7 +45,7 @@ namespace zPoolMiner.Miners
         private List<MiningDevice> _miningDevices = new List<MiningDevice>();
         private IMainFormRatesComunication _mainFormRatesComunication;
 
-        // session varibles changing
+        // session variables changing
         // GroupDevices hash code doesn't work correctly use string instead
         //Dictionary<GroupedDevices, GroupMiners> _groupedDevicesMiners;
         private Dictionary<string, GroupMiner> _runningGroupMiners = new Dictionary<string, GroupMiner>();
@@ -58,7 +61,7 @@ namespace zPoolMiner.Miners
         // timers
         private Timer _preventSleepTimer;
 
-        // check internet connection
+        // check Internet connection
         private Timer _internetCheckTimer;
 
         public bool IsMiningEnabled
@@ -105,7 +108,7 @@ namespace zPoolMiner.Miners
             _btcAddress = btcAddress;
             _worker = worker;
 
-            // initial settup
+            // initial setup
             _miningDevices = GroupSetupUtils.GetMiningDevices(devices, true);
             if (_miningDevices.Count > 0)
             {
@@ -118,14 +121,14 @@ namespace zPoolMiner.Miners
             // sleep time is minimal 1 minute
             _preventSleepTimer.Interval = 20 * 1000; // leave this interval, it works
 
-            // set internet checking
+            // set Internet checking
             _internetCheckTimer = new Timer();
             _internetCheckTimer.Elapsed += InternetCheckTimer_Tick;
             _internetCheckTimer.Interval = 1 * 1000 * 60; // every minute
 
             // assume profitable
             IsProfitable = true;
-            // assume we have internet
+            // assume we have INTERNET
             IsConnectedToInternet = true;
 
             if (IsMiningEnabled)
@@ -182,7 +185,7 @@ namespace zPoolMiner.Miners
                 _mainFormRatesComunication.ClearRatesALL();
             }
 
-            // restroe/enable sleep
+            // restore/enable sleep
             _preventSleepTimer.Stop();
             _internetCheckTimer.Stop();
             Helpers.AllowMonitorPowerdownAndSleep();
@@ -287,7 +290,7 @@ namespace zPoolMiner.Miners
 
         private bool CheckIfShouldMine(double CurrentProfit, bool log = false)
         {
-            // if profitable and connected to internet mine
+            // if profitable and connected to Internet mine
             bool shouldMine = CheckIfProfitable(CurrentProfit, log) && IsConnectedToInternet;
             if (shouldMine)
             {
@@ -311,7 +314,7 @@ namespace zPoolMiner.Miners
             return shouldMine;
         }
 
-        public async Task SwichMostProfitableGroupUpMethod(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data, bool log = false)
+        public async Task SwitchMostProfitableGroupUpMethod(Dictionary<AlgorithmType, CryptoMiner937API> CryptoMiner937Data, bool log = false)
         {
 #if (SWITCH_TESTING)
             MiningDevice.SetNextTest();
@@ -394,7 +397,6 @@ namespace zPoolMiner.Miners
                 {
                     Helpers.ConsolePrint(TAG, String.Format("Will SWITCH profit diff is {0}, current threshold {1}", percDiff, ConfigManager.GeneralConfig.SwitchProfitabilityThreshold));
                 }
-
             }
 
             Helpers.ConsolePrint("Monitoring", "If enabled here I would submit Monitoring data to the server");
@@ -409,7 +411,7 @@ namespace zPoolMiner.Miners
                 var postData = "";
                 /* fetch last command line for each miner
                 Do this for each mining group*/
-                foreach (var cdev in ComputeDeviceManager.Avaliable.AllAvaliableDevices)
+                foreach (var cdev in ComputeDeviceManager.Available.AllAvaliableDevices)
                 {
                     if (cdev.Enabled)
                     {
@@ -427,7 +429,7 @@ namespace zPoolMiner.Miners
 
             Convert above data to Json
             Fetch Profit to Variable
-            $Profit = [string]([Math]::Round(($data | Measure-Object Profit -Sum).Sum, 8)) 
+            $Profit = [string]([Math]::Round(($data | Measure-Object Profit -Sum).Sum, 8))
             Send the request
             $Body = @{user = $Config.MonitoringUser; worker = $Config.WorkerName; version = $Version; status = $Status; profit = $Profit; data = $DataJSON}
         Try {
@@ -450,14 +452,6 @@ namespace zPoolMiner.Miners
 
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
             }
-
-
-
-
-
-
-
-
 
             // group new miners
             Dictionary<string, List<MiningPair>> newGroupedMiningPairs = new Dictionary<string, List<MiningPair>>();
@@ -713,7 +707,7 @@ namespace zPoolMiner.Miners
                     if (!m.IsRunning || m.IsUpdatingAPI) continue;
 
                     m.IsUpdatingAPI = true;
-                    APIData AD = await m.GetSummaryAsync();
+                    ApiData AD = await m.GetSummaryAsync();
                     m.IsUpdatingAPI = false;
                     if (AD == null)
                     {
@@ -732,7 +726,7 @@ namespace zPoolMiner.Miners
                     {
                         groupMiners.CurrentRate = 0;
                         // set empty
-                        AD = new APIData(groupMiners.AlgorithmType);
+                        AD = new ApiData(groupMiners.AlgorithmType);
                     }
                     CurrentProfit += groupMiners.CurrentRate;
                     // Update GUI

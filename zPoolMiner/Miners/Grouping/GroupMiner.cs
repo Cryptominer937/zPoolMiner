@@ -142,24 +142,24 @@
                 if (locationURL.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (locationURL.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (locationURL.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (locationURL.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (locationURL.Contains("zergpool.com"))
@@ -171,13 +171,13 @@
                 if (locationURL.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (locationURL.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (locationURL.Contains("miningpoolhub.com"))
                 {

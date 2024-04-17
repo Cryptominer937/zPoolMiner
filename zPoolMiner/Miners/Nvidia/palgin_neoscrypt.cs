@@ -37,7 +37,6 @@
         //{
         //get
         //{
-
         //}
         //}
 
@@ -47,7 +46,6 @@
         /// <returns>The <see cref="int"/></returns>
         protected override int GetMaxCooldownTimeInMilliseconds()
         {
-
             return 660 * 1000; // 11 minute max
         }
 
@@ -64,42 +62,37 @@
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -122,31 +115,26 @@
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -211,7 +199,7 @@
 
             string CommandLine = " --url=" + url +
                                   " --user=" + Globals.DemoUser +
-                          " -p c=BTC,Benchmark " +
+                          " -p c=DOGE,Benchmark " +
                                   ExtraLaunchParametersParser.ParseForMiningSetup(
                                                                 MiningSetup,
                                                                 DeviceType.NVIDIA) +
@@ -279,10 +267,10 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             // cryptonight does not have api bind port
-            APIData hsrData = new APIData(MiningSetup.CurrentAlgorithmType)
+            ApiData hsrData = new ApiData(MiningSetup.CurrentAlgorithmType)
             {
                 Speed = 0
             };

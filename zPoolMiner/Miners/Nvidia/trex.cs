@@ -19,6 +19,7 @@ namespace zPoolMiner.Miners
         private int _benchmarkTimeWait = 60;
 
         private const int TotalDelim = 2;
+
         public trex() : base("trex_NVIDIA")
         {
         }
@@ -30,42 +31,37 @@ namespace zPoolMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -88,31 +84,26 @@ namespace zPoolMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -137,8 +128,6 @@ namespace zPoolMiner.Miners
                 return;
             }
             string address = btcAddress;
-
-
 
             IsApiReadException = MiningSetup.MinerPath == MinerPaths.Data.trex;
 
@@ -166,9 +155,6 @@ namespace zPoolMiner.Miners
             ProcessHandle = _Start();
         }
 
-
-
-
         // benchmark stuff
         protected void KillMinerBase(string exeName)
         {
@@ -181,16 +167,13 @@ namespace zPoolMiner.Miners
 
         protected override string BenchmarkCreateCommandLine(Algorithm algorithm, int time)
         {
-
             string url = Globals.GetLocationURL(algorithm.CryptoMiner937ID, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], ConectionType);
             var apiBindHttp = "-b 127.0.0.1:" + ApiPort;
 
             string address = Globals.DemoUser;
 
-
-            LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url + " -u " + address + " -p c=BTC,Benchmark" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
+            LastCommandLine = " -a " + MiningSetup.MinerName + " -o " + url + " -u " + address + " -p c=DOGE,Benchmark" + " " + apiBindHttp + " " + ExtraLaunchParametersParser.ParseForMiningSetup(MiningSetup, DeviceType.NVIDIA) + " -d ";
             LastCommandLine += GetDevicesCommandString();
-
 
             return LastCommandLine;
         }
@@ -201,7 +184,6 @@ namespace zPoolMiner.Miners
             BenchmarkSignalHanged = false;
             BenchmarkSignalFinnished = false;
             BenchmarkException = null;
-
 
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
@@ -223,7 +205,7 @@ namespace zPoolMiner.Miners
             {
                 while (keepRunning && IsActiveProcess(BenchmarkHandle.Id))
                 {
-                    Task<APIData> AD = GetSummaryAsync();
+                    Task<ApiData> AD = GetSummaryAsync();
                     Task.WaitAll(AD);
 
                     speed.Add(AD.Result.Speed);
@@ -279,7 +261,6 @@ namespace zPoolMiner.Miners
                 if (speed.Count == 0)
                 {
                     Helpers.ConsolePrint("Benchmark Error:", " Benchmarks returned 0");
-
                 }
                 else
                 {
@@ -288,8 +269,6 @@ namespace zPoolMiner.Miners
                 }
                 BenchmarkThreadRoutineFinish();
             }
-
-
         }
 
         // stub benchmarks read from file
@@ -304,12 +283,10 @@ namespace zPoolMiner.Miners
             return false;
         }
 
-
-
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            var ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
             string resp = null;
             try
             {
@@ -338,9 +315,6 @@ namespace zPoolMiner.Miners
                 double tmp = Double.Parse(parse, CultureInfo.InvariantCulture);
                 ad.Speed = tmp * 1000;
 
-
-
-
                 if (ad.Speed == 0)
                 {
                     CurrentMinerReadStatus = MinerApiReadStatus.READ_SPEED_ZERO;
@@ -360,10 +334,6 @@ namespace zPoolMiner.Miners
 
             return ad;
         }
-
-
-
-
 
         protected override void _Stop(MinerStopType willswitch)
         {

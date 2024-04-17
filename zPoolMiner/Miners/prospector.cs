@@ -251,7 +251,7 @@
             else
             {  // fallback
                 Helpers.ConsolePrint(MinerTag(), "Failed to get platforms, falling back");
-                if (ComputeDeviceManager.Avaliable.HasNVIDIA && type != DeviceType.NVIDIA)
+                if (ComputeDeviceManager.Available.HasNVIDIA && type != DeviceType.NVIDIA)
                     platform = 1;
             }
             return String.Format("{0}-{1}", platform, id);
@@ -283,42 +283,42 @@
                         if (pool.Contains("zpool.ca"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
                         }
                         if (pool.Contains("ahashpool.com"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
 
                         }
                         if (pool.Contains("hashrefinery.com"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
 
                         }
                         if (pool.Contains("nicehash.com"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
 
                         }
                         if (pool.Contains("zergpool.com"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
 
                         }
                         if (pool.Contains("blockmasters.co"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
 
                         }
                         if (pool.Contains("blazepool.com"))
                         {
                             wallet = Globals.DemoUser;
-                            worker = "c=BTC,ID=Donation";
+                            worker = "c=DOGE,ID=Donation";
                         }
                         if (pool.Contains("miningpoolhub.com"))
                         {
@@ -535,10 +535,10 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
 
             WebClient client = new WebClient();
             HashrateApiResponse[] resp = null;

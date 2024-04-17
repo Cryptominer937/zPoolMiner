@@ -201,6 +201,9 @@
         CryptoDredge26,
         MiniZ,
         CPU_verium,
+        teamredminer,
+        srbminer,
+
         /// <summary>
         /// Defines the END
         /// </summary>

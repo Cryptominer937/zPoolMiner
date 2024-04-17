@@ -202,6 +202,9 @@
     <Compile Include="IFTTT.cs" />
     <Compile Include="ExchangeRateAPI.cs" />
     <Compile Include="Miners\AMD\lolminerAmd.cs" />
+    <Compile Include="Miners\AMD\srbmineramd.cs" />
+    <Compile Include="Miners\AMD\teamredminer.cs" />
+    <Compile Include="Miners\AMD\wildrig.cs" />
     <Compile Include="Miners\ClaymoreDual.cs" />
     <Compile Include="Miners\ClaymoreNeoscryptMiner.cs" />
     <Compile Include="Miners\CPU\CPU_verium.cs" />
@@ -222,6 +225,7 @@
     <Compile Include="Miners\prospector.cs" />
     <Compile Include="Miners\CPU\CPU_Xmrig.cs" />
     <Compile Include="Miners\Nvidia\trex.cs" />
+    <Compile Include="Miners\srbminer.cs" />
     <Compile Include="Miners\XmrStak\XmrStak.cs" />
     <Compile Include="Miners\XmrStak\XmrStakAMD.cs" />
     <Compile Include="Miners\XmrStak\XmrStakConfig.cs" />

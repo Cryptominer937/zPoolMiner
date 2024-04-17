@@ -25,6 +25,7 @@
         /// Defines the _benchmarkTimer
         /// </summary>
         private Stopwatch _benchmarkTimer = new Stopwatch();
+
         private const double DevFee = 6.0;
 
         /// <summary>
@@ -33,7 +34,7 @@
         public Glg()
             : base("glg_AMD")
         {
-            GPUPlatformNumber = ComputeDeviceManager.Avaliable.AMDOpenCLPlatformNum;
+            GPUPlatformNumber = ComputeDeviceManager.Available.AmdOpenCLPlatformNum;
             IsKillAllUsedMinerProcs = true;
         }
 
@@ -103,42 +104,37 @@
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -161,31 +157,26 @@
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -253,7 +244,7 @@
                           " -k " + algorithm.MinerName +
                           " --url=" + url + "/#xnsub" +
                           " --userpass=" + Globals.DemoUser +
-                          " -p c=BTC,Benchmark" +
+                          " -p c=DOGE,Benchmark" +
                           " --sched-stop " + DateTime.Now.AddSeconds(time).ToString("HH:mm") +
                           " -T --log 10 --log-file dump.txt" +
                           " --api-listen" +
@@ -460,10 +451,10 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             string resp;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             resp = await GetAPIDataAsync(ApiPort, "summary");
             if (resp == null)

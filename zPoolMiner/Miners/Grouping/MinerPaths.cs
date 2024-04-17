@@ -225,6 +225,7 @@
 
             public const string lolMinerAmd = _bin + @"\lolMiner\lolMiner.exe";
             public const string lolMinerNvidia = _bin + @"\lolMiner\lolMiner.exe";
+
             /// <summary>
             /// CPUminers
             /// </summary>
@@ -328,19 +329,19 @@
             public const string CryptoDredge25 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge25\CryptoDredge.exe";
             public const string CryptoDredge26 = _bin + @"\NVIDIA\NVIDIA-CryptoDredge26\CryptoDredge.exe";
             public const string ZEnemy = _bin + @"\NVIDIA\NVIDIA-zealotenemy\z-enemy.exe";
-            //public const string ClaymoreZcashMiner = _bin + @"\AMD-NVIDIA\claymore_zcash\ZecMiner64.exe";
+            //public const string ClaymoreZcashMiner = _bin + @"\AMD_NVIDIA\claymore_zcash\ZecMiner64.exe";
 
-            //public const string ClaymoreNeoscryptMiner = _bin + @"\AMD-NVIDIA\claymore_neoscrypt\NeoScryptMiner.exe";
+            //public const string ClaymoreNeoscryptMiner = _bin + @"\AMD_NVIDIA\claymore_neoscrypt\NeoScryptMiner.exe";
 
             /// <summary>
             /// Defines the ClaymorecryptonightMiner
             /// </summary>
-            //public const string ClaymorecryptonightMiner = _bin + @"\AMD-NVIDIA\claymore_cryptonight\NsGpuCNMiner.exe";
+            //public const string ClaymorecryptonightMiner = _bin + @"\AMD_NVIDIA\claymore_cryptonight\NsGpuCNMiner.exe";
 
             /// <summary>
             /// Defines the ClaymorecryptonightMiner_old
             /// </summary>
-            //public const string ClaymorecryptonightMiner_old = _bin + @"\AMD-NVIDIA\claymore_cryptonight_old\NsGpuCNMiner.exe";
+            //public const string ClaymorecryptonightMiner_old = _bin + @"\AMD_NVIDIA\claymore_cryptonight_old\NsGpuCNMiner.exe";
 
             /// <summary>
             /// Defines the OptiminerZcashMiner
@@ -350,12 +351,13 @@
             /// <summary>
             /// Defines the ClaymoreDual
             /// </summary>
-            //public const string ClaymoreDual = _bin + @"\AMD-NVIDIA\claymore_dual\EthDcrMiner64.exe";
+            //public const string ClaymoreDual = _bin + @"\AMD_NVIDIA\claymore_dual\EthDcrMiner64.exe";
 
             /// <summary>
             /// Defines the mkxminer
             /// </summary>
             public const string mkxminer = _bin + @"\AMD\mkxminer\mkxminer.exe";
+
             /// <summary>
             /// Defines the NONE
             /// </summary>
@@ -370,7 +372,6 @@
             /// <summary>
             /// Defines the ClaymoreZcashMiner
             /// </summary>
-
         }
 
         // NEW START
@@ -424,8 +425,8 @@
                 case MinerBaseType.GatelessGate:
                     return AMD_GROUP.Glg_path(algoType);
 
-                /*case MinerBaseType.Claymore:
-                    return AMD_GROUP.ClaymorePath(algoType);*/
+                case MinerBaseType.Claymore:
+                    return AMD_GROUP.ClaymorePath(algoType);
 
                 /*case MinerBaseType.OptiminerAMD:
                     return Data.OptiminerZcashMiner;*/
@@ -438,14 +439,19 @@
 
                 case MinerBaseType.CPU_XMRigUPX:
                     return Data.CPU_XMRigUPX;
+
                 case MinerBaseType.CPU_RKZ:
                     return Data.CPU_RKZ;
+
                 case MinerBaseType.CPU_rplant:
                     return Data.CPU_rplant;
+
                 case MinerBaseType.CPU_nosuch:
                     return Data.CPU_nosuch;
+
                 case MinerBaseType.trex:
                     return NVIDIA_GROUPS.trex(algoType, devGroupType);
+
                 case MinerBaseType.MiniZ:
                     return NVIDIA_GROUPS.MiniZ(algoType, devGroupType);
 
@@ -454,14 +460,19 @@
 
                 case MinerBaseType.CryptoDredge16:
                     return NVIDIA_GROUPS.CryptoDredge16(algoType, devGroupType);
+
                 case MinerBaseType.CryptoDredge25:
                     return NVIDIA_GROUPS.CryptoDredge25(algoType, devGroupType);
+
                 case MinerBaseType.CryptoDredge26:
                     return NVIDIA_GROUPS.CryptoDredge26(algoType, devGroupType);
+
                 case MinerBaseType.CPU_verium:
                     return Data.CPU_verium;
+
                 case MinerBaseType.lolMinerAmd:
                     return AMD_GROUP.lolMinerAmd(algoType);
+
                 case MinerBaseType.lolMinerNvidia:
                     return AMD_GROUP.lolMinerAmd(algoType);
             }
@@ -503,6 +514,7 @@
         /**
          * InitAlgorithmsMinerPaths gets and sets miner paths
          */
+
         /// <summary>
         /// The GetAndInitAlgorithmsMinerPaths
         /// </summary>
@@ -537,6 +549,7 @@
             {
               *  return Data.ccminer_tpruvot2;
             }*/
+
             public static string lolMinerNvidia(AlgorithmType type)
             {
                 if (AlgorithmType.karlsenhash == type)
@@ -573,6 +586,7 @@
                 }
                 return Data.NONE;
             }
+
             /// <summary>
             /// The Ccminer_sm5x
             /// </summary>
@@ -580,7 +594,6 @@
             /// <returns>The <see cref="string"/></returns>
             /* public static string Ccminer_sm5x(AlgorithmType algorithmType)
          {
-
              return Data.ccminer_tpruvot2;
          }*/
 
@@ -591,10 +604,9 @@
             /// <returns>The <see cref="string"/></returns>
             /*public static string Ccminer_sm6x(AlgorithmType algorithmType)
             {
-                
-
                 return Data.ccminer_tpruvot2;
             }*/
+
             public static string trex(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -610,6 +622,7 @@
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+
             public static string MiniZ(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -657,6 +670,7 @@
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+
             public static string CryptoDredge25(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -672,6 +686,7 @@
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+
             public static string CryptoDredge26(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
                 // sm21 and sm3x have same settings
@@ -687,6 +702,7 @@
                 // TODO wrong case?
                 return Data.NONE; // should not happen
             }
+
             /// <summary>
             /// The Palgin_Neoscrypt_path
             /// </summary>
@@ -695,7 +711,7 @@
             /// <returns>The <see cref="string"/></returns>
             public static string Palgin_Neoscrypt_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
-                // sm21 and sm3x have same settings                
+                // sm21 and sm3x have same settings
                 // CN exception
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
@@ -707,7 +723,6 @@
                 }
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-
                 }
 
                 // TODO wrong case?
@@ -722,7 +737,7 @@
             /// <returns>The <see cref="string"/></returns>
             /*public static string Palgin_HSR_path(AlgorithmType algorithmType, DeviceGroupType nvidiaGroup)
             {
-                // sm21 and sm3x have same settings                
+                // sm21 and sm3x have same settings
                 // CN exception
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_2_1 || nvidiaGroup == DeviceGroupType.NVIDIA_3_x)
                 {
@@ -734,7 +749,6 @@
                 }
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    
                 }
 
                 // TODO wrong case?
@@ -784,7 +798,6 @@
                 // sm5x and sm6x have same settings
                 if (nvidiaGroup == DeviceGroupType.NVIDIA_5_x || nvidiaGroup == DeviceGroupType.NVIDIA_6_x)
                 {
-                    
                 }
                 // TODO wrong case?
                 return Data.ccminer_tpruvot2; // should not happen
@@ -846,9 +859,9 @@
 
                 return Data.NONE;
             }
+
             public static string lolMinerAmd_path(AlgorithmType type)
             {
-
                 if (AlgorithmType.karlsenhash == type)
                 {
                     return Data.lolMinerAmd;
@@ -942,15 +955,16 @@
             /// </summary>
             /// <param name="type">The <see cref="AlgorithmType"/></param>
             /// <returns>The <see cref="string"/></returns>
-            /*public static string ClaymorePath(AlgorithmType type)
+            public static string ClaymorePath(AlgorithmType type)
             {
-                if (AlgorithmType.equihash == type)
+                /*if (AlgorithmType.equihash == type)
                 {
                     return Data.ClaymoreZcashMiner;
-                }
-                else if (AlgorithmType.NeoScrypt == type) {
+                }*/
+                /*if (AlgorithmType.NeoScrypt == type)
+                {
                     return Data.ClaymoreNeoscryptMiner;
-                }
+                }/*
                 else if (AlgorithmType.cryptonight == type)
                 {
                     return Data.ClaymorecryptonightMiner;
@@ -958,9 +972,9 @@
                 else if (AlgorithmType.DaggerHashimoto == type)
                 {
                     return Data.ClaymoreDual;
-                }
+                }*/
                 return Data.NONE; // should not happen
-            }*/
+            }
         }
 
         /// <summary>

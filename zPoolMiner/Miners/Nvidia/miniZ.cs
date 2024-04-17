@@ -20,6 +20,7 @@ namespace zPoolMiner.Miners
     public class MiniZ : Miner
     {
 #pragma warning disable IDE1006
+
         private class Result
         {
             public uint gpuid { get; set; }
@@ -41,6 +42,7 @@ namespace zPoolMiner.Miners
             public object error { get; set; }
             public List<Result> result { get; set; }
         }
+
 #pragma warning restore IDE1006
 
         private int _benchmarkTimeWait = 2 * 45;
@@ -65,7 +67,8 @@ namespace zPoolMiner.Miners
             LastCommandLine = GetStartCommand(url, btcAddress, worker);
             ProcessHandle = _Start();
         }
-        static int GetWinVer(Version ver)
+
+        private static int GetWinVer(Version ver)
         {
             if (ver.Major == 6 & ver.Minor == 1)
                 return 7;
@@ -82,42 +85,37 @@ namespace zPoolMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -140,31 +138,26 @@ namespace zPoolMiner.Miners
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -212,7 +205,6 @@ namespace zPoolMiner.Miners
             {
                 sColor = " --nocolor";
             }
-
 
             var ret = GetDevicesCommandString()
                       + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + address + "@" + pool + " --pass=" + worker + "" + " --telemetry=" + ApiPort;
@@ -275,7 +267,6 @@ namespace zPoolMiner.Miners
             {
                 sColor = " --nocolor";
             }
-
 
             var ret = GetDevicesCommandString()
                       + sColor + ARG + "--templimit 95 --intensity 100 --latency --tempunits C " + " --url " + "DE8BDPdYu9LadwV4z4KamDqni43BUhGb66" + "@" + pool + " --pass=" + "c=DOGE,ID=Benchmark" + "" + " --telemetry=" + ApiPort + " --log-file=" + "bench.txt";
@@ -392,12 +383,12 @@ namespace zPoolMiner.Miners
                         }
                     }
 
-                    var addBenchLines = bench_lines.Count == 0;
+                    var addBenchLines = BenchLines.Count == 0;
                     foreach (var line in lines)
                     {
                         if (line != null)
                         {
-                            bench_lines.Add(line);
+                            BenchLines.Add(line);
                             var lineLowered = line.ToLower();
                             if (lineLowered.Contains(LookForStart) && lineLowered.Contains(LookForEnd))
                             {
@@ -486,11 +477,11 @@ namespace zPoolMiner.Miners
             return 0;
         }
 
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            var ad = new APIData(MiningSetup.CurrentAlgorithmType);
-            var elapsedSeconds = DateTime.Now.Subtract(_started).Seconds; ////PVS-Studio - stupid program! 
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
+            var elapsedSeconds = DateTime.Now.Subtract(_started).Seconds; ////PVS-Studio - stupid program!
 
             // if (elapsedSeconds < 15 && firstStart)
             if (firstStart)

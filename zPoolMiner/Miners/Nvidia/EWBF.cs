@@ -21,7 +21,6 @@
     /// </summary>
     public class EWBF : Miner
     {
-
         /// <summary>
         /// Defines the <see cref="Result" />
         /// </summary>
@@ -183,42 +182,37 @@
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
-
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -241,31 +235,26 @@
                 {
                     btcAddress = zPoolMiner.Globals.GetahashUser();
                     worker = zPoolMiner.Globals.GetahashWorker();
-
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GethashrefineryUser();
                     worker = zPoolMiner.Globals.GethashrefineryWorker();
-
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetnicehashUser();
                     worker = zPoolMiner.Globals.GetnicehashWorker();
-
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = zPoolMiner.Globals.GetzergUser();
                     worker = zPoolMiner.Globals.GetzergWorker();
-
                 }
                 if (url.Contains("minemoney.co"))
                 {
                     btcAddress = zPoolMiner.Globals.GetminemoneyUser();
                     worker = zPoolMiner.Globals.GetminemoneyWorker();
-
                 }
                 if (url.Contains("blazepool.com"))
                 {
@@ -339,42 +328,37 @@
             if (server.Contains("zpool.ca"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("ahashpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
-
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
-
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
-
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
-
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
-
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("blazepool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (server.Contains("miningpoolhub.com"))
             {
@@ -502,12 +486,12 @@
                         }
                     }
 
-                    var addBenchLines = bench_lines.Count == 0;
+                    var addBenchLines = BenchLines.Count == 0;
                     foreach (var line in lines)
                     {
                         if (line != null)
                         {
-                            bench_lines.Add(line);
+                            BenchLines.Add(line);
                             string lineLowered = line.ToLower();
                             if (lineLowered.Contains(LOOK_FOR_START))
                             {
@@ -622,10 +606,10 @@
         /// The GetSummaryAsync
         /// </summary>
         /// <returns>The <see cref="Task{APIData}"/></returns>
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
             TcpClient client = null;
             JsonApiResponse resp = null;
             try

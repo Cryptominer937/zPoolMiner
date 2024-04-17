@@ -21,9 +21,9 @@
     using Timer = System.Timers.Timer;
 
     /// <summary>
-    /// Defines the <see cref="APIData" />
+    /// Defines the <see cref="ApiData" />
     /// </summary>
-    public class APIData
+    public class ApiData
     {
         /// <summary>
         /// Defines the AlgorithmID
@@ -51,11 +51,11 @@
         public double SecondarySpeed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="APIData"/> class.
+        /// Initializes a new instance of the <see cref="ApiData"/> class.
         /// </summary>
         /// <param name="algorithmID">The <see cref="AlgorithmType"/></param>
         /// <param name="secondaryAlgorithmID">The <see cref="AlgorithmType"/></param>
-        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID = AlgorithmType.NONE, MiningPair miningPair = null)
+        public ApiData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID = AlgorithmType.NONE, MiningPair miningPair = null)
         {
             AlgorithmID = algorithmID;
             SecondaryAlgorithmID = secondaryAlgorithmID;
@@ -110,7 +110,6 @@
         /// </summary>
         public int PID = -1;
     }
-
 
     public abstract class Miner
     {
@@ -180,7 +179,7 @@
         protected int BenchmarkTimeInSeconds;
 
         private string benchmarkLogPath = "";
-        protected List<string> bench_lines;
+        protected List<string> BenchLines;
 
         // TODO maybe set for individual miner cooldown/retries logic variables
         // this replaces MinerAPIGraceSeconds(AMD)
@@ -275,7 +274,7 @@
             }
         }
 
-        virtual public void InitMiningSetup(MiningSetup miningSetup)
+        public virtual void InitMiningSetup(MiningSetup miningSetup)
         {
             MiningSetup = miningSetup;
             IsInit = MiningSetup.IsInit;
@@ -355,7 +354,7 @@
             _allPidData.RemoveAll(x => toRemovePidData.Contains(x));
         }
 
-        abstract public void Start(string url, string btcAddress, string worker);
+        public abstract void Start(string url, string btcAddress, string worker);
 
         protected string GetUsername(string btcAddress, string worker)
         {
@@ -375,9 +374,9 @@
             return btcAddress;
         }
 
-        abstract protected void _Stop(MinerStopType willswitch);
+        protected abstract void _Stop(MinerStopType willswitch);
 
-        virtual public void Stop(MinerStopType willswitch = MinerStopType.SWITCH)
+        public virtual void Stop(MinerStopType willswitch = MinerStopType.SWITCH)
         {
             if (_cooldownCheckTimer != null) _cooldownCheckTimer.Stop();
             _Stop(willswitch);
@@ -417,7 +416,7 @@
             }
         }
 
-        virtual protected string GetDevicesCommandString()
+        protected virtual string GetDevicesCommandString()
         {
             string deviceStringCommand = " ";
 
@@ -430,7 +429,6 @@
 
             return deviceStringCommand;
         }
-
 
         public int BenchmarkTimeoutInSeconds(int timeInSeconds)
         {
@@ -446,12 +444,12 @@
         }
 
         // TODO remove algorithm
-        abstract protected string BenchmarkCreateCommandLine(Algorithm algorithm, int time);
+        protected abstract string BenchmarkCreateCommandLine(Algorithm algorithm, int time);
 
         // The benchmark config and algorithm must guarantee that they are compatible with miner
         // we guarantee algorithm is supported
         // we will not have empty benchmark configs, all benchmark configs will have device list
-        virtual public void BenchmarkStart(int time, IBenchmarkComunicator benchmarkComunicator)
+        public virtual void BenchmarkStart(int time, IBenchmarkComunicator benchmarkComunicator)
         {
             BenchmarkComunicator = benchmarkComunicator;
             BenchmarkTimeInSeconds = time;
@@ -469,7 +467,7 @@
                 }
             }
             catch { }
-            bench_lines = new List<string>();
+            BenchLines = new List<string>();
             benchmarkLogPath = String.Format("{0}Log_{1}_{2}", Logger._logPath, MiningSetup.MiningPairs[0].Device.UUID, MiningSetup.MiningPairs[0].Algorithm.AlgorithmStringID);
 
             string CommandLine = BenchmarkCreateCommandLine(BenchmarkAlgorithm, time);
@@ -478,7 +476,7 @@
             BenchmarkThread.Start(CommandLine);
         }
 
-        virtual protected Process BenchmarkStartProcess(string CommandLine)
+        protected virtual Process BenchmarkStartProcess(string CommandLine)
         {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             Helpers.ConsolePrint(MinerTag(), "Starting benchmark: " + CommandLine);
@@ -570,7 +568,7 @@
         protected void CheckOutdata(string outdata)
         {
             //Helpers.ConsolePrint("BENCHMARK" + benchmarkLogPath, outdata);
-            bench_lines.Add(outdata);
+            BenchLines.Add(outdata);
             // ccminer, cpuminer
             if (outdata.Contains("Cuda error"))
                 BenchmarkException = new Exception("CUDA error");
@@ -716,6 +714,7 @@
             }
             return 0.0d;
         }
+
         /*// add mkxminer palgin
         protected double BenchmarkParseLine_cpu_mkxminer_extra(string outdata)
         {
@@ -758,7 +757,7 @@
         }*/
 
         // killing proccesses can take time
-        virtual public void EndBenchmarkProcces()
+        public virtual void EndBenchmarkProcces()
         {
             if (BenchmarkHandle != null && BenchmarkProcessStatus != BenchmarkProcessStatus.Killing && BenchmarkProcessStatus != BenchmarkProcessStatus.DoneKilling)
             {
@@ -780,7 +779,7 @@
             }
         }
 
-        virtual protected void BenchmarkThreadRoutineStartSettup()
+        protected virtual void BenchmarkThreadRoutineStartSettup()
         {
             BenchmarkHandle.BeginErrorReadLine();
             BenchmarkHandle.BeginOutputReadLine();
@@ -814,7 +813,7 @@
 
             using (StreamWriter sw = File.AppendText(benchmarkLogPath))
             {
-                foreach (var line in bench_lines)
+                foreach (var line in BenchLines)
                 {
                     sw.WriteLine(line);
                 }
@@ -831,7 +830,7 @@
             }
         }
 
-        virtual protected void BenchmarkThreadRoutine(object CommandLine)
+        protected virtual void BenchmarkThreadRoutine(object CommandLine)
         {
             Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
 
@@ -976,7 +975,7 @@
                 if (File.Exists(WorkingDirectory + latestLogFile))
                 {
                     var lines = File.ReadAllLines(WorkingDirectory + latestLogFile);
-                    var addBenchLines = bench_lines.Count == 0;
+                    var addBenchLines = BenchLines.Count == 0;
                     ProcessBenchLinesAlternate(lines);
                 }
                 BenchmarkThreadRoutineFinish();
@@ -1008,7 +1007,7 @@
         {
         }
 
-        abstract protected bool BenchmarkParseLine(string outdata);
+        protected abstract bool BenchmarkParseLine(string outdata);
 
         protected bool IsActiveProcess(int pid)
         {
@@ -1022,8 +1021,7 @@
             }
         }
 
-
-        virtual protected HashKingsProcess _Start()
+        protected virtual HashKingsProcess _Start()
         {
             // never start when ended
             if (isEnded)
@@ -1132,7 +1130,7 @@
             CurrentMinerReadStatus = MinerApiReadStatus.NONE;
         }
 
-        virtual protected void Miner_Exited()
+        protected virtual void Miner_Exited()
         {
             ScheduleRestart(5000);
         }
@@ -1231,11 +1229,11 @@
             return ResponseFromServer;
         }
 
-        public abstract Task<APIData> GetSummaryAsync();
+        public abstract Task<ApiData> GetSummaryAsync();
 
-        protected async Task<APIData> GetSummaryCPUAsync(string method = "", bool overrideLoop = false)
+        protected async Task<ApiData> GetSummaryCPUAsync(string method = "", bool overrideLoop = false)
         {
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             try
             {
@@ -1291,12 +1289,12 @@
         }
 
         //add hsrminer palgin
-        protected async Task<APIData> GetSummaryCPU_Palgin_NeoscryptAsync()
+        protected async Task<ApiData> GetSummaryCPU_Palgin_NeoscryptAsync()
         {
             string resp;
             // TODO aname
             string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
@@ -1334,13 +1332,14 @@
 
             return ad;
         }
+
         //add mkxminer
-        protected async Task<APIData> GetSummaryCPU_mkxminerAsync()
+        protected async Task<ApiData> GetSummaryCPU_mkxminerAsync()
         {
             string resp;
             // TODO aname
             string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
@@ -1387,12 +1386,12 @@
                     "\r\n";
         }
 
-        protected async Task<APIData> GetSummaryCPU_CCMINERAsync()
+        protected async Task<ApiData> GetSummaryCPU_CCMINERAsync()
         {
             string resp;
             // TODO aname
             string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            ApiData ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 
@@ -1430,7 +1429,6 @@
 
             return ad;
         }
-
 
         /// <summary>
         /// decrement time for half current half time, if less then min ammend
@@ -1497,8 +1495,5 @@
                 _currentCooldownTimeInSecondsLeft = _currentCooldownTimeInSeconds;
             }
         }
-
-
-
     }
 }

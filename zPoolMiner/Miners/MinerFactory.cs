@@ -102,9 +102,9 @@
 
                 case MinerBaseType.lolMinerAmd:
                     return new lolMinerAmd();
+
                 case MinerBaseType.lolMinerNvidia:
                     return new lolMinerNvidia();
-
 
                 case MinerBaseType.OptiminerAMD:
                     return new OptiminerZcashMiner();
@@ -120,28 +120,36 @@
 
                 case MinerBaseType.CPU_XMRigUPX:
                     return new CPU_XMRigUPX();
+
                 case MinerBaseType.CPU_RKZ:
                     return new CPU_RKZ();
+
                 case MinerBaseType.CPU_rplant:
                     return new CPU_rplant();
+
                 case MinerBaseType.CPU_nosuch:
                     return new CPU_nosuch();
+
                 case MinerBaseType.trex:
                     return new trex();
+
                 case MinerBaseType.CryptoDredge16:
                     return new CryptoDredge16();
+
                 case MinerBaseType.CryptoDredge25:
                     return new CryptoDredge25();
+
                 case MinerBaseType.CryptoDredge26:
                     return new CryptoDredge26();
+
                 case MinerBaseType.ZEnemy:
                     return new ZEnemy();
+
                 case MinerBaseType.MiniZ:
                     return new MiniZ();
+
                 case MinerBaseType.CPU_verium:
                     return new CPU_verium();
-
-
 
                 /*case MinerBaseType.Palgin_Neoscrypt:
                     return new Palgin_Neoscrypt();

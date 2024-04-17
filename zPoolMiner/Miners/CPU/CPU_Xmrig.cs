@@ -38,42 +38,42 @@ namespace NiceHashMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -287,42 +287,42 @@ namespace NiceHashMiner.Miners
             if (url.Contains("zpool.ca"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (url.Contains("ahashpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("blazepool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (url.Contains("miningpoolhub.com"))
             {
@@ -441,9 +441,9 @@ namespace NiceHashMiner.Miners
         //   return 60 * 1000 * 5; // 5 min
         //}
 
-        protected async Task<APIData> GetSummaryCpuAsyncXMRig(string method = "", bool overrideLoop = false)
+        protected async Task<ApiData> GetSummaryCpuAsyncXMRig(string method = "", bool overrideLoop = false)
         {
-            var ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            var ad = new ApiData(MiningSetup.CurrentAlgorithmType);
 
             try
             {
@@ -502,7 +502,7 @@ namespace NiceHashMiner.Miners
         }
 
 
-        public override async Task<APIData> GetSummaryAsync()
+        public override async Task<ApiData> GetSummaryAsync()
         {
             return await GetSummaryCpuAsyncXMRig();
         }
@@ -646,7 +646,7 @@ namespace NiceHashMiner.Miners
             var sixtySecCount = 0;
             foreach (var line in lines)
             {
-                bench_lines.Add(line);
+                BenchLines.Add(line);
                 var lineLowered = line.ToLower();
                 if (!lineLowered.Contains(LookForStart)) continue;
                 var speeds = Regex.Match(lineLowered, $"{LookForStart} (.+?) {LookForEnd}").Groups[1].Value.Split();

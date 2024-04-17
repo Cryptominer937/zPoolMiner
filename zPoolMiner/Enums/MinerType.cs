@@ -80,7 +80,7 @@
         /// </summary>
         Claymorecryptonight,
 
-        ClaymoreNeoScrypt,
+        //ClaymoreNeoScrypt,
 
         /// <summary>
         /// Defines the OptiminerZcash
@@ -111,8 +111,10 @@
         /// Defines the Xmrig
         /// </summary>
         Xmrig,
+
         lolMinerAmd,
         lolMinerNvidia,
+
         /// <summary>
         /// Defines the Palgin_Neoscrypt
         /// </summary>
@@ -128,6 +130,7 @@
         /// Defines the cpuminer_opt
         /// </summary>
         CPU_cpuminerOptBF,
+
         CPU_Cpupower,
         CPU_JayDDee,
         CPU_JayDDeeYespower,
@@ -144,6 +147,10 @@
         CryptoDredge26,
         MiniZ,
         CPU_verium,
+        srbminer,
+        teamredminer,
+        wildrig,
+
         /// <summary>
         /// Defines the END
         /// </summary>

@@ -46,7 +46,7 @@ namespace zPoolMiner
 #if DEBUG
                 h.Root.AddAppender(CreateDebugAppender());
 #else
-                 h.Root.AddAppender(CreateColoredConsoleAppender());
+                h.Root.AddAppender(CreateColoredConsoleAppender());
 #endif
                 h.Configured = true;
             }

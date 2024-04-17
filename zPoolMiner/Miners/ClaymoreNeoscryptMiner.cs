@@ -49,42 +49,42 @@ namespace zPoolMiner.Miners
                 if (url.Contains("zpool.ca"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("ahashpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("hashrefinery.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("nicehash.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("zergpool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("blockmasters.co"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
 
                 }
                 if (url.Contains("blazepool.com"))
                 {
                     btcAddress = Globals.DemoUser;
-                    worker = "c=BTC,ID=Donation";
+                    worker = "c=DOGE,ID=Donation";
                 }
                 if (url.Contains("miningpoolhub.com"))
                 {
@@ -167,42 +167,42 @@ namespace zPoolMiner.Miners
             if (url.Contains("zpool.ca"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (url.Contains("ahashpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("hashrefinery.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("nicehash.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("zergpool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("blockmasters.co"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
 
             }
             if (url.Contains("blazepool.com"))
             {
                 btcAddress = Globals.DemoUser;
-                worker = "c=BTC,ID=Donation";
+                worker = "c=DOGE,ID=Donation";
             }
             if (url.Contains("miningpoolhub.com"))
             {

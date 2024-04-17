@@ -17,7 +17,7 @@
         /// <summary>
         /// Defines the ID
         /// </summary>
-        readonly public int ID;
+        public readonly int ID;
 
         /// <summary>
         /// Gets or sets the Index
@@ -28,13 +28,13 @@
         // to identify equality;        /// <summary>
         /// Defines the Name
         /// </summary>
-        readonly public string Name;// { get; set; }
+        public readonly string Name;// { get; set; }
 
         // name count is the short name for displaying in moning groups
         // name count is the short name for displaying in moning groups        /// <summary>
         /// Defines the NameCount
         /// </summary>
-        readonly public string NameCount;
+        public readonly string NameCount;
 
         /// <summary>
         /// Defines the Enabled
@@ -44,13 +44,13 @@
         /// <summary>
         /// Defines the DeviceGroupType
         /// </summary>
-        readonly public DeviceGroupType DeviceGroupType;
+        public readonly DeviceGroupType DeviceGroupType;
 
         // CPU, NVIDIA, AMD
         // CPU, NVIDIA, AMD        /// <summary>
         /// Defines the DeviceType
         /// </summary>
-        readonly public DeviceType DeviceType;
+        public readonly DeviceType DeviceType;
 
         // UUID now used for saving
 
@@ -67,6 +67,7 @@
         /// Gets or sets the BusID
         /// </summary>
         public int BusID { get; protected set; } = -1;
+
         // used for lolMiner indexing
         public double lolMinerBusID { get; set; } = -1;
 
@@ -447,11 +448,9 @@
             // NVIDIA
             if (DeviceGroupType == DeviceGroupType.NVIDIA_5_x || DeviceGroupType == DeviceGroupType.NVIDIA_6_x)
             {
-
             }
             else if (DeviceType == DeviceType.NVIDIA)
             {
-
             }
 
             // sort by algo

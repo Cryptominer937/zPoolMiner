@@ -43,6 +43,7 @@
     internal class CryptoStats
     {
 #pragma warning disable 649
+
         /// <summary>
         /// Defines the <see cref="Nicehash_login" />
         /// </summary>
@@ -63,11 +64,13 @@
             /// </summary>
             public int protocol = 1;
         }
-        class github_version
+
+        private class github_version
         {
             public string tag_name;
             public string target_commitish;
         }
+
         /// <summary>
         /// Defines the <see cref="Nicehash_credentials" />
         /// </summary>
@@ -107,6 +110,7 @@
 
 #pragma warning restore 649
 #pragma warning restore 649        /// <summary>
+
         /// Defines the deviceUpdateLaunchDelay
         /// </summary>
         private const int deviceUpdateLaunchDelay = 20 * 1000;
@@ -239,7 +243,6 @@
             /// <param name="state">The <see cref="object"/></param>
             private static void UpdateAlgoRates(object state)
             {
-
                 try
                 {
                     var zpool = "";
@@ -292,7 +295,6 @@
 
                     for (int h = 0; h < 24; h += 3)
                     {
-
                         var timeFrom1 = new TimeSpan(h, 00, 0);
                         var timeTo1 = new TimeSpan(h, 01, 30);
                         var timeNow = DateTime.Now.TimeOfDay;
@@ -619,7 +621,7 @@
         /// <param name="state">The <see cref="object"/></param>
         public static void DeviceStatus_Tick(object state)
         {
-            var devices = ComputeDeviceManager.Avaliable.AllAvaliableDevices;
+            var devices = ComputeDeviceManager.Available.AllAvaliableDevices;
             var deviceList = new List<JArray>();
             var activeIDs = MinersManager.GetActiveMinersIndexes();
             foreach (var device in devices)
@@ -647,6 +649,7 @@
             };
             var sendData = JsonConvert.SerializeObject(data);
         }
+
         public static string GetVersion(string worker)
         {
             string url = "https://api.github.com/repos/Cryptominer937/zPoolMiner/releases";
@@ -688,7 +691,6 @@
                     throw new Exception("Not JSON!");
                 Reader.Close();
                 Response.Close();
-
             }
             catch (Exception ex)
             {
@@ -698,6 +700,7 @@
 
             return ResponseFromServer;
         }
+
         /// <summary>
         /// The GetCryptominerAPIData
         /// </summary>
@@ -734,7 +737,6 @@
             }
 
             return ResponseFromServer;
-
         }
     }
 
@@ -951,7 +953,6 @@
                 case "yespowersugar": return ZAlgorithm.yespowersugar;
                 case "yespowertide": return ZAlgorithm.yespowertide;
                 case "yespowerurx": return ZAlgorithm.yespowerurx;
-
             }
 
             return ZAlgorithm.unknown;
@@ -1098,8 +1099,6 @@
         {
             switch (s)
             {
-
-
                 //PH Below
                 case "sha256":
                     return 0.000001M; //end PH
@@ -1288,6 +1287,7 @@
         /// Defines the c11
         /// </summary>
         c11,
+
         cryptonight,
 
         /// <summary>
@@ -1434,12 +1434,15 @@
         /// Defines the yescrypt
         /// </summary>
         yescrypt,        //hmq1725,
+
         //m7m,
 
         daggerhashimoto,
         lyra2z,
+
         //hmq1725,
         yescryptr16,
+
         sia,
         decred,
         pascal,
@@ -1448,34 +1451,44 @@
         cryptonightv7,
         x16r,
         randomxmonero,
+
         //randomarq,
         randomx,
+
         //randomsfx,
         //cryptonight_heavy,
         cryptonight_heavyx,
+
         //cryptonight_saber,
         //cryptonight_fast,
         cryptonight_haven,
+
         cryptonight_upx,
         yespower,
         cpupower,
         power2b,
+
         //yescryptr8g,
         //yespoweriots,
         //chukwa,
         yescryptr32,
+
         //x16s,
         //sonoa,
         bcd,
+
         //phi2,
         hex,
+
         allium,
         cryptonight_gpu,
+
         //cryptonight_xeq,
         //cryptonight_conceal,
         //lyra2v3,
         //equihash96,
         equihash125,
+
         equihash144,
         equihash192,
         scryptn2,
@@ -1521,6 +1534,5 @@
         yespowersugar,
         yespowertide,
         yespowerurx,
-
     }
 }
